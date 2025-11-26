@@ -1,0 +1,84 @@
+import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fake_store_api_client/fake_store_api_client.dart';
+
+import '../../features/home/home.dart';
+import '../../features/products/products.dart';
+import '../../features/categories/categories.dart';
+import '../../features/cart/cart.dart';
+import '../../features/checkout/checkout.dart';
+import '../../features/search/search.dart';
+
+/// Instancia global del contenedor de dependencias.
+final sl = GetIt.instance;
+
+/// Inicializa todas las dependencias de la aplicación.
+///
+/// Debe ser llamado antes de runApp() en main.dart.
+Future<void> initDependencies() async {
+  // ============ External ============
+  final sharedPreferences = await SharedPreferences.getInstance();
+  sl.registerLazySingleton(() => sharedPreferences);
+
+  // ============ API Client (Fase 3) ============
+  sl.registerLazySingleton(() => FakeStoreClient());
+
+  // ============ DataSources ============
+  sl.registerLazySingleton<CartLocalDataSource>(
+    () => CartLocalDataSourceImpl(sharedPreferences: sl()),
+  );
+
+  // ============ Repositories ============
+  sl.registerLazySingleton<CartRepository>(
+    () => CartRepositoryImpl(localDataSource: sl()),
+  );
+
+  // ============ UseCases - Products ============
+  sl.registerLazySingleton(() => GetProductsUseCase(client: sl()));
+  sl.registerLazySingleton(() => GetProductByIdUseCase(client: sl()));
+  sl.registerLazySingleton(() => GetProductsByCategoryUseCase(client: sl()));
+  sl.registerLazySingleton(() => GetCategoriesUseCase(client: sl()));
+  sl.registerLazySingleton(() => SearchProductsUseCase(client: sl()));
+
+  // ============ UseCases - Cart ============
+  sl.registerLazySingleton(() => GetCartUseCase(repository: sl()));
+  sl.registerLazySingleton(() => AddToCartUseCase(repository: sl()));
+  sl.registerLazySingleton(() => RemoveFromCartUseCase(repository: sl()));
+  sl.registerLazySingleton(() => UpdateCartQuantityUseCase(repository: sl()));
+  sl.registerLazySingleton(() => ClearCartUseCase(repository: sl()));
+
+  // ============ BLoCs ============
+  sl.registerFactory(
+    () => HomeBloc(getProductsUseCase: sl(), getCategoriesUseCase: sl()),
+  );
+
+  sl.registerFactory(
+    () => ProductsBloc(
+      getProductsUseCase: sl(),
+      getProductsByCategoryUseCase: sl(),
+    ),
+  );
+
+  sl.registerFactory(() => ProductDetailBloc(getProductByIdUseCase: sl()));
+
+  sl.registerFactory(() => CategoriesBloc(getCategoriesUseCase: sl()));
+
+  sl.registerFactory(
+    () => CartBloc(
+      getCartUseCase: sl(),
+      addToCartUseCase: sl(),
+      removeFromCartUseCase: sl(),
+      updateQuantityUseCase: sl(),
+      clearCartUseCase: sl(),
+    ),
+  );
+
+  sl.registerFactory(() => SearchBloc(searchProductsUseCase: sl()));
+
+  sl.registerFactory(() => CheckoutBloc(clearCartUseCase: sl()));
+}
+
+/// Limpia las dependencias al cerrar la aplicación.
+void disposeDependencies() {
+  sl<FakeStoreClient>().dispose();
+}

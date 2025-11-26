@@ -1,0 +1,48 @@
+import 'package:flutter/material.dart';
+import 'package:fake_store_api_client/fake_store_api_client.dart';
+import 'package:fake_store_design_system/fake_store_design_system.dart';
+
+import '../../../../core/router/routes.dart';
+
+/// Grid de productos usando DSProductCard.
+class ProductGrid extends StatelessWidget {
+  /// Lista de productos a mostrar.
+  final List<Product> products;
+
+  /// Número de columnas del grid.
+  final int crossAxisCount;
+
+  const ProductGrid({
+    super.key,
+    required this.products,
+    this.crossAxisCount = 2,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      padding: const EdgeInsets.all(DSSpacing.base),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: crossAxisCount,
+        childAspectRatio: 0.65,
+        crossAxisSpacing: DSSpacing.sm,
+        mainAxisSpacing: DSSpacing.sm,
+      ),
+      itemCount: products.length,
+      itemBuilder: (context, index) {
+        final product = products[index];
+        return DSProductCard(
+          imageUrl: product.image,
+          title: product.title,
+          price: product.price,
+          rating: product.rating.rate,
+          reviewCount: product.rating.count,
+          onTap: () => Navigator.pushNamed(
+            context,
+            Routes.productDetailPath(product.id),
+          ),
+        );
+      },
+    );
+  }
+}
