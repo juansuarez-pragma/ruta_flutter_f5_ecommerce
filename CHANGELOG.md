@@ -75,5 +75,5 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ### Agregado
 - Proyecto inicial de Flutter
-- Configuración multiplataforma (Android, iOS, Web, macOS, Linux, Windows)
+- Configuración multiplataforma (Android, iOS, Web)
 - Estructura base del proyecto

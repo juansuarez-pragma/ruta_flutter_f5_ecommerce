@@ -16,7 +16,7 @@ Aplicación Flutter de e-commerce completa que consume la [Fake Store API](https
 - **Carrito de compras** - Agregar, eliminar y modificar cantidades
 - **Persistencia local** - El carrito se guarda localmente
 - **Checkout** - Flujo de compra con confirmación de orden
-- **Multiplataforma** - Android, iOS, Web, macOS, Linux, Windows
+- **Multiplataforma** - Android, iOS, Web
 
 ## Arquitectura
 
@@ -99,8 +99,8 @@ flutter run
 ```bash
 # Ejecutar en diferentes plataformas
 flutter run -d chrome          # Web
-flutter run -d macos           # macOS
 flutter run -d ios             # iOS Simulator
+flutter run -d <android_device> # Android
 
 # Compilar para producción
 flutter build web              # Web

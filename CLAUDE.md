@@ -4,7 +4,7 @@ Este archivo proporciona orientación a Claude Code (claude.ai/code) cuando trab
 
 ## Descripción del Proyecto
 
-Aplicación Flutter de e-commerce que consume la Fake Store API. Implementa Clean Architecture con el patrón BLoC para manejo de estado. Soporta Android, iOS, Linux, macOS, Web y Windows.
+Aplicación Flutter de e-commerce que consume la Fake Store API. Implementa Clean Architecture con el patrón BLoC para manejo de estado. Soporta Android, iOS y Web.
 
 - **Requisito SDK:** Dart ^3.9.2, Flutter ^3.29.2
 - **Linting:** flutter_lints ^5.0.0 (ver analysis_options.yaml)
