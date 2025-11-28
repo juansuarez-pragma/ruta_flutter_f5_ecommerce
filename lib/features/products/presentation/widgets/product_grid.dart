@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fake_store_api_client/fake_store_api_client.dart';
 import 'package:fake_store_design_system/fake_store_design_system.dart';
 
-import '../../../../core/router/routes.dart';
+import 'package:ecommerce/core/router/routes.dart';
 
 /// Grid de productos usando DSProductCard.
 class ProductGrid extends StatelessWidget {

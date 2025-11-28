@@ -2,9 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fake_store_design_system/fake_store_design_system.dart';
 
-import '../../../../core/utils/extensions.dart';
-import '../../../../shared/widgets/quantity_selector.dart';
-import '../../domain/entities/cart_item.dart';
+import 'package:ecommerce/core/utils/extensions.dart';
+import 'package:ecommerce/shared/widgets/quantity_selector.dart';
+import 'package:ecommerce/features/cart/domain/entities/cart_item.dart';
 
 /// Tile para mostrar un item del carrito.
 class CartItemTile extends StatelessWidget {

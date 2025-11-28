@@ -1,7 +1,7 @@
-import '../../domain/entities/cart_item.dart';
-import '../../domain/repositories/cart_repository.dart';
-import '../datasources/cart_local_datasource.dart';
-import '../models/cart_item_model.dart';
+import 'package:ecommerce/features/cart/domain/entities/cart_item.dart';
+import 'package:ecommerce/features/cart/domain/repositories/cart_repository.dart';
+import 'package:ecommerce/features/cart/data/datasources/cart_local_datasource.dart';
+import 'package:ecommerce/features/cart/data/models/cart_item_model.dart';
 
 /// Implementación del repositorio del carrito.
 ///

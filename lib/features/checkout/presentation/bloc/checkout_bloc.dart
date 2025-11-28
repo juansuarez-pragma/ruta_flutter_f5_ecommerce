@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../cart/domain/usecases/clear_cart_usecase.dart';
+import 'package:ecommerce/features/cart/domain/usecases/clear_cart_usecase.dart';
 
 // Events
 sealed class CheckoutEvent extends Equatable {

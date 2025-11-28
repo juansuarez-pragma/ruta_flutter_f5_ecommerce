@@ -1,4 +1,4 @@
-import '../entities/cart_item.dart';
+import 'package:ecommerce/features/cart/domain/entities/cart_item.dart';
 
 /// Contrato para el repositorio del carrito.
 ///

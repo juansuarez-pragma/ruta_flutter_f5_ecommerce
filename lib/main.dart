@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'app.dart';
-import 'core/di/injection_container.dart' as di;
+import 'package:ecommerce/app.dart';
+import 'package:ecommerce/core/di/injection_container.dart' as di;
 
 /// Punto de entrada de la aplicación.
 void main() async {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fake_store_design_system/fake_store_design_system.dart';
 
-import '../../../../core/utils/extensions.dart';
+import 'package:ecommerce/core/utils/extensions.dart';
 
 /// Resumen del carrito con subtotal, envío y total.
 class CartSummary extends StatelessWidget {

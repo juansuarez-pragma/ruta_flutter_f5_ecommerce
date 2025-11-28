@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fake_store_design_system/fake_store_design_system.dart';
 
-import '../../../../core/constants/app_constants.dart';
-import '../../../../core/di/injection_container.dart';
-import '../../../../core/router/routes.dart';
-import '../bloc/search_bloc.dart';
+import 'package:ecommerce/core/constants/app_constants.dart';
+import 'package:ecommerce/core/di/injection_container.dart';
+import 'package:ecommerce/core/router/routes.dart';
+import 'package:ecommerce/features/search/presentation/bloc/search_bloc.dart';
 
 /// Página de búsqueda de productos.
 class SearchPage extends StatefulWidget {

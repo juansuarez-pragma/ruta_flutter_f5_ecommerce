@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fake_store_design_system/fake_store_design_system.dart';
 
-import '../../../../core/di/injection_container.dart';
-import '../../../../core/router/routes.dart';
-import '../../../../shared/widgets/app_scaffold.dart';
-import '../bloc/cart_bloc.dart';
-import '../bloc/cart_event.dart';
-import '../bloc/cart_state.dart';
-import '../widgets/cart_item_tile.dart';
-import '../widgets/cart_summary.dart';
-import '../widgets/empty_cart.dart';
+import 'package:ecommerce/core/di/injection_container.dart';
+import 'package:ecommerce/core/router/routes.dart';
+import 'package:ecommerce/shared/widgets/app_scaffold.dart';
+import 'package:ecommerce/features/cart/presentation/bloc/cart_bloc.dart';
+import 'package:ecommerce/features/cart/presentation/bloc/cart_event.dart';
+import 'package:ecommerce/features/cart/presentation/bloc/cart_state.dart';
+import 'package:ecommerce/features/cart/presentation/widgets/cart_item_tile.dart';
+import 'package:ecommerce/features/cart/presentation/widgets/cart_summary.dart';
+import 'package:ecommerce/features/cart/presentation/widgets/empty_cart.dart';
 
 /// Página del carrito de compras.
 class CartPage extends StatelessWidget {

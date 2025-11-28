@@ -1,6 +1,6 @@
 import 'package:fake_store_api_client/fake_store_api_client.dart';
 
-import '../../../../core/constants/app_constants.dart';
+import 'package:ecommerce/core/constants/app_constants.dart';
 
 /// Datos de la pantalla home.
 class HomeData {

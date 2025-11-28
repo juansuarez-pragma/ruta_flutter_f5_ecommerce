@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:fake_store_api_client/fake_store_api_client.dart';
 
-import '../../domain/entities/cart_item.dart';
+import 'package:ecommerce/features/cart/domain/entities/cart_item.dart';
 
 /// Modelo de datos para CartItem.
 ///

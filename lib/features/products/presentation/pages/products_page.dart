@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fake_store_design_system/fake_store_design_system.dart';
 
-import '../../../../core/di/injection_container.dart';
-import '../../../../core/utils/extensions.dart';
-import '../../../../shared/widgets/app_scaffold.dart';
-import '../bloc/products_bloc.dart';
-import '../bloc/products_event.dart';
-import '../bloc/products_state.dart';
-import '../widgets/product_grid.dart';
+import 'package:ecommerce/core/di/injection_container.dart';
+import 'package:ecommerce/core/utils/extensions.dart';
+import 'package:ecommerce/shared/widgets/app_scaffold.dart';
+import 'package:ecommerce/features/products/presentation/bloc/products_bloc.dart';
+import 'package:ecommerce/features/products/presentation/bloc/products_event.dart';
+import 'package:ecommerce/features/products/presentation/bloc/products_state.dart';
+import 'package:ecommerce/features/products/presentation/widgets/product_grid.dart';
 
 /// Página de listado de productos.
 class ProductsPage extends StatelessWidget {

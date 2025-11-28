@@ -1,13 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../domain/entities/cart_item.dart';
-import '../../domain/usecases/add_to_cart_usecase.dart';
-import '../../domain/usecases/clear_cart_usecase.dart';
-import '../../domain/usecases/get_cart_usecase.dart';
-import '../../domain/usecases/remove_from_cart_usecase.dart';
-import '../../domain/usecases/update_cart_quantity_usecase.dart';
-import 'cart_event.dart';
-import 'cart_state.dart';
+import 'package:ecommerce/features/cart/domain/entities/cart_item.dart';
+import 'package:ecommerce/features/cart/domain/usecases/add_to_cart_usecase.dart';
+import 'package:ecommerce/features/cart/domain/usecases/clear_cart_usecase.dart';
+import 'package:ecommerce/features/cart/domain/usecases/get_cart_usecase.dart';
+import 'package:ecommerce/features/cart/domain/usecases/remove_from_cart_usecase.dart';
+import 'package:ecommerce/features/cart/domain/usecases/update_cart_quantity_usecase.dart';
+import 'package:ecommerce/features/cart/presentation/bloc/cart_event.dart';
+import 'package:ecommerce/features/cart/presentation/bloc/cart_state.dart';
 
 /// BLoC para gestionar el estado del carrito.
 ///

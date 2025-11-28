@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../domain/usecases/get_categories_usecase.dart';
+import 'package:ecommerce/features/categories/domain/usecases/get_categories_usecase.dart';
 
 // Events
 sealed class CategoriesEvent extends Equatable {

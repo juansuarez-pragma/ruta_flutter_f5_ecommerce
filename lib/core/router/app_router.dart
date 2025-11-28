@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../features/home/home.dart';
-import '../../features/products/products.dart';
-import '../../features/categories/categories.dart';
-import '../../features/cart/cart.dart';
-import '../../features/checkout/checkout.dart';
-import '../../features/search/search.dart';
-import 'routes.dart';
+import 'package:ecommerce/features/home/home.dart';
+import 'package:ecommerce/features/products/products.dart';
+import 'package:ecommerce/features/categories/categories.dart';
+import 'package:ecommerce/features/cart/cart.dart';
+import 'package:ecommerce/features/checkout/checkout.dart';
+import 'package:ecommerce/features/search/search.dart';
+import 'package:ecommerce/core/router/routes.dart';
 
 /// Configuración del router de la aplicación.
 ///

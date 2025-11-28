@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../domain/usecases/get_products_by_category_usecase.dart';
-import '../../domain/usecases/get_products_usecase.dart';
-import 'products_event.dart';
-import 'products_state.dart';
+import 'package:ecommerce/features/products/domain/usecases/get_products_by_category_usecase.dart';
+import 'package:ecommerce/features/products/domain/usecases/get_products_usecase.dart';
+import 'package:ecommerce/features/products/presentation/bloc/products_event.dart';
+import 'package:ecommerce/features/products/presentation/bloc/products_state.dart';
 
 /// BLoC para gestionar el estado de productos.
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {

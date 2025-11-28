@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fake_store_design_system/fake_store_design_system.dart';
 
-import '../../core/constants/app_constants.dart';
+import 'package:ecommerce/core/constants/app_constants.dart';
 
 /// Selector de cantidad con botones incrementar/decrementar.
 ///

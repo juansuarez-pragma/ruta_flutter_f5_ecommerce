@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fake_store_api_client/fake_store_api_client.dart';
 import 'package:fake_store_design_system/fake_store_design_system.dart';
 
-import '../../../../core/di/injection_container.dart';
-import '../../../../core/utils/extensions.dart';
-import '../../../../shared/widgets/quantity_selector.dart';
-import '../../../cart/presentation/bloc/cart_bloc.dart';
-import '../../../cart/presentation/bloc/cart_event.dart';
-import '../bloc/product_detail_bloc.dart';
+import 'package:ecommerce/core/di/injection_container.dart';
+import 'package:ecommerce/core/utils/extensions.dart';
+import 'package:ecommerce/shared/widgets/quantity_selector.dart';
+import 'package:ecommerce/features/cart/presentation/bloc/cart_bloc.dart';
+import 'package:ecommerce/features/cart/presentation/bloc/cart_event.dart';
+import 'package:ecommerce/features/products/presentation/bloc/product_detail_bloc.dart';
 
 /// Página de detalle de producto.
 class ProductDetailPage extends StatefulWidget {

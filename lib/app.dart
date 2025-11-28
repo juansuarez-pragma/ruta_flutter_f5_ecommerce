@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'core/di/injection_container.dart';
-import 'core/router/app_router.dart';
-import 'core/router/routes.dart';
-import 'core/theme/app_theme.dart';
-import 'features/cart/presentation/bloc/cart_bloc.dart';
-import 'features/cart/presentation/bloc/cart_event.dart';
+import 'package:ecommerce/core/di/injection_container.dart';
+import 'package:ecommerce/core/router/app_router.dart';
+import 'package:ecommerce/core/router/routes.dart';
+import 'package:ecommerce/core/theme/app_theme.dart';
+import 'package:ecommerce/features/cart/presentation/bloc/cart_bloc.dart';
+import 'package:ecommerce/features/cart/presentation/bloc/cart_event.dart';
 
 /// Widget raíz de la aplicación.
 ///

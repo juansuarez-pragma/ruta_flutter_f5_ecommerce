@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fake_store_design_system/fake_store_design_system.dart';
 
-import '../../../../core/di/injection_container.dart';
-import '../../../../core/router/routes.dart';
-import '../../../../shared/widgets/app_scaffold.dart';
-import '../../../cart/presentation/bloc/cart_bloc.dart';
-import '../../../cart/presentation/bloc/cart_state.dart';
-import '../bloc/home_bloc.dart';
-import '../widgets/categories_section.dart';
-import '../widgets/featured_products_section.dart';
+import 'package:ecommerce/core/di/injection_container.dart';
+import 'package:ecommerce/core/router/routes.dart';
+import 'package:ecommerce/shared/widgets/app_scaffold.dart';
+import 'package:ecommerce/features/cart/presentation/bloc/cart_bloc.dart';
+import 'package:ecommerce/features/cart/presentation/bloc/cart_state.dart';
+import 'package:ecommerce/features/home/presentation/bloc/home_bloc.dart';
+import 'package:ecommerce/features/home/presentation/widgets/categories_section.dart';
+import 'package:ecommerce/features/home/presentation/widgets/featured_products_section.dart';
 
 /// Página principal del home.
 class HomePage extends StatelessWidget {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fake_store_design_system/fake_store_design_system.dart';
 
-import '../../../../core/router/routes.dart';
-import '../../../../core/utils/extensions.dart';
+import 'package:ecommerce/core/router/routes.dart';
+import 'package:ecommerce/core/utils/extensions.dart';
 
 /// Sección de categorías para el home.
 class CategoriesSection extends StatelessWidget {

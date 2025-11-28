@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../../core/constants/app_constants.dart';
-import '../models/cart_item_model.dart';
+import 'package:ecommerce/core/constants/app_constants.dart';
+import 'package:ecommerce/features/cart/data/models/cart_item_model.dart';
 
 /// Contrato para el datasource local del carrito.
 abstract class CartLocalDataSource {

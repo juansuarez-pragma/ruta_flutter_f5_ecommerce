@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fake_store_api_client/fake_store_api_client.dart';
 
-import '../../domain/usecases/get_product_by_id_usecase.dart';
+import 'package:ecommerce/features/products/domain/usecases/get_product_by_id_usecase.dart';
 
 // Events
 sealed class ProductDetailEvent extends Equatable {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fake_store_design_system/fake_store_design_system.dart';
 
-import '../../../../core/router/routes.dart';
+import 'package:ecommerce/core/router/routes.dart';
 
 /// Vista para carrito vacío.
 class EmptyCart extends StatelessWidget {

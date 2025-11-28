@@ -2,9 +2,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fake_store_api_client/fake_store_api_client.dart';
 
-import '../../../../core/constants/app_constants.dart';
-import '../../../categories/domain/usecases/get_categories_usecase.dart';
-import '../../../products/domain/usecases/get_products_usecase.dart';
+import 'package:ecommerce/core/constants/app_constants.dart';
+import 'package:ecommerce/features/categories/domain/usecases/get_categories_usecase.dart';
+import 'package:ecommerce/features/products/domain/usecases/get_products_usecase.dart';
 
 // Events
 sealed class HomeEvent extends Equatable {

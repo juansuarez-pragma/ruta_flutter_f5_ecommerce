@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../domain/entities/cart_item.dart';
+import 'package:ecommerce/features/cart/domain/entities/cart_item.dart';
 
 /// Estados del BLoC del carrito.
 sealed class CartState extends Equatable {

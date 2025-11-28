@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fake_store_design_system/fake_store_design_system.dart';
 
-import '../../../../core/di/injection_container.dart';
-import '../../../../core/router/routes.dart';
-import '../../../../core/utils/extensions.dart';
-import '../../../cart/presentation/bloc/cart_bloc.dart';
-import '../../../cart/presentation/bloc/cart_event.dart';
-import '../../../cart/presentation/bloc/cart_state.dart';
-import '../bloc/checkout_bloc.dart';
+import 'package:ecommerce/core/di/injection_container.dart';
+import 'package:ecommerce/core/router/routes.dart';
+import 'package:ecommerce/core/utils/extensions.dart';
+import 'package:ecommerce/features/cart/presentation/bloc/cart_bloc.dart';
+import 'package:ecommerce/features/cart/presentation/bloc/cart_event.dart';
+import 'package:ecommerce/features/cart/presentation/bloc/cart_state.dart';
+import 'package:ecommerce/features/checkout/presentation/bloc/checkout_bloc.dart';
 
 /// Página de checkout.
 class CheckoutPage extends StatelessWidget {

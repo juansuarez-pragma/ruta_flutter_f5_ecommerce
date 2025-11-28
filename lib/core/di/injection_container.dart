@@ -2,12 +2,12 @@ import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fake_store_api_client/fake_store_api_client.dart';
 
-import '../../features/home/home.dart';
-import '../../features/products/products.dart';
-import '../../features/categories/categories.dart';
-import '../../features/cart/cart.dart';
-import '../../features/checkout/checkout.dart';
-import '../../features/search/search.dart';
+import 'package:ecommerce/features/home/home.dart';
+import 'package:ecommerce/features/products/products.dart';
+import 'package:ecommerce/features/categories/categories.dart';
+import 'package:ecommerce/features/cart/cart.dart';
+import 'package:ecommerce/features/checkout/checkout.dart';
+import 'package:ecommerce/features/search/search.dart';
 
 /// Instancia global del contenedor de dependencias.
 final sl = GetIt.instance;

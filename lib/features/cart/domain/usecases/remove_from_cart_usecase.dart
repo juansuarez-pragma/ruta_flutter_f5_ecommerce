@@ -1,4 +1,4 @@
-import '../repositories/cart_repository.dart';
+import 'package:ecommerce/features/cart/domain/repositories/cart_repository.dart';
 
 /// Caso de uso para eliminar un item del carrito.
 class RemoveFromCartUseCase {

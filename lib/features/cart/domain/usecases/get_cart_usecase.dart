@@ -1,5 +1,5 @@
-import '../entities/cart_item.dart';
-import '../repositories/cart_repository.dart';
+import 'package:ecommerce/features/cart/domain/entities/cart_item.dart';
+import 'package:ecommerce/features/cart/domain/repositories/cart_repository.dart';
 
 /// Caso de uso para obtener los items del carrito.
 class GetCartUseCase {
