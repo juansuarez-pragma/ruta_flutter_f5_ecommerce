@@ -6,7 +6,7 @@ import 'package:fake_store_design_system/fake_store_design_system.dart';
 
 import 'package:ecommerce/core/di/injection_container.dart';
 import 'package:ecommerce/core/utils/extensions.dart';
-import 'package:ecommerce/shared/widgets/quantity_selector.dart';
+import 'package:ecommerce/shared/widgets/widgets.dart';
 import 'package:ecommerce/features/cart/presentation/bloc/cart_bloc.dart';
 import 'package:ecommerce/features/cart/presentation/bloc/cart_event.dart';
 import 'package:ecommerce/features/products/presentation/bloc/product_detail_bloc.dart';
@@ -35,8 +35,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         appBar: DSAppBar(
           title: 'Detalle',
           actions: [
-            IconButton(
-              icon: const Icon(Icons.shopping_cart_outlined),
+            DSIconButton(
+              icon: Icons.shopping_cart_outlined,
               onPressed: () => Navigator.pushNamed(context, '/cart'),
             ),
           ],
@@ -83,7 +83,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               placeholder: (_, __) => const Center(child: DSCircularLoader()),
               errorWidget: (_, __, ___) => Icon(
                 Icons.image_not_supported,
-                size: 64,
+                size: DSSizes.iconMega,
                 color: tokens.colorTextTertiary,
               ),
             ),
@@ -99,24 +99,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 const SizedBox(height: DSSpacing.sm),
 
                 // Rating
-                Row(
-                  children: [
-                    Icon(
-                      Icons.star,
-                      size: 20,
-                      color: tokens.colorFeedbackWarning,
-                    ),
-                    const SizedBox(width: DSSpacing.xs),
-                    DSText(
-                      '${product.rating.rate}',
-                      variant: DSTextVariant.bodyMedium,
-                    ),
-                    DSText(
-                      ' (${product.rating.count} reseñas)',
-                      variant: DSTextVariant.bodySmall,
-                      color: tokens.colorTextSecondary,
-                    ),
-                  ],
+                DSProductRating(
+                  rating: product.rating.rate,
+                  reviewCount: product.rating.count,
                 ),
                 const SizedBox(height: DSSpacing.base),
 

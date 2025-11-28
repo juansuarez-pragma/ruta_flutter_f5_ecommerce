@@ -69,13 +69,10 @@ class _HomePageContent extends StatelessWidget {
                                 minWidth: 18,
                                 minHeight: 18,
                               ),
-                              child: Text(
+                              child: DSText(
                                 count > 99 ? '99+' : '$count',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                variant: DSTextVariant.labelSmall,
+                                color: DSColors.white,
                                 textAlign: TextAlign.center,
                               ),
                             ),

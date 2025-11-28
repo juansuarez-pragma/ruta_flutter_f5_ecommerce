@@ -42,8 +42,8 @@ class _SearchPageState extends State<SearchPage> {
       child: Builder(
         builder: (context) {
           return Scaffold(
-            appBar: AppBar(
-              title: DSTextField(
+            appBar: DSAppBar(
+              titleWidget: DSTextField(
                 controller: _searchController,
                 hint: 'Buscar productos...',
                 prefixIcon: Icons.search,
@@ -98,7 +98,11 @@ class _EmptySearch extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.search, size: 64, color: tokens.colorTextTertiary),
+          Icon(
+            Icons.search,
+            size: DSSizes.iconMega,
+            color: tokens.colorTextTertiary,
+          ),
           const SizedBox(height: DSSpacing.base),
           DSText(
             'Busca productos',

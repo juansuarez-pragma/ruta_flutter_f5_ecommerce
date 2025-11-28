@@ -36,9 +36,12 @@ class CartSummary extends StatelessWidget {
             shippingCost == 0 ? 'Gratis' : shippingCost.toCurrency,
             valueColor: tokens.colorFeedbackSuccess,
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: DSSpacing.sm),
-            child: Divider(),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: DSSpacing.sm),
+            child: Container(
+              height: DSSizes.borderHairline,
+              color: tokens.colorBorderPrimary,
+            ),
           ),
           _buildRow(context, 'Total', total.toCurrency, isBold: true),
           const SizedBox(height: DSSpacing.base),

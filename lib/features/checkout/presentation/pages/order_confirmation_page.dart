@@ -22,15 +22,15 @@ class OrderConfirmationPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                width: 100,
-                height: 100,
+                width: DSSizes.avatarXxl,
+                height: DSSizes.avatarXxl,
                 decoration: BoxDecoration(
-                  color: tokens.colorFeedbackSuccess.withValues(alpha: 0.1),
+                  color: tokens.colorFeedbackSuccessLight,
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   Icons.check_circle,
-                  size: 60,
+                  size: DSSizes.iconMega,
                   color: tokens.colorFeedbackSuccess,
                 ),
               ),

@@ -38,7 +38,7 @@ class QuantitySelector extends StatelessWidget {
           size: DSButtonSize.small,
         ),
         Container(
-          width: 40,
+          width: DSSizes.buttonSm,
           alignment: Alignment.center,
           child: DSText('$quantity', variant: DSTextVariant.titleMedium),
         ),

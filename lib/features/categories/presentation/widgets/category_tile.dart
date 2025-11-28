@@ -23,15 +23,16 @@ class CategoryTile extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 48,
-            height: 48,
+            width: DSSizes.touchTarget,
+            height: DSSizes.touchTarget,
             decoration: BoxDecoration(
-              color: tokens.colorBrandPrimary.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(DSBorderRadius.base),
+              color: tokens.colorBrandPrimaryLight,
+              borderRadius: DSBorderRadius.baseRadius,
             ),
             child: Icon(
               _getCategoryIcon(category),
               color: tokens.colorBrandPrimary,
+              size: DSSizes.iconBase,
             ),
           ),
           const SizedBox(width: DSSpacing.base),
@@ -41,7 +42,11 @@ class CategoryTile extends StatelessWidget {
               variant: DSTextVariant.titleMedium,
             ),
           ),
-          Icon(Icons.chevron_right, color: tokens.colorTextTertiary),
+          Icon(
+            Icons.chevron_right,
+            color: tokens.colorIconSecondary,
+            size: DSSizes.iconBase,
+          ),
         ],
       ),
     );

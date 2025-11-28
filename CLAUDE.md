@@ -74,7 +74,7 @@ lib/
 │   ├── products/               # Similar structure
 │   └── search/                 # Similar structure
 ├── shared/
-│   └── widgets/                # AppScaffold, QuantitySelector
+│   └── widgets/                # AppScaffold, QuantitySelector, DSProductRating
 └── test/                       # Unit tests
 ```
 
@@ -190,10 +190,97 @@ void main() {
 }
 ```
 
+## Uso del Design System
+
+El proyecto utiliza **todos** los componentes del Design System (`fake_store_design_system`) siguiendo el patrón Atomic Design.
+
+### Tokens Utilizados
+```dart
+// Espaciado
+DSSpacing.xs, DSSpacing.sm, DSSpacing.base, DSSpacing.lg, DSSpacing.xl
+
+// Tamaños
+DSSizes.iconSm, DSSizes.iconBase, DSSizes.iconMega, DSSizes.touchTarget
+DSSizes.buttonSm, DSSizes.avatarXxl, DSSizes.borderHairline
+
+// Border Radius
+DSBorderRadius.smRadius, DSBorderRadius.baseRadius
+
+// Colores
+DSColors.white, DSColors.blackAlpha32
+```
+
+### Acceso a Tokens de Tema
+```dart
+final tokens = context.tokens;
+tokens.colorBrandPrimary        // Color primario de marca
+tokens.colorTextSecondary       // Texto secundario
+tokens.colorTextTertiary        // Texto terciario
+tokens.colorBorderPrimary       // Bordes
+tokens.colorSurfaceSecondary    // Superficies
+tokens.colorFeedbackWarning     // Estados (warning, success, etc.)
+tokens.colorFeedbackSuccess
+tokens.colorFeedbackSuccessLight
+tokens.colorIconSecondary       // Íconos secundarios
+tokens.colorBrandPrimaryLight   // Variante light del brand
+```
+
+### Componentes por Categoría
+
+**Atoms:**
+- `DSText` - Texto con variantes tipográficas
+- `DSButton` - Botones (primary, secondary, ghost)
+- `DSIconButton` - Botones con solo ícono
+- `DSBadge` - Badges informativos
+- `DSTextField` - Campos de texto
+- `DSCircularLoader` - Indicador de carga
+
+**Molecules:**
+- `DSCard` - Contenedor con estilo
+- `DSProductCard` - Card específico para productos
+- `DSFilterChip` - Chips para filtros
+- `DSEmptyState` - Estado vacío
+- `DSErrorState` - Estado de error
+- `DSLoadingState` - Estado de carga
+
+**Organisms:**
+- `DSAppBar` - Barra de navegación superior
+- `DSBottomNav` - Navegación inferior
+- `DSProductGrid` - Grid de productos
+
+### Widgets Compartidos del Proyecto
+- `DSProductRating` - Rating de producto usando tokens del DS
+- `QuantitySelector` - Selector de cantidad con DSIconButton
+
+### Ejemplo de Uso
+```dart
+// AppBar con widget personalizado
+DSAppBar(
+  title: 'Título',
+  titleWidget: DSTextField(...),  // Widget personalizado en título
+  actions: [DSIconButton(...)],
+)
+
+// Botón ghost para navegación
+DSButton(
+  text: 'Ver todos',
+  variant: DSButtonVariant.ghost,
+  size: DSButtonSize.small,
+  onPressed: () => Navigator.pushNamed(...),
+)
+
+// Divisor usando tokens
+Container(
+  height: DSSizes.borderHairline,
+  color: context.tokens.colorBorderPrimary,
+)
+```
+
 ## Notas de Desarrollo
 
 - El carrito persiste en SharedPreferences como JSON
 - Las imágenes se cachean con cached_network_image
 - La búsqueda tiene debounce de 300ms
-- El Design System provee todos los componentes UI (DSButton, DSCard, DSText, etc.)
+- El Design System provee todos los componentes UI
 - Los tokens de tema se acceden via `context.tokens`
+- Evitar conflictos de nombres con `fake_store_api_client` (ej: usar prefijo DS)

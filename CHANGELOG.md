@@ -5,6 +5,62 @@ Todos los cambios notables de este proyecto se documentan en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## [1.1.0] - 2025-11-28
+
+### Cambiado
+
+#### Integración Completa del Design System
+Se reemplazaron todos los widgets nativos de Flutter por componentes del Design System para garantizar consistencia visual y evaluar la pertinencia de cada componente.
+
+**Home:**
+- `Text` → `DSText` en badge del carrito (home_page.dart)
+- `TextButton` → `DSButton.ghost` en sección de categorías (categories_section.dart)
+- `TextButton` → `DSButton.ghost` en sección de productos destacados (featured_products_section.dart)
+
+**Products:**
+- Implementación de `DSProductRating` para rating de producto (product_detail_page.dart)
+- `IconButton` → `DSIconButton` en AppBar de detalle
+- Uso de `DSSizes.iconMega` para íconos grandes
+
+**Cart:**
+- `Divider` → `Container` con tokens del DS (cart_summary.dart)
+- `BorderRadius.circular` → `DSBorderRadius.smRadius` (cart_item_tile.dart)
+
+**Categories:**
+- Uso de `DSSizes.touchTarget` para tamaños de íconos (category_tile.dart)
+- `BorderRadius.circular` → `DSBorderRadius.baseRadius`
+- Uso de `DSSizes.iconBase` para tamaños consistentes
+
+**Search:**
+- `AppBar` → `DSAppBar` con `titleWidget` personalizado (search_page.dart)
+- Uso de `DSSizes.iconMega` para ícono de búsqueda vacía
+
+**Checkout:**
+- `Divider` → `Container` con tokens del DS (checkout_page.dart)
+- Overlay color → `DSColors.blackAlpha32`
+
+**Order Confirmation:**
+- Uso de `DSSizes.avatarXxl` y `DSSizes.iconMega` (order_confirmation_page.dart)
+- Tokens de color para feedback de éxito
+
+**Quantity Selector:**
+- Uso de `DSSizes.buttonSm` para ancho del contenedor (quantity_selector.dart)
+
+### Agregado
+
+**Shared Widgets:**
+- `DSProductRating` - Widget para mostrar rating de productos usando tokens del DS
+  - Muestra estrella con color de warning
+  - Rating numérico con `DSText`
+  - Conteo de reseñas opcional
+
+### Documentación
+- Actualizado CLAUDE.md con sección de uso del Design System
+- Actualizado README.md con sección de integración del Design System
+- Documentados todos los tokens y componentes utilizados
+
+---
+
 ## [1.0.0] - 2024-11-26
 
 ### Agregado

@@ -22,10 +22,12 @@ class CategoriesSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const DSText('Categorías', variant: DSTextVariant.titleLarge),
-              TextButton(
+              DSButton(
+                text: 'Ver todas',
+                variant: DSButtonVariant.ghost,
+                size: DSButtonSize.small,
                 onPressed: () =>
                     Navigator.pushNamed(context, Routes.categories),
-                child: const Text('Ver todas'),
               ),
             ],
           ),

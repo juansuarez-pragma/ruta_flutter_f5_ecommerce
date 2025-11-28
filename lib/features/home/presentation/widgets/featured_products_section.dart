@@ -25,9 +25,11 @@ class FeaturedProductsSection extends StatelessWidget {
                 'Productos Destacados',
                 variant: DSTextVariant.titleLarge,
               ),
-              TextButton(
+              DSButton(
+                text: 'Ver todos',
+                variant: DSButtonVariant.ghost,
+                size: DSButtonSize.small,
                 onPressed: () => Navigator.pushNamed(context, Routes.products),
-                child: const Text('Ver todos'),
               ),
             ],
           ),

@@ -75,6 +75,38 @@ Este proyecto consume dos paquetes desarrollados en fases anteriores:
 | `fake_store_api_client` | Cliente HTTP para Fake Store API | [ruta_flutter_f3](https://github.com/juansuarez-pragma/ruta_flutter_f3) |
 | `fake_store_design_system` | Design System con componentes UI | [ruta_flutter_f4](https://github.com/juansuarez-pragma/ruta_flutter_f4) |
 
+## Integración con Design System
+
+La aplicación utiliza **todos** los componentes del Design System siguiendo el patrón **Atomic Design**:
+
+### Componentes Utilizados
+
+| Categoría | Componentes |
+|-----------|-------------|
+| **Tokens** | DSSpacing, DSSizes, DSBorderRadius, DSColors |
+| **Atoms** | DSText, DSButton, DSIconButton, DSBadge, DSTextField, DSCircularLoader |
+| **Molecules** | DSCard, DSProductCard, DSFilterChip, DSEmptyState, DSErrorState, DSLoadingState |
+| **Organisms** | DSAppBar, DSBottomNav, DSProductGrid |
+
+### Tokens de Tema
+
+Los tokens se acceden mediante la extensión `context.tokens`:
+
+```dart
+final tokens = context.tokens;
+tokens.colorBrandPrimary        // Color primario
+tokens.colorTextSecondary       // Texto secundario
+tokens.colorBorderPrimary       // Bordes
+tokens.colorFeedbackSuccess     // Estados de feedback
+```
+
+### Widgets Compartidos
+
+El proyecto incluye widgets propios que extienden el Design System:
+
+- `DSProductRating` - Muestra rating con estrella y conteo de reseñas
+- `QuantitySelector` - Selector numérico usando DSIconButton
+
 ## Requisitos
 
 - Flutter SDK >= 3.29.2

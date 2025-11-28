@@ -100,7 +100,10 @@ class _CheckoutPageContent extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                const Divider(),
+                                Container(
+                                  height: DSSizes.borderHairline,
+                                  color: context.tokens.colorBorderPrimary,
+                                ),
                                 const SizedBox(height: DSSpacing.sm),
                                 Row(
                                   mainAxisAlignment:
@@ -138,7 +141,7 @@ class _CheckoutPageContent extends StatelessWidget {
                     ),
                     if (isProcessing)
                       Container(
-                        color: Colors.black26,
+                        color: DSColors.blackAlpha32,
                         child: const Center(child: DSCircularLoader()),
                       ),
                   ],
