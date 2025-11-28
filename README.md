@@ -14,8 +14,10 @@ Aplicación Flutter de e-commerce completa que consume la [Fake Store API](https
 - **Búsqueda** - Búsqueda de productos con debounce
 - **Detalle de producto** - Vista detallada con rating y descripción
 - **Carrito de compras** - Agregar, eliminar y modificar cantidades
-- **Persistencia local** - El carrito se guarda localmente
+- **Persistencia local** - El carrito y órdenes se guardan localmente
 - **Checkout** - Flujo de compra con confirmación de orden
+- **Historial de órdenes** - Visualización de compras realizadas
+- **Parametrización JSON** - Textos e imágenes configurables sin código
 - **Multiplataforma** - Android, iOS, Web
 
 ## Arquitectura
@@ -40,6 +42,7 @@ lib/
 │   ├── categories/             # Listado de categorías
 │   ├── checkout/               # Proceso de checkout
 │   ├── home/                   # Página principal
+│   ├── orders/                 # Historial de órdenes (Fase 7)
 │   ├── products/               # Productos y detalle
 │   └── search/                 # Búsqueda de productos
 └── shared/                     # Widgets compartidos
@@ -178,6 +181,61 @@ dart fix --apply               # Aplicar fixes automáticos
 - Resumen de la orden
 - Confirmación de compra
 - Página de éxito con número de orden
+
+### Orders (Historial)
+- Lista de órdenes realizadas
+- Estado de cada orden (Completado, Pendiente, Cancelado)
+- Persistencia local con SharedPreferences
+- Textos parametrizados desde JSON
+
+## Parametrización con JSON (Fase 7)
+
+La aplicación permite configurar textos, imágenes y ajustes mediante un archivo JSON:
+
+### Ubicación del Archivo
+
+```
+assets/
+└── config/
+    └── app_config.json
+```
+
+### Estructura
+
+```json
+{
+  "orderHistory": {
+    "pageTitle": "Mis Pedidos",
+    "emptyState": {
+      "title": "No tienes pedidos",
+      "description": "Cuando realices una compra..."
+    },
+    "orderCard": {
+      "orderLabel": "Pedido",
+      "statusLabels": {
+        "completed": "Completado"
+      }
+    }
+  },
+  "images": {
+    "emptyOrdersPlaceholder": "https://..."
+  },
+  "settings": {
+    "maxOrdersToShow": 50,
+    "currency": { "symbol": "$" }
+  }
+}
+```
+
+### Cómo Modificar Textos
+
+1. Editar `assets/config/app_config.json`
+2. Cambiar los valores deseados
+3. Hot Restart la aplicación (R mayúscula)
+
+### Documentación Detallada
+
+Ver [docs/FASE_7_PARAMETRIZACION_JSON.md](docs/FASE_7_PARAMETRIZACION_JSON.md) para documentación completa.
 
 ## Testing
 

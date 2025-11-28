@@ -5,6 +5,59 @@ Todos los cambios notables de este proyecto se documentan en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## [1.2.0] - 2025-11-28
+
+### Agregado
+
+#### Parametrización JSON (Fase 7)
+Sistema completo de configuración externa que permite modificar textos, imágenes y ajustes sin cambiar código.
+
+**Core - Config:**
+- `assets/config/app_config.json` - Archivo de configuración central
+- `lib/core/config/app_config.dart` - Modelos inmutables con Equatable
+  - `AppConfig` - Configuración raíz
+  - `OrderHistoryConfig` - Textos del historial de órdenes
+  - `OrderDetailConfig` - Textos del detalle de orden
+  - `ImagesConfig` - URLs de imágenes parametrizadas
+  - `SettingsConfig` - Ajustes generales (moneda, límites)
+- `lib/core/config/config_datasource.dart` - Lectura de JSON con cache
+
+**Feature: Orders (Historial de Pedidos)**
+Nueva feature completa siguiendo Clean Architecture:
+
+*Data Layer:*
+- `OrderLocalDataSource` - Persistencia con SharedPreferences
+- `OrderModel` / `OrderItemModel` - Modelos JSON
+- `OrderRepositoryImpl` - Implementación del repositorio
+
+*Domain Layer:*
+- `Order` / `OrderItem` - Entidades de dominio
+- `OrderStatus` - Enum con estados (completed, pending, cancelled)
+- `OrderRepository` - Contrato abstracto
+- `GetOrdersUseCase` - Obtener historial
+- `SaveOrderUseCase` - Guardar nueva orden
+- `ClearOrdersUseCase` - Limpiar historial
+
+*Presentation Layer:*
+- `OrderHistoryBloc` - Manejo de estado con BLoC
+- `OrderHistoryPage` - Página principal con textos parametrizados
+- `OrderCard` - Widget de orden con labels desde JSON
+
+**Integración con Checkout:**
+- El checkout ahora guarda órdenes automáticamente antes de limpiar el carrito
+- Navegación a historial desde página de confirmación
+
+**Rutas:**
+- `Routes.orderHistory` - Nueva ruta `/orders`
+
+### Documentación
+
+- `docs/FASE_7_PARAMETRIZACION_JSON.md` - Documentación completa de la parametrización
+- Actualizado `CLAUDE.md` con sección de Parametrización JSON y feature Orders
+- Actualizado `README.md` con nuevas características y sección de parametrización
+
+---
+
 ## [1.1.0] - 2025-11-28
 
 ### Cambiado

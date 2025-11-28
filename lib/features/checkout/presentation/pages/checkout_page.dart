@@ -133,7 +133,10 @@ class _CheckoutPageContent extends StatelessWidget {
                             onPressed: isProcessing
                                 ? null
                                 : () => context.read<CheckoutBloc>().add(
-                                    const CheckoutSubmitted(),
+                                    CheckoutSubmitted(
+                                      cartItems: cartState.items,
+                                      totalPrice: cartState.totalPrice,
+                                    ),
                                   ),
                           ),
                         ],

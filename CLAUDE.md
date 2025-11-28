@@ -71,6 +71,7 @@ lib/
 │   ├── categories/             # Similar structure (domain + presentation)
 │   ├── checkout/               # Similar structure (presentation only)
 │   ├── home/                   # Similar structure
+│   ├── orders/                 # Historial de órdenes (Fase 7)
 │   ├── products/               # Similar structure
 │   └── search/                 # Similar structure
 ├── shared/
@@ -276,11 +277,99 @@ Container(
 )
 ```
 
+## Parametrización JSON (Fase 7)
+
+El proyecto implementa un sistema de parametrización que permite cambiar textos, imágenes y configuraciones sin modificar código.
+
+### Ubicación del Archivo
+```
+assets/config/app_config.json
+```
+
+### Estructura del JSON
+```json
+{
+  "orderHistory": {
+    "pageTitle": "Mis Pedidos",
+    "emptyState": { "icon": "receipt_long", "title": "...", "description": "..." },
+    "orderCard": { "orderLabel": "Pedido", "statusLabels": { "completed": "..." } }
+  },
+  "images": { "emptyOrdersPlaceholder": "https://..." },
+  "settings": { "maxOrdersToShow": 50, "currency": { "symbol": "$" } }
+}
+```
+
+### Arquitectura de Configuración
+```
+assets/config/app_config.json          # Archivo JSON fuente
+        ↓
+ConfigLocalDataSource                   # Lee JSON con rootBundle
+        ↓
+AppConfig (Modelos Equatable)           # Parsea a modelos type-safe
+        ↓
+get_it (sl<AppConfig>())               # Registra como singleton
+        ↓
+BLoC / UI                              # Consume configuración
+```
+
+### Modelos de Configuración
+```dart
+// lib/core/config/app_config.dart
+class AppConfig extends Equatable {
+  final OrderHistoryConfig orderHistory;
+  final ImagesConfig images;
+  final SettingsConfig settings;
+
+  factory AppConfig.fromJson(Map<String, dynamic> json) => ...
+}
+```
+
+### Uso en UI
+```dart
+// Desde BLoC
+final appConfig = sl<AppConfig>();
+emit(OrderHistoryLoaded(orders: orders, config: appConfig.orderHistory));
+
+// En Widget
+DSAppBar(title: config.pageTitle)  // Texto desde JSON
+DSEmptyState(
+  title: config.emptyState.title,  // Texto parametrizado
+  description: config.emptyState.description,
+)
+```
+
+### Cómo Modificar Textos
+1. Editar `assets/config/app_config.json`
+2. Cambiar los valores deseados
+3. Hot Restart la app (R mayúscula en terminal)
+
+### Feature: Orders (usa parametrización)
+```
+lib/features/orders/
+├── data/
+│   ├── datasources/    # OrderLocalDataSource (SharedPreferences)
+│   ├── models/         # OrderModel, OrderItemModel
+│   └── repositories/   # OrderRepositoryImpl
+├── domain/
+│   ├── entities/       # Order, OrderItem, OrderStatus
+│   ├── repositories/   # OrderRepository (abstract)
+│   └── usecases/       # GetOrders, SaveOrder, ClearOrders
+└── presentation/
+    ├── bloc/           # OrderHistoryBloc
+    ├── pages/          # OrderHistoryPage
+    └── widgets/        # OrderCard (textos parametrizados)
+```
+
+### Documentación Detallada
+Ver [docs/FASE_7_PARAMETRIZACION_JSON.md](docs/FASE_7_PARAMETRIZACION_JSON.md)
+
 ## Notas de Desarrollo
 
 - El carrito persiste en SharedPreferences como JSON
+- Las órdenes persisten en SharedPreferences como JSON
 - Las imágenes se cachean con cached_network_image
 - La búsqueda tiene debounce de 300ms
 - El Design System provee todos los componentes UI
 - Los tokens de tema se acceden via `context.tokens`
 - Evitar conflictos de nombres con `fake_store_api_client` (ej: usar prefijo DS)
+- Textos e imágenes configurables via `assets/config/app_config.json`

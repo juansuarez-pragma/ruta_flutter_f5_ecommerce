@@ -1,0 +1,60 @@
+{
+  "orderHistory": {
+    "pageTitle": "Mis Pedidos",
+    "emptyState": {
+      "icon": "receipt_long",
+      "title": "No tienes pedidos",
+      "description": "Cuando realices una compra, tus pedidos aparecerán aquí"
+    },
+    "orderCard": {
+      "orderLabel": "Pedido",
+      "dateLabel": "Fecha",
+      "totalLabel": "Total",
+      "itemsLabel": "productos",
+      "statusLabels": {
+        "completed": "Completado",
+        "pending": "Pendiente",
+        "cancelled": "Cancelado"
+      }
+    },
+    "actions": {
+      "viewDetails": "Ver detalles",
+      "reorder": "Volver a pedir"
+    }
+  },
+  "orderDetail": {
+    "pageTitle": "Detalle del Pedido",
+    "sections": {
+      "summary": "Resumen",
+      "products": "Productos",
+      "shipping": "Envío"
+    },
+    "labels": {
+      "orderId": "Número de pedido",
+      "date": "Fecha de compra",
+      "status": "Estado",
+      "subtotal": "Subtotal",
+      "shipping": "Envío",
+      "total": "Total",
+      "quantity": "Cantidad"
+    },
+    "shippingInfo": {
+      "title": "Información de envío",
+      "freeShipping": "Envío gratis",
+      "estimatedDelivery": "Entrega estimada: 3-5 días hábiles"
+    }
+  },
+  "images": {
+    "emptyOrdersPlaceholder": "https://cdn-icons-png.flaticon.com/512/4076/4076432.png",
+    "orderSuccessIcon": "https://cdn-icons-png.flaticon.com/512/5610/5610944.png"
+  },
+  "settings": {
+    "maxOrdersToShow": 50,
+    "dateFormat": "dd/MM/yyyy HH:mm",
+    "currency": {
+      "symbol": "$",
+      "decimalDigits": 2,
+      "locale": "es_CO"
+    }
+  }
+}

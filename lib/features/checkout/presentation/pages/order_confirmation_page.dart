@@ -72,6 +72,17 @@ class OrderConfirmationPage extends StatelessWidget {
                   (route) => false,
                 ),
               ),
+              const SizedBox(height: DSSpacing.base),
+              DSButton(
+                text: 'Ver mis pedidos',
+                variant: DSButtonVariant.secondary,
+                isFullWidth: true,
+                onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  Routes.orderHistory,
+                  (route) => route.settings.name == Routes.home,
+                ),
+              ),
             ],
           ),
         ),

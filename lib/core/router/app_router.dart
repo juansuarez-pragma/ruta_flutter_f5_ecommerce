@@ -6,6 +6,7 @@ import 'package:ecommerce/features/categories/categories.dart';
 import 'package:ecommerce/features/cart/cart.dart';
 import 'package:ecommerce/features/checkout/checkout.dart';
 import 'package:ecommerce/features/search/search.dart';
+import 'package:ecommerce/features/orders/orders.dart';
 import 'package:ecommerce/core/router/routes.dart';
 
 /// Configuración del router de la aplicación.
@@ -58,6 +59,12 @@ class AppRouter {
       case Routes.search:
         return MaterialPageRoute(
           builder: (_) => const SearchPage(),
+          settings: settings,
+        );
+
+      case Routes.orderHistory:
+        return MaterialPageRoute(
+          builder: (_) => const OrderHistoryPage(),
           settings: settings,
         );
 

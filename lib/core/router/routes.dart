@@ -28,6 +28,9 @@ class Routes {
   /// Ruta de búsqueda.
   static const String search = '/search';
 
+  /// Ruta del historial de órdenes.
+  static const String orderHistory = '/orders';
+
   /// Genera la ruta para el detalle de un producto.
   static String productDetailPath(int id) => '/product/$id';
 }

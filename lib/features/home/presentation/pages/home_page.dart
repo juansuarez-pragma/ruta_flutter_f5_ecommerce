@@ -45,6 +45,11 @@ class _HomePageContent extends StatelessWidget {
                   icon: const Icon(Icons.search),
                   onPressed: () => Navigator.pushNamed(context, Routes.search),
                 ),
+                IconButton(
+                  icon: const Icon(Icons.receipt_long),
+                  onPressed: () =>
+                      Navigator.pushNamed(context, Routes.orderHistory),
+                ),
                 BlocBuilder<CartBloc, CartState>(
                   builder: (context, state) {
                     final count = state is CartLoaded ? state.totalItems : 0;

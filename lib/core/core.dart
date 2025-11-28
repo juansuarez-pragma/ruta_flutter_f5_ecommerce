@@ -1,6 +1,7 @@
 /// Barrel file principal para core.
 library;
 
+export 'config/config.dart';
 export 'constants/constants.dart';
 export 'di/di.dart';
 export 'router/router.dart';
