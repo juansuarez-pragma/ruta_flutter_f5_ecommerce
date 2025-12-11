@@ -12,20 +12,21 @@ class HomeData {
 
 /// Caso de uso para obtener los datos del home.
 class GetHomeDataUseCase {
-  final FakeStoreClient _client;
+  final ProductRepository _repository;
 
-  GetHomeDataUseCase({required FakeStoreClient client}) : _client = client;
+  GetHomeDataUseCase({required ProductRepository repository})
+      : _repository = repository;
 
   /// Ejecuta el caso de uso.
   Future<Either<FakeStoreFailure, HomeData>> call() async {
     // Obtener categorías
-    final categoriesResult = await _client.getCategories();
+    final categoriesResult = await _repository.getAllCategories();
 
     return categoriesResult.fold((failure) => Left(failure), (
       categories,
     ) async {
       // Obtener productos
-      final productsResult = await _client.getProducts();
+      final productsResult = await _repository.getAllProducts();
 
       return productsResult.fold((failure) => Left(failure), (products) {
         // Limitar a productos destacados

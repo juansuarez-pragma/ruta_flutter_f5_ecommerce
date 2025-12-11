@@ -35,7 +35,7 @@ class CartItemTile extends StatelessWidget {
         children: [
           // Imagen del producto
           ClipRRect(
-            borderRadius: DSBorderRadius.smRadius,
+            borderRadius: BorderRadius.circular(DSBorderRadius.sm),
             child: CachedNetworkImage(
               imageUrl: item.product.image,
               width: 80,

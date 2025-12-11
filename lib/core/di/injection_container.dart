@@ -29,7 +29,10 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton(() => appConfig);
 
   // ============ API Client (Fase 3) ============
-  sl.registerLazySingleton(() => FakeStoreClient());
+  // La nueva API usa FakeStoreApi.createRepository() que retorna ProductRepository
+  sl.registerLazySingleton<ProductRepository>(
+    () => FakeStoreApi.createRepository(),
+  );
 
   // ============ DataSources ============
   sl.registerLazySingleton<CartLocalDataSource>(
@@ -48,11 +51,13 @@ Future<void> initDependencies() async {
   );
 
   // ============ UseCases - Products ============
-  sl.registerLazySingleton(() => GetProductsUseCase(client: sl()));
-  sl.registerLazySingleton(() => GetProductByIdUseCase(client: sl()));
-  sl.registerLazySingleton(() => GetProductsByCategoryUseCase(client: sl()));
-  sl.registerLazySingleton(() => GetCategoriesUseCase(client: sl()));
-  sl.registerLazySingleton(() => SearchProductsUseCase(client: sl()));
+  sl.registerLazySingleton(() => GetProductsUseCase(repository: sl()));
+  sl.registerLazySingleton(() => GetProductByIdUseCase(repository: sl()));
+  sl.registerLazySingleton(
+    () => GetProductsByCategoryUseCase(repository: sl()),
+  );
+  sl.registerLazySingleton(() => GetCategoriesUseCase(repository: sl()));
+  sl.registerLazySingleton(() => SearchProductsUseCase(repository: sl()));
 
   // ============ UseCases - Cart ============
   sl.registerLazySingleton(() => GetCartUseCase(repository: sl()));
@@ -105,5 +110,7 @@ Future<void> initDependencies() async {
 
 /// Limpia las dependencias al cerrar la aplicación.
 void disposeDependencies() {
-  sl<FakeStoreClient>().dispose();
+  // ProductRepository no requiere dispose() ya que el cliente HTTP es interno
+  // Si se necesita limpiar recursos, get_it lo maneja automáticamente
+  sl.reset();
 }

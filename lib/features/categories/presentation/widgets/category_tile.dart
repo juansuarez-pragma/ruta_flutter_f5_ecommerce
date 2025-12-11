@@ -23,11 +23,11 @@ class CategoryTile extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: DSSizes.touchTarget,
-            height: DSSizes.touchTarget,
+            width: DSSizes.buttonLg, // 48px - equivalente a touchTarget
+            height: DSSizes.buttonLg,
             decoration: BoxDecoration(
               color: tokens.colorBrandPrimaryLight,
-              borderRadius: DSBorderRadius.baseRadius,
+              borderRadius: BorderRadius.circular(DSBorderRadius.base),
             ),
             child: Icon(
               _getCategoryIcon(category),

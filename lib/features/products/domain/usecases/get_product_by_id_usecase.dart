@@ -2,12 +2,13 @@ import 'package:fake_store_api_client/fake_store_api_client.dart';
 
 /// Caso de uso para obtener un producto por ID.
 class GetProductByIdUseCase {
-  final FakeStoreClient _client;
+  final ProductRepository _repository;
 
-  GetProductByIdUseCase({required FakeStoreClient client}) : _client = client;
+  GetProductByIdUseCase({required ProductRepository repository})
+      : _repository = repository;
 
   /// Ejecuta el caso de uso.
   Future<Either<FakeStoreFailure, Product>> call(int id) async {
-    return _client.getProductById(id);
+    return _repository.getProductById(id);
   }
 }

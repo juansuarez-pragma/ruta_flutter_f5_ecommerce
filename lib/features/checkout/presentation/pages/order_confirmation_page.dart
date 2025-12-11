@@ -22,8 +22,8 @@ class OrderConfirmationPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                width: DSSizes.avatarXxl,
-                height: DSSizes.avatarXxl,
+                width: 96, // Equivalente a avatarXxl no disponible en DS v1.1.0
+                height: 96,
                 decoration: BoxDecoration(
                   color: tokens.colorFeedbackSuccessLight,
                   shape: BoxShape.circle,
