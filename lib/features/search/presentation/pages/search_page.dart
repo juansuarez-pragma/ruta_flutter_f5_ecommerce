@@ -112,7 +112,6 @@ class _EmptySearch extends StatelessWidget {
           const SizedBox(height: DSSpacing.sm),
           DSText(
             'Escribe para encontrar lo que buscas',
-            variant: DSTextVariant.bodyMedium,
             color: tokens.colorTextTertiary,
           ),
         ],
@@ -122,9 +121,8 @@ class _EmptySearch extends StatelessWidget {
 }
 
 class _SearchResults extends StatelessWidget {
-  final List products;
-
   const _SearchResults({required this.products});
+  final List products;
 
   @override
   Widget build(BuildContext context) {

@@ -7,10 +7,9 @@ import 'package:ecommerce/features/orders/domain/entities/order.dart';
 
 /// Tarjeta de orden con textos parametrizados desde JSON.
 class OrderCard extends StatelessWidget {
+  const OrderCard({super.key, required this.order, required this.config});
   final Order order;
   final OrderHistoryConfig config;
-
-  const OrderCard({super.key, required this.order, required this.config});
 
   @override
   Widget build(BuildContext context) {

@@ -32,18 +32,16 @@ final class CategoriesLoading extends CategoriesState {
 }
 
 final class CategoriesLoaded extends CategoriesState {
-  final List<String> categories;
-
   const CategoriesLoaded(this.categories);
+  final List<String> categories;
 
   @override
   List<Object> get props => [categories];
 }
 
 final class CategoriesError extends CategoriesState {
-  final String message;
-
   const CategoriesError(this.message);
+  final String message;
 
   @override
   List<Object> get props => [message];
@@ -51,13 +49,12 @@ final class CategoriesError extends CategoriesState {
 
 /// BLoC para gestionar el estado de categorías.
 class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
-  final GetCategoriesUseCase _getCategoriesUseCase;
-
   CategoriesBloc({required GetCategoriesUseCase getCategoriesUseCase})
     : _getCategoriesUseCase = getCategoriesUseCase,
       super(const CategoriesInitial()) {
     on<CategoriesLoadRequested>(_onLoadRequested);
   }
+  final GetCategoriesUseCase _getCategoriesUseCase;
 
   Future<void> _onLoadRequested(
     CategoriesLoadRequested event,

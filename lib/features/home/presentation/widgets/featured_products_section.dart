@@ -6,10 +6,10 @@ import 'package:ecommerce/core/router/routes.dart';
 
 /// Sección de productos destacados para el home.
 class FeaturedProductsSection extends StatelessWidget {
+  const FeaturedProductsSection({super.key, required this.products});
+
   /// Lista de productos destacados.
   final List<Product> products;
-
-  const FeaturedProductsSection({super.key, required this.products});
 
   @override
   Widget build(BuildContext context) {

@@ -5,13 +5,13 @@ import 'package:fake_store_api_client/fake_store_api_client.dart';
 ///
 /// Contiene el producto y la cantidad seleccionada.
 class CartItem extends Equatable {
+  const CartItem({required this.product, required this.quantity});
+
   /// Producto del item.
   final Product product;
 
   /// Cantidad del producto.
   final int quantity;
-
-  const CartItem({required this.product, required this.quantity});
 
   /// Precio total del item (precio * cantidad).
   double get totalPrice => product.price * quantity;

@@ -19,29 +19,28 @@ void main() {
     test('should return product when repository call is successful', () async {
       // Arrange
       final product = ProductFixtures.sampleProduct;
-      when(() => mockRepository.getProductById(1))
-          .thenAnswer((_) async => Right(product));
+      when(
+        () => mockRepository.getProductById(1),
+      ).thenAnswer((_) async => Right(product));
 
       // Act
       final result = await useCase(1);
 
       // Assert
       expect(result, isRight);
-      result.fold(
-        (failure) => fail('Should not return failure'),
-        (data) {
-          expect(data.id, 1);
-          expect(data.title, 'Test Product');
-          expect(data.price, 99.99);
-        },
-      );
+      result.fold((failure) => fail('Should not return failure'), (data) {
+        expect(data.id, 1);
+        expect(data.title, 'Test Product');
+        expect(data.price, 99.99);
+      });
       verify(() => mockRepository.getProductById(1)).called(1);
     });
 
     test('should return NotFoundFailure when product does not exist', () async {
       // Arrange
-      when(() => mockRepository.getProductById(999))
-          .thenAnswer((_) async => const Left(NotFoundFailure()));
+      when(
+        () => mockRepository.getProductById(999),
+      ).thenAnswer((_) async => const Left(NotFoundFailure()));
 
       // Act
       final result = await useCase(999);
@@ -55,11 +54,11 @@ void main() {
       );
     });
 
-    test('should return ConnectionFailure when there is no internet',
-        () async {
+    test('should return ConnectionFailure when there is no internet', () async {
       // Arrange
-      when(() => mockRepository.getProductById(any()))
-          .thenAnswer((_) async => const Left(ConnectionFailure()));
+      when(
+        () => mockRepository.getProductById(any()),
+      ).thenAnswer((_) async => const Left(ConnectionFailure()));
 
       // Act
       final result = await useCase(1);

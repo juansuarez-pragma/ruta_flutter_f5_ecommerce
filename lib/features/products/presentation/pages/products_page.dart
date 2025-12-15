@@ -12,10 +12,10 @@ import 'package:ecommerce/features/products/presentation/widgets/product_grid.da
 
 /// Página de listado de productos.
 class ProductsPage extends StatelessWidget {
+  const ProductsPage({super.key, this.category});
+
   /// Categoría opcional para filtrar productos.
   final String? category;
-
-  const ProductsPage({super.key, this.category});
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +28,8 @@ class ProductsPage extends StatelessWidget {
 }
 
 class _ProductsPageContent extends StatelessWidget {
-  final String? category;
-
   const _ProductsPageContent({this.category});
+  final String? category;
 
   @override
   Widget build(BuildContext context) {

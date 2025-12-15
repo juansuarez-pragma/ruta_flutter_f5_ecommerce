@@ -7,20 +7,14 @@ import '../../helpers/test_helpers.dart';
 void main() {
   group('DSText', () {
     testWidgets('renders text with default style', (tester) async {
-      await tester.pumpWidget(
-        buildTestableWidget(
-          const DSText('Hello World'),
-        ),
-      );
+      await tester.pumpWidget(buildTestableWidget(const DSText('Hello World')));
 
       expect(find.text('Hello World'), findsOneWidget);
     });
 
     testWidgets('renders headingLarge style', (tester) async {
       await tester.pumpWidget(
-        buildTestableWidget(
-          const DSText.headingLarge('Large Heading'),
-        ),
+        buildTestableWidget(const DSText.headingLarge('Large Heading')),
       );
 
       expect(find.text('Large Heading'), findsOneWidget);
@@ -28,9 +22,7 @@ void main() {
 
     testWidgets('renders headingMedium style', (tester) async {
       await tester.pumpWidget(
-        buildTestableWidget(
-          const DSText.headingMedium('Medium Heading'),
-        ),
+        buildTestableWidget(const DSText.headingMedium('Medium Heading')),
       );
 
       expect(find.text('Medium Heading'), findsOneWidget);
@@ -38,9 +30,7 @@ void main() {
 
     testWidgets('renders headingSmall style', (tester) async {
       await tester.pumpWidget(
-        buildTestableWidget(
-          const DSText.headingSmall('Small Heading'),
-        ),
+        buildTestableWidget(const DSText.headingSmall('Small Heading')),
       );
 
       expect(find.text('Small Heading'), findsOneWidget);
@@ -48,9 +38,7 @@ void main() {
 
     testWidgets('renders bodyLarge style', (tester) async {
       await tester.pumpWidget(
-        buildTestableWidget(
-          const DSText.bodyLarge('Large Body'),
-        ),
+        buildTestableWidget(const DSText.bodyLarge('Large Body')),
       );
 
       expect(find.text('Large Body'), findsOneWidget);
@@ -58,9 +46,7 @@ void main() {
 
     testWidgets('renders bodyMedium style', (tester) async {
       await tester.pumpWidget(
-        buildTestableWidget(
-          const DSText.bodyMedium('Medium Body'),
-        ),
+        buildTestableWidget(const DSText.bodyMedium('Medium Body')),
       );
 
       expect(find.text('Medium Body'), findsOneWidget);
@@ -68,9 +54,7 @@ void main() {
 
     testWidgets('renders bodySmall style', (tester) async {
       await tester.pumpWidget(
-        buildTestableWidget(
-          const DSText.bodySmall('Small Body'),
-        ),
+        buildTestableWidget(const DSText.bodySmall('Small Body')),
       );
 
       expect(find.text('Small Body'), findsOneWidget);
@@ -78,9 +62,7 @@ void main() {
 
     testWidgets('renders label style', (tester) async {
       await tester.pumpWidget(
-        buildTestableWidget(
-          const DSText.label('Label Text'),
-        ),
+        buildTestableWidget(const DSText.label('Label Text')),
       );
 
       expect(find.text('Label Text'), findsOneWidget);
@@ -88,12 +70,7 @@ void main() {
 
     testWidgets('applies custom color', (tester) async {
       await tester.pumpWidget(
-        buildTestableWidget(
-          const DSText(
-            'Colored Text',
-            color: Colors.red,
-          ),
-        ),
+        buildTestableWidget(const DSText('Colored Text', color: Colors.red)),
       );
 
       final text = tester.widget<DSText>(find.byType(DSText));
@@ -103,10 +80,7 @@ void main() {
     testWidgets('applies text alignment', (tester) async {
       await tester.pumpWidget(
         buildTestableWidget(
-          const DSText(
-            'Centered Text',
-            textAlign: TextAlign.center,
-          ),
+          const DSText('Centered Text', textAlign: TextAlign.center),
         ),
       );
 

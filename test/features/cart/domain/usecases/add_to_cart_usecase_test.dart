@@ -45,8 +45,9 @@ void main() {
     test('should propagate exception from repository', () async {
       // Arrange
       final cartItem = CartItemFixtures.sampleCartItem;
-      when(() => mockRepository.addItem(any()))
-          .thenThrow(Exception('Storage error'));
+      when(
+        () => mockRepository.addItem(any()),
+      ).thenThrow(Exception('Storage error'));
 
       // Act & Assert
       expect(() => useCase(cartItem), throwsException);

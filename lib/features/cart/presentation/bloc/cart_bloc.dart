@@ -13,12 +13,6 @@ import 'package:ecommerce/features/cart/presentation/bloc/cart_state.dart';
 ///
 /// Maneja las operaciones CRUD del carrito con persistencia local.
 class CartBloc extends Bloc<CartEvent, CartState> {
-  final GetCartUseCase _getCartUseCase;
-  final AddToCartUseCase _addToCartUseCase;
-  final RemoveFromCartUseCase _removeFromCartUseCase;
-  final UpdateCartQuantityUseCase _updateQuantityUseCase;
-  final ClearCartUseCase _clearCartUseCase;
-
   CartBloc({
     required GetCartUseCase getCartUseCase,
     required AddToCartUseCase addToCartUseCase,
@@ -37,6 +31,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<CartItemQuantityUpdated>(_onQuantityUpdated);
     on<CartCleared>(_onCleared);
   }
+  final GetCartUseCase _getCartUseCase;
+  final AddToCartUseCase _addToCartUseCase;
+  final RemoveFromCartUseCase _removeFromCartUseCase;
+  final UpdateCartQuantityUseCase _updateQuantityUseCase;
+  final ClearCartUseCase _clearCartUseCase;
 
   Future<void> _onLoadRequested(
     CartLoadRequested event,

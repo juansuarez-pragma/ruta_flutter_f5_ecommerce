@@ -10,6 +10,19 @@ class OrderModel extends Order {
     super.status,
   });
 
+  /// Crea un OrderModel desde una entidad Order.
+  factory OrderModel.fromEntity(Order order) {
+    return OrderModel(
+      id: order.id,
+      items: order.items
+          .map((item) => OrderItemModel.fromEntity(item))
+          .toList(),
+      total: order.total,
+      createdAt: order.createdAt,
+      status: order.status,
+    );
+  }
+
   /// Crea un OrderModel desde JSON.
   factory OrderModel.fromJson(Map<String, dynamic> json) {
     return OrderModel(
@@ -33,19 +46,6 @@ class OrderModel extends Order {
       'status': status.key,
     };
   }
-
-  /// Crea un OrderModel desde una entidad Order.
-  factory OrderModel.fromEntity(Order order) {
-    return OrderModel(
-      id: order.id,
-      items: order.items
-          .map((item) => OrderItemModel.fromEntity(item))
-          .toList(),
-      total: order.total,
-      createdAt: order.createdAt,
-      status: order.status,
-    );
-  }
 }
 
 /// Modelo de datos para OrderItem con serialización JSON.
@@ -57,6 +57,17 @@ class OrderItemModel extends OrderItem {
     required super.quantity,
     required super.imageUrl,
   });
+
+  /// Crea un OrderItemModel desde una entidad OrderItem.
+  factory OrderItemModel.fromEntity(OrderItem item) {
+    return OrderItemModel(
+      productId: item.productId,
+      title: item.title,
+      price: item.price,
+      quantity: item.quantity,
+      imageUrl: item.imageUrl,
+    );
+  }
 
   /// Crea un OrderItemModel desde JSON.
   factory OrderItemModel.fromJson(Map<String, dynamic> json) {
@@ -78,16 +89,5 @@ class OrderItemModel extends OrderItem {
       'quantity': quantity,
       'imageUrl': imageUrl,
     };
-  }
-
-  /// Crea un OrderItemModel desde una entidad OrderItem.
-  factory OrderItemModel.fromEntity(OrderItem item) {
-    return OrderItemModel(
-      productId: item.productId,
-      title: item.title,
-      price: item.price,
-      quantity: item.quantity,
-      imageUrl: item.imageUrl,
-    );
   }
 }

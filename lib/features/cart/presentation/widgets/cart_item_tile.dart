@@ -8,6 +8,13 @@ import 'package:ecommerce/features/cart/domain/entities/cart_item.dart';
 
 /// Tile para mostrar un item del carrito.
 class CartItemTile extends StatelessWidget {
+  const CartItemTile({
+    super.key,
+    required this.item,
+    required this.onQuantityChanged,
+    required this.onRemove,
+  });
+
   /// Item del carrito a mostrar.
   final CartItem item;
 
@@ -16,13 +23,6 @@ class CartItemTile extends StatelessWidget {
 
   /// Callback cuando se elimina el item.
   final VoidCallback onRemove;
-
-  const CartItemTile({
-    super.key,
-    required this.item,
-    required this.onQuantityChanged,
-    required this.onRemove,
-  });
 
   @override
   Widget build(BuildContext context) {

@@ -16,35 +16,35 @@ void main() {
   });
 
   group('GetCategoriesUseCase', () {
-    test('should return list of categories when repository call is successful',
-        () async {
-      // Arrange
-      final categories = ProductFixtures.sampleCategories;
-      when(() => mockRepository.getAllCategories())
-          .thenAnswer((_) async => Right(categories));
+    test(
+      'should return list of categories when repository call is successful',
+      () async {
+        // Arrange
+        final categories = ProductFixtures.sampleCategories;
+        when(
+          () => mockRepository.getAllCategories(),
+        ).thenAnswer((_) async => Right(categories));
 
-      // Act
-      final result = await useCase();
+        // Act
+        final result = await useCase();
 
-      // Assert
-      expect(result, isRight);
-      result.fold(
-        (failure) => fail('Should not return failure'),
-        (data) {
+        // Assert
+        expect(result, isRight);
+        result.fold((failure) => fail('Should not return failure'), (data) {
           expect(data, equals(categories));
           expect(data.length, 4);
           expect(data.contains('electronics'), true);
           expect(data.contains('jewelery'), true);
-        },
-      );
-      verify(() => mockRepository.getAllCategories()).called(1);
-    });
+        });
+        verify(() => mockRepository.getAllCategories()).called(1);
+      },
+    );
 
-    test('should return ConnectionFailure when there is no internet',
-        () async {
+    test('should return ConnectionFailure when there is no internet', () async {
       // Arrange
-      when(() => mockRepository.getAllCategories())
-          .thenAnswer((_) async => const Left(ConnectionFailure()));
+      when(
+        () => mockRepository.getAllCategories(),
+      ).thenAnswer((_) async => const Left(ConnectionFailure()));
 
       // Act
       final result = await useCase();
@@ -60,8 +60,9 @@ void main() {
 
     test('should return ServerFailure when server error occurs', () async {
       // Arrange
-      when(() => mockRepository.getAllCategories())
-          .thenAnswer((_) async => const Left(ServerFailure()));
+      when(
+        () => mockRepository.getAllCategories(),
+      ).thenAnswer((_) async => const Left(ServerFailure()));
 
       // Act
       final result = await useCase();

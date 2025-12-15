@@ -13,9 +13,8 @@ sealed class SearchEvent extends Equatable {
 }
 
 final class SearchQueryChanged extends SearchEvent {
-  final String query;
-
   const SearchQueryChanged(this.query);
+  final String query;
 
   @override
   List<Object> get props => [query];
@@ -42,19 +41,17 @@ final class SearchLoading extends SearchState {
 }
 
 final class SearchLoaded extends SearchState {
+  const SearchLoaded({required this.products, required this.query});
   final List<Product> products;
   final String query;
-
-  const SearchLoaded({required this.products, required this.query});
 
   @override
   List<Object> get props => [products, query];
 }
 
 final class SearchError extends SearchState {
-  final String message;
-
   const SearchError(this.message);
+  final String message;
 
   @override
   List<Object> get props => [message];
@@ -62,14 +59,13 @@ final class SearchError extends SearchState {
 
 /// BLoC para gestionar el estado de búsqueda.
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
-  final SearchProductsUseCase _searchProductsUseCase;
-
   SearchBloc({required SearchProductsUseCase searchProductsUseCase})
     : _searchProductsUseCase = searchProductsUseCase,
       super(const SearchInitial()) {
     on<SearchQueryChanged>(_onQueryChanged);
     on<SearchCleared>(_onCleared);
   }
+  final SearchProductsUseCase _searchProductsUseCase;
 
   Future<void> _onQueryChanged(
     SearchQueryChanged event,

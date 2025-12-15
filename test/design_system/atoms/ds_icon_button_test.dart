@@ -9,10 +9,7 @@ void main() {
     testWidgets('renders correctly with icon', (tester) async {
       await tester.pumpWidget(
         buildTestableWidget(
-          DSIconButton(
-            icon: Icons.favorite,
-            onPressed: () {},
-          ),
+          DSIconButton(icon: Icons.favorite, onPressed: () {}),
         ),
       );
 
@@ -25,10 +22,7 @@ void main() {
 
       await tester.pumpWidget(
         buildTestableWidget(
-          DSIconButton(
-            icon: Icons.add,
-            onPressed: () => wasPressed = true,
-          ),
+          DSIconButton(icon: Icons.add, onPressed: () => wasPressed = true),
         ),
       );
 
@@ -36,15 +30,11 @@ void main() {
       expect(wasPressed, true);
     });
 
-    testWidgets('renders disabled state when onPressed is null',
-        (tester) async {
+    testWidgets('renders disabled state when onPressed is null', (
+      tester,
+    ) async {
       await tester.pumpWidget(
-        buildTestableWidget(
-          const DSIconButton(
-            icon: Icons.delete,
-            onPressed: null,
-          ),
-        ),
+        buildTestableWidget(const DSIconButton(icon: Icons.delete)),
       );
 
       expect(find.byIcon(Icons.delete), findsOneWidget);
@@ -60,11 +50,7 @@ void main() {
                 size: DSButtonSize.small,
                 onPressed: () {},
               ),
-              DSIconButton(
-                icon: Icons.settings,
-                size: DSButtonSize.medium,
-                onPressed: () {},
-              ),
+              DSIconButton(icon: Icons.settings, onPressed: () {}),
               DSIconButton(
                 icon: Icons.settings,
                 size: DSButtonSize.large,
@@ -93,11 +79,7 @@ void main() {
                 variant: DSButtonVariant.secondary,
                 onPressed: () {},
               ),
-              DSIconButton(
-                icon: Icons.home,
-                variant: DSButtonVariant.ghost,
-                onPressed: () {},
-              ),
+              DSIconButton(icon: Icons.home, onPressed: () {}),
               DSIconButton(
                 icon: Icons.home,
                 variant: DSButtonVariant.danger,
@@ -128,11 +110,7 @@ void main() {
     testWidgets('shows loading state', (tester) async {
       await tester.pumpWidget(
         buildTestableWidget(
-          DSIconButton(
-            icon: Icons.refresh,
-            isLoading: true,
-            onPressed: () {},
-          ),
+          DSIconButton(icon: Icons.refresh, isLoading: true, onPressed: () {}),
         ),
       );
 

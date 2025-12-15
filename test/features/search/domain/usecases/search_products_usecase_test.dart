@@ -19,28 +19,27 @@ void main() {
     test('should return filtered products matching query', () async {
       // Arrange
       final products = ProductFixtures.sampleProducts;
-      when(() => mockRepository.getAllProducts())
-          .thenAnswer((_) async => Right(products));
+      when(
+        () => mockRepository.getAllProducts(),
+      ).thenAnswer((_) async => Right(products));
 
       // Act - search for "Test"
       final result = await useCase('Test');
 
       // Assert
       expect(result, isRight);
-      result.fold(
-        (failure) => fail('Should not return failure'),
-        (data) {
-          expect(data.length, 1);
-          expect(data.first.title, contains('Test'));
-        },
-      );
+      result.fold((failure) => fail('Should not return failure'), (data) {
+        expect(data.length, 1);
+        expect(data.first.title, contains('Test'));
+      });
     });
 
     test('should return empty list when no products match query', () async {
       // Arrange
       final products = ProductFixtures.sampleProducts;
-      when(() => mockRepository.getAllProducts())
-          .thenAnswer((_) async => Right(products));
+      when(
+        () => mockRepository.getAllProducts(),
+      ).thenAnswer((_) async => Right(products));
 
       // Act - search for something that doesn't exist
       final result = await useCase('NonExistentProduct12345');
@@ -56,8 +55,9 @@ void main() {
     test('should be case insensitive', () async {
       // Arrange
       final products = ProductFixtures.sampleProducts;
-      when(() => mockRepository.getAllProducts())
-          .thenAnswer((_) async => Right(products));
+      when(
+        () => mockRepository.getAllProducts(),
+      ).thenAnswer((_) async => Right(products));
 
       // Act - search with different cases
       final resultLower = await useCase('test');
@@ -83,11 +83,11 @@ void main() {
       );
     });
 
-    test('should return ConnectionFailure when there is no internet',
-        () async {
+    test('should return ConnectionFailure when there is no internet', () async {
       // Arrange
-      when(() => mockRepository.getAllProducts())
-          .thenAnswer((_) async => const Left(ConnectionFailure()));
+      when(
+        () => mockRepository.getAllProducts(),
+      ).thenAnswer((_) async => const Left(ConnectionFailure()));
 
       // Act
       final result = await useCase('test');
@@ -104,8 +104,9 @@ void main() {
     test('should return all products when query matches multiple', () async {
       // Arrange
       final products = ProductFixtures.sampleProducts;
-      when(() => mockRepository.getAllProducts())
-          .thenAnswer((_) async => Right(products));
+      when(
+        () => mockRepository.getAllProducts(),
+      ).thenAnswer((_) async => Right(products));
 
       // Act - search for "Product" which is in all titles
       final result = await useCase('Product');

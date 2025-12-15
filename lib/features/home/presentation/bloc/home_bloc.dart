@@ -39,19 +39,17 @@ final class HomeLoading extends HomeState {
 }
 
 final class HomeLoaded extends HomeState {
+  const HomeLoaded({required this.categories, required this.featuredProducts});
   final List<String> categories;
   final List<Product> featuredProducts;
-
-  const HomeLoaded({required this.categories, required this.featuredProducts});
 
   @override
   List<Object> get props => [categories, featuredProducts];
 }
 
 final class HomeError extends HomeState {
-  final String message;
-
   const HomeError(this.message);
+  final String message;
 
   @override
   List<Object> get props => [message];
@@ -59,9 +57,6 @@ final class HomeError extends HomeState {
 
 /// BLoC para gestionar el estado del Home.
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  final GetProductsUseCase _getProductsUseCase;
-  final GetCategoriesUseCase _getCategoriesUseCase;
-
   HomeBloc({
     required GetProductsUseCase getProductsUseCase,
     required GetCategoriesUseCase getCategoriesUseCase,
@@ -71,6 +66,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeLoadRequested>(_onLoadRequested);
     on<HomeRefreshRequested>(_onRefreshRequested);
   }
+  final GetProductsUseCase _getProductsUseCase;
+  final GetCategoriesUseCase _getCategoriesUseCase;
 
   Future<void> _onLoadRequested(
     HomeLoadRequested event,

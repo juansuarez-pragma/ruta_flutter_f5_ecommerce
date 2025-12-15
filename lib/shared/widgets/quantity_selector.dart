@@ -7,6 +7,14 @@ import 'package:ecommerce/core/constants/app_constants.dart';
 ///
 /// Permite al usuario seleccionar una cantidad dentro de un rango definido.
 class QuantitySelector extends StatelessWidget {
+  const QuantitySelector({
+    super.key,
+    required this.quantity,
+    required this.onChanged,
+    this.min = AppConstants.minCartQuantity,
+    this.max = AppConstants.maxCartQuantity,
+  });
+
   /// Cantidad actual.
   final int quantity;
 
@@ -18,14 +26,6 @@ class QuantitySelector extends StatelessWidget {
 
   /// Cantidad máxima permitida.
   final int max;
-
-  const QuantitySelector({
-    super.key,
-    required this.quantity,
-    required this.onChanged,
-    this.min = AppConstants.minCartQuantity,
-    this.max = AppConstants.maxCartQuantity,
-  });
 
   @override
   Widget build(BuildContext context) {

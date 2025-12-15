@@ -43,7 +43,6 @@ class OrderConfirmationPage extends StatelessWidget {
               const SizedBox(height: DSSpacing.sm),
               DSText(
                 'Tu pedido ha sido procesado exitosamente',
-                variant: DSTextVariant.bodyMedium,
                 color: tokens.colorTextSecondary,
                 textAlign: TextAlign.center,
               ),
@@ -53,11 +52,7 @@ class OrderConfirmationPage extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    DSText(
-                      'Orden: ',
-                      variant: DSTextVariant.bodyMedium,
-                      color: tokens.colorTextSecondary,
-                    ),
+                    DSText('Orden: ', color: tokens.colorTextSecondary),
                     DSText(orderId, variant: DSTextVariant.titleSmall),
                   ],
                 ),

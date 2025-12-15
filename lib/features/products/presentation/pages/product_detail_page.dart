@@ -13,10 +13,10 @@ import 'package:ecommerce/features/products/presentation/bloc/product_detail_blo
 
 /// Página de detalle de producto.
 class ProductDetailPage extends StatefulWidget {
+  const ProductDetailPage({super.key, required this.productId});
+
   /// ID del producto a mostrar.
   final int productId;
-
-  const ProductDetailPage({super.key, required this.productId});
 
   @override
   State<ProductDetailPage> createState() => _ProductDetailPageState();
@@ -121,19 +121,18 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 const SizedBox(height: DSSpacing.lg),
 
                 // Descripción
-                DSText('Descripción', variant: DSTextVariant.titleMedium),
+                const DSText('Descripción', variant: DSTextVariant.titleMedium),
                 const SizedBox(height: DSSpacing.sm),
-                DSText(
-                  product.description,
-                  variant: DSTextVariant.bodyMedium,
-                  color: tokens.colorTextSecondary,
-                ),
+                DSText(product.description, color: tokens.colorTextSecondary),
                 const SizedBox(height: DSSpacing.xl),
 
                 // Selector de cantidad
                 Row(
                   children: [
-                    DSText('Cantidad:', variant: DSTextVariant.titleSmall),
+                    const DSText(
+                      'Cantidad:',
+                      variant: DSTextVariant.titleSmall,
+                    ),
                     const SizedBox(width: DSSpacing.base),
                     QuantitySelector(
                       quantity: _quantity,

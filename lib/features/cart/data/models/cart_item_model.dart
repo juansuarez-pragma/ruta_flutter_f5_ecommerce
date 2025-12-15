@@ -8,16 +8,6 @@ import 'package:ecommerce/features/cart/domain/entities/cart_item.dart';
 ///
 /// Proporciona serialización/deserialización JSON para persistencia.
 class CartItemModel {
-  final int productId;
-  final String title;
-  final double price;
-  final String description;
-  final String category;
-  final String image;
-  final double ratingRate;
-  final int ratingCount;
-  final int quantity;
-
   const CartItemModel({
     required this.productId,
     required this.title,
@@ -59,6 +49,15 @@ class CartItemModel {
       quantity: json['quantity'] as int,
     );
   }
+  final int productId;
+  final String title;
+  final double price;
+  final String description;
+  final String category;
+  final String image;
+  final double ratingRate;
+  final int ratingCount;
+  final int quantity;
 
   /// Convierte el modelo a JSON.
   Map<String, dynamic> toJson() {

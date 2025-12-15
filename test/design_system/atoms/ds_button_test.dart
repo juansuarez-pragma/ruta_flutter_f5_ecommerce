@@ -11,10 +11,7 @@ void main() {
 
       await tester.pumpWidget(
         buildTestableWidget(
-          DSButton(
-            text: 'Test Button',
-            onPressed: () => wasPressed = true,
-          ),
+          DSButton(text: 'Test Button', onPressed: () => wasPressed = true),
         ),
       );
 
@@ -67,15 +64,11 @@ void main() {
       expect(find.text('Danger'), findsOneWidget);
     });
 
-    testWidgets('renders disabled button when onPressed is null',
-        (tester) async {
+    testWidgets('renders disabled button when onPressed is null', (
+      tester,
+    ) async {
       await tester.pumpWidget(
-        buildTestableWidget(
-          const DSButton(
-            text: 'Disabled',
-            onPressed: null,
-          ),
-        ),
+        buildTestableWidget(const DSButton(text: 'Disabled')),
       );
 
       expect(find.text('Disabled'), findsOneWidget);
@@ -84,11 +77,7 @@ void main() {
     testWidgets('renders button with icon', (tester) async {
       await tester.pumpWidget(
         buildTestableWidget(
-          DSButton(
-            text: 'With Icon',
-            icon: Icons.add,
-            onPressed: () {},
-          ),
+          DSButton(text: 'With Icon', icon: Icons.add, onPressed: () {}),
         ),
       );
 
@@ -99,11 +88,7 @@ void main() {
     testWidgets('shows loading state correctly', (tester) async {
       await tester.pumpWidget(
         buildTestableWidget(
-          DSButton(
-            text: 'Loading',
-            isLoading: true,
-            onPressed: () {},
-          ),
+          DSButton(text: 'Loading', isLoading: true, onPressed: () {}),
         ),
       );
 
@@ -121,11 +106,7 @@ void main() {
                 size: DSButtonSize.small,
                 onPressed: () {},
               ),
-              DSButton(
-                text: 'Medium',
-                size: DSButtonSize.medium,
-                onPressed: () {},
-              ),
+              DSButton(text: 'Medium', onPressed: () {}),
               DSButton(
                 text: 'Large',
                 size: DSButtonSize.large,

@@ -59,9 +59,8 @@ class _OrderHistoryBody extends StatelessWidget {
 
 /// Estado vacío con textos parametrizados.
 class _EmptyOrderHistory extends StatelessWidget {
-  final OrderHistoryConfig config;
-
   const _EmptyOrderHistory({required this.config});
+  final OrderHistoryConfig config;
 
   @override
   Widget build(BuildContext context) {
@@ -89,9 +88,8 @@ class _EmptyOrderHistory extends StatelessWidget {
 
 /// Lista de órdenes.
 class _OrdersList extends StatelessWidget {
-  final OrderHistoryLoaded state;
-
   const _OrdersList({required this.state});
+  final OrderHistoryLoaded state;
 
   @override
   Widget build(BuildContext context) {

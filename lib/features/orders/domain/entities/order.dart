@@ -2,6 +2,14 @@ import 'package:equatable/equatable.dart';
 
 /// Entidad que representa una orden de compra.
 class Order extends Equatable {
+  const Order({
+    required this.id,
+    required this.items,
+    required this.total,
+    required this.createdAt,
+    this.status = OrderStatus.completed,
+  });
+
   /// Identificador único de la orden.
   final String id;
 
@@ -17,14 +25,6 @@ class Order extends Equatable {
   /// Estado de la orden.
   final OrderStatus status;
 
-  const Order({
-    required this.id,
-    required this.items,
-    required this.total,
-    required this.createdAt,
-    this.status = OrderStatus.completed,
-  });
-
   /// Número total de productos en la orden.
   int get totalItems => items.fold(0, (sum, item) => sum + item.quantity);
 
@@ -34,6 +34,14 @@ class Order extends Equatable {
 
 /// Item de una orden.
 class OrderItem extends Equatable {
+  const OrderItem({
+    required this.productId,
+    required this.title,
+    required this.price,
+    required this.quantity,
+    required this.imageUrl,
+  });
+
   /// ID del producto.
   final int productId;
 
@@ -48,14 +56,6 @@ class OrderItem extends Equatable {
 
   /// URL de la imagen.
   final String imageUrl;
-
-  const OrderItem({
-    required this.productId,
-    required this.title,
-    required this.price,
-    required this.quantity,
-    required this.imageUrl,
-  });
 
   /// Precio total del item.
   double get totalPrice => price * quantity;

@@ -101,9 +101,8 @@ class _IsLeft extends Matcher {
 Matcher isRightWith<L, R>(R expectedValue) => _IsRightWith<L, R>(expectedValue);
 
 class _IsRightWith<L, R> extends Matcher {
-  final R expectedValue;
-
   const _IsRightWith(this.expectedValue);
+  final R expectedValue;
 
   @override
   bool matches(dynamic item, Map matchState) {
@@ -148,10 +147,7 @@ class _IsLeftWithType<T> extends Matcher {
 /// Extension para WidgetTester con helpers comunes.
 extension WidgetTesterX on WidgetTester {
   /// Pump widget con tema del DS y espera a que se estabilice.
-  Future<void> pumpTestableWidget(
-    Widget widget, {
-    Duration? duration,
-  }) async {
+  Future<void> pumpTestableWidget(Widget widget, {Duration? duration}) async {
     await pumpWidget(buildTestableWidget(widget));
     if (duration != null) {
       await pump(duration);

@@ -44,8 +44,9 @@ void main() {
       expect(wasPressed, true);
     });
 
-    testWidgets('does not render action button when onAction is null',
-        (tester) async {
+    testWidgets('does not render action button when onAction is null', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         buildTestableWidget(
           const DSEmptyState(
@@ -62,10 +63,7 @@ void main() {
     testWidgets('renders without description', (tester) async {
       await tester.pumpWidget(
         buildTestableWidget(
-          const DSEmptyState(
-            icon: Icons.folder,
-            title: 'Empty Folder',
-          ),
+          const DSEmptyState(icon: Icons.folder, title: 'Empty Folder'),
         ),
       );
 

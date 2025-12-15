@@ -4,11 +4,6 @@ import 'package:equatable/equatable.dart';
 ///
 /// Permite configurar textos, imágenes y ajustes sin modificar código.
 class AppConfig extends Equatable {
-  final OrderHistoryConfig orderHistory;
-  final OrderDetailConfig orderDetail;
-  final ImagesConfig images;
-  final SettingsConfig settings;
-
   const AppConfig({
     required this.orderHistory,
     required this.orderDetail,
@@ -30,6 +25,10 @@ class AppConfig extends Equatable {
       ),
     );
   }
+  final OrderHistoryConfig orderHistory;
+  final OrderDetailConfig orderDetail;
+  final ImagesConfig images;
+  final SettingsConfig settings;
 
   @override
   List<Object?> get props => [orderHistory, orderDetail, images, settings];
@@ -37,11 +36,6 @@ class AppConfig extends Equatable {
 
 /// Configuración de la página de historial de órdenes.
 class OrderHistoryConfig extends Equatable {
-  final String pageTitle;
-  final EmptyStateConfig emptyState;
-  final OrderCardConfig orderCard;
-  final ActionsConfig actions;
-
   const OrderHistoryConfig({
     required this.pageTitle,
     required this.emptyState,
@@ -61,6 +55,10 @@ class OrderHistoryConfig extends Equatable {
       actions: ActionsConfig.fromJson(json['actions'] as Map<String, dynamic>),
     );
   }
+  final String pageTitle;
+  final EmptyStateConfig emptyState;
+  final OrderCardConfig orderCard;
+  final ActionsConfig actions;
 
   @override
   List<Object?> get props => [pageTitle, emptyState, orderCard, actions];
@@ -68,10 +66,6 @@ class OrderHistoryConfig extends Equatable {
 
 /// Configuración del estado vacío.
 class EmptyStateConfig extends Equatable {
-  final String icon;
-  final String title;
-  final String description;
-
   const EmptyStateConfig({
     required this.icon,
     required this.title,
@@ -85,6 +79,9 @@ class EmptyStateConfig extends Equatable {
       description: json['description'] as String,
     );
   }
+  final String icon;
+  final String title;
+  final String description;
 
   @override
   List<Object?> get props => [icon, title, description];
@@ -92,12 +89,6 @@ class EmptyStateConfig extends Equatable {
 
 /// Configuración de las tarjetas de orden.
 class OrderCardConfig extends Equatable {
-  final String orderLabel;
-  final String dateLabel;
-  final String totalLabel;
-  final String itemsLabel;
-  final Map<String, String> statusLabels;
-
   const OrderCardConfig({
     required this.orderLabel,
     required this.dateLabel,
@@ -117,6 +108,11 @@ class OrderCardConfig extends Equatable {
       ),
     );
   }
+  final String orderLabel;
+  final String dateLabel;
+  final String totalLabel;
+  final String itemsLabel;
+  final Map<String, String> statusLabels;
 
   String getStatusLabel(String status) {
     return statusLabels[status] ?? status;
@@ -134,9 +130,6 @@ class OrderCardConfig extends Equatable {
 
 /// Configuración de acciones.
 class ActionsConfig extends Equatable {
-  final String viewDetails;
-  final String reorder;
-
   const ActionsConfig({required this.viewDetails, required this.reorder});
 
   factory ActionsConfig.fromJson(Map<String, dynamic> json) {
@@ -145,6 +138,8 @@ class ActionsConfig extends Equatable {
       reorder: json['reorder'] as String,
     );
   }
+  final String viewDetails;
+  final String reorder;
 
   @override
   List<Object?> get props => [viewDetails, reorder];
@@ -152,11 +147,6 @@ class ActionsConfig extends Equatable {
 
 /// Configuración de la página de detalle de orden.
 class OrderDetailConfig extends Equatable {
-  final String pageTitle;
-  final Map<String, String> sections;
-  final Map<String, String> labels;
-  final ShippingInfoConfig shippingInfo;
-
   const OrderDetailConfig({
     required this.pageTitle,
     required this.sections,
@@ -176,6 +166,10 @@ class OrderDetailConfig extends Equatable {
       ),
     );
   }
+  final String pageTitle;
+  final Map<String, String> sections;
+  final Map<String, String> labels;
+  final ShippingInfoConfig shippingInfo;
 
   @override
   List<Object?> get props => [pageTitle, sections, labels, shippingInfo];
@@ -183,10 +177,6 @@ class OrderDetailConfig extends Equatable {
 
 /// Configuración de información de envío.
 class ShippingInfoConfig extends Equatable {
-  final String title;
-  final String freeShipping;
-  final String estimatedDelivery;
-
   const ShippingInfoConfig({
     required this.title,
     required this.freeShipping,
@@ -200,6 +190,9 @@ class ShippingInfoConfig extends Equatable {
       estimatedDelivery: json['estimatedDelivery'] as String,
     );
   }
+  final String title;
+  final String freeShipping;
+  final String estimatedDelivery;
 
   @override
   List<Object?> get props => [title, freeShipping, estimatedDelivery];
@@ -207,9 +200,6 @@ class ShippingInfoConfig extends Equatable {
 
 /// Configuración de imágenes.
 class ImagesConfig extends Equatable {
-  final String emptyOrdersPlaceholder;
-  final String orderSuccessIcon;
-
   const ImagesConfig({
     required this.emptyOrdersPlaceholder,
     required this.orderSuccessIcon,
@@ -221,6 +211,8 @@ class ImagesConfig extends Equatable {
       orderSuccessIcon: json['orderSuccessIcon'] as String,
     );
   }
+  final String emptyOrdersPlaceholder;
+  final String orderSuccessIcon;
 
   @override
   List<Object?> get props => [emptyOrdersPlaceholder, orderSuccessIcon];
@@ -228,10 +220,6 @@ class ImagesConfig extends Equatable {
 
 /// Configuración general de la aplicación.
 class SettingsConfig extends Equatable {
-  final int maxOrdersToShow;
-  final String dateFormat;
-  final CurrencyConfig currency;
-
   const SettingsConfig({
     required this.maxOrdersToShow,
     required this.dateFormat,
@@ -247,6 +235,9 @@ class SettingsConfig extends Equatable {
       ),
     );
   }
+  final int maxOrdersToShow;
+  final String dateFormat;
+  final CurrencyConfig currency;
 
   @override
   List<Object?> get props => [maxOrdersToShow, dateFormat, currency];
@@ -254,10 +245,6 @@ class SettingsConfig extends Equatable {
 
 /// Configuración de moneda.
 class CurrencyConfig extends Equatable {
-  final String symbol;
-  final int decimalDigits;
-  final String locale;
-
   const CurrencyConfig({
     required this.symbol,
     required this.decimalDigits,
@@ -271,6 +258,9 @@ class CurrencyConfig extends Equatable {
       locale: json['locale'] as String,
     );
   }
+  final String symbol;
+  final int decimalDigits;
+  final String locale;
 
   @override
   List<Object?> get props => [symbol, decimalDigits, locale];

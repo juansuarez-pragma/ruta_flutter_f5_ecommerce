@@ -45,10 +45,9 @@ final class OrderHistoryLoading extends OrderHistoryState {
 
 /// Estado cargado con órdenes.
 final class OrderHistoryLoaded extends OrderHistoryState {
+  const OrderHistoryLoaded({required this.orders, required this.config});
   final List<Order> orders;
   final OrderHistoryConfig config;
-
-  const OrderHistoryLoaded({required this.orders, required this.config});
 
   bool get isEmpty => orders.isEmpty;
 
@@ -58,9 +57,8 @@ final class OrderHistoryLoaded extends OrderHistoryState {
 
 /// Estado de error.
 final class OrderHistoryError extends OrderHistoryState {
-  final String message;
-
   const OrderHistoryError(this.message);
+  final String message;
 
   @override
   List<Object?> get props => [message];
@@ -70,9 +68,6 @@ final class OrderHistoryError extends OrderHistoryState {
 
 /// BLoC para gestionar el historial de órdenes.
 class OrderHistoryBloc extends Bloc<OrderHistoryEvent, OrderHistoryState> {
-  final GetOrdersUseCase _getOrdersUseCase;
-  final AppConfig _appConfig;
-
   OrderHistoryBloc({
     required GetOrdersUseCase getOrdersUseCase,
     required AppConfig appConfig,
@@ -82,6 +77,8 @@ class OrderHistoryBloc extends Bloc<OrderHistoryEvent, OrderHistoryState> {
     on<OrderHistoryLoadRequested>(_onLoadRequested);
     on<OrderHistoryRefreshRequested>(_onRefreshRequested);
   }
+  final GetOrdersUseCase _getOrdersUseCase;
+  final AppConfig _appConfig;
 
   Future<void> _onLoadRequested(
     OrderHistoryLoadRequested event,

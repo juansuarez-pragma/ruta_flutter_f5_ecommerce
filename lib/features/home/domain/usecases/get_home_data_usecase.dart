@@ -4,18 +4,16 @@ import 'package:ecommerce/core/constants/app_constants.dart';
 
 /// Datos de la pantalla home.
 class HomeData {
+  const HomeData({required this.categories, required this.featuredProducts});
   final List<String> categories;
   final List<Product> featuredProducts;
-
-  const HomeData({required this.categories, required this.featuredProducts});
 }
 
 /// Caso de uso para obtener los datos del home.
 class GetHomeDataUseCase {
-  final ProductRepository _repository;
-
   GetHomeDataUseCase({required ProductRepository repository})
-      : _repository = repository;
+    : _repository = repository;
+  final ProductRepository _repository;
 
   /// Ejecuta el caso de uso.
   Future<Either<FakeStoreFailure, HomeData>> call() async {

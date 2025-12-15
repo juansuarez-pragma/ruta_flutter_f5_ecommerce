@@ -3,10 +3,9 @@ import 'package:ecommerce/features/orders/domain/repositories/order_repository.d
 
 /// Caso de uso para guardar una nueva orden.
 class SaveOrderUseCase {
-  final OrderRepository _repository;
-
   SaveOrderUseCase({required OrderRepository repository})
     : _repository = repository;
+  final OrderRepository _repository;
 
   /// Ejecuta el caso de uso.
   Future<void> call(Order order) async {

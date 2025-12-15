@@ -15,10 +15,9 @@ sealed class CheckoutEvent extends Equatable {
 }
 
 final class CheckoutSubmitted extends CheckoutEvent {
+  const CheckoutSubmitted({required this.cartItems, required this.totalPrice});
   final List<CartItem> cartItems;
   final double totalPrice;
-
-  const CheckoutSubmitted({required this.cartItems, required this.totalPrice});
 
   @override
   List<Object> get props => [cartItems, totalPrice];
@@ -41,18 +40,16 @@ final class CheckoutProcessing extends CheckoutState {
 }
 
 final class CheckoutSuccess extends CheckoutState {
-  final String orderId;
-
   const CheckoutSuccess(this.orderId);
+  final String orderId;
 
   @override
   List<Object> get props => [orderId];
 }
 
 final class CheckoutError extends CheckoutState {
-  final String message;
-
   const CheckoutError(this.message);
+  final String message;
 
   @override
   List<Object> get props => [message];
@@ -60,9 +57,6 @@ final class CheckoutError extends CheckoutState {
 
 /// BLoC para gestionar el estado del checkout.
 class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
-  final ClearCartUseCase _clearCartUseCase;
-  final SaveOrderUseCase _saveOrderUseCase;
-
   CheckoutBloc({
     required ClearCartUseCase clearCartUseCase,
     required SaveOrderUseCase saveOrderUseCase,
@@ -71,6 +65,8 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
        super(const CheckoutInitial()) {
     on<CheckoutSubmitted>(_onSubmitted);
   }
+  final ClearCartUseCase _clearCartUseCase;
+  final SaveOrderUseCase _saveOrderUseCase;
 
   Future<void> _onSubmitted(
     CheckoutSubmitted event,
@@ -101,7 +97,6 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
             .toList(),
         total: event.totalPrice,
         createdAt: DateTime.now(),
-        status: OrderStatus.completed,
       );
 
       await _saveOrderUseCase(order);

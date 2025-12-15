@@ -9,9 +9,7 @@ void main() {
     testWidgets('renders error message', (tester) async {
       await tester.pumpWidget(
         buildTestableWidget(
-          const DSErrorState(
-            message: 'Something went wrong',
-          ),
+          const DSErrorState(message: 'Something went wrong'),
         ),
       );
 
@@ -49,18 +47,17 @@ void main() {
       );
 
       expect(find.text('Error occurred'), findsOneWidget);
-      expect(find.text('Error code: 500 - Internal Server Error'),
-          findsOneWidget);
+      expect(
+        find.text('Error code: 500 - Internal Server Error'),
+        findsOneWidget,
+      );
     });
 
-    testWidgets('does not render retry button when onRetry is null',
-        (tester) async {
+    testWidgets('does not render retry button when onRetry is null', (
+      tester,
+    ) async {
       await tester.pumpWidget(
-        buildTestableWidget(
-          const DSErrorState(
-            message: 'Permanent error',
-          ),
-        ),
+        buildTestableWidget(const DSErrorState(message: 'Permanent error')),
       );
 
       expect(find.text('Permanent error'), findsOneWidget);
@@ -69,11 +66,7 @@ void main() {
 
     testWidgets('renders error icon', (tester) async {
       await tester.pumpWidget(
-        buildTestableWidget(
-          const DSErrorState(
-            message: 'Error with icon',
-          ),
-        ),
+        buildTestableWidget(const DSErrorState(message: 'Error with icon')),
       );
 
       // La DSErrorState debería mostrar un ícono de error

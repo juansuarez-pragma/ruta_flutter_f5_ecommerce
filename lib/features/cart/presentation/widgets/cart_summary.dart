@@ -5,17 +5,17 @@ import 'package:ecommerce/core/utils/extensions.dart';
 
 /// Resumen del carrito con subtotal, envío y total.
 class CartSummary extends StatelessWidget {
-  /// Subtotal del carrito.
-  final double subtotal;
-
-  /// Callback cuando se presiona el botón de checkout.
-  final VoidCallback onCheckout;
-
   const CartSummary({
     super.key,
     required this.subtotal,
     required this.onCheckout,
   });
+
+  /// Subtotal del carrito.
+  final double subtotal;
+
+  /// Callback cuando se presiona el botón de checkout.
+  final VoidCallback onCheckout;
 
   @override
   Widget build(BuildContext context) {

@@ -21,10 +21,9 @@ final class ProductsLoading extends ProductsState {
 
 /// Estado con productos cargados.
 final class ProductsLoaded extends ProductsState {
+  const ProductsLoaded({required this.products, this.category});
   final List<Product> products;
   final String? category;
-
-  const ProductsLoaded({required this.products, this.category});
 
   @override
   List<Object?> get props => [products, category];
@@ -32,9 +31,8 @@ final class ProductsLoaded extends ProductsState {
 
 /// Estado de error.
 final class ProductsError extends ProductsState {
-  final String message;
-
   const ProductsError(this.message);
+  final String message;
 
   @override
   List<Object> get props => [message];

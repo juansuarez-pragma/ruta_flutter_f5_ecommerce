@@ -40,8 +40,9 @@ void main() {
 
     test('should propagate exception from repository', () async {
       // Arrange
-      when(() => mockRepository.removeItem(any()))
-          .thenThrow(Exception('Item not found'));
+      when(
+        () => mockRepository.removeItem(any()),
+      ).thenThrow(Exception('Item not found'));
 
       // Act & Assert
       expect(() => useCase(1), throwsException);

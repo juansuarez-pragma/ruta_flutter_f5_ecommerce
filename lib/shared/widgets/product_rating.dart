@@ -5,6 +5,13 @@ import 'package:fake_store_design_system/fake_store_design_system.dart';
 ///
 /// Muestra una estrella con el rating y opcionalmente el número de reseñas.
 class DSProductRating extends StatelessWidget {
+  const DSProductRating({
+    super.key,
+    required this.rating,
+    this.reviewCount,
+    this.showReviewCount = true,
+  });
+
   /// Valor del rating (0-5).
   final double rating;
 
@@ -13,13 +20,6 @@ class DSProductRating extends StatelessWidget {
 
   /// Si debe mostrar el texto de reseñas.
   final bool showReviewCount;
-
-  const DSProductRating({
-    super.key,
-    required this.rating,
-    this.reviewCount,
-    this.showReviewCount = true,
-  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class DSProductRating extends StatelessWidget {
           color: tokens.colorFeedbackWarning,
         ),
         const SizedBox(width: DSSpacing.xs),
-        DSText(rating.toStringAsFixed(1), variant: DSTextVariant.bodyMedium),
+        DSText(rating.toStringAsFixed(1)),
         if (showReviewCount && reviewCount != null) ...[
           const SizedBox(width: DSSpacing.xs),
           DSText(

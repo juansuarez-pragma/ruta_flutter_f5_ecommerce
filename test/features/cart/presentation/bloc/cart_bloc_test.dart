@@ -48,8 +48,9 @@ void main() {
       blocTest<CartBloc, CartState>(
         'emits [CartLoading, CartLoaded] when load is successful',
         build: () {
-          when(() => mockGetCartUseCase())
-              .thenAnswer((_) async => CartItemFixtures.sampleCartItems);
+          when(
+            () => mockGetCartUseCase(),
+          ).thenAnswer((_) async => CartItemFixtures.sampleCartItems);
           return cartBloc;
         },
         act: (bloc) => bloc.add(const CartLoadRequested()),
@@ -69,24 +70,19 @@ void main() {
           return cartBloc;
         },
         act: (bloc) => bloc.add(const CartLoadRequested()),
-        expect: () => [
-          const CartLoading(),
-          const CartLoaded(items: []),
-        ],
+        expect: () => [const CartLoading(), const CartLoaded(items: [])],
       );
 
       blocTest<CartBloc, CartState>(
         'emits [CartLoading, CartError] when load fails',
         build: () {
-          when(() => mockGetCartUseCase())
-              .thenThrow(Exception('Storage error'));
+          when(
+            () => mockGetCartUseCase(),
+          ).thenThrow(Exception('Storage error'));
           return cartBloc;
         },
         act: (bloc) => bloc.add(const CartLoadRequested()),
-        expect: () => [
-          const CartLoading(),
-          isA<CartError>(),
-        ],
+        expect: () => [const CartLoading(), isA<CartError>()],
       );
     });
 
@@ -95,17 +91,14 @@ void main() {
         'emits [CartLoaded] when item is added successfully',
         build: () {
           when(() => mockAddToCartUseCase(any())).thenAnswer((_) async {});
-          when(() => mockGetCartUseCase())
-              .thenAnswer((_) async => CartItemFixtures.sampleCartItems);
+          when(
+            () => mockGetCartUseCase(),
+          ).thenAnswer((_) async => CartItemFixtures.sampleCartItems);
           return cartBloc;
         },
-        act: (bloc) => bloc.add(CartItemAdded(
-          product: ProductFixtures.sampleProduct,
-          quantity: 1,
-        )),
-        expect: () => [
-          CartLoaded(items: CartItemFixtures.sampleCartItems),
-        ],
+        act: (bloc) =>
+            bloc.add(CartItemAdded(product: ProductFixtures.sampleProduct)),
+        expect: () => [CartLoaded(items: CartItemFixtures.sampleCartItems)],
         verify: (_) {
           verify(() => mockAddToCartUseCase(any())).called(1);
           verify(() => mockGetCartUseCase()).called(1);
@@ -115,13 +108,13 @@ void main() {
       blocTest<CartBloc, CartState>(
         'emits [CartError] when adding item fails',
         build: () {
-          when(() => mockAddToCartUseCase(any()))
-              .thenThrow(Exception('Add error'));
+          when(
+            () => mockAddToCartUseCase(any()),
+          ).thenThrow(Exception('Add error'));
           return cartBloc;
         },
-        act: (bloc) => bloc.add(CartItemAdded(
-          product: ProductFixtures.sampleProduct,
-        )),
+        act: (bloc) =>
+            bloc.add(CartItemAdded(product: ProductFixtures.sampleProduct)),
         expect: () => [isA<CartError>()],
       );
     });
@@ -130,8 +123,7 @@ void main() {
       blocTest<CartBloc, CartState>(
         'emits [CartLoaded] when item is removed successfully',
         build: () {
-          when(() => mockRemoveFromCartUseCase(any()))
-              .thenAnswer((_) async {});
+          when(() => mockRemoveFromCartUseCase(any())).thenAnswer((_) async {});
           when(() => mockGetCartUseCase()).thenAnswer((_) async => []);
           return cartBloc;
         },
@@ -146,8 +138,9 @@ void main() {
       blocTest<CartBloc, CartState>(
         'emits [CartError] when removing item fails',
         build: () {
-          when(() => mockRemoveFromCartUseCase(any()))
-              .thenThrow(Exception('Remove error'));
+          when(
+            () => mockRemoveFromCartUseCase(any()),
+          ).thenThrow(Exception('Remove error'));
           return cartBloc;
         },
         act: (bloc) => bloc.add(const CartItemRemoved(1)),
@@ -159,19 +152,17 @@ void main() {
       blocTest<CartBloc, CartState>(
         'emits [CartLoaded] when quantity is updated successfully',
         build: () {
-          when(() => mockUpdateCartQuantityUseCase(any(), any()))
-              .thenAnswer((_) async {});
-          when(() => mockGetCartUseCase())
-              .thenAnswer((_) async => CartItemFixtures.sampleCartItems);
+          when(
+            () => mockUpdateCartQuantityUseCase(any(), any()),
+          ).thenAnswer((_) async {});
+          when(
+            () => mockGetCartUseCase(),
+          ).thenAnswer((_) async => CartItemFixtures.sampleCartItems);
           return cartBloc;
         },
-        act: (bloc) => bloc.add(const CartItemQuantityUpdated(
-          productId: 1,
-          quantity: 5,
-        )),
-        expect: () => [
-          CartLoaded(items: CartItemFixtures.sampleCartItems),
-        ],
+        act: (bloc) =>
+            bloc.add(const CartItemQuantityUpdated(productId: 1, quantity: 5)),
+        expect: () => [CartLoaded(items: CartItemFixtures.sampleCartItems)],
         verify: (_) {
           verify(() => mockUpdateCartQuantityUseCase(1, 5)).called(1);
           verify(() => mockGetCartUseCase()).called(1);
@@ -181,14 +172,13 @@ void main() {
       blocTest<CartBloc, CartState>(
         'emits [CartError] when updating quantity fails',
         build: () {
-          when(() => mockUpdateCartQuantityUseCase(any(), any()))
-              .thenThrow(Exception('Update error'));
+          when(
+            () => mockUpdateCartQuantityUseCase(any(), any()),
+          ).thenThrow(Exception('Update error'));
           return cartBloc;
         },
-        act: (bloc) => bloc.add(const CartItemQuantityUpdated(
-          productId: 1,
-          quantity: 5,
-        )),
+        act: (bloc) =>
+            bloc.add(const CartItemQuantityUpdated(productId: 1, quantity: 5)),
         expect: () => [isA<CartError>()],
       );
     });
@@ -210,8 +200,9 @@ void main() {
       blocTest<CartBloc, CartState>(
         'emits [CartError] when clearing cart fails',
         build: () {
-          when(() => mockClearCartUseCase())
-              .thenThrow(Exception('Clear error'));
+          when(
+            () => mockClearCartUseCase(),
+          ).thenThrow(Exception('Clear error'));
           return cartBloc;
         },
         act: (bloc) => bloc.add(const CartCleared()),

@@ -3,10 +3,9 @@ import 'package:ecommerce/features/orders/domain/repositories/order_repository.d
 
 /// Caso de uso para obtener una orden por ID.
 class GetOrderByIdUseCase {
-  final OrderRepository _repository;
-
   GetOrderByIdUseCase({required OrderRepository repository})
     : _repository = repository;
+  final OrderRepository _repository;
 
   /// Ejecuta el caso de uso.
   Future<Order?> call(String orderId) async {

@@ -6,10 +6,10 @@ import 'package:ecommerce/core/utils/extensions.dart';
 
 /// Sección de categorías para el home.
 class CategoriesSection extends StatelessWidget {
+  const CategoriesSection({super.key, required this.categories});
+
   /// Lista de categorías.
   final List<String> categories;
-
-  const CategoriesSection({super.key, required this.categories});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,6 @@ class CategoriesSection extends StatelessWidget {
               final category = categories[index];
               return DSFilterChip(
                 label: category.titleCase,
-                isSelected: false,
                 onTap: () => Navigator.pushNamed(
                   context,
                   Routes.products,

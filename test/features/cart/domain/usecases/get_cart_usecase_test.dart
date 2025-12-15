@@ -17,8 +17,9 @@ void main() {
     test('should return cart items from repository', () async {
       // Arrange
       final cartItems = CartItemFixtures.sampleCartItems;
-      when(() => mockRepository.getCartItems())
-          .thenAnswer((_) async => cartItems);
+      when(
+        () => mockRepository.getCartItems(),
+      ).thenAnswer((_) async => cartItems);
 
       // Act
       final result = await useCase();
@@ -43,8 +44,9 @@ void main() {
 
     test('should propagate exception from repository', () async {
       // Arrange
-      when(() => mockRepository.getCartItems())
-          .thenThrow(Exception('Storage error'));
+      when(
+        () => mockRepository.getCartItems(),
+      ).thenThrow(Exception('Storage error'));
 
       // Act & Assert
       expect(() => useCase(), throwsException);

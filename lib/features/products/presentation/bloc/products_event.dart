@@ -10,10 +10,10 @@ sealed class ProductsEvent extends Equatable {
 
 /// Solicita cargar productos.
 final class ProductsLoadRequested extends ProductsEvent {
+  const ProductsLoadRequested({this.category});
+
   /// Categoría opcional para filtrar.
   final String? category;
-
-  const ProductsLoadRequested({this.category});
 
   @override
   List<Object?> get props => [category];

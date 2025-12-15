@@ -5,10 +5,9 @@ import 'package:ecommerce/features/orders/domain/repositories/order_repository.d
 
 /// Implementación del repositorio de órdenes.
 class OrderRepositoryImpl implements OrderRepository {
-  final OrderLocalDataSource _localDataSource;
-
   OrderRepositoryImpl({required OrderLocalDataSource localDataSource})
     : _localDataSource = localDataSource;
+  final OrderLocalDataSource _localDataSource;
 
   @override
   Future<List<Order>> getOrders() async {

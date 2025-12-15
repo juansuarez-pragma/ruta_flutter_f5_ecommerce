@@ -2,10 +2,9 @@ import 'package:fake_store_api_client/fake_store_api_client.dart';
 
 /// Caso de uso para buscar productos.
 class SearchProductsUseCase {
-  final ProductRepository _repository;
-
   SearchProductsUseCase({required ProductRepository repository})
-      : _repository = repository;
+    : _repository = repository;
+  final ProductRepository _repository;
 
   /// Ejecuta el caso de uso.
   ///

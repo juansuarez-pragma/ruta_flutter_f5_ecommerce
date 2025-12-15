@@ -10,6 +10,17 @@ import 'package:ecommerce/features/cart/cart.dart';
 /// Proporciona la estructura base para las pantallas principales
 /// de la aplicación con bottom navigation bar.
 class AppScaffold extends StatelessWidget {
+  const AppScaffold({
+    super.key,
+    required this.body,
+    required this.currentIndex,
+    this.title,
+    this.actions,
+    this.showBottomNav = true,
+    this.floatingActionButton,
+    this.leading,
+  });
+
   /// Widget del cuerpo de la pantalla.
   final Widget body;
 
@@ -30,17 +41,6 @@ class AppScaffold extends StatelessWidget {
 
   /// Widget leading opcional para el AppBar.
   final Widget? leading;
-
-  const AppScaffold({
-    super.key,
-    required this.body,
-    required this.currentIndex,
-    this.title,
-    this.actions,
-    this.showBottomNav = true,
-    this.floatingActionButton,
-    this.leading,
-  });
 
   @override
   Widget build(BuildContext context) {

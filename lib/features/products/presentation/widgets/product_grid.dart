@@ -6,17 +6,17 @@ import 'package:ecommerce/core/router/routes.dart';
 
 /// Grid de productos usando DSProductCard.
 class ProductGrid extends StatelessWidget {
-  /// Lista de productos a mostrar.
-  final List<Product> products;
-
-  /// Número de columnas del grid.
-  final int crossAxisCount;
-
   const ProductGrid({
     super.key,
     required this.products,
     this.crossAxisCount = 2,
   });
+
+  /// Lista de productos a mostrar.
+  final List<Product> products;
+
+  /// Número de columnas del grid.
+  final int crossAxisCount;
 
   @override
   Widget build(BuildContext context) {

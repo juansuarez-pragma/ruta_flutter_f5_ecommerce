@@ -17,10 +17,9 @@ abstract class CartLocalDataSource {
 
 /// Implementación del datasource local usando SharedPreferences.
 class CartLocalDataSourceImpl implements CartLocalDataSource {
-  final SharedPreferences _sharedPreferences;
-
   CartLocalDataSourceImpl({required SharedPreferences sharedPreferences})
     : _sharedPreferences = sharedPreferences;
+  final SharedPreferences _sharedPreferences;
 
   @override
   Future<List<CartItemModel>> getItems() async {

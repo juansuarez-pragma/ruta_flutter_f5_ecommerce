@@ -8,11 +8,7 @@ void main() {
   group('DSCard', () {
     testWidgets('renders child content correctly', (tester) async {
       await tester.pumpWidget(
-        buildTestableWidget(
-          const DSCard(
-            child: Text('Card Content'),
-          ),
-        ),
+        buildTestableWidget(const DSCard(child: Text('Card Content'))),
       );
 
       expect(find.text('Card Content'), findsOneWidget);
@@ -51,10 +47,7 @@ void main() {
     testWidgets('applies custom borderRadius', (tester) async {
       await tester.pumpWidget(
         buildTestableWidget(
-          const DSCard(
-            borderRadius: 16.0,
-            child: Text('Rounded Card'),
-          ),
+          const DSCard(borderRadius: 16.0, child: Text('Rounded Card')),
         ),
       );
 
@@ -64,10 +57,7 @@ void main() {
     testWidgets('applies custom elevation', (tester) async {
       await tester.pumpWidget(
         buildTestableWidget(
-          const DSCard(
-            elevation: 4,
-            child: Text('Elevated Card'),
-          ),
+          const DSCard(elevation: 4, child: Text('Elevated Card')),
         ),
       );
 
@@ -77,13 +67,9 @@ void main() {
     testWidgets('renders complex child widgets', (tester) async {
       await tester.pumpWidget(
         buildTestableWidget(
-          DSCard(
+          const DSCard(
             child: Column(
-              children: const [
-                Text('Title'),
-                Text('Subtitle'),
-                Icon(Icons.star),
-              ],
+              children: [Text('Title'), Text('Subtitle'), Icon(Icons.star)],
             ),
           ),
         ),

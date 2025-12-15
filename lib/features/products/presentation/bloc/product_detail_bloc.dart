@@ -13,9 +13,8 @@ sealed class ProductDetailEvent extends Equatable {
 }
 
 final class ProductDetailLoadRequested extends ProductDetailEvent {
-  final int productId;
-
   const ProductDetailLoadRequested(this.productId);
+  final int productId;
 
   @override
   List<Object> get props => [productId];
@@ -38,18 +37,16 @@ final class ProductDetailLoading extends ProductDetailState {
 }
 
 final class ProductDetailLoaded extends ProductDetailState {
-  final Product product;
-
   const ProductDetailLoaded(this.product);
+  final Product product;
 
   @override
   List<Object> get props => [product];
 }
 
 final class ProductDetailError extends ProductDetailState {
-  final String message;
-
   const ProductDetailError(this.message);
+  final String message;
 
   @override
   List<Object> get props => [message];
@@ -57,13 +54,12 @@ final class ProductDetailError extends ProductDetailState {
 
 /// BLoC para gestionar el estado del detalle de producto.
 class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
-  final GetProductByIdUseCase _getProductByIdUseCase;
-
   ProductDetailBloc({required GetProductByIdUseCase getProductByIdUseCase})
     : _getProductByIdUseCase = getProductByIdUseCase,
       super(const ProductDetailInitial()) {
     on<ProductDetailLoadRequested>(_onLoadRequested);
   }
+  final GetProductByIdUseCase _getProductByIdUseCase;
 
   Future<void> _onLoadRequested(
     ProductDetailLoadRequested event,

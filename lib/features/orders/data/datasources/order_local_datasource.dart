@@ -21,12 +21,11 @@ abstract class OrderLocalDataSource {
 
 /// Implementación de OrderLocalDataSource.
 class OrderLocalDataSourceImpl implements OrderLocalDataSource {
+  OrderLocalDataSourceImpl({required SharedPreferences sharedPreferences})
+    : _sharedPreferences = sharedPreferences;
   static const String _ordersKey = 'orders_history';
 
   final SharedPreferences _sharedPreferences;
-
-  OrderLocalDataSourceImpl({required SharedPreferences sharedPreferences})
-    : _sharedPreferences = sharedPreferences;
 
   @override
   Future<List<OrderModel>> getOrders() async {

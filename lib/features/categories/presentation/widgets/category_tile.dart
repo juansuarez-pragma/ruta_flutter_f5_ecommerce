@@ -5,13 +5,13 @@ import 'package:ecommerce/core/utils/extensions.dart';
 
 /// Tile para mostrar una categoría.
 class CategoryTile extends StatelessWidget {
+  const CategoryTile({super.key, required this.category, required this.onTap});
+
   /// Nombre de la categoría.
   final String category;
 
   /// Callback cuando se toca la categoría.
   final VoidCallback onTap;
-
-  const CategoryTile({super.key, required this.category, required this.onTap});
 
   @override
   Widget build(BuildContext context) {

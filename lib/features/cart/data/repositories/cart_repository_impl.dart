@@ -7,10 +7,9 @@ import 'package:ecommerce/features/cart/data/models/cart_item_model.dart';
 ///
 /// Gestiona el carrito usando el datasource local.
 class CartRepositoryImpl implements CartRepository {
-  final CartLocalDataSource _localDataSource;
-
   CartRepositoryImpl({required CartLocalDataSource localDataSource})
     : _localDataSource = localDataSource;
+  final CartLocalDataSource _localDataSource;
 
   @override
   Future<List<CartItem>> getCartItems() async {

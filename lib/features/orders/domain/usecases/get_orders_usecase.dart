@@ -3,10 +3,9 @@ import 'package:ecommerce/features/orders/domain/repositories/order_repository.d
 
 /// Caso de uso para obtener el historial de órdenes.
 class GetOrdersUseCase {
-  final OrderRepository _repository;
-
   GetOrdersUseCase({required OrderRepository repository})
     : _repository = repository;
+  final OrderRepository _repository;
 
   /// Ejecuta el caso de uso.
   Future<List<Order>> call() async {

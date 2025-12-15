@@ -16,36 +16,38 @@ void main() {
   });
 
   group('GetHomeDataUseCase', () {
-    test('should return HomeData with categories and featured products',
-        () async {
-      // Arrange
-      final categories = ProductFixtures.sampleCategories;
-      final products = ProductFixtures.sampleProducts;
-      when(() => mockRepository.getAllCategories())
-          .thenAnswer((_) async => Right(categories));
-      when(() => mockRepository.getAllProducts())
-          .thenAnswer((_) async => Right(products));
+    test(
+      'should return HomeData with categories and featured products',
+      () async {
+        // Arrange
+        final categories = ProductFixtures.sampleCategories;
+        final products = ProductFixtures.sampleProducts;
+        when(
+          () => mockRepository.getAllCategories(),
+        ).thenAnswer((_) async => Right(categories));
+        when(
+          () => mockRepository.getAllProducts(),
+        ).thenAnswer((_) async => Right(products));
 
-      // Act
-      final result = await useCase();
+        // Act
+        final result = await useCase();
 
-      // Assert
-      expect(result, isRight);
-      result.fold(
-        (failure) => fail('Should not return failure'),
-        (homeData) {
+        // Assert
+        expect(result, isRight);
+        result.fold((failure) => fail('Should not return failure'), (homeData) {
           expect(homeData.categories, equals(categories));
           expect(homeData.featuredProducts.length, lessThanOrEqualTo(8));
-        },
-      );
-      verify(() => mockRepository.getAllCategories()).called(1);
-      verify(() => mockRepository.getAllProducts()).called(1);
-    });
+        });
+        verify(() => mockRepository.getAllCategories()).called(1);
+        verify(() => mockRepository.getAllProducts()).called(1);
+      },
+    );
 
     test('should return failure when categories fetch fails', () async {
       // Arrange
-      when(() => mockRepository.getAllCategories())
-          .thenAnswer((_) async => const Left(ConnectionFailure()));
+      when(
+        () => mockRepository.getAllCategories(),
+      ).thenAnswer((_) async => const Left(ConnectionFailure()));
 
       // Act
       final result = await useCase();
@@ -63,10 +65,12 @@ void main() {
     test('should return failure when products fetch fails', () async {
       // Arrange
       final categories = ProductFixtures.sampleCategories;
-      when(() => mockRepository.getAllCategories())
-          .thenAnswer((_) async => Right(categories));
-      when(() => mockRepository.getAllProducts())
-          .thenAnswer((_) async => const Left(ServerFailure()));
+      when(
+        () => mockRepository.getAllCategories(),
+      ).thenAnswer((_) async => Right(categories));
+      when(
+        () => mockRepository.getAllProducts(),
+      ).thenAnswer((_) async => const Left(ServerFailure()));
 
       // Act
       final result = await useCase();

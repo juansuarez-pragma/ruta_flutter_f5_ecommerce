@@ -38,8 +38,9 @@ void main() {
 
     test('should propagate exception from repository', () async {
       // Arrange
-      when(() => mockRepository.clearCart())
-          .thenThrow(Exception('Storage error'));
+      when(
+        () => mockRepository.clearCart(),
+      ).thenThrow(Exception('Storage error'));
 
       // Act & Assert
       expect(() => useCase(), throwsException);

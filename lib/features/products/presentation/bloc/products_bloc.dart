@@ -7,9 +7,6 @@ import 'package:ecommerce/features/products/presentation/bloc/products_state.dar
 
 /// BLoC para gestionar el estado de productos.
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
-  final GetProductsUseCase _getProductsUseCase;
-  final GetProductsByCategoryUseCase _getProductsByCategoryUseCase;
-
   ProductsBloc({
     required GetProductsUseCase getProductsUseCase,
     required GetProductsByCategoryUseCase getProductsByCategoryUseCase,
@@ -19,6 +16,8 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     on<ProductsLoadRequested>(_onLoadRequested);
     on<ProductsRefreshRequested>(_onRefreshRequested);
   }
+  final GetProductsUseCase _getProductsUseCase;
+  final GetProductsByCategoryUseCase _getProductsByCategoryUseCase;
 
   Future<void> _onLoadRequested(
     ProductsLoadRequested event,

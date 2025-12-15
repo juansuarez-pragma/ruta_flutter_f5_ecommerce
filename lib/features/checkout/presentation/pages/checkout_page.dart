@@ -43,7 +43,7 @@ class _CheckoutPageContent extends StatelessWidget {
         }
       },
       child: Scaffold(
-        appBar: DSAppBar(title: 'Checkout'),
+        appBar: const DSAppBar(title: 'Checkout'),
         body: BlocBuilder<CartBloc, CartState>(
           builder: (context, cartState) {
             if (cartState is! CartLoaded || cartState.isEmpty) {
@@ -86,16 +86,12 @@ class _CheckoutPageContent extends StatelessWidget {
                                         Expanded(
                                           child: DSText(
                                             '${item.quantity}x ${item.product.title}',
-                                            variant: DSTextVariant.bodyMedium,
                                             maxLines: 2,
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
                                         const SizedBox(width: DSSpacing.sm),
-                                        DSText(
-                                          item.totalPrice.toCurrency,
-                                          variant: DSTextVariant.bodyMedium,
-                                        ),
+                                        DSText(item.totalPrice.toCurrency),
                                       ],
                                     ),
                                   ),

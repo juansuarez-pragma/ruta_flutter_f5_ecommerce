@@ -9,9 +9,7 @@ void main() {
     testWidgets('renders title text', (tester) async {
       await tester.pumpWidget(
         buildTestableScaffold(
-          appBar: const DSAppBar(
-            title: 'Test Title',
-          ),
+          appBar: const DSAppBar(title: 'Test Title'),
           body: const SizedBox.shrink(),
         ),
       );
@@ -32,10 +30,7 @@ void main() {
                 icon: Icons.search,
                 onPressed: () => wasPressed = true,
               ),
-              DSIconButton(
-                icon: Icons.shopping_cart,
-                onPressed: () {},
-              ),
+              DSIconButton(icon: Icons.shopping_cart, onPressed: () {}),
             ],
           ),
           body: const SizedBox.shrink(),
@@ -53,11 +48,9 @@ void main() {
       await tester.pumpWidget(
         buildTestableApp(
           home: Builder(
-            builder: (context) => Scaffold(
-              appBar: const DSAppBar(
-                title: 'Detail Page',
-              ),
-              body: const SizedBox.shrink(),
+            builder: (context) => const Scaffold(
+              appBar: DSAppBar(title: 'Detail Page'),
+              body: SizedBox.shrink(),
             ),
           ),
         ),
@@ -89,10 +82,7 @@ void main() {
         buildTestableScaffold(
           appBar: DSAppBar(
             title: 'With Leading',
-            leading: DSIconButton(
-              icon: Icons.menu,
-              onPressed: () {},
-            ),
+            leading: DSIconButton(icon: Icons.menu, onPressed: () {}),
           ),
           body: const SizedBox.shrink(),
         ),

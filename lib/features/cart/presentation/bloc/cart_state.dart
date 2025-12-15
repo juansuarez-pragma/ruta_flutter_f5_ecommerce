@@ -22,9 +22,8 @@ final class CartLoading extends CartState {
 
 /// Estado con el carrito cargado.
 final class CartLoaded extends CartState {
-  final List<CartItem> items;
-
   const CartLoaded({required this.items});
+  final List<CartItem> items;
 
   /// Número total de items en el carrito.
   int get totalItems => items.fold(0, (sum, item) => sum + item.quantity);
@@ -42,9 +41,8 @@ final class CartLoaded extends CartState {
 
 /// Estado de error del carrito.
 final class CartError extends CartState {
-  final String message;
-
   const CartError(this.message);
+  final String message;
 
   @override
   List<Object> get props => [message];
