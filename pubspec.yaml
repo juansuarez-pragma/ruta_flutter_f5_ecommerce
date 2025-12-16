@@ -37,8 +37,13 @@ dependencies:
   # Utilidades funcionales
   dartz: ^0.10.1
 
+  # Generación de UUIDs
+  uuid: ^4.5.1
+
 dev_dependencies:
   flutter_test:
+    sdk: flutter
+  integration_test:
     sdk: flutter
   flutter_lints: ^5.0.0
   bloc_test: ^9.1.7

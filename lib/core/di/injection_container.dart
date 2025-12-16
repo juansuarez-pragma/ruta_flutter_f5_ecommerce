@@ -10,6 +10,7 @@ import 'package:ecommerce/features/cart/cart.dart';
 import 'package:ecommerce/features/checkout/checkout.dart';
 import 'package:ecommerce/features/search/search.dart';
 import 'package:ecommerce/features/orders/orders.dart';
+import 'package:ecommerce/features/auth/auth.dart';
 
 /// Instancia global del contenedor de dependencias.
 final sl = GetIt.instance;
@@ -41,6 +42,9 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<OrderLocalDataSource>(
     () => OrderLocalDataSourceImpl(sharedPreferences: sl()),
   );
+  sl.registerLazySingleton<AuthLocalDataSource>(
+    () => AuthLocalDataSourceImpl(sharedPreferences: sl()),
+  );
 
   // ============ Repositories ============
   sl.registerLazySingleton<CartRepository>(
@@ -48,6 +52,9 @@ Future<void> initDependencies() async {
   );
   sl.registerLazySingleton<OrderRepository>(
     () => OrderRepositoryImpl(localDataSource: sl()),
+  );
+  sl.registerLazySingleton<AuthRepository>(
+    () => AuthRepositoryImpl(localDataSource: sl()),
   );
 
   // ============ UseCases - Products ============
@@ -70,6 +77,12 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton(() => GetOrdersUseCase(repository: sl()));
   sl.registerLazySingleton(() => SaveOrderUseCase(repository: sl()));
   sl.registerLazySingleton(() => GetOrderByIdUseCase(repository: sl()));
+
+  // ============ UseCases - Auth ============
+  sl.registerLazySingleton(() => LoginUseCase(repository: sl()));
+  sl.registerLazySingleton(() => RegisterUseCase(repository: sl()));
+  sl.registerLazySingleton(() => LogoutUseCase(repository: sl()));
+  sl.registerLazySingleton(() => GetCurrentUserUseCase(repository: sl()));
 
   // ============ BLoCs ============
   sl.registerFactory(
@@ -105,6 +118,15 @@ Future<void> initDependencies() async {
 
   sl.registerFactory(
     () => OrderHistoryBloc(getOrdersUseCase: sl(), appConfig: sl()),
+  );
+
+  sl.registerFactory(
+    () => AuthBloc(
+      loginUseCase: sl(),
+      registerUseCase: sl(),
+      logoutUseCase: sl(),
+      getCurrentUserUseCase: sl(),
+    ),
   );
 }
 

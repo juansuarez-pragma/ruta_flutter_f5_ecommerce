@@ -4,8 +4,17 @@
 class Routes {
   Routes._();
 
-  /// Ruta de la pantalla principal.
-  static const String home = '/';
+  /// Ruta de verificación de autenticación (splash/inicial).
+  static const String authWrapper = '/';
+
+  /// Ruta de inicio de sesión.
+  static const String login = '/login';
+
+  /// Ruta de registro.
+  static const String register = '/register';
+
+  /// Ruta de la pantalla principal (home después de autenticación).
+  static const String home = '/home';
 
   /// Ruta del listado de productos.
   static const String products = '/products';

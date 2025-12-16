@@ -7,7 +7,9 @@ import 'package:ecommerce/features/cart/cart.dart';
 import 'package:ecommerce/features/checkout/checkout.dart';
 import 'package:ecommerce/features/search/search.dart';
 import 'package:ecommerce/features/orders/orders.dart';
+import 'package:ecommerce/features/auth/auth.dart';
 import 'package:ecommerce/core/router/routes.dart';
+import 'package:ecommerce/core/router/auth_wrapper.dart';
 
 /// Configuración del router de la aplicación.
 ///
@@ -18,6 +20,24 @@ class AppRouter {
   /// Genera la ruta correspondiente basada en la configuración.
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case Routes.authWrapper:
+        return MaterialPageRoute(
+          builder: (_) => const AuthWrapper(),
+          settings: settings,
+        );
+
+      case Routes.login:
+        return MaterialPageRoute(
+          builder: (_) => const LoginPage(),
+          settings: settings,
+        );
+
+      case Routes.register:
+        return MaterialPageRoute(
+          builder: (_) => const RegisterPage(),
+          settings: settings,
+        );
+
       case Routes.home:
         return MaterialPageRoute(
           builder: (_) => const HomePage(),

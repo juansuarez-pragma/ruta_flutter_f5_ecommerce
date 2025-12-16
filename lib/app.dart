@@ -7,6 +7,7 @@ import 'package:ecommerce/core/router/routes.dart';
 import 'package:ecommerce/core/theme/app_theme.dart';
 import 'package:ecommerce/features/cart/presentation/bloc/cart_bloc.dart';
 import 'package:ecommerce/features/cart/presentation/bloc/cart_event.dart';
+import 'package:ecommerce/features/auth/auth.dart';
 
 /// Widget raíz de la aplicación.
 ///
@@ -22,6 +23,10 @@ class EcommerceApp extends StatelessWidget {
         BlocProvider(
           create: (_) => sl<CartBloc>()..add(const CartLoadRequested()),
         ),
+        // AuthBloc es global para gestionar estado de autenticación
+        BlocProvider(
+          create: (_) => sl<AuthBloc>()..add(const AuthCheckRequested()),
+        ),
       ],
       child: MaterialApp(
         title: 'Fake Store',
@@ -29,7 +34,7 @@ class EcommerceApp extends StatelessWidget {
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         onGenerateRoute: AppRouter.onGenerateRoute,
-        initialRoute: Routes.home,
+        initialRoute: Routes.authWrapper,
       ),
     );
   }
