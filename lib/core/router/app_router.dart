@@ -9,6 +9,7 @@ import 'package:ecommerce/features/search/search.dart';
 import 'package:ecommerce/features/orders/orders.dart';
 import 'package:ecommerce/features/auth/auth.dart';
 import 'package:ecommerce/features/support/support.dart';
+import 'package:ecommerce/features/profile/profile.dart';
 import 'package:ecommerce/core/router/routes.dart';
 import 'package:ecommerce/core/router/auth_wrapper.dart';
 
@@ -98,6 +99,12 @@ class AppRouter {
       case Routes.contact:
         return MaterialPageRoute(
           builder: (_) => const ContactPage(),
+          settings: settings,
+        );
+
+      case Routes.profile:
+        return MaterialPageRoute(
+          builder: (_) => const ProfilePage(),
           settings: settings,
         );
 

@@ -46,6 +46,9 @@ class Routes {
   /// Ruta de contacto con soporte.
   static const String contact = '/contact';
 
+  /// Ruta de perfil de usuario.
+  static const String profile = '/profile';
+
   /// Genera la ruta para el detalle de un producto.
   static String productDetailPath(int id) => '/product/$id';
 }
