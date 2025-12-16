@@ -27,8 +27,6 @@ class _ProfilePageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tokens = context.tokens;
-
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthUnauthenticated) {
@@ -107,7 +105,7 @@ class _AuthenticatedProfile extends StatelessWidget {
                 DSText(
                   user.email,
                   variant: DSTextVariant.bodyMedium,
-                  color: DSColors.whiteAlpha87,
+                  color: DSColors.white.withOpacity(0.87),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: DSSpacing.xs),
@@ -116,7 +114,7 @@ class _AuthenticatedProfile extends StatelessWidget {
                 DSText(
                   '@${user.username}',
                   variant: DSTextVariant.bodySmall,
-                  color: DSColors.whiteAlpha60,
+                  color: DSColors.white.withOpacity(0.60),
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -181,7 +179,7 @@ class _AuthenticatedProfile extends StatelessWidget {
                       children: [
                         DSText(
                           'Información de la cuenta',
-                          variant: DSTextVariant.bodyLargeBold,
+                          variant: DSTextVariant.titleSmall,
                           color: tokens.colorTextPrimary,
                         ),
                         const SizedBox(height: DSSpacing.sm),
@@ -335,7 +333,7 @@ class _ProfileOption extends StatelessWidget {
                 height: 48,
                 decoration: BoxDecoration(
                   color: tokens.colorBrandPrimaryLight,
-                  borderRadius: BorderRadius.circular(DSBorderRadius.smRadius),
+                  borderRadius: BorderRadius.circular(DSBorderRadius.sm),
                 ),
                 child: Icon(
                   icon,
@@ -349,7 +347,7 @@ class _ProfileOption extends StatelessWidget {
                   children: [
                     DSText(
                       title,
-                      variant: DSTextVariant.bodyLargeBold,
+                      variant: DSTextVariant.titleSmall,
                       color: tokens.colorTextPrimary,
                     ),
                     const SizedBox(height: 2),
@@ -396,7 +394,7 @@ class _InfoRow extends StatelessWidget {
         ),
         DSText(
           value,
-          variant: DSTextVariant.bodyMediumBold,
+          variant: DSTextVariant.titleSmall,
           color: tokens.colorTextPrimary,
         ),
       ],

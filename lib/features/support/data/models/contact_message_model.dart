@@ -23,18 +23,6 @@ class ContactMessageModel extends ContactMessage {
     );
   }
 
-  /// Convierte la instancia a JSON.
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'email': email,
-      'subject': subject,
-      'message': message,
-      'timestamp': timestamp.toIso8601String(),
-    };
-  }
-
   /// Crea una instancia desde una entidad del dominio.
   factory ContactMessageModel.fromEntity(ContactMessage entity) {
     return ContactMessageModel(
@@ -45,6 +33,18 @@ class ContactMessageModel extends ContactMessage {
       message: entity.message,
       timestamp: entity.timestamp,
     );
+  }
+
+  /// Convierte la instancia a JSON.
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'email': email,
+      'subject': subject,
+      'message': message,
+      'timestamp': timestamp.toIso8601String(),
+    };
   }
 
   /// Convierte el modelo a entidad del dominio.

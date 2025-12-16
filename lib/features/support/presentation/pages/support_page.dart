@@ -24,8 +24,6 @@ class _SupportPageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tokens = context.tokens;
-
     return Scaffold(
       appBar: DSAppBar(
         title: 'Soporte y Ayuda',
@@ -153,8 +151,6 @@ class _CategoryChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tokens = context.tokens;
-
     return DSFilterChip(
       label: label,
       isSelected: isSelected,

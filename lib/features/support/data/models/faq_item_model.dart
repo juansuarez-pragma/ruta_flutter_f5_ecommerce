@@ -19,16 +19,6 @@ class FAQItemModel extends FAQItem {
     );
   }
 
-  /// Convierte la instancia a JSON.
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'question': question,
-      'answer': answer,
-      'category': _categoryToString(category),
-    };
-  }
-
   /// Crea una instancia desde una entidad del dominio.
   factory FAQItemModel.fromEntity(FAQItem entity) {
     return FAQItemModel(
@@ -37,6 +27,16 @@ class FAQItemModel extends FAQItem {
       answer: entity.answer,
       category: entity.category,
     );
+  }
+
+  /// Convierte la instancia a JSON.
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'question': question,
+      'answer': answer,
+      'category': _categoryToString(category),
+    };
   }
 
   /// Convierte el modelo a entidad del dominio.
