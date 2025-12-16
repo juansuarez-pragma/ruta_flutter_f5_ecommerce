@@ -4,12 +4,13 @@ Este archivo proporciona orientación a Claude Code (claude.ai/code) cuando trab
 
 ## Descripción del Proyecto
 
-Aplicación Flutter de e-commerce que consume la Fake Store API. Implementa Clean Architecture con el patrón BLoC para manejo de estado. Soporta Android, iOS y Web.
+Aplicación Flutter de e-commerce completa que consume la Fake Store API. Implementa Clean Architecture con el patrón BLoC para manejo de estado. Incluye autenticación, perfil de usuario y sistema de soporte. Soporta Android, iOS y Web.
 
 - **Requisito SDK:** Dart ^3.9.2, Flutter ^3.29.2
-- **Linting:** flutter_lints ^5.0.0 (ver analysis_options.yaml)
+- **Linting:** flutter_lints ^5.0.0 - **✅ 0 issues** (código 100% limpio)
 - **State Management:** flutter_bloc ^8.1.6
-- **DI:** get_it ^8.0.3
+- **DI:** get_it ^8.3.0
+- **Tests:** 206/210 pasando (98%)
 
 ## Comandos Comunes
 
@@ -46,15 +47,28 @@ dart format lib/               # Formatear código
 
 ```
 lib/
-├── app.dart                    # MaterialApp con configuración
+├── app.dart                    # MaterialApp con AuthWrapper
 ├── main.dart                   # Entry point con inicialización DI
 ├── core/
+│   ├── config/                 # Configuración JSON (AppConfig)
 │   ├── constants/              # AppConstants (nombre app, mensajes)
 │   ├── di/                     # injection_container.dart (get_it setup)
-│   ├── router/                 # AppRouter, Routes (named routes)
+│   ├── router/                 # AppRouter, Routes, AuthWrapper
 │   ├── theme/                  # AppTheme (configuración de tema)
 │   └── utils/                  # Extensions (StringExtension, etc.)
 ├── features/
+│   ├── auth/                   # 🆕 Autenticación (Login, Register, Logout)
+│   │   ├── data/
+│   │   │   ├── datasources/    # AuthLocalDataSource (SharedPreferences)
+│   │   │   ├── models/         # UserModel (JSON serialization)
+│   │   │   └── repositories/   # AuthRepositoryImpl
+│   │   ├── domain/
+│   │   │   ├── entities/       # User (isAuthenticated, fullName)
+│   │   │   ├── repositories/   # AuthRepository (abstract)
+│   │   │   └── usecases/       # Login, Register, Logout, GetCurrentUser
+│   │   └── presentation/
+│   │       ├── bloc/           # AuthBloc, AuthEvent, AuthState
+│   │       └── pages/          # LoginPage, RegisterPage
 │   ├── cart/
 │   │   ├── data/
 │   │   │   ├── datasources/    # CartLocalDataSource (SharedPreferences)
@@ -68,15 +82,31 @@ lib/
 │   │       ├── bloc/           # CartBloc, CartEvent, CartState
 │   │       ├── pages/          # CartPage
 │   │       └── widgets/        # CartItemTile, CartSummary, EmptyCart
-│   ├── categories/             # Similar structure (domain + presentation)
-│   ├── checkout/               # Similar structure (presentation only)
-│   ├── home/                   # Similar structure
-│   ├── orders/                 # Historial de órdenes (Fase 7)
-│   ├── products/               # Similar structure
-│   └── search/                 # Similar structure
+│   ├── categories/             # Categorías de productos
+│   ├── checkout/               # Proceso de checkout
+│   ├── home/                   # Página principal
+│   ├── orders/                 # Historial de órdenes
+│   ├── products/               # Productos y detalle
+│   ├── profile/                # 🆕 Perfil de usuario
+│   │   └── presentation/
+│   │       └── pages/          # ProfilePage (con logout)
+│   ├── search/                 # Búsqueda de productos
+│   └── support/                # 🆕 Soporte y ayuda
+│       ├── data/
+│       │   ├── datasources/    # SupportLocalDataSource (18 FAQs mock)
+│       │   ├── models/         # FAQItemModel, ContactMessageModel
+│       │   └── repositories/   # SupportRepositoryImpl
+│       ├── domain/
+│       │   ├── entities/       # FAQItem, ContactMessage, ContactInfo
+│       │   ├── repositories/   # SupportRepository (abstract)
+│       │   └── usecases/       # GetFAQs, SendContactMessage
+│       └── presentation/
+│           ├── bloc/           # SupportBloc, SupportEvent, SupportState
+│           ├── pages/          # SupportPage, ContactPage
+│           └── widgets/        # FAQCard
 ├── shared/
 │   └── widgets/                # AppScaffold, QuantitySelector, DSProductRating
-└── test/                       # Unit tests
+└── test/                       # Unit tests (206 tests passing)
 ```
 
 ### Patrones Implementados
@@ -363,13 +393,86 @@ lib/features/orders/
 ### Documentación Detallada
 Ver [docs/FASE_7_PARAMETRIZACION_JSON.md](docs/FASE_7_PARAMETRIZACION_JSON.md)
 
+## Features Nuevos Implementados
+
+### Auth (Autenticación)
+**Ubicación:** `lib/features/auth/`
+**Tests:** 73/73 ✅
+
+- **Domain Layer:**
+  - `User` entity con `isAuthenticated` getter y `fullName`
+  - `AuthRepository` con login, register, logout, getCurrentUser
+  - UseCases: `LoginUseCase`, `RegisterUseCase`, `LogoutUseCase`, `GetCurrentUserUseCase`
+
+- **Data Layer:**
+  - `AuthLocalDataSource` - Persistencia con SharedPreferences
+  - `UserModel` - Serialización JSON
+  - `AuthRepositoryImpl` - Implementación con validaciones
+
+- **Presentation Layer:**
+  - `AuthBloc` con 7 states: Initial, Loading, Authenticated, Unauthenticated, Error, AuthInProgress, AuthFailure
+  - `LoginPage` - Formulario con email y contraseña
+  - `RegisterPage` - Formulario completo con confirmación de contraseña
+
+- **Flujo:**
+  - `AuthWrapper` verifica sesión al iniciar app
+  - Redirige automáticamente a login o home según estado
+  - Sesión persiste en SharedPreferences
+
+### Profile (Perfil)
+**Ubicación:** `lib/features/profile/`
+
+- **ProfilePage:**
+  - Muestra info del usuario autenticado
+  - Links de navegación a Pedidos y Soporte
+  - Botón de logout con diálogo de confirmación
+  - Vista para usuarios no autenticados
+
+- **Integración:**
+  - Usa `AuthBloc` para manejar logout
+  - Redirige automáticamente después de logout
+  - Accesible desde bottom navigation (index 3)
+
+### Support (Soporte y Ayuda)
+**Ubicación:** `lib/features/support/`
+**Tests:** 10/10 ✅
+
+- **Domain Layer:**
+  - `FAQItem` entity con id, question, answer, category
+  - `ContactMessage` entity para mensajes
+  - `ContactInfo` para datos de contacto
+  - `FAQCategory` enum: orders, payments, shipping, returns, account, general
+
+- **Data Layer:**
+  - `SupportLocalDataSource` con 18 FAQs mock
+  - Persistencia de mensajes en SharedPreferences
+  - `FAQItemModel` y `ContactMessageModel` con JSON serialization
+
+- **Presentation Layer:**
+  - `SupportBloc` para manejar FAQs y mensajes
+  - `SupportPage` - Lista de FAQs con filtro por categoría
+  - `ContactPage` - Formulario completo con validación
+  - `FAQCard` widget expandible
+
+### Navegación
+- **AuthWrapper** (`Routes.authWrapper = '/'`) - Ruta inicial que verifica autenticación
+- **Login** (`Routes.login = '/login'`) - Página de inicio de sesión
+- **Register** (`Routes.register = '/register'`) - Página de registro
+- **Profile** (`Routes.profile = '/profile'`) - Perfil de usuario
+- **Support** (`Routes.support = '/support'`) - Lista de FAQs
+- **Contact** (`Routes.contact = '/contact'`) - Formulario de contacto
+
 ## Notas de Desarrollo
 
 - El carrito persiste en SharedPreferences como JSON
 - Las órdenes persisten en SharedPreferences como JSON
+- **La sesión de usuario persiste en SharedPreferences**
+- **Los mensajes de contacto persisten en SharedPreferences**
 - Las imágenes se cachean con cached_network_image
 - La búsqueda tiene debounce de 300ms
 - El Design System provee todos los componentes UI
 - Los tokens de tema se acceden via `context.tokens`
 - Evitar conflictos de nombres con `fake_store_api_client` (ej: usar prefijo DS)
 - Textos e imágenes configurables via `assets/config/app_config.json`
+- **Código 100% limpio** - `flutter analyze` retorna 0 issues
+- **206 tests pasando** de 210 totales (98%)
