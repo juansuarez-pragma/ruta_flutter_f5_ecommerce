@@ -59,7 +59,7 @@ class _ContactPageContentState extends State<_ContactPageContent> {
     final tokens = context.tokens;
 
     return Scaffold(
-      appBar: DSAppBar(title: 'Contactar Soporte'),
+      appBar: const DSAppBar(title: 'Contactar Soporte'),
       body: BlocConsumer<SupportBloc, SupportState>(
         listener: (context, state) {
           if (state is SupportMessageSent) {
@@ -133,10 +133,10 @@ class _ContactPageContentState extends State<_ContactPageContent> {
                   // Name field
                   TextFormField(
                     controller: _nameController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Nombre',
                       hintText: 'Tu nombre completo',
-                      prefixIcon: const Icon(Icons.person_outline),
+                      prefixIcon: Icon(Icons.person_outline),
                     ),
                     enabled: !isLoading,
                     validator: (value) {
@@ -155,10 +155,10 @@ class _ContactPageContentState extends State<_ContactPageContent> {
                   // Email field
                   TextFormField(
                     controller: _emailController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Correo electrónico',
                       hintText: 'tu@email.com',
-                      prefixIcon: const Icon(Icons.email_outlined),
+                      prefixIcon: Icon(Icons.email_outlined),
                     ),
                     keyboardType: TextInputType.emailAddress,
                     enabled: !isLoading,
@@ -179,10 +179,10 @@ class _ContactPageContentState extends State<_ContactPageContent> {
                   // Subject field
                   TextFormField(
                     controller: _subjectController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Asunto',
                       hintText: 'Breve descripción del tema',
-                      prefixIcon: const Icon(Icons.subject_outlined),
+                      prefixIcon: Icon(Icons.subject_outlined),
                     ),
                     enabled: !isLoading,
                     validator: (value) {
@@ -201,10 +201,10 @@ class _ContactPageContentState extends State<_ContactPageContent> {
                   // Message field
                   TextFormField(
                     controller: _messageController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Mensaje',
                       hintText: 'Describe tu consulta o problema...',
-                      prefixIcon: const Icon(Icons.message_outlined),
+                      prefixIcon: Icon(Icons.message_outlined),
                       alignLabelWithHint: true,
                     ),
                     maxLines: 6,
@@ -230,8 +230,6 @@ class _ContactPageContentState extends State<_ContactPageContent> {
                     text: 'Enviar Mensaje',
                     onPressed: isLoading ? null : () => _submitForm(context),
                     isLoading: isLoading,
-                    variant: DSButtonVariant.primary,
-                    size: DSButtonSize.large,
                   ),
 
                   const SizedBox(height: DSSpacing.base),
@@ -250,12 +248,12 @@ class _ContactPageContentState extends State<_ContactPageContent> {
                             color: tokens.colorTextTertiary,
                           ),
                           const SizedBox(height: DSSpacing.sm),
-                          _ContactInfoRow(
+                          const _ContactInfoRow(
                             icon: Icons.email,
                             text: 'soporte@fakestore.com',
                           ),
                           const SizedBox(height: DSSpacing.xs),
-                          _ContactInfoRow(
+                          const _ContactInfoRow(
                             icon: Icons.phone,
                             text: '+1 (555) 123-4567',
                           ),

@@ -104,8 +104,7 @@ class _AuthenticatedProfile extends StatelessWidget {
                 // Email
                 DSText(
                   user.email,
-                  variant: DSTextVariant.bodyMedium,
-                  color: DSColors.white.withOpacity(0.87),
+                  color: DSColors.white.withValues(alpha: 0.87),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: DSSpacing.xs),
@@ -114,7 +113,7 @@ class _AuthenticatedProfile extends StatelessWidget {
                 DSText(
                   '@${user.username}',
                   variant: DSTextVariant.bodySmall,
-                  color: DSColors.white.withOpacity(0.60),
+                  color: DSColors.white.withValues(alpha: 0.60),
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -242,8 +241,6 @@ class _AuthenticatedProfile extends StatelessWidget {
               Navigator.pop(dialogContext);
               context.read<AuthBloc>().add(const AuthLogoutRequested());
             },
-            variant: DSButtonVariant.primary,
-            size: DSButtonSize.small,
           ),
         ],
       ),
@@ -285,8 +282,6 @@ class _UnauthenticatedProfile extends StatelessWidget {
             DSButton(
               text: 'Iniciar Sesión',
               onPressed: () => Navigator.pushNamed(context, Routes.login),
-              variant: DSButtonVariant.primary,
-              size: DSButtonSize.large,
             ),
             const SizedBox(height: DSSpacing.base),
             DSButton(

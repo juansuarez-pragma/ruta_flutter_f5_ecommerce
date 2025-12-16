@@ -72,7 +72,7 @@ void main() {
           email: 'test@test.com',
           subject: 'Test Subject',
           message: 'Test message content',
-          timestamp: DateTime(2025, 1, 1),
+          timestamp: DateTime(2025),
         );
 
         // Act

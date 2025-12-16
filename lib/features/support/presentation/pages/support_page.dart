@@ -75,7 +75,7 @@ class _SupportPageContent extends StatelessWidget {
                 // FAQs List
                 Expanded(
                   child: state.faqs.isEmpty
-                      ? DSEmptyState(
+                      ? const DSEmptyState(
                           icon: Icons.help_outline,
                           title: 'No hay FAQs disponibles',
                           description: 'Intenta con otra categoría',
