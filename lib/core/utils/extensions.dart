@@ -8,6 +8,8 @@ extension ContextExtensions on BuildContext {
   /// Obtiene el ancho de pantalla.
   double get screenWidth => mediaQuery.size.width;
 
+  double get screen_width => mediaQuery.size.width;
+
   /// Obtiene el alto de pantalla.
   double get screenHeight => mediaQuery.size.height;
 
