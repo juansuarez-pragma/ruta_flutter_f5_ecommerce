@@ -8,6 +8,7 @@ import 'package:ecommerce/features/checkout/checkout.dart';
 import 'package:ecommerce/features/search/search.dart';
 import 'package:ecommerce/features/orders/orders.dart';
 import 'package:ecommerce/features/auth/auth.dart';
+import 'package:ecommerce/features/support/support.dart';
 import 'package:ecommerce/core/router/routes.dart';
 import 'package:ecommerce/core/router/auth_wrapper.dart';
 
@@ -85,6 +86,18 @@ class AppRouter {
       case Routes.orderHistory:
         return MaterialPageRoute(
           builder: (_) => const OrderHistoryPage(),
+          settings: settings,
+        );
+
+      case Routes.support:
+        return MaterialPageRoute(
+          builder: (_) => const SupportPage(),
+          settings: settings,
+        );
+
+      case Routes.contact:
+        return MaterialPageRoute(
+          builder: (_) => const ContactPage(),
           settings: settings,
         );
 

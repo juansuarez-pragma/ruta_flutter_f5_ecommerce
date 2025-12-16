@@ -28,5 +28,5 @@ export 'presentation/bloc/support_state.dart';
 export 'presentation/widgets/faq_card.dart';
 
 // Presentation - Pages
-// export 'presentation/pages/support_page.dart';
-// export 'presentation/pages/contact_page.dart';
+export 'presentation/pages/support_page.dart';
+export 'presentation/pages/contact_page.dart';

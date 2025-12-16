@@ -11,6 +11,7 @@ import 'package:ecommerce/features/checkout/checkout.dart';
 import 'package:ecommerce/features/search/search.dart';
 import 'package:ecommerce/features/orders/orders.dart';
 import 'package:ecommerce/features/auth/auth.dart';
+import 'package:ecommerce/features/support/support.dart';
 
 /// Instancia global del contenedor de dependencias.
 final sl = GetIt.instance;
@@ -45,6 +46,9 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<AuthLocalDataSource>(
     () => AuthLocalDataSourceImpl(sharedPreferences: sl()),
   );
+  sl.registerLazySingleton<SupportLocalDataSource>(
+    () => SupportLocalDataSourceImpl(sharedPreferences: sl()),
+  );
 
   // ============ Repositories ============
   sl.registerLazySingleton<CartRepository>(
@@ -55,6 +59,9 @@ Future<void> initDependencies() async {
   );
   sl.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(localDataSource: sl()),
+  );
+  sl.registerLazySingleton<SupportRepository>(
+    () => SupportRepositoryImpl(localDataSource: sl()),
   );
 
   // ============ UseCases - Products ============
@@ -83,6 +90,10 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton(() => RegisterUseCase(repository: sl()));
   sl.registerLazySingleton(() => LogoutUseCase(repository: sl()));
   sl.registerLazySingleton(() => GetCurrentUserUseCase(repository: sl()));
+
+  // ============ UseCases - Support ============
+  sl.registerLazySingleton(() => GetFAQsUseCase(repository: sl()));
+  sl.registerLazySingleton(() => SendContactMessageUseCase(repository: sl()));
 
   // ============ BLoCs ============
   sl.registerFactory(
@@ -126,6 +137,14 @@ Future<void> initDependencies() async {
       registerUseCase: sl(),
       logoutUseCase: sl(),
       getCurrentUserUseCase: sl(),
+    ),
+  );
+
+  sl.registerFactory(
+    () => SupportBloc(
+      getFAQsUseCase: sl(),
+      sendContactMessageUseCase: sl(),
+      repository: sl(),
     ),
   );
 }

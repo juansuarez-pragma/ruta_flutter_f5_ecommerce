@@ -40,6 +40,12 @@ class Routes {
   /// Ruta del historial de órdenes.
   static const String orderHistory = '/orders';
 
+  /// Ruta de soporte y ayuda.
+  static const String support = '/support';
+
+  /// Ruta de contacto con soporte.
+  static const String contact = '/contact';
+
   /// Genera la ruta para el detalle de un producto.
   static String productDetailPath(int id) => '/product/$id';
 }
