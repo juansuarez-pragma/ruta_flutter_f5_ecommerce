@@ -9,6 +9,10 @@ void main() {
   late GetFAQsUseCase useCase;
   late MockSupportRepository mockRepository;
 
+  setUpAll(() {
+    registerFallbackValue(FAQCategory.general);
+  });
+
   setUp(() {
     mockRepository = MockSupportRepository();
     useCase = GetFAQsUseCase(repository: mockRepository);

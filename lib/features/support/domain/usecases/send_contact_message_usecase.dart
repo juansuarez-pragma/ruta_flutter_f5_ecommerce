@@ -18,38 +18,43 @@ class SendContactMessageUseCase {
     required String subject,
     required String message,
   }) async {
+    final trimmedName = name.trim();
+    final trimmedEmail = email.trim();
+    final trimmedSubject = subject.trim();
+    final trimmedMessage = message.trim();
+
     // Validaciones
-    if (name.trim().isEmpty) {
+    if (trimmedName.isEmpty) {
       return Left(SupportFailure.validationFailed('El nombre es requerido'));
     }
 
-    if (email.trim().isEmpty) {
+    if (trimmedEmail.isEmpty) {
       return Left(SupportFailure.validationFailed('El email es requerido'));
     }
 
-    if (!_isValidEmail(email)) {
+    if (!_isValidEmail(trimmedEmail)) {
       return Left(SupportFailure.validationFailed('El email no es válido'));
     }
 
-    if (subject.trim().isEmpty) {
+    if (trimmedSubject.isEmpty) {
       return Left(SupportFailure.validationFailed('El asunto es requerido'));
     }
 
-    if (message.trim().isEmpty) {
+    if (trimmedMessage.isEmpty) {
       return Left(SupportFailure.validationFailed('El mensaje es requerido'));
     }
 
-    if (message.trim().length < 10) {
+    if (trimmedMessage.length < 10) {
       return Left(SupportFailure.validationFailed(
         'El mensaje debe tener al menos 10 caracteres',
       ));
     }
 
     return repository.sendContactMessage(
-      name: name.trim(),
-      email: email.trim(),
-      subject: subject.trim(),
-      message: message.trim(),
+      name: trimmedName,
+      email: trimmedEmail,
+      subject: trimmedSubject,
+      message: trimmedMessage,
     );
   }
 
