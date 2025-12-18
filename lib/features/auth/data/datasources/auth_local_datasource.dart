@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:ecommerce/core/error_handling/app_exceptions.dart';
+import 'package:ecommerce/core/error_handling/error_logger.dart';
+import 'package:ecommerce/core/error_handling/error_handling_utils.dart';
 import 'package:ecommerce/features/auth/data/models/user_model.dart';
 
 /// Claves para almacenamiento en SharedPreferences.
@@ -70,10 +73,27 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     if (userJson == null) return null;
 
     try {
-      final userMap = json.decode(userJson) as Map<String, dynamic>;
+      // Usar safeJsonDecode para parseo seguro
+      final userMap = safeJsonDecode(userJson) as Map<String, dynamic>;
       return UserModel.fromJson(userMap);
-    } catch (e) {
-      return null;
+    } on ParseException {
+      // Re-lanzar ParseException después de loguearla
+      rethrow;
+    } catch (e, st) {
+      // Convertir cualquier otra excepción a ParseException y loguear
+      final exception = ParseException(
+        message: 'Error al cargar usuario cacheado',
+        failedValue: userJson.length > 200 ? '${userJson.substring(0, 200)}...' : userJson,
+        originalException: e is Exception ? e : Exception(e.toString()),
+      );
+
+      ErrorLogger().logAppException(
+        exception,
+        context: {'operation': 'getCachedUser'},
+        stackTrace: st,
+      );
+
+      throw exception;
     }
   }
 
@@ -168,10 +188,42 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     if (usersJson == null) return [];
 
     try {
-      final List<dynamic> usersList = json.decode(usersJson) as List<dynamic>;
+      // Usar safeJsonDecode para parseo seguro
+      final List<dynamic> usersList = safeJsonDecode(usersJson) as List<dynamic>;
+
+      // Validar que todos los elementos sean Maps
+      for (final item in usersList) {
+        if (item is! Map<String, dynamic>) {
+          throw ParseException(
+            message: 'Elemento de usuario no es un Map válido',
+            failedValue: item.toString(),
+          );
+        }
+      }
+
       return usersList.cast<Map<String, dynamic>>();
-    } catch (e) {
-      return [];
+    } on ParseException {
+      // Re-lanzar ParseException después de loguearla
+      ErrorLogger().logError(
+        message: 'Error al decodificar lista de usuarios registrados',
+        context: {'operation': '_getRegisteredUsersWithPasswords'},
+      );
+      rethrow;
+    } catch (e, st) {
+      // Convertir cualquier otra excepción a ParseException y loguear
+      final exception = ParseException(
+        message: 'Error inesperado al cargar usuarios registrados',
+        failedValue: usersJson.length > 200 ? '${usersJson.substring(0, 200)}...' : usersJson,
+        originalException: e is Exception ? e : Exception(e.toString()),
+      );
+
+      ErrorLogger().logAppException(
+        exception,
+        context: {'operation': '_getRegisteredUsersWithPasswords'},
+        stackTrace: st,
+      );
+
+      throw exception;
     }
   }
 

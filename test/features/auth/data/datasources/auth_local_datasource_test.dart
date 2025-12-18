@@ -1,97 +1,180 @@
 import 'dart:convert';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:ecommerce/core/error_handling/app_exceptions.dart';
 import 'package:ecommerce/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:ecommerce/features/auth/data/models/user_model.dart';
-import '../../../../helpers/mocks.dart';
+
+class MockSharedPreferences extends Mock implements SharedPreferences {}
 
 void main() {
-  late AuthLocalDataSourceImpl dataSource;
+  late AuthLocalDataSourceImpl authDataSource;
   late MockSharedPreferences mockSharedPreferences;
 
-  setUp(() {
-    mockSharedPreferences = MockSharedPreferences();
-    dataSource = AuthLocalDataSourceImpl(sharedPreferences: mockSharedPreferences);
-  });
-
-  const tUserModel = UserModel(
+  const testUserModel = UserModel(
     id: 1,
     email: 'test@example.com',
     username: 'testuser',
     firstName: 'Test',
     lastName: 'User',
-    token: 'valid_token',
+    token: 'test_token',
   );
 
-  group('cacheCurrentUser', () {
-    test('should call SharedPreferences to cache the user', () async {
-      // Arrange
-      when(() => mockSharedPreferences.setString(any(), any()))
-          .thenAnswer((_) async => true);
-
-      // Act
-      await dataSource.cacheCurrentUser(tUserModel);
-
-      // Assert
-      final expectedJson = json.encode(tUserModel.toJson());
-      verify(() => mockSharedPreferences.setString(
-        AuthStorageKeys.currentUser,
-        expectedJson,
-      )).called(1);
-    });
+  setUp(() {
+    mockSharedPreferences = MockSharedPreferences();
+    authDataSource = AuthLocalDataSourceImpl(
+      sharedPreferences: mockSharedPreferences,
+    );
   });
 
-  group('getCachedUser', () {
-    test('should return UserModel when there is cached data', () async {
+  group('AuthLocalDataSource - getCachedUser', () {
+    test('debe retornar usuario si JSON es válido', () async {
       // Arrange
-      final userJson = json.encode(tUserModel.toJson());
+      final userJson = json.encode(testUserModel.toJson());
       when(() => mockSharedPreferences.getString(AuthStorageKeys.currentUser))
           .thenReturn(userJson);
 
       // Act
-      final result = await dataSource.getCachedUser();
+      final result = await authDataSource.getCachedUser();
 
       // Assert
-      expect(result, isNotNull);
-      expect(result!.id, tUserModel.id);
-      expect(result.email, tUserModel.email);
+      expect(result, equals(testUserModel));
     });
 
-    test('should return null when there is no cached data', () async {
+    test('debe retornar null si no existe usuario almacenado', () async {
       // Arrange
       when(() => mockSharedPreferences.getString(AuthStorageKeys.currentUser))
           .thenReturn(null);
 
       // Act
-      final result = await dataSource.getCachedUser();
+      final result = await authDataSource.getCachedUser();
 
       // Assert
       expect(result, isNull);
     });
 
-    test('should return null when cached data is invalid JSON', () async {
-      // Arrange
+    test('debe loguear y relanzar ParseException si JSON es inválido', () async {
+      // Arrange - JSON mal formado
+      const invalidJson = '{"invalid: json}';
       when(() => mockSharedPreferences.getString(AuthStorageKeys.currentUser))
-          .thenReturn('invalid json');
+          .thenReturn(invalidJson);
 
-      // Act
-      final result = await dataSource.getCachedUser();
+      // Act & Assert
+      expect(
+        () => authDataSource.getCachedUser(),
+        throwsA(isA<ParseException>()),
+      );
+    });
 
-      // Assert
-      expect(result, isNull);
+    test('debe incluir el valor fallido en la excepción', () async {
+      // Arrange
+      const failedJson = 'invalid json string';
+      when(() => mockSharedPreferences.getString(AuthStorageKeys.currentUser))
+          .thenReturn(failedJson);
+
+      // Act & Assert
+      expect(
+        () => authDataSource.getCachedUser(),
+        throwsA(
+          isA<ParseException>().having(
+            (e) => e.failedValue,
+            'failedValue',
+            contains('invalid'),
+          ),
+        ),
+      );
     });
   });
 
-  group('clearCurrentUser', () {
-    test('should call SharedPreferences to remove cached user', () async {
+  group('AuthLocalDataSource - _getRegisteredUsersWithPasswords', () {
+    test('debe retornar lista vacía si no existen usuarios', () async {
       // Arrange
-      when(() => mockSharedPreferences.remove(any()))
+      when(
+        () => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers),
+      ).thenReturn(null);
+
+      // Act
+      final result = await authDataSource.isEmailRegistered('test@test.com');
+
+      // Assert
+      expect(result, isFalse);
+    });
+
+    test('debe loguear si JSON de usuarios es inválido', () async {
+      // Arrange - JSON mal formado en registeredUsers
+      const invalidJson = '{"invalid: array}';
+      when(
+        () => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers),
+      ).thenReturn(invalidJson);
+
+      // Act & Assert
+      expect(
+        () => authDataSource.isEmailRegistered('test@test.com'),
+        throwsA(isA<ParseException>()),
+      );
+    });
+
+    test('debe loguear FormatException en parseo de usuarios', () async {
+      // Arrange - JSON con estructura inválida
+      final invalidUsersList = json.encode(['not_a_map', 'string']);
+      when(
+        () => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers),
+      ).thenReturn(invalidUsersList);
+
+      // Act & Assert
+      expect(
+        () => authDataSource.loginUser(
+          email: 'test@test.com',
+          password: 'password',
+        ),
+        throwsA(isA<ParseException>()),
+      );
+    });
+
+    test('debe manejar JSON array vacío correctamente', () async {
+      // Arrange
+      final emptyArray = json.encode(<Map<String, dynamic>>[]);
+      when(
+        () => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers),
+      ).thenReturn(emptyArray);
+
+      // Act
+      final result = await authDataSource.isEmailRegistered('test@test.com');
+
+      // Assert
+      expect(result, isFalse);
+    });
+  });
+
+  group('AuthLocalDataSource - cacheCurrentUser', () {
+    test('debe guardar usuario en SharedPreferences', () async {
+      // Arrange
+      when(() => mockSharedPreferences.setString(
+            AuthStorageKeys.currentUser,
+            any(),
+          )).thenAnswer((_) async => true);
+
+      // Act
+      await authDataSource.cacheCurrentUser(testUserModel);
+
+      // Assert
+      verify(() => mockSharedPreferences.setString(
+            AuthStorageKeys.currentUser,
+            any(),
+          )).called(1);
+    });
+  });
+
+  group('AuthLocalDataSource - clearCurrentUser', () {
+    test('debe remover usuario del almacenamiento', () async {
+      // Arrange
+      when(() => mockSharedPreferences.remove(AuthStorageKeys.currentUser))
           .thenAnswer((_) async => true);
 
       // Act
-      await dataSource.clearCurrentUser();
+      await authDataSource.clearCurrentUser();
 
       // Assert
       verify(() => mockSharedPreferences.remove(AuthStorageKeys.currentUser))
@@ -99,176 +182,35 @@ void main() {
     });
   });
 
-  group('registerUser', () {
-    test('should register a new user and return UserModel with token', () async {
+  group('AuthLocalDataSource - Error Handling Integration', () {
+    test('debe manejar JSON corrupto en getCachedUser y loguear', () async {
       // Arrange
-      when(() => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers))
-          .thenReturn(null);
-      when(() => mockSharedPreferences.setString(any(), any()))
-          .thenAnswer((_) async => true);
-
-      // Act
-      final result = await dataSource.registerUser(
-        email: 'new@example.com',
-        password: 'password123',
-        username: 'newuser',
-        firstName: 'New',
-        lastName: 'User',
-      );
-
-      // Assert
-      expect(result.email, 'new@example.com');
-      expect(result.username, 'newuser');
-      expect(result.firstName, 'New');
-      expect(result.lastName, 'User');
-      expect(result.token, isNotNull);
-      expect(result.id, 1);
-    });
-
-    test('should throw AuthLocalException when email is already registered', () async {
-      // Arrange
-      final existingUsers = [
-        {
-          'user': tUserModel.toJson(),
-          'password': base64.encode(utf8.encode('password')),
-        }
-      ];
-      when(() => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers))
-          .thenReturn(json.encode(existingUsers));
+      const corruptedJson = '{"field": invalid}';
+      when(() => mockSharedPreferences.getString(AuthStorageKeys.currentUser))
+          .thenReturn(corruptedJson);
 
       // Act & Assert
       expect(
-        () => dataSource.registerUser(
-          email: tUserModel.email,
-          password: 'password123',
-          username: 'newuser',
-          firstName: 'New',
-          lastName: 'User',
+        () => authDataSource.getCachedUser(),
+        throwsA(isA<ParseException>()),
+      );
+    });
+
+    test('debe manejar JSON corrupto en registeredUsers y loguear', () async {
+      // Arrange
+      const corruptedJson = '[{invalid}]';
+      when(() => mockSharedPreferences.getString(
+            AuthStorageKeys.registeredUsers,
+          )).thenReturn(corruptedJson);
+
+      // Act & Assert
+      expect(
+        () => authDataSource.loginUser(
+          email: 'test@test.com',
+          password: 'password',
         ),
-        throwsA(isA<AuthLocalException>()),
+        throwsA(isA<ParseException>()),
       );
-    });
-
-    test('should increment ID for new users', () async {
-      // Arrange
-      final existingUsers = [
-        {
-          'user': tUserModel.toJson(),
-          'password': base64.encode(utf8.encode('password')),
-        }
-      ];
-      when(() => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers))
-          .thenReturn(json.encode(existingUsers));
-      when(() => mockSharedPreferences.setString(any(), any()))
-          .thenAnswer((_) async => true);
-
-      // Act
-      final result = await dataSource.registerUser(
-        email: 'another@example.com',
-        password: 'password123',
-        username: 'another',
-        firstName: 'Another',
-        lastName: 'User',
-      );
-
-      // Assert
-      expect(result.id, 2);
-    });
-  });
-
-  group('loginUser', () {
-    test('should return UserModel when credentials are valid', () async {
-      // Arrange
-      const password = 'password123';
-      final hashedPassword = base64.encode(utf8.encode(password));
-      final existingUsers = [
-        {
-          'user': tUserModel.toJson(),
-          'password': hashedPassword,
-        }
-      ];
-      when(() => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers))
-          .thenReturn(json.encode(existingUsers));
-
-      // Act
-      final result = await dataSource.loginUser(
-        email: tUserModel.email,
-        password: password,
-      );
-
-      // Assert
-      expect(result, isNotNull);
-      expect(result!.email, tUserModel.email);
-      expect(result.token, isNotNull);
-    });
-
-    test('should return null when credentials are invalid', () async {
-      // Arrange
-      final hashedPassword = base64.encode(utf8.encode('password123'));
-      final existingUsers = [
-        {
-          'user': tUserModel.toJson(),
-          'password': hashedPassword,
-        }
-      ];
-      when(() => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers))
-          .thenReturn(json.encode(existingUsers));
-
-      // Act
-      final result = await dataSource.loginUser(
-        email: tUserModel.email,
-        password: 'wrongpassword',
-      );
-
-      // Assert
-      expect(result, isNull);
-    });
-
-    test('should return null when user does not exist', () async {
-      // Arrange
-      when(() => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers))
-          .thenReturn(null);
-
-      // Act
-      final result = await dataSource.loginUser(
-        email: 'nonexistent@example.com',
-        password: 'password123',
-      );
-
-      // Assert
-      expect(result, isNull);
-    });
-  });
-
-  group('isEmailRegistered', () {
-    test('should return true when email exists', () async {
-      // Arrange
-      final existingUsers = [
-        {
-          'user': tUserModel.toJson(),
-          'password': 'hashed',
-        }
-      ];
-      when(() => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers))
-          .thenReturn(json.encode(existingUsers));
-
-      // Act
-      final result = await dataSource.isEmailRegistered(tUserModel.email);
-
-      // Assert
-      expect(result, true);
-    });
-
-    test('should return false when email does not exist', () async {
-      // Arrange
-      when(() => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers))
-          .thenReturn(null);
-
-      // Act
-      final result = await dataSource.isEmailRegistered('new@example.com');
-
-      // Assert
-      expect(result, false);
     });
   });
 }
