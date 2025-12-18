@@ -391,7 +391,7 @@ lib/features/orders/
 ```
 
 ### Documentación Detallada
-Ver [docs/FASE_7_PARAMETRIZACION_JSON.md](docs/FASE_7_PARAMETRIZACION_JSON.md)
+Ver `assets/config/app_config.json` y `lib/core/config/`
 
 ## Features Nuevos Implementados
 

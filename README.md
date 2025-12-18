@@ -303,7 +303,7 @@ assets/config/app_config.json
 2. Cambiar los valores deseados
 3. Hot Restart (R mayúscula en terminal)
 
-Ver [docs/FASE_7_PARAMETRIZACION_JSON.md](docs/FASE_7_PARAMETRIZACION_JSON.md) para documentación completa.
+La parametrización se define en `assets/config/app_config.json`.
 
 ## 🚀 Instalación y Ejecución
 
@@ -481,9 +481,6 @@ a296ba2 feat: add ProfilePage with logout functionality
 ## 📚 Documentación Adicional
 
 - [CLAUDE.md](CLAUDE.md) - Guía para Claude Code (arquitectura, comandos, convenciones)
-- [docs/FASE_7_PARAMETRIZACION_JSON.md](docs/FASE_7_PARAMETRIZACION_JSON.md) - Sistema de parametrización
-- [docs/plan_de_implementacion.md](docs/plan_de_implementacion.md) - Plan TDD de implementación
-- [docs/analisis_fase_5.md](docs/analisis_fase_5.md) - Análisis de requerimientos
 
 ## 📈 Roadmap
 
@@ -497,7 +494,7 @@ a296ba2 feat: add ProfilePage with logout functionality
 - [x] Autenticación (Login/Register/Logout)
 - [x] Perfil de usuario
 - [x] Sistema de soporte (FAQs y Contacto)
-- [x] 206 tests implementados
+- [x] Suite de tests pasando (`flutter test`)
 - [x] Linter 100% limpio
 
 ### Pendiente 🚧

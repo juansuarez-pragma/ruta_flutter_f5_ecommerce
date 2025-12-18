@@ -52,7 +52,6 @@ Nueva feature completa siguiendo Clean Architecture:
 
 ### Documentación
 
-- `docs/FASE_7_PARAMETRIZACION_JSON.md` - Documentación completa de la parametrización
 - Actualizado `CLAUDE.md` con sección de Parametrización JSON y feature Orders
 - Actualizado `README.md` con nuevas características y sección de parametrización
 
