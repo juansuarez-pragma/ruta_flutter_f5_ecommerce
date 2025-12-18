@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 import 'package:ecommerce/core/error_handling/app_exceptions.dart';
+import 'package:ecommerce/core/utils/id_generator.dart';
 import 'package:ecommerce/features/support/data/datasources/support_local_datasource.dart';
 import 'package:ecommerce/features/support/data/models/contact_message_model.dart';
 import 'package:ecommerce/features/support/data/repositories/support_repository_impl.dart';
@@ -11,9 +12,12 @@ class MockSupportLocalDataSource extends Mock implements SupportLocalDataSource 
 
 class FakeContactMessageModel extends Fake implements ContactMessageModel {}
 
+class MockIdGenerator extends Mock implements IdGenerator {}
+
 void main() {
   late SupportRepositoryImpl supportRepository;
   late MockSupportLocalDataSource mockLocalDataSource;
+  late MockIdGenerator mockIdGenerator;
 
   setUpAll(() {
     registerFallbackValue(FAQCategory.general);
@@ -22,7 +26,13 @@ void main() {
 
   setUp(() {
     mockLocalDataSource = MockSupportLocalDataSource();
-    supportRepository = SupportRepositoryImpl(localDataSource: mockLocalDataSource);
+    mockIdGenerator = MockIdGenerator();
+    when(() => mockIdGenerator.generate()).thenReturn('generated-id');
+
+    supportRepository = SupportRepositoryImpl(
+      localDataSource: mockLocalDataSource,
+      idGenerator: mockIdGenerator,
+    );
   });
 
   group('SupportRepositoryImpl - Error Handling', () {
@@ -84,16 +94,9 @@ void main() {
 
     test('should return Right when sendContactMessage succeeds', () async {
       // Arrange
-      final message = ContactMessageModel(
-        id: '1',
-        name: 'John',
-        email: 'john@example.com',
-        subject: 'Help',
-        message: 'Help me',
-        timestamp: DateTime.now(),
-      );
+      when(() => mockIdGenerator.generate()).thenReturn('fixed-id');
       when(() => mockLocalDataSource.saveContactMessage(any()))
-          .thenAnswer((_) async => message);
+          .thenAnswer((invocation) async => invocation.positionalArguments.first as ContactMessageModel);
 
       // Act
       final result = await supportRepository.sendContactMessage(
@@ -105,6 +108,16 @@ void main() {
 
       // Assert
       expect(result.isRight(), isTrue);
+      result.fold(
+        (_) => fail('Expected Right'),
+        (message) => expect(message.id, equals('fixed-id')),
+      );
+      verify(() => mockIdGenerator.generate()).called(1);
+      verify(
+        () => mockLocalDataSource.saveContactMessage(
+          any(that: isA<ContactMessageModel>().having((m) => m.id, 'id', 'fixed-id')),
+        ),
+      ).called(1);
     });
 
     test('should return Right when getFAQsByCategory succeeds', () async {

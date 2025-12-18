@@ -5,6 +5,7 @@ import 'package:fake_store_api_client/fake_store_api_client.dart';
 import 'package:ecommerce/core/config/config.dart';
 import 'package:ecommerce/core/config/config_local_datasource.dart';
 import 'package:ecommerce/core/error_handling/error_logger.dart';
+import 'package:ecommerce/core/utils/id_generator.dart';
 import 'package:ecommerce/features/home/home.dart';
 import 'package:ecommerce/features/products/products.dart';
 import 'package:ecommerce/features/categories/categories.dart';
@@ -32,6 +33,9 @@ Future<void> initDependencies() async {
   // ============ External ============
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);
+
+  // ============ Core utilities ============
+  sl.registerLazySingleton<IdGenerator>(() => const UuidV4Generator());
 
   // ============ Config (Phase 7 - JSON configuration) ============
   sl.registerLazySingleton<ConfigDataSource>(() => ConfigLocalDataSource());
@@ -70,7 +74,7 @@ Future<void> initDependencies() async {
     () => AuthRepositoryImpl(localDataSource: sl()),
   );
   sl.registerLazySingleton<SupportRepository>(
-    () => SupportRepositoryImpl(localDataSource: sl()),
+    () => SupportRepositoryImpl(localDataSource: sl(), idGenerator: sl()),
   );
 
   // ============ UseCases - Products ============

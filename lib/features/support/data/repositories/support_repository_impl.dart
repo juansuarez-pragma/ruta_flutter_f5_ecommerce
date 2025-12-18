@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:uuid/uuid.dart';
 
+import 'package:ecommerce/core/utils/id_generator.dart';
 import 'package:ecommerce/features/support/data/datasources/support_local_datasource.dart';
 import 'package:ecommerce/features/support/data/models/contact_message_model.dart';
 import 'package:ecommerce/features/support/domain/entities/contact_message.dart';
@@ -10,10 +10,11 @@ import 'package:ecommerce/features/support/domain/repositories/support_repositor
 
 /// Support repository implementation.
 class SupportRepositoryImpl implements SupportRepository {
-  SupportRepositoryImpl({required this.localDataSource});
+  SupportRepositoryImpl({required this.localDataSource, required IdGenerator idGenerator})
+    : _idGenerator = idGenerator;
 
   final SupportLocalDataSource localDataSource;
-  final _uuid = const Uuid();
+  final IdGenerator _idGenerator;
 
   @override
   Future<Either<SupportFailure, List<FAQItem>>> getFAQs() async {
@@ -46,7 +47,7 @@ class SupportRepositoryImpl implements SupportRepository {
   }) async {
     try {
       final contactMessage = ContactMessageModel(
-        id: _uuid.v4(),
+        id: _idGenerator.generate(),
         name: name,
         email: email,
         subject: subject,
