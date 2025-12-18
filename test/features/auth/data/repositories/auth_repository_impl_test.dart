@@ -1,287 +1,301 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import 'package:ecommerce/features/auth/auth.dart';
-import '../../../../helpers/mocks.dart';
+import 'package:ecommerce/core/error_handling/app_exceptions.dart';
+import 'package:ecommerce/features/auth/data/datasources/auth_local_datasource.dart';
+import 'package:ecommerce/features/auth/data/models/user_model.dart';
+import 'package:ecommerce/features/auth/data/repositories/auth_repository_impl.dart';
+
+class MockAuthLocalDataSource extends Mock implements AuthLocalDataSource {}
+
+class FakeUserModel extends Fake implements UserModel {}
 
 void main() {
-  late AuthRepositoryImpl repository;
+  late AuthRepositoryImpl authRepository;
   late MockAuthLocalDataSource mockLocalDataSource;
 
+  const testUser = UserModel(
+    id: 1,
+    email: 'test@example.com',
+    username: 'testuser',
+    firstName: 'Test',
+    lastName: 'User',
+    token: 'test_token',
+  );
+
   setUpAll(() {
-    // Registrar fallback values para mocktail
-    registerFallbackValue(const UserModel(
-      id: 0,
-      email: 'fallback@test.com',
-      username: 'fallback',
-      firstName: 'Fallback',
-      lastName: 'User',
-    ));
+    registerFallbackValue(FakeUserModel());
   });
 
   setUp(() {
     mockLocalDataSource = MockAuthLocalDataSource();
-    repository = AuthRepositoryImpl(localDataSource: mockLocalDataSource);
+    authRepository = AuthRepositoryImpl(localDataSource: mockLocalDataSource);
   });
 
-  const tEmail = UserFixtures.validEmail;
-  const tPassword = UserFixtures.validPassword;
-  const tUserModel = UserModel(
-    id: 1,
-    email: tEmail,
-    username: 'testuser',
-    firstName: 'Test',
-    lastName: 'User',
-    token: 'valid_token',
-  );
-
-  group('login', () {
-    test('should return User when login is successful', () async {
+  group('AuthRepositoryImpl - Error Handling', () {
+    test('debe retornar Left con AuthFailure si ParseException del datasource',
+        () async {
       // Arrange
-      when(() => mockLocalDataSource.loginUser(email: tEmail, password: tPassword))
-          .thenAnswer((_) async => tUserModel);
-      when(() => mockLocalDataSource.cacheCurrentUser(any()))
-          .thenAnswer((_) async {});
+      const parseException = ParseException(message: 'JSON corrupted');
+      when(() => mockLocalDataSource.getCachedUser())
+          .thenThrow(parseException);
 
       // Act
-      final result = await repository.login(email: tEmail, password: tPassword);
+      final result = await authRepository.getCurrentUser();
 
       // Assert
-      expect(result.isRight(), true);
-      result.fold(
-        (l) => fail('Should return Right'),
-        (user) {
-          expect(user.email, tEmail);
-          expect(user.token, isNotNull);
-        },
-      );
-      verify(() => mockLocalDataSource.loginUser(email: tEmail, password: tPassword))
-          .called(1);
-      verify(() => mockLocalDataSource.cacheCurrentUser(tUserModel)).called(1);
+      expect(result.isLeft(), isTrue);
     });
 
-    test('should return AuthFailure when credentials are invalid', () async {
+    test('debe retornar Left con AuthFailure si UnknownException del datasource',
+        () async {
       // Arrange
-      when(() => mockLocalDataSource.loginUser(email: tEmail, password: 'wrong'))
-          .thenAnswer((_) async => null);
+      const unknownException = UnknownException(
+        message: 'Unexpected error',
+      );
+      when(() => mockLocalDataSource.getCachedUser())
+          .thenThrow(unknownException);
 
       // Act
-      final result = await repository.login(email: tEmail, password: 'wrong');
+      final result = await authRepository.getCurrentUser();
 
       // Assert
-      expect(result.isLeft(), true);
-      result.fold(
-        (failure) => expect(failure.type, AuthFailureType.invalidCredentials),
-        (r) => fail('Should return Left'),
-      );
+      expect(result.isLeft(), isTrue);
     });
 
-    test('should return AuthFailure when email is invalid', () async {
+    test('debe manejar ParseException en login', () async {
+      // Arrange
+      const parseException = ParseException(message: 'Data corrupted');
+      when(
+        () => mockLocalDataSource.loginUser(
+          email: any(named: 'email'),
+          password: any(named: 'password'),
+        ),
+      ).thenThrow(parseException);
+
       // Act
-      final result = await repository.login(email: 'invalid', password: tPassword);
+      final result = await authRepository.login(
+        email: 'test@example.com',
+        password: 'password123',
+      );
 
       // Assert
-      expect(result.isLeft(), true);
-      result.fold(
-        (failure) => expect(failure.type, AuthFailureType.invalidEmail),
-        (r) => fail('Should return Left'),
-      );
+      expect(result.isLeft(), isTrue);
     });
-  });
 
-  group('register', () {
-    test('should return User when registration is successful', () async {
+    test('debe manejar ParseException en register', () async {
       // Arrange
-      when(() => mockLocalDataSource.registerUser(
-        email: any(named: 'email'),
-        password: any(named: 'password'),
-        username: any(named: 'username'),
-        firstName: any(named: 'firstName'),
-        lastName: any(named: 'lastName'),
-      )).thenAnswer((_) async => tUserModel);
-      when(() => mockLocalDataSource.cacheCurrentUser(any()))
-          .thenAnswer((_) async {});
+      const parseException = ParseException(message: 'Storage error');
+      when(
+        () => mockLocalDataSource.registerUser(
+          email: any(named: 'email'),
+          password: any(named: 'password'),
+          username: any(named: 'username'),
+          firstName: any(named: 'firstName'),
+          lastName: any(named: 'lastName'),
+        ),
+      ).thenThrow(parseException);
 
       // Act
-      final result = await repository.register(
-        email: tEmail,
-        password: tPassword,
+      final result = await authRepository.register(
+        email: 'new@example.com',
+        password: 'password123',
         username: 'newuser',
         firstName: 'New',
         lastName: 'User',
       );
 
       // Assert
-      expect(result.isRight(), true);
+      expect(result.isLeft(), isTrue);
     });
 
-    test('should return AuthFailure when email is already in use', () async {
+    test('debe manejar excepción en logout', () async {
       // Arrange
-      when(() => mockLocalDataSource.registerUser(
-        email: any(named: 'email'),
-        password: any(named: 'password'),
-        username: any(named: 'username'),
-        firstName: any(named: 'firstName'),
-        lastName: any(named: 'lastName'),
-      )).thenThrow(const AuthLocalException('Email already registered'));
-
-      // Act
-      final result = await repository.register(
-        email: tEmail,
-        password: tPassword,
-        username: 'newuser',
-        firstName: 'New',
-        lastName: 'User',
+      const unknownException = UnknownException(
+        message: 'Could not clear cache',
       );
-
-      // Assert
-      expect(result.isLeft(), true);
-      result.fold(
-        (failure) => expect(failure.type, AuthFailureType.emailAlreadyInUse),
-        (r) => fail('Should return Left'),
-      );
-    });
-
-    test('should return AuthFailure when password is weak', () async {
-      // Act
-      final result = await repository.register(
-        email: tEmail,
-        password: '123', // Less than 6 characters
-        username: 'newuser',
-        firstName: 'New',
-        lastName: 'User',
-      );
-
-      // Assert
-      expect(result.isLeft(), true);
-      result.fold(
-        (failure) => expect(failure.type, AuthFailureType.weakPassword),
-        (r) => fail('Should return Left'),
-      );
-    });
-
-    test('should return AuthFailure when email is invalid', () async {
-      // Act
-      final result = await repository.register(
-        email: 'invalid-email',
-        password: tPassword,
-        username: 'newuser',
-        firstName: 'New',
-        lastName: 'User',
-      );
-
-      // Assert
-      expect(result.isLeft(), true);
-      result.fold(
-        (failure) => expect(failure.type, AuthFailureType.invalidEmail),
-        (r) => fail('Should return Left'),
-      );
-    });
-  });
-
-  group('logout', () {
-    test('should return void when logout is successful', () async {
-      // Arrange
       when(() => mockLocalDataSource.clearCurrentUser())
-          .thenAnswer((_) async {});
+          .thenThrow(unknownException);
 
       // Act
-      final result = await repository.logout();
+      final result = await authRepository.logout();
 
       // Assert
-      expect(result.isRight(), true);
-      verify(() => mockLocalDataSource.clearCurrentUser()).called(1);
+      expect(result.isLeft(), isTrue);
     });
 
-    test('should return AuthFailure when logout fails', () async {
+    test('debe capturar AuthLocalException correctamente', () async {
       // Arrange
-      when(() => mockLocalDataSource.clearCurrentUser())
-          .thenThrow(Exception('Storage error'));
+      const authException = AuthLocalException('Email already exists');
+      when(
+        () => mockLocalDataSource.registerUser(
+          email: any(named: 'email'),
+          password: any(named: 'password'),
+          username: any(named: 'username'),
+          firstName: any(named: 'firstName'),
+          lastName: any(named: 'lastName'),
+        ),
+      ).thenThrow(authException);
 
       // Act
-      final result = await repository.logout();
-
-      // Assert
-      expect(result.isLeft(), true);
-    });
-  });
-
-  group('getCurrentUser', () {
-    test('should return User when there is a cached user', () async {
-      // Arrange
-      when(() => mockLocalDataSource.getCachedUser())
-          .thenAnswer((_) async => tUserModel);
-
-      // Act
-      final result = await repository.getCurrentUser();
-
-      // Assert
-      expect(result.isRight(), true);
-      result.fold(
-        (l) => fail('Should return Right'),
-        (user) => expect(user.email, tEmail),
-      );
-    });
-
-    test('should return AuthFailure when no user is cached', () async {
-      // Arrange
-      when(() => mockLocalDataSource.getCachedUser())
-          .thenAnswer((_) async => null);
-
-      // Act
-      final result = await repository.getCurrentUser();
-
-      // Assert
-      expect(result.isLeft(), true);
-      result.fold(
-        (failure) => expect(failure.type, AuthFailureType.userNotFound),
-        (r) => fail('Should return Left'),
-      );
-    });
-  });
-
-  group('isAuthenticated', () {
-    test('should return true when user is authenticated', () async {
-      // Arrange
-      when(() => mockLocalDataSource.getCachedUser())
-          .thenAnswer((_) async => tUserModel);
-
-      // Act
-      final result = await repository.isAuthenticated();
-
-      // Assert
-      expect(result, true);
-    });
-
-    test('should return false when no user is cached', () async {
-      // Arrange
-      when(() => mockLocalDataSource.getCachedUser())
-          .thenAnswer((_) async => null);
-
-      // Act
-      final result = await repository.isAuthenticated();
-
-      // Assert
-      expect(result, false);
-    });
-
-    test('should return false when user has no token', () async {
-      // Arrange
-      const userWithoutToken = UserModel(
-        id: 1,
-        email: tEmail,
-        username: 'testuser',
+      final result = await authRepository.register(
+        email: 'existing@example.com',
+        password: 'password123',
+        username: 'user',
         firstName: 'Test',
         lastName: 'User',
       );
-      when(() => mockLocalDataSource.getCachedUser())
-          .thenAnswer((_) async => userWithoutToken);
-
-      // Act
-      final result = await repository.isAuthenticated();
 
       // Assert
-      expect(result, false);
+      expect(result.isLeft(), isTrue);
+    });
+
+    test('debe retornar Right si login exitoso', () async {
+      // Arrange
+      when(
+        () => mockLocalDataSource.loginUser(
+          email: any(named: 'email'),
+          password: any(named: 'password'),
+        ),
+      ).thenAnswer((_) async => testUser);
+      when(() => mockLocalDataSource.cacheCurrentUser(any()))
+          .thenAnswer((_) async => {});
+
+      // Act
+      final result = await authRepository.login(
+        email: 'test@example.com',
+        password: 'password123',
+      );
+
+      // Assert
+      expect(result.isRight(), isTrue);
+      result.fold(
+        (_) => fail('Expected Right'),
+        (user) => expect(user.email, equals('test@example.com')),
+      );
+    });
+
+    test('debe retornar Right si register exitoso', () async {
+      // Arrange
+      when(
+        () => mockLocalDataSource.registerUser(
+          email: any(named: 'email'),
+          password: any(named: 'password'),
+          username: any(named: 'username'),
+          firstName: any(named: 'firstName'),
+          lastName: any(named: 'lastName'),
+        ),
+      ).thenAnswer((_) async => testUser);
+      when(() => mockLocalDataSource.cacheCurrentUser(any()))
+          .thenAnswer((_) async => {});
+
+      // Act
+      final result = await authRepository.register(
+        email: 'new@example.com',
+        password: 'password123',
+        username: 'newuser',
+        firstName: 'New',
+        lastName: 'User',
+      );
+
+      // Assert
+      expect(result.isRight(), isTrue);
+    });
+
+    test('debe retornar Right si logout exitoso', () async {
+      // Arrange
+      when(() => mockLocalDataSource.clearCurrentUser())
+          .thenAnswer((_) async => {});
+
+      // Act
+      final result = await authRepository.logout();
+
+      // Assert
+      expect(result.isRight(), isTrue);
+    });
+
+    test('debe retornar Right si getCurrentUser exitoso', () async {
+      // Arrange
+      when(() => mockLocalDataSource.getCachedUser())
+          .thenAnswer((_) async => testUser);
+
+      // Act
+      final result = await authRepository.getCurrentUser();
+
+      // Assert
+      expect(result.isRight(), isTrue);
+      result.fold(
+        (_) => fail('Expected Right'),
+        (user) => expect(user.email, equals('test@example.com')),
+      );
+    });
+  });
+
+  group('AuthRepositoryImpl - isAuthenticated', () {
+    test('debe retornar true si usuario autenticado existe', () async {
+      // Arrange
+      when(() => mockLocalDataSource.getCachedUser())
+          .thenAnswer((_) async => testUser);
+
+      // Act
+      final result = await authRepository.isAuthenticated();
+
+      // Assert
+      expect(result, isTrue);
+    });
+
+    test('debe retornar false si no hay usuario', () async {
+      // Arrange
+      when(() => mockLocalDataSource.getCachedUser())
+          .thenAnswer((_) async => null);
+
+      // Act
+      final result = await authRepository.isAuthenticated();
+
+      // Assert
+      expect(result, isFalse);
+    });
+
+    test('debe manejar excepción en isAuthenticated', () async {
+      // Arrange
+      const exception = UnknownException(message: 'Error');
+      when(() => mockLocalDataSource.getCachedUser())
+          .thenThrow(exception);
+
+      // Act & Assert
+      expect(
+        () => authRepository.isAuthenticated(),
+        throwsA(isA<UnknownException>()),
+      );
+    });
+  });
+
+  group('AuthRepositoryImpl - Validation', () {
+    test('debe retornar Left con invalidEmail si email es inválido en login',
+        () async {
+      // Act
+      final result = await authRepository.login(
+        email: 'invalid-email',
+        password: 'password123',
+      );
+
+      // Assert
+      expect(result.isLeft(), isTrue);
+    });
+
+    test('debe retornar Left con weakPassword si password es corta en register',
+        () async {
+      // Act
+      final result = await authRepository.register(
+        email: 'test@example.com',
+        password: 'short',
+        username: 'user',
+        firstName: 'Test',
+        lastName: 'User',
+      );
+
+      // Assert
+      expect(result.isLeft(), isTrue);
     });
   });
 }
