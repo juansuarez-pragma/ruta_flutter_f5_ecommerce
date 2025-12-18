@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Configuración de las tarjetas de orden.
+/// Order card configuration.
 class OrderCardConfig extends Equatable {
   const OrderCardConfig({
     required this.orderLabel,
@@ -41,4 +41,3 @@ class OrderCardConfig extends Equatable {
     statusLabels,
   ];
 }
-

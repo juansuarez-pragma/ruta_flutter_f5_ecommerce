@@ -1,6 +1,6 @@
 part of 'auth_bloc.dart';
 
-/// Estados del BLoC de autenticación.
+/// Auth BLoC states.
 sealed class AuthState extends Equatable {
   const AuthState();
 
@@ -8,17 +8,17 @@ sealed class AuthState extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Estado inicial, verificando autenticación.
+/// Initial state (auth check pending).
 final class AuthInitial extends AuthState {
   const AuthInitial();
 }
 
-/// Estado de carga durante operaciones de auth.
+/// Loading state during auth operations.
 final class AuthLoading extends AuthState {
   const AuthLoading();
 }
 
-/// Estado cuando el usuario está autenticado.
+/// State when the user is authenticated.
 final class AuthAuthenticated extends AuthState {
 
   const AuthAuthenticated({required this.user});
@@ -28,12 +28,12 @@ final class AuthAuthenticated extends AuthState {
   List<Object?> get props => [user];
 }
 
-/// Estado cuando no hay usuario autenticado.
+/// State when there is no authenticated user.
 final class AuthUnauthenticated extends AuthState {
   const AuthUnauthenticated();
 }
 
-/// Estado de error en operaciones de auth.
+/// Error state during auth operations.
 final class AuthError extends AuthState {
 
   const AuthError({

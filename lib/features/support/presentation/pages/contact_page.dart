@@ -5,7 +5,7 @@ import 'package:fake_store_design_system/fake_store_design_system.dart';
 import 'package:ecommerce/core/di/injection_container.dart';
 import 'package:ecommerce/features/support/support.dart';
 
-/// Página de contacto para enviar mensajes al soporte.
+/// Contact page for sending support messages.
 class ContactPage extends StatelessWidget {
   const ContactPage({super.key});
 
@@ -59,14 +59,14 @@ class _ContactPageContentState extends State<_ContactPageContent> {
     final tokens = context.tokens;
 
     return Scaffold(
-      appBar: const DSAppBar(title: 'Contactar Soporte'),
+      appBar: const DSAppBar(title: 'Contact Support'),
       body: BlocConsumer<SupportBloc, SupportState>(
         listener: (context, state) {
           if (state is SupportMessageSent) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: const DSText(
-                  '¡Mensaje enviado! Te responderemos pronto.',
+                  'Message sent! We will get back to you soon.',
                   color: DSColors.white,
                 ),
                 backgroundColor: tokens.colorFeedbackSuccess,
@@ -111,7 +111,7 @@ class _ContactPageContentState extends State<_ContactPageContent> {
                               const SizedBox(width: DSSpacing.sm),
                               Expanded(
                                 child: DSText(
-                                  '¿Necesitas ayuda?',
+                                  'Need help?',
                                   variant: DSTextVariant.headingSmall,
                                   color: tokens.colorTextPrimary,
                                 ),
@@ -120,7 +120,7 @@ class _ContactPageContentState extends State<_ContactPageContent> {
                           ),
                           const SizedBox(height: DSSpacing.sm),
                           DSText(
-                            'Completa el formulario y nos pondremos en contacto contigo lo antes posible.',
+                            "Fill out the form and we'll contact you as soon as possible.",
                             color: tokens.colorTextSecondary,
                           ),
                         ],
@@ -134,17 +134,17 @@ class _ContactPageContentState extends State<_ContactPageContent> {
                   TextFormField(
                     controller: _nameController,
                     decoration: const InputDecoration(
-                      labelText: 'Nombre',
-                      hintText: 'Tu nombre completo',
+                      labelText: 'Name',
+                      hintText: 'Your full name',
                       prefixIcon: Icon(Icons.person_outline),
                     ),
                     enabled: !isLoading,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'El nombre es requerido';
+                        return 'Name is required';
                       }
                       if (value.trim().length < 2) {
-                        return 'El nombre debe tener al menos 2 caracteres';
+                        return 'Name must be at least 2 characters';
                       }
                       return null;
                     },
@@ -156,7 +156,7 @@ class _ContactPageContentState extends State<_ContactPageContent> {
                   TextFormField(
                     controller: _emailController,
                     decoration: const InputDecoration(
-                      labelText: 'Correo electrónico',
+                      labelText: 'Email',
                       hintText: 'tu@email.com',
                       prefixIcon: Icon(Icons.email_outlined),
                     ),
@@ -164,11 +164,11 @@ class _ContactPageContentState extends State<_ContactPageContent> {
                     enabled: !isLoading,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'El correo electrónico es requerido';
+                        return 'Email is required';
                       }
                       final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
                       if (!emailRegex.hasMatch(value.trim())) {
-                        return 'Ingresa un correo electrónico válido';
+                        return 'Please enter a valid email';
                       }
                       return null;
                     },
@@ -180,17 +180,17 @@ class _ContactPageContentState extends State<_ContactPageContent> {
                   TextFormField(
                     controller: _subjectController,
                     decoration: const InputDecoration(
-                      labelText: 'Asunto',
-                      hintText: 'Breve descripción del tema',
+                      labelText: 'Subject',
+                      hintText: 'Short description of the topic',
                       prefixIcon: Icon(Icons.subject_outlined),
                     ),
                     enabled: !isLoading,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'El asunto es requerido';
+                        return 'Subject is required';
                       }
                       if (value.trim().length < 5) {
-                        return 'El asunto debe tener al menos 5 caracteres';
+                        return 'Subject must be at least 5 characters';
                       }
                       return null;
                     },
@@ -202,8 +202,8 @@ class _ContactPageContentState extends State<_ContactPageContent> {
                   TextFormField(
                     controller: _messageController,
                     decoration: const InputDecoration(
-                      labelText: 'Mensaje',
-                      hintText: 'Describe tu consulta o problema...',
+                      labelText: 'Message',
+                      hintText: 'Describe your question or issue...',
                       prefixIcon: Icon(Icons.message_outlined),
                       alignLabelWithHint: true,
                     ),
@@ -211,13 +211,13 @@ class _ContactPageContentState extends State<_ContactPageContent> {
                     enabled: !isLoading,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'El mensaje es requerido';
+                        return 'Message is required';
                       }
                       if (value.trim().length < 10) {
-                        return 'El mensaje debe tener al menos 10 caracteres';
+                        return 'Message must be at least 10 characters';
                       }
                       if (value.trim().length > 1000) {
-                        return 'El mensaje no puede exceder 1000 caracteres';
+                        return 'Message cannot exceed 1000 characters';
                       }
                       return null;
                     },
@@ -227,7 +227,7 @@ class _ContactPageContentState extends State<_ContactPageContent> {
 
                   // Submit button
                   DSButton(
-                    text: 'Enviar Mensaje',
+                    text: 'Send message',
                     onPressed: isLoading ? null : () => _submitForm(context),
                     isLoading: isLoading,
                   ),
@@ -243,14 +243,14 @@ class _ContactPageContentState extends State<_ContactPageContent> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           DSText(
-                            'Otras formas de contacto',
+                            'Other ways to reach us',
                             variant: DSTextVariant.bodySmall,
                             color: tokens.colorTextTertiary,
                           ),
                           const SizedBox(height: DSSpacing.sm),
                           const _ContactInfoRow(
                             icon: Icons.email,
-                            text: 'soporte@fakestore.com',
+                            text: 'support@fakestore.com',
                           ),
                           const SizedBox(height: DSSpacing.xs),
                           const _ContactInfoRow(

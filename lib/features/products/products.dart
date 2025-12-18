@@ -1,4 +1,4 @@
-/// Barrel file para el feature Products.
+/// Barrel file for the Products feature.
 library;
 
 // Domain

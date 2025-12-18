@@ -4,11 +4,11 @@ import 'package:fake_store_design_system/fake_store_design_system.dart';
 import 'package:ecommerce/core/router/routes.dart';
 import 'package:ecommerce/core/utils/extensions.dart';
 
-/// Sección de categorías para el home.
+/// Categories section for the Home screen.
 class CategoriesSection extends StatelessWidget {
   const CategoriesSection({super.key, required this.categories});
 
-  /// Lista de categorías.
+  /// Category list.
   final List<String> categories;
 
   @override
@@ -21,9 +21,9 @@ class CategoriesSection extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const DSText('Categorías', variant: DSTextVariant.titleLarge),
+              const DSText('Categories', variant: DSTextVariant.titleLarge),
               DSButton(
-                text: 'Ver todas',
+                text: 'View all',
                 variant: DSButtonVariant.ghost,
                 size: DSButtonSize.small,
                 onPressed: () =>

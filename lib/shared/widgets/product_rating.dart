@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fake_store_design_system/fake_store_design_system.dart';
 
-/// Widget de rating de producto usando tokens del Design System.
+/// Product rating widget using Design System tokens.
 ///
-/// Muestra una estrella con el rating y opcionalmente el número de reseñas.
+/// Shows a star with the rating and optionally the number of reviews.
 class DSProductRating extends StatelessWidget {
   const DSProductRating({
     super.key,
@@ -12,13 +12,13 @@ class DSProductRating extends StatelessWidget {
     this.showReviewCount = true,
   });
 
-  /// Valor del rating (0-5).
+  /// Rating value (0-5).
   final double rating;
 
-  /// Número de reseñas (opcional).
+  /// Review count (optional).
   final int? reviewCount;
 
-  /// Si debe mostrar el texto de reseñas.
+  /// Whether to show the review count.
   final bool showReviewCount;
 
   @override
@@ -38,7 +38,7 @@ class DSProductRating extends StatelessWidget {
         if (showReviewCount && reviewCount != null) ...[
           const SizedBox(width: DSSpacing.xs),
           DSText(
-            '($reviewCount reseñas)',
+            '($reviewCount reviews)',
             variant: DSTextVariant.bodySmall,
             color: tokens.colorTextSecondary,
           ),

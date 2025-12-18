@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Configuración de imágenes.
+/// Images configuration.
 class ImagesConfig extends Equatable {
   const ImagesConfig({
     required this.emptyOrdersPlaceholder,
@@ -20,4 +20,3 @@ class ImagesConfig extends Equatable {
   @override
   List<Object?> get props => [emptyOrdersPlaceholder, orderSuccessIcon];
 }
-

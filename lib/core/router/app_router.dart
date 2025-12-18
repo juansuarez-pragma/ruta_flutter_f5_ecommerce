@@ -13,13 +13,13 @@ import 'package:ecommerce/features/profile/profile.dart';
 import 'package:ecommerce/core/router/routes.dart';
 import 'package:ecommerce/core/router/auth_wrapper.dart';
 
-/// Configuración del router de la aplicación.
+/// Application router configuration.
 ///
-/// Maneja la generación de rutas basada en rutas nombradas.
+/// Handles route generation based on named routes.
 class AppRouter {
   AppRouter._();
 
-  /// Genera la ruta correspondiente basada en la configuración.
+  /// Generates the route for the provided [RouteSettings].
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.authWrapper:
@@ -109,7 +109,7 @@ class AppRouter {
         );
 
       default:
-        // Manejar rutas con parámetros como /product/:id
+        // Handle parameterized routes such as /product/:id.
         if (settings.name?.startsWith('/product/') ?? false) {
           final idString = settings.name!.split('/').last;
           final id = int.tryParse(idString);
@@ -128,7 +128,7 @@ class AppRouter {
     return MaterialPageRoute(
       builder: (_) => Scaffold(
         appBar: AppBar(title: const Text('Error')),
-        body: const Center(child: Text('Página no encontrada')),
+        body: const Center(child: Text('Page not found')),
       ),
       settings: settings,
     );

@@ -1,4 +1,4 @@
-/// Barrel file para el feature Checkout.
+/// Barrel file for the Checkout feature.
 library;
 
 // Presentation

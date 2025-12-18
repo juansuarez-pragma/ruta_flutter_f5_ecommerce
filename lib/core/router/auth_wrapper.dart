@@ -5,7 +5,7 @@ import 'package:ecommerce/core/router/routes.dart';
 import 'package:ecommerce/features/auth/auth.dart';
 import 'package:ecommerce/features/home/presentation/pages/home_page.dart';
 
-/// Wrapper que maneja la navegación basada en el estado de autenticación.
+/// Wrapper that handles navigation based on authentication state.
 class AuthWrapper extends StatelessWidget {
   const AuthWrapper({super.key});
 
@@ -14,13 +14,13 @@ class AuthWrapper extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthAuthenticated) {
-          // Usuario autenticado, ir a home
+          // Authenticated user: go to home.
           Navigator.of(context).pushNamedAndRemoveUntil(
             Routes.home,
             (route) => false,
           );
         } else if (state is AuthUnauthenticated) {
-          // Usuario no autenticado, ir a login
+          // Unauthenticated user: go to login.
           Navigator.of(context).pushNamedAndRemoveUntil(
             Routes.login,
             (route) => false,
@@ -29,7 +29,7 @@ class AuthWrapper extends StatelessWidget {
       },
       child: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
-          // Mostrar loading mientras verifica autenticación
+          // Show loading while authentication is being checked.
           if (state is AuthLoading || state is AuthInitial) {
             return const Scaffold(
               body: Center(
@@ -38,13 +38,13 @@ class AuthWrapper extends StatelessWidget {
             );
           }
 
-          // Si está autenticado, mostrar home
+          // If authenticated, show Home.
           if (state is AuthAuthenticated) {
             return const HomePage();
           }
 
-          // Si no está autenticado, el listener redirigirá a login
-          // Mientras tanto, mostrar loading
+          // If unauthenticated, the listener will redirect to Login.
+          // Meanwhile, show loading.
           return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(),

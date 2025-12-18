@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 import 'package:ecommerce/core/config/models/currency_config.dart';
 
-/// Configuración general de la aplicación.
+/// General application settings configuration.
 class SettingsConfig extends Equatable {
   const SettingsConfig({
     required this.maxOrdersToShow,
@@ -27,4 +27,3 @@ class SettingsConfig extends Equatable {
   @override
   List<Object?> get props => [maxOrdersToShow, dateFormat, currency];
 }
-

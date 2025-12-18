@@ -1,6 +1,6 @@
 part of 'auth_bloc.dart';
 
-/// Eventos del BLoC de autenticación.
+/// Auth BLoC events.
 sealed class AuthEvent extends Equatable {
   const AuthEvent();
 
@@ -8,12 +8,12 @@ sealed class AuthEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Evento para verificar el estado de autenticación al iniciar la app.
+/// Event to check authentication state on app start.
 final class AuthCheckRequested extends AuthEvent {
   const AuthCheckRequested();
 }
 
-/// Evento para iniciar sesión.
+/// Event to sign in.
 final class AuthLoginRequested extends AuthEvent {
 
   const AuthLoginRequested({
@@ -27,7 +27,7 @@ final class AuthLoginRequested extends AuthEvent {
   List<Object?> get props => [email, password];
 }
 
-/// Evento para registrar un nuevo usuario.
+/// Event to register a new user.
 final class AuthRegisterRequested extends AuthEvent {
 
   const AuthRegisterRequested({
@@ -47,7 +47,7 @@ final class AuthRegisterRequested extends AuthEvent {
   List<Object?> get props => [email, password, username, firstName, lastName];
 }
 
-/// Evento para cerrar sesión.
+/// Event to sign out.
 final class AuthLogoutRequested extends AuthEvent {
   const AuthLogoutRequested();
 }

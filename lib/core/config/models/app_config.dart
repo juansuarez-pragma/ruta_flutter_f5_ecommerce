@@ -5,9 +5,9 @@ import 'package:ecommerce/core/config/models/order_detail_config.dart';
 import 'package:ecommerce/core/config/models/order_history_config.dart';
 import 'package:ecommerce/core/config/models/settings_config.dart';
 
-/// Configuración de la aplicación parametrizada desde JSON.
+/// Application configuration loaded from JSON.
 ///
-/// Permite configurar textos, imágenes y ajustes sin modificar código.
+/// Allows configuring texts, images, and settings without code changes.
 class AppConfig extends Equatable {
   const AppConfig({
     required this.orderHistory,
@@ -39,4 +39,3 @@ class AppConfig extends Equatable {
   @override
   List<Object?> get props => [orderHistory, orderDetail, images, settings];
 }
-

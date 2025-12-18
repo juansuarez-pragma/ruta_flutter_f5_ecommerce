@@ -3,14 +3,14 @@ import 'package:fake_store_design_system/fake_store_design_system.dart';
 
 import 'package:ecommerce/core/utils/extensions.dart';
 
-/// Tile para mostrar una categoría.
+/// Tile used to display a category.
 class CategoryTile extends StatelessWidget {
   const CategoryTile({super.key, required this.category, required this.onTap});
 
-  /// Nombre de la categoría.
+  /// Category name.
   final String category;
 
-  /// Callback cuando se toca la categoría.
+  /// Callback invoked when the tile is tapped.
   final VoidCallback onTap;
 
   @override
@@ -23,7 +23,7 @@ class CategoryTile extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: DSSizes.buttonLg, // 48px - equivalente a touchTarget
+            width: DSSizes.buttonLg, // 48px - equivalent to touchTarget
             height: DSSizes.buttonLg,
             decoration: BoxDecoration(
               color: tokens.colorBrandPrimaryLight,

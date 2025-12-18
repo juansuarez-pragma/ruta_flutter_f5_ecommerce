@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Configuración de moneda.
+/// Currency configuration.
 class CurrencyConfig extends Equatable {
   const CurrencyConfig({
     required this.symbol,
@@ -23,4 +23,3 @@ class CurrencyConfig extends Equatable {
   @override
   List<Object?> get props => [symbol, decimalDigits, locale];
 }
-

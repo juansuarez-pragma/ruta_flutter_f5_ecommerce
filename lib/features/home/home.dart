@@ -1,4 +1,4 @@
-/// Barrel file para el feature Home.
+/// Barrel file for the Home feature.
 library;
 
 // Domain

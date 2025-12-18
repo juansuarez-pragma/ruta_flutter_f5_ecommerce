@@ -1,24 +1,24 @@
-/// Constantes globales de la aplicación.
+/// Global application constants.
 ///
-/// Centraliza todos los valores constantes para evitar valores mágicos.
+/// Centralizes constant values to avoid magic numbers/strings.
 class AppConstants {
   AppConstants._();
 
-  /// Nombre de la aplicación.
+  /// Application name.
   static const String appName = 'Fake Store';
 
-  /// Número máximo de productos destacados en home.
+  /// Maximum number of featured products on Home.
   static const int featuredProductsLimit = 6;
 
-  /// Cantidad mínima de producto en carrito.
+  /// Minimum allowed cart quantity.
   static const int minCartQuantity = 1;
 
-  /// Cantidad máxima de producto en carrito.
+  /// Maximum allowed cart quantity.
   static const int maxCartQuantity = 99;
 
-  /// Key para persistencia del carrito.
+  /// Key for cart persistence.
   static const String cartStorageKey = 'cart_items';
 
-  /// Duración del debounce para búsqueda.
+  /// Debounce duration for search.
   static const Duration searchDebounce = Duration(milliseconds: 500);
 }

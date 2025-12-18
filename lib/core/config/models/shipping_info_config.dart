@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Configuración de información de envío.
+/// Shipping information configuration.
 class ShippingInfoConfig extends Equatable {
   const ShippingInfoConfig({
     required this.title,
@@ -23,4 +23,3 @@ class ShippingInfoConfig extends Equatable {
   @override
   List<Object?> get props => [title, freeShipping, estimatedDelivery];
 }
-

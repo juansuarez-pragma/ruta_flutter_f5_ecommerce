@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 import 'package:ecommerce/core/config/models/shipping_info_config.dart';
 
-/// Configuración de la página de detalle de orden.
+/// Order detail page configuration.
 class OrderDetailConfig extends Equatable {
   const OrderDetailConfig({
     required this.pageTitle,
@@ -32,4 +32,3 @@ class OrderDetailConfig extends Equatable {
   @override
   List<Object?> get props => [pageTitle, sections, labels, shippingInfo];
 }
-

@@ -1,6 +1,6 @@
 import 'package:ecommerce/features/orders/domain/entities/order.dart';
 
-/// Modelo de datos para Order con serialización JSON.
+/// Data model for [Order] with JSON serialization.
 class OrderModel extends Order {
   const OrderModel({
     required super.id,
@@ -10,7 +10,7 @@ class OrderModel extends Order {
     super.status,
   });
 
-  /// Crea un OrderModel desde una entidad Order.
+  /// Creates an [OrderModel] from an [Order] entity.
   factory OrderModel.fromEntity(Order order) {
     return OrderModel(
       id: order.id,
@@ -23,7 +23,7 @@ class OrderModel extends Order {
     );
   }
 
-  /// Crea un OrderModel desde JSON.
+  /// Creates an [OrderModel] from JSON.
   factory OrderModel.fromJson(Map<String, dynamic> json) {
     return OrderModel(
       id: json['id'] as String,
@@ -36,7 +36,7 @@ class OrderModel extends Order {
     );
   }
 
-  /// Convierte a JSON.
+  /// Converts to JSON.
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -48,7 +48,7 @@ class OrderModel extends Order {
   }
 }
 
-/// Modelo de datos para OrderItem con serialización JSON.
+/// Data model for [OrderItem] with JSON serialization.
 class OrderItemModel extends OrderItem {
   const OrderItemModel({
     required super.productId,
@@ -58,7 +58,7 @@ class OrderItemModel extends OrderItem {
     required super.imageUrl,
   });
 
-  /// Crea un OrderItemModel desde una entidad OrderItem.
+  /// Creates an [OrderItemModel] from an [OrderItem] entity.
   factory OrderItemModel.fromEntity(OrderItem item) {
     return OrderItemModel(
       productId: item.productId,
@@ -69,7 +69,7 @@ class OrderItemModel extends OrderItem {
     );
   }
 
-  /// Crea un OrderItemModel desde JSON.
+  /// Creates an [OrderItemModel] from JSON.
   factory OrderItemModel.fromJson(Map<String, dynamic> json) {
     return OrderItemModel(
       productId: json['productId'] as int,
@@ -80,7 +80,7 @@ class OrderItemModel extends OrderItem {
     );
   }
 
-  /// Convierte a JSON.
+  /// Converts to JSON.
   Map<String, dynamic> toJson() {
     return {
       'productId': productId,

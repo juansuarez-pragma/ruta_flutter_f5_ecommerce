@@ -5,7 +5,7 @@ import 'package:fake_store_design_system/fake_store_design_system.dart';
 import 'package:ecommerce/core/router/routes.dart';
 import 'package:ecommerce/features/auth/presentation/bloc/auth_bloc.dart';
 
-/// Página de registro de usuario.
+/// User registration page.
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
@@ -70,7 +70,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     return Scaffold(
       appBar: DSAppBar(
-        title: 'Crear cuenta',
+        title: 'Create account',
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
@@ -99,32 +99,32 @@ class _RegisterPageState extends State<RegisterPage> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     DSText(
-                      'Completa tus datos',
+                      'Complete your details',
                       variant: DSTextVariant.headingMedium,
                       color: tokens.colorTextPrimary,
                     ),
                     const SizedBox(height: DSSpacing.xs),
                     DSText(
-                      'Crea tu cuenta para acceder a todas las funciones',
+                      'Create an account to access all features',
                       color: tokens.colorTextSecondary,
                     ),
 
                     const SizedBox(height: DSSpacing.xl),
 
-                    // Nombre y Apellido en fila
+                    // First name and last name row
                     Row(
                       children: [
                         Expanded(
                           child: TextFormField(
                             controller: _firstNameController,
                             decoration: _buildInputDecoration(
-                              label: 'Nombre',
-                              hint: 'Juan',
+                              label: 'First name',
+                              hint: 'John',
                               prefixIcon: Icons.person_outlined,
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Requerido';
+                                return 'Required';
                               }
                               return null;
                             },
@@ -135,12 +135,12 @@ class _RegisterPageState extends State<RegisterPage> {
                           child: TextFormField(
                             controller: _lastNameController,
                             decoration: _buildInputDecoration(
-                              label: 'Apellido',
-                              hint: 'Pérez',
+                              label: 'Last name',
+                              hint: 'Smith',
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Requerido';
+                                return 'Required';
                               }
                               return null;
                             },
@@ -155,16 +155,16 @@ class _RegisterPageState extends State<RegisterPage> {
                     TextFormField(
                       controller: _usernameController,
                       decoration: _buildInputDecoration(
-                        label: 'Nombre de usuario',
-                        hint: 'juanperez',
+                        label: 'Username',
+                        hint: 'johnsmith',
                         prefixIcon: Icons.alternate_email,
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Ingresa un nombre de usuario';
+                          return 'Please enter a username';
                         }
                         if (value.length < 3) {
-                          return 'Mínimo 3 caracteres';
+                          return 'Minimum 3 characters';
                         }
                         return null;
                       },
@@ -177,16 +177,16 @@ class _RegisterPageState extends State<RegisterPage> {
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: _buildInputDecoration(
-                        label: 'Correo electrónico',
-                        hint: 'ejemplo@correo.com',
+                        label: 'Email',
+                        hint: 'example@email.com',
                         prefixIcon: Icons.email_outlined,
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Ingresa tu correo electrónico';
+                          return 'Please enter your email';
                         }
                         if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-                          return 'Ingresa un correo válido';
+                          return 'Please enter a valid email';
                         }
                         return null;
                       },
@@ -194,12 +194,12 @@ class _RegisterPageState extends State<RegisterPage> {
 
                     const SizedBox(height: DSSpacing.base),
 
-                    // Contraseña
+                    // Password
                     TextFormField(
                       controller: _passwordController,
                       obscureText: _obscurePassword,
                       decoration: _buildInputDecoration(
-                        label: 'Contraseña',
+                        label: 'Password',
                         hint: '••••••••',
                         prefixIcon: Icons.lock_outlined,
                         suffixIcon: IconButton(
@@ -217,10 +217,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Ingresa una contraseña';
+                          return 'Please enter a password';
                         }
                         if (value.length < 6) {
-                          return 'Mínimo 6 caracteres';
+                          return 'Minimum 6 characters';
                         }
                         return null;
                       },
@@ -228,12 +228,12 @@ class _RegisterPageState extends State<RegisterPage> {
 
                     const SizedBox(height: DSSpacing.base),
 
-                    // Confirmar contraseña
+                    // Confirm password
                     TextFormField(
                       controller: _confirmPasswordController,
                       obscureText: _obscureConfirmPassword,
                       decoration: _buildInputDecoration(
-                        label: 'Confirmar contraseña',
+                        label: 'Confirm password',
                         hint: '••••••••',
                         prefixIcon: Icons.lock_outlined,
                         suffixIcon: IconButton(
@@ -251,10 +251,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Confirma tu contraseña';
+                          return 'Please confirm your password';
                         }
                         if (value != _passwordController.text) {
-                          return 'Las contraseñas no coinciden';
+                          return 'Passwords do not match';
                         }
                         return null;
                       },
@@ -262,27 +262,27 @@ class _RegisterPageState extends State<RegisterPage> {
 
                     const SizedBox(height: DSSpacing.xl),
 
-                    // Botón de registro
+                    // Register button
                     DSButton(
-                      text: state is AuthLoading ? 'Creando cuenta...' : 'Crear cuenta',
+                      text: state is AuthLoading ? 'Creating account...' : 'Create account',
                       onPressed: state is AuthLoading ? null : _onRegisterPressed,
                       isLoading: state is AuthLoading,
                     ),
 
                     const SizedBox(height: DSSpacing.lg),
 
-                    // Link a login
+                    // Link to login
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         DSText(
-                          '¿Ya tienes cuenta? ',
+                          'Already have an account? ',
                           color: tokens.colorTextSecondary,
                         ),
                         GestureDetector(
                           onTap: () => Navigator.pop(context),
                           child: DSText(
-                            'Inicia sesión',
+                            'Sign in',
                             color: tokens.colorBrandPrimary,
                           ),
                         ),

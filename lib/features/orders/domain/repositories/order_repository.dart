@@ -1,16 +1,16 @@
 import 'package:ecommerce/features/orders/domain/entities/order.dart';
 
-/// Repositorio abstracto para gestión de órdenes.
+/// Abstract repository for order management.
 abstract class OrderRepository {
-  /// Obtiene todas las órdenes.
+  /// Fetches all orders.
   Future<List<Order>> getOrders();
 
-  /// Guarda una nueva orden.
+  /// Saves a new order.
   Future<void> saveOrder(Order order);
 
-  /// Obtiene una orden por su ID.
+  /// Fetches an order by its ID.
   Future<Order?> getOrderById(String id);
 
-  /// Elimina una orden.
+  /// Deletes an order by ID.
   Future<void> deleteOrder(String id);
 }

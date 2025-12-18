@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Entidad que representa una orden de compra.
+/// Entity representing a purchase order.
 class Order extends Equatable {
   const Order({
     required this.id,
@@ -10,29 +10,29 @@ class Order extends Equatable {
     this.status = OrderStatus.completed,
   });
 
-  /// Identificador único de la orden.
+  /// Unique order identifier.
   final String id;
 
-  /// Lista de items de la orden.
+  /// Order items.
   final List<OrderItem> items;
 
-  /// Total de la orden.
+  /// Order total.
   final double total;
 
-  /// Fecha de creación de la orden.
+  /// Order creation date.
   final DateTime createdAt;
 
-  /// Estado de la orden.
+  /// Order status.
   final OrderStatus status;
 
-  /// Número total de productos en la orden.
+  /// Total number of products in the order.
   int get totalItems => items.fold(0, (sum, item) => sum + item.quantity);
 
   @override
   List<Object?> get props => [id, items, total, createdAt, status];
 }
 
-/// Item de una orden.
+/// Order item.
 class OrderItem extends Equatable {
   const OrderItem({
     required this.productId,
@@ -42,29 +42,29 @@ class OrderItem extends Equatable {
     required this.imageUrl,
   });
 
-  /// ID del producto.
+  /// Product ID.
   final int productId;
 
-  /// Título del producto.
+  /// Product title.
   final String title;
 
-  /// Precio unitario.
+  /// Unit price.
   final double price;
 
-  /// Cantidad.
+  /// Quantity.
   final int quantity;
 
-  /// URL de la imagen.
+  /// Image URL.
   final String imageUrl;
 
-  /// Precio total del item.
+  /// Total price for this item.
   double get totalPrice => price * quantity;
 
   @override
   List<Object?> get props => [productId, title, price, quantity, imageUrl];
 }
 
-/// Estados posibles de una orden.
+/// Possible order statuses.
 enum OrderStatus { pending, completed, cancelled }
 
 extension OrderStatusExtension on OrderStatus {

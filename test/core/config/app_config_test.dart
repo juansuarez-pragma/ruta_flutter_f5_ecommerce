@@ -4,7 +4,7 @@ import 'package:ecommerce/core/config/app_config.dart';
 
 void main() {
   group('AppConfig', () {
-    test('API pública estable: expone tipos de config', () {
+    test('stable public API: exposes config types', () {
       const currency = CurrencyConfig(symbol: r'$', decimalDigits: 2, locale: 'en_US');
       const settings = SettingsConfig(maxOrdersToShow: 10, dateFormat: 'dd/MM/yyyy', currency: currency);
       const images = ImagesConfig(
@@ -12,31 +12,31 @@ void main() {
         orderSuccessIcon: 'assets/images/success.png',
       );
       const shippingInfo = ShippingInfoConfig(
-        title: 'Envío',
-        freeShipping: 'Gratis',
-        estimatedDelivery: '2-3 días',
+        title: 'Shipping',
+        freeShipping: 'Free',
+        estimatedDelivery: '2-3 days',
       );
       const orderDetail = OrderDetailConfig(
-        pageTitle: 'Detalle',
+        pageTitle: 'Details',
         sections: {'items': 'Items'},
         labels: {'total': 'Total'},
         shippingInfo: shippingInfo,
       );
       const emptyState = EmptyStateConfig(
         icon: 'box',
-        title: 'Sin órdenes',
-        description: 'Aún no tienes órdenes',
+        title: 'No orders',
+        description: 'You have no orders yet',
       );
       const orderCard = OrderCardConfig(
-        orderLabel: 'Orden',
-        dateLabel: 'Fecha',
+        orderLabel: 'Order',
+        dateLabel: 'Date',
         totalLabel: 'Total',
         itemsLabel: 'Items',
-        statusLabels: {'paid': 'Pagado'},
+        statusLabels: {'paid': 'Paid'},
       );
-      const actions = ActionsConfig(viewDetails: 'Ver', reorder: 'Reordenar');
+      const actions = ActionsConfig(viewDetails: 'View', reorder: 'Reorder');
       const orderHistory = OrderHistoryConfig(
-        pageTitle: 'Historial',
+        pageTitle: 'History',
         emptyState: emptyState,
         orderCard: orderCard,
         actions: actions,
@@ -49,36 +49,36 @@ void main() {
         settings: settings,
       );
 
-      expect(appConfig.orderHistory.pageTitle, 'Historial');
+      expect(appConfig.orderHistory.pageTitle, 'History');
       expect(appConfig.settings.currency.symbol, r'$');
     });
 
-    test('fromJson parsea el árbol completo correctamente', () {
+    test('fromJson parses the full tree correctly', () {
       final json = <String, dynamic>{
         'orderHistory': {
-          'pageTitle': 'Mis órdenes',
+          'pageTitle': 'My orders',
           'emptyState': {
             'icon': 'box',
-            'title': 'No hay órdenes',
-            'description': 'Aún no realizas compras',
+            'title': 'No orders',
+            'description': 'You have not placed any orders yet',
           },
           'orderCard': {
-            'orderLabel': 'Orden',
-            'dateLabel': 'Fecha',
+            'orderLabel': 'Order',
+            'dateLabel': 'Date',
             'totalLabel': 'Total',
             'itemsLabel': 'Items',
-            'statusLabels': {'paid': 'Pagado', 'pending': 'Pendiente'},
+            'statusLabels': {'paid': 'Paid', 'pending': 'Pending'},
           },
-          'actions': {'viewDetails': 'Ver detalle', 'reorder': 'Comprar de nuevo'},
+          'actions': {'viewDetails': 'View details', 'reorder': 'Reorder'},
         },
         'orderDetail': {
-          'pageTitle': 'Detalle de orden',
-          'sections': {'items': 'Productos', 'shipping': 'Envío'},
-          'labels': {'total': 'Total', 'date': 'Fecha'},
+          'pageTitle': 'Order details',
+          'sections': {'items': 'Products', 'shipping': 'Shipping'},
+          'labels': {'total': 'Total', 'date': 'Date'},
           'shippingInfo': {
-            'title': 'Información de envío',
-            'freeShipping': 'Envío gratis',
-            'estimatedDelivery': 'Entrega estimada',
+            'title': 'Shipping information',
+            'freeShipping': 'Free shipping',
+            'estimatedDelivery': 'Estimated delivery',
           },
         },
         'images': {
@@ -94,14 +94,13 @@ void main() {
 
       final config = AppConfig.fromJson(json);
 
-      expect(config.orderHistory.pageTitle, 'Mis órdenes');
-      expect(config.orderHistory.orderCard.getStatusLabel('paid'), 'Pagado');
+      expect(config.orderHistory.pageTitle, 'My orders');
+      expect(config.orderHistory.orderCard.getStatusLabel('paid'), 'Paid');
       expect(config.orderHistory.orderCard.getStatusLabel('unknown'), 'unknown');
-      expect(config.orderDetail.shippingInfo.title, 'Información de envío');
+      expect(config.orderDetail.shippingInfo.title, 'Shipping information');
       expect(config.images.orderSuccessIcon, 'assets/images/success.png');
       expect(config.settings.maxOrdersToShow, 10);
       expect(config.settings.currency.decimalDigits, 2);
     });
   });
 }
-

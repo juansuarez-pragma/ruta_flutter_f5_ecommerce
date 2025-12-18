@@ -2,17 +2,17 @@ import 'dart:convert';
 import 'app_exceptions.dart';
 import 'error_logger.dart';
 
-/// Utilidades para manejo seguro de operaciones que pueden fallar.
-/// Proporciona wrappers type-safe para conversiones y operaciones riesgosas.
+/// Utilities for safely executing operations that may fail.
+/// Provides type-safe wrappers for conversions and risky operations.
 
-/// Ejecuta una función async de forma segura, capturando y convirtiendo excepciones.
+/// Safely runs an async function, capturing and converting exceptions.
 ///
-/// Si la función lanza una excepción:
-/// - Si es [AppException], se re-lanza sin modificar
-/// - Si es otra [Exception], se convierte a [UnknownException]
-/// - Si ocurre error al loguear, continúa (logging es no-crítico)
+/// If the function throws:
+/// - If it's an [AppException], it is rethrown unchanged
+/// - If it's another [Exception], it is converted to [UnknownException]
+/// - If logging fails, execution continues (logging is non-critical)
 ///
-/// Ejemplo:
+/// Example:
 /// ```dart
 /// final user = await safeCall(
 ///   () => userRepository.getUser(id),
@@ -27,10 +27,10 @@ Future<T> safeCall<T>(
   try {
     return await asyncFunction();
   } on AppException {
-    // Si ya es AppException, re-lanzar sin modificar
+    // Already an AppException: rethrow unchanged.
     rethrow;
   } catch (e, st) {
-    // Convertir cualquier otra excepción a UnknownException
+    // Convert any other exception to UnknownException.
     final errorContext = {
       ...(context ?? {}),
       if (operationName != null) 'operation': operationName,
@@ -38,11 +38,12 @@ Future<T> safeCall<T>(
     };
 
     final exception = UnknownException(
-      message: 'Error durante operación${operationName != null ? ': $operationName' : ''}',
+      message:
+          'Error during operation${operationName != null ? ': $operationName' : ''}',
       originalException: e is Exception ? e : Exception(e.toString()),
     );
 
-    // Loguear sin relanzar si falla el logging
+    // Log without crashing if logging fails.
     ErrorLogger().logAppException(
       exception,
       context: errorContext,
@@ -53,9 +54,9 @@ Future<T> safeCall<T>(
   }
 }
 
-/// Decodifica JSON de forma segura, capturando errores de formato.
+/// Safely decodes JSON, capturing format errors.
 ///
-/// Lanza [ParseException] si el JSON es inválido, con detalles del valor fallido.
+/// Throws [ParseException] if the JSON is invalid, including the failed value.
 ///
 /// Ejemplo:
 /// ```dart
@@ -66,9 +67,9 @@ T safeJsonDecode<T>(String jsonString) {
   try {
     return json.decode(jsonString) as T;
   } on FormatException catch (e, st) {
-    // Capturar error de formato específico
+    // Capture a format-specific error.
     final exception = ParseException(
-      message: 'Error al decodificar JSON: ${e.message}',
+      message: 'Failed to decode JSON: ${e.message}',
       failedValue: jsonString.length > 200
           ? '${jsonString.substring(0, 200)}...'
           : jsonString,
@@ -86,9 +87,9 @@ T safeJsonDecode<T>(String jsonString) {
 
     throw exception;
   } catch (e, st) {
-    // Cualquier otra excepción durante JSON decode
+    // Any other exception during JSON decoding.
     final exception = ParseException(
-      message: 'Error inesperado al decodificar JSON',
+      message: 'Unexpected error while decoding JSON',
       failedValue: jsonString.length > 200
           ? '${jsonString.substring(0, 200)}...'
           : jsonString,
@@ -108,7 +109,7 @@ T safeJsonDecode<T>(String jsonString) {
   }
 }
 
-/// Ejecuta una operación de lista de forma segura, capturando errores de búsqueda.
+/// Safely executes a list operation, capturing lookup errors.
 ///
 /// Nota: no captura subclases de [Error] (ej: `StateError`). Para búsquedas
 /// típicas de "elemento no encontrado", usa [safeListFirstWhere] para evitar
@@ -137,7 +138,7 @@ T safeListOperation<T>(
   try {
     return operation();
   } on Exception catch (e, st) {
-    // Otra excepción inesperada
+    // Unexpected exception.
     final exception = ParseException(
       message: 'Error inesperado en operación de lista',
       originalException: e,

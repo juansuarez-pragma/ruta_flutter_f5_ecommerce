@@ -14,12 +14,12 @@ sealed class OrderHistoryEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Evento para cargar el historial de órdenes.
+/// Event to load the order history.
 final class OrderHistoryLoadRequested extends OrderHistoryEvent {
   const OrderHistoryLoadRequested();
 }
 
-/// Evento para refrescar el historial.
+/// Event to refresh the order history.
 final class OrderHistoryRefreshRequested extends OrderHistoryEvent {
   const OrderHistoryRefreshRequested();
 }
@@ -33,17 +33,17 @@ sealed class OrderHistoryState extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Estado inicial.
+/// Initial state.
 final class OrderHistoryInitial extends OrderHistoryState {
   const OrderHistoryInitial();
 }
 
-/// Estado de carga.
+/// Loading state.
 final class OrderHistoryLoading extends OrderHistoryState {
   const OrderHistoryLoading();
 }
 
-/// Estado cargado con órdenes.
+/// Loaded state with orders.
 final class OrderHistoryLoaded extends OrderHistoryState {
   const OrderHistoryLoaded({required this.orders, required this.config});
   final List<Order> orders;
@@ -55,7 +55,7 @@ final class OrderHistoryLoaded extends OrderHistoryState {
   List<Object?> get props => [orders, config];
 }
 
-/// Estado de error.
+/// Error state.
 final class OrderHistoryError extends OrderHistoryState {
   const OrderHistoryError(this.message);
   final String message;
@@ -66,7 +66,7 @@ final class OrderHistoryError extends OrderHistoryState {
 
 // ============ BLoC ============
 
-/// BLoC para gestionar el historial de órdenes.
+/// BLoC that manages order history.
 class OrderHistoryBloc extends Bloc<OrderHistoryEvent, OrderHistoryState> {
   OrderHistoryBloc({
     required GetOrdersUseCase getOrdersUseCase,

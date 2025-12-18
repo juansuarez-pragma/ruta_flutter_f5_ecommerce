@@ -11,7 +11,7 @@ import 'package:ecommerce/features/support/data/models/faq_item_model.dart';
 import 'package:ecommerce/features/support/domain/entities/contact_info.dart';
 import 'package:ecommerce/features/support/domain/entities/faq_item.dart';
 
-/// Implementación del datasource local de soporte.
+/// Local support datasource implementation.
 class SupportLocalDataSourceImpl implements SupportLocalDataSource {
   SupportLocalDataSourceImpl({required this.sharedPreferences});
 
@@ -47,7 +47,7 @@ class SupportLocalDataSourceImpl implements SupportLocalDataSource {
       rethrow;
     } catch (e, st) {
       final exception = UnknownException(
-        message: 'Error al guardar mensaje de contacto',
+        message: 'Failed to save contact message',
         originalException: e is Exception ? e : Exception(e.toString()),
       );
 
@@ -64,7 +64,7 @@ class SupportLocalDataSourceImpl implements SupportLocalDataSource {
   @override
   ContactInfo getContactInfo() {
     return const ContactInfo(
-      email: 'soporte@fakestore.com',
+      email: 'support@fakestore.com',
       phone: '+1 (555) 123-4567',
       address: '123 Commerce Street, Digital City, DC 12345',
       socialMedia: {
@@ -93,13 +93,13 @@ class SupportLocalDataSourceImpl implements SupportLocalDataSource {
           .toList();
     } on ParseException {
       ErrorLogger().logError(
-        message: 'Error al decodificar mensajes de contacto',
+        message: 'Failed to decode contact messages',
         context: {'operation': '_getCachedMessages'},
       );
       rethrow;
     } catch (e, st) {
       final exception = ParseException(
-        message: 'Error inesperado al cargar mensajes de contacto',
+        message: 'Unexpected error while loading contact messages',
         failedValue: jsonString.length > 200
             ? '${jsonString.substring(0, 200)}...'
             : jsonString,
@@ -120,128 +120,128 @@ class SupportLocalDataSourceImpl implements SupportLocalDataSource {
     const FAQItemModel(
       id: 1,
       category: FAQCategory.orders,
-      question: '¿Cómo puedo rastrear mi pedido?',
+      question: 'How can I track my order?',
       answer:
-          'Puedes rastrear tu pedido desde la sección "Mis Pedidos" en tu cuenta. Una vez que tu pedido sea enviado, recibirás un número de seguimiento por correo electrónico.',
+          'You can track your order from the "My Orders" section in your account. Once your order ships, you will receive a tracking number by email.',
     ),
     const FAQItemModel(
       id: 2,
       category: FAQCategory.orders,
-      question: '¿Puedo cancelar mi pedido?',
+      question: 'Can I cancel my order?',
       answer:
-          'Puedes cancelar tu pedido dentro de las primeras 2 horas después de realizarlo. Ve a "Mis Pedidos", selecciona el pedido y presiona "Cancelar". Después de este tiempo, contacta a soporte.',
+          'You can cancel your order within the first 2 hours after placing it. Go to "My Orders", select the order, and tap "Cancel". After that, please contact support.',
     ),
     const FAQItemModel(
       id: 3,
       category: FAQCategory.orders,
-      question: '¿Cuánto tiempo tarda la entrega?',
+      question: 'How long does delivery take?',
       answer:
-          'El tiempo de entrega varía según tu ubicación:\n• Nacional: 3-5 días hábiles\n• Área metropolitana: 1-2 días hábiles\n• Internacional: 10-15 días hábiles',
+          'Delivery time depends on your location:\n• Domestic: 3-5 business days\n• Metro area: 1-2 business days\n• International: 10-15 business days',
     ),
     const FAQItemModel(
       id: 4,
       category: FAQCategory.payments,
-      question: '¿Qué métodos de pago aceptan?',
+      question: 'Which payment methods do you accept?',
       answer:
-          'Aceptamos:\n• Tarjetas de crédito y débito (Visa, MasterCard, American Express)\n• PayPal\n• Transferencias bancarias\n• Pago contra entrega (en áreas seleccionadas)',
+          'We accept:\n• Credit and debit cards (Visa, MasterCard, American Express)\n• PayPal\n• Bank transfers\n• Cash on delivery (in selected areas)',
     ),
     const FAQItemModel(
       id: 5,
       category: FAQCategory.payments,
-      question: '¿Es seguro pagar en línea?',
+      question: 'Is it safe to pay online?',
       answer:
-          'Sí, utilizamos encriptación SSL de 256 bits y cumplimos con los estándares PCI DSS. Tus datos de pago están completamente protegidos y nunca los almacenamos en nuestros servidores.',
+          'Yes. We use 256-bit SSL encryption and comply with PCI DSS standards. Your payment data is protected and we never store it on our servers.',
     ),
     const FAQItemModel(
       id: 6,
       category: FAQCategory.payments,
-      question: '¿Puedo obtener una factura?',
+      question: 'Can I get an invoice?',
       answer:
-          'Sí, recibirás una factura electrónica por correo después de completar tu compra. También puedes descargarla desde "Mis Pedidos" en cualquier momento.',
+          'Yes. You will receive an electronic invoice by email after completing your purchase. You can also download it from "My Orders" at any time.',
     ),
     const FAQItemModel(
       id: 7,
       category: FAQCategory.shipping,
-      question: '¿Hacen envíos internacionales?',
+      question: 'Do you ship internationally?',
       answer:
-          'Sí, enviamos a más de 50 países. Los costos y tiempos de envío varían según el destino. Puedes verificar la disponibilidad y costos durante el checkout.',
+          'Yes, we ship to more than 50 countries. Shipping costs and delivery times vary by destination. You can check availability and costs during checkout.',
     ),
     const FAQItemModel(
       id: 8,
       category: FAQCategory.shipping,
-      question: '¿Cuál es el costo de envío?',
+      question: 'What is the shipping cost?',
       answer:
-          'Los costos de envío varían según:\n• Ubicación del destino\n• Peso del paquete\n• Método de envío seleccionado\n\nEnvío gratis en pedidos superiores a \$50 dentro del país.',
+          'Shipping costs depend on:\n• Destination\n• Package weight\n• Selected shipping method\n\nFree shipping on orders over \$50 (domestic).',
     ),
     const FAQItemModel(
       id: 9,
       category: FAQCategory.shipping,
-      question: '¿Puedo cambiar la dirección de envío?',
+      question: 'Can I change the shipping address?',
       answer:
-          'Puedes cambiar la dirección de envío hasta que el pedido sea enviado. Contacta a soporte lo antes posible con tu número de pedido y la nueva dirección.',
+          'You can change the shipping address until the order has shipped. Contact support as soon as possible with your order number and the new address.',
     ),
     const FAQItemModel(
       id: 10,
       category: FAQCategory.returns,
-      question: '¿Cuál es su política de devoluciones?',
+      question: 'What is your return policy?',
       answer:
-          'Aceptamos devoluciones dentro de 30 días después de la entrega. El producto debe estar en su empaque original, sin usar y con todas las etiquetas. El reembolso se procesa en 5-7 días hábiles.',
+          'We accept returns within 30 days of delivery. The product must be unused, in its original packaging, and with all tags. Refunds are processed in 5-7 business days.',
     ),
     const FAQItemModel(
       id: 11,
       category: FAQCategory.returns,
-      question: '¿Cómo inicio una devolución?',
+      question: 'How do I start a return?',
       answer:
-          'Para iniciar una devolución:\n1. Ve a "Mis Pedidos"\n2. Selecciona el producto\n3. Presiona "Solicitar devolución"\n4. Recibirás instrucciones por correo\n5. Envía el producto con la etiqueta proporcionada',
+          'To start a return:\n1. Go to "My Orders"\n2. Select the product\n3. Tap "Request return"\n4. You will receive instructions by email\n5. Send the product with the provided label',
     ),
     const FAQItemModel(
       id: 12,
       category: FAQCategory.returns,
-      question: '¿Quién paga el envío de devolución?',
+      question: 'Who pays for return shipping?',
       answer:
-          'Si la devolución es por defecto del producto o error nuestro, cubrimos el costo. Si es por cambio de opinión, el cliente cubre el envío de retorno.',
+          'If the return is due to a product defect or our mistake, we cover the cost. If it is a change of mind, the customer covers return shipping.',
     ),
     const FAQItemModel(
       id: 13,
       category: FAQCategory.account,
-      question: '¿Cómo creo una cuenta?',
+      question: 'How do I create an account?',
       answer:
-          'Haz clic en "Registrarse" en la parte superior. Completa el formulario con tu nombre, email y contraseña. Recibirás un correo de confirmación para activar tu cuenta.',
+          'Tap "Sign up" at the top. Fill out the form with your name, email, and password. You will receive a confirmation email to activate your account.',
     ),
     const FAQItemModel(
       id: 14,
       category: FAQCategory.account,
-      question: '¿Olvidé mi contraseña, qué hago?',
+      question: 'I forgot my password. What should I do?',
       answer:
-          'En la página de inicio de sesión, haz clic en "¿Olvidaste tu contraseña?". Ingresa tu email y recibirás un enlace para restablecer tu contraseña.',
+          'On the sign-in page, tap "Forgot your password?". Enter your email and you will receive a password reset link.',
     ),
     const FAQItemModel(
       id: 15,
       category: FAQCategory.account,
-      question: '¿Cómo actualizo mi información personal?',
+      question: 'How do I update my personal information?',
       answer:
-          'Ve a "Mi Cuenta" > "Perfil" para actualizar tu nombre, email, teléfono y dirección. Los cambios se guardan automáticamente.',
+          'Go to "My Account" > "Profile" to update your name, email, phone, and address. Changes are saved automatically.',
     ),
     const FAQItemModel(
       id: 16,
       category: FAQCategory.general,
-      question: '¿Tienen tiendas físicas?',
+      question: 'Do you have physical stores?',
       answer:
-          'Actualmente solo operamos en línea. Esto nos permite ofrecer mejores precios y un catálogo más amplio. Todos los pedidos se envían directamente a tu domicilio.',
+          'We currently operate online only. This allows us to offer better prices and a wider catalog. All orders are shipped directly to your address.',
     ),
     const FAQItemModel(
       id: 17,
       category: FAQCategory.general,
-      question: '¿Cómo contacto con soporte?',
+      question: 'How do I contact support?',
       answer:
-          'Puedes contactarnos:\n• Email: soporte@fakestore.com\n• Teléfono: +1 (555) 123-4567\n• Formulario de contacto en nuestra app\n• Chat en vivo (L-V 9am-6pm)',
+          'You can contact us:\n• Email: support@fakestore.com\n• Phone: +1 (555) 123-4567\n• Contact form in our app\n• Live chat (Mon-Fri 9am-6pm)',
     ),
     const FAQItemModel(
       id: 18,
       category: FAQCategory.general,
-      question: '¿Los productos son originales?',
+      question: 'Are the products authentic?',
       answer:
-          'Todos nuestros productos son 100% originales y vienen directamente de los fabricantes o distribuidores autorizados. Cada producto incluye garantía del fabricante.',
+          'All our products are 100% authentic and come directly from manufacturers or authorized distributors. Each product includes a manufacturer warranty.',
     ),
   ];
 }

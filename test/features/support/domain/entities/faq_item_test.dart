@@ -5,14 +5,14 @@ void main() {
   group('FAQItem Entity', () {
     const tFAQItem = FAQItem(
       id: 1,
-      question: '¿Cómo puedo realizar un pedido?',
-      answer: 'Para realizar un pedido, navega a la página de productos...',
+      question: 'How can I place an order?',
+      answer: 'To place an order, go to the products page...',
       category: FAQCategory.orders,
     );
 
     test('should be a valid FAQItem', () {
       expect(tFAQItem.id, 1);
-      expect(tFAQItem.question, '¿Cómo puedo realizar un pedido?');
+      expect(tFAQItem.question, 'How can I place an order?');
       expect(tFAQItem.category, FAQCategory.orders);
     });
 

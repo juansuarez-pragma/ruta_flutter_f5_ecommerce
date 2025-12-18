@@ -129,14 +129,14 @@ class CartItemFixtures {
 // AUTH FIXTURES
 // ============================================================================
 
-/// Fixtures de User para tests de autenticación.
+/// User fixtures for auth tests.
 class UserFixtures {
   static const String validEmail = 'test@example.com';
   static const String validPassword = 'password123';
   static const String invalidEmail = 'invalid-email';
   static const String weakPassword = '123';
 
-  /// Usuario de prueba autenticado
+  /// Authenticated test user.
   static const User sampleUser = User(
     id: 1,
     email: validEmail,
@@ -146,7 +146,7 @@ class UserFixtures {
     token: 'valid_token_abc123',
   );
 
-  /// Usuario sin token (no autenticado)
+  /// User without token (unauthenticated).
   static const User sampleUserWithoutToken = User(
     id: 1,
     email: validEmail,
@@ -155,7 +155,7 @@ class UserFixtures {
     lastName: 'User',
   );
 
-  /// Usuario de prueba básico en JSON (para DataSource tests)
+  /// Basic test user JSON (for datasource tests).
   static Map<String, dynamic> get sampleUserJson => {
     'id': 1,
     'email': validEmail,
@@ -165,13 +165,13 @@ class UserFixtures {
     'token': 'valid_token_abc123',
   };
 
-  /// Credenciales válidas para login
+  /// Valid login credentials.
   static Map<String, String> get validCredentials => {
     'email': validEmail,
     'password': validPassword,
   };
 
-  /// Credenciales inválidas para login
+  /// Invalid login credentials.
   static Map<String, String> get invalidCredentials => {
     'email': validEmail,
     'password': 'wrongpassword',
@@ -182,12 +182,12 @@ class UserFixtures {
 // SUPPORT FIXTURES
 // ============================================================================
 
-/// Fixtures de FAQItem para tests de soporte.
+/// FAQItem fixtures for support tests.
 class FAQFixtures {
   static const FAQItem sampleFAQ = FAQItem(
     id: 1,
-    question: '¿Cómo puedo realizar un pedido?',
-    answer: 'Para realizar un pedido, navegue a la página de productos...',
+    question: 'How can I place an order?',
+    answer: 'To place an order, go to the products page...',
     category: FAQCategory.orders,
   );
 
@@ -195,27 +195,27 @@ class FAQFixtures {
     sampleFAQ,
     FAQItem(
       id: 2,
-      question: '¿Cuáles son los métodos de pago?',
-      answer: 'Aceptamos tarjetas de crédito, débito y PayPal.',
+      question: 'Which payment methods do you accept?',
+      answer: 'We accept credit cards, debit cards, and PayPal.',
       category: FAQCategory.payments,
     ),
     FAQItem(
       id: 3,
-      question: '¿Cómo puedo rastrear mi pedido?',
-      answer: 'Puede rastrear su pedido en la sección "Mis Pedidos".',
+      question: 'How can I track my order?',
+      answer: 'You can track your order in the "My Orders" section.',
       category: FAQCategory.shipping,
     ),
   ];
 
   static Map<String, dynamic> get sampleFAQJson => {
     'id': 1,
-    'question': '¿Cómo puedo realizar un pedido?',
-    'answer': 'Para realizar un pedido, navegue a la página de productos...',
+    'question': 'How can I place an order?',
+    'answer': 'To place an order, go to the products page...',
     'category': 'orders',
   };
 }
 
-/// Fixtures de ContactMessage para tests de soporte.
+/// ContactMessage fixtures for support tests.
 class ContactMessageFixtures {
   static final DateTime sampleTimestamp = DateTime(2025, 12, 16, 10, 30);
 
@@ -228,10 +228,11 @@ class ContactMessageFixtures {
     timestamp: sampleTimestamp,
   );
 
-  static const String validName = 'Usuario Test';
+  static const String validName = 'Test User';
   static const String validEmail = 'test@example.com';
-  static const String validSubject = 'Consulta sobre producto';
-  static const String validMessage = 'Este es un mensaje de prueba válido que tiene más de 10 caracteres.';
+  static const String validSubject = 'Product inquiry';
+  static const String validMessage =
+      'This is a valid test message with more than 10 characters.';
 
   static Map<String, dynamic> get sampleContactMessageJson => {
     'id': '1',
@@ -243,10 +244,10 @@ class ContactMessageFixtures {
   };
 }
 
-/// Fixtures de ContactInfo para tests de soporte.
+/// ContactInfo fixtures for support tests.
 class ContactInfoFixtures {
   static const ContactInfo sampleContactInfo = ContactInfo(
-    email: 'soporte@fakestore.com',
+    email: 'support@fakestore.com',
     phone: '+1 234 567 890',
     address: '123 Main Street, City, Country',
     socialMedia: {
@@ -260,23 +261,23 @@ class ContactInfoFixtures {
 // ORDER USE CASE MOCKS
 // ============================================================================
 
-/// Mock de GetOrdersUseCase para tests
+/// GetOrdersUseCase mock for tests.
 class MockGetOrdersUseCase extends Mock implements GetOrdersUseCase {}
 
-/// Mock de SaveOrderUseCase para tests
+/// SaveOrderUseCase mock for tests.
 class MockSaveOrderUseCase extends Mock implements SaveOrderUseCase {}
 
-/// Mock de GetOrderByIdUseCase para tests
+/// GetOrderByIdUseCase mock for tests.
 class MockGetOrderByIdUseCase extends Mock implements GetOrderByIdUseCase {}
 
 // ============================================================================
 // SUPPORT MOCKS
 // ============================================================================
 
-/// Mock del SupportRepository para tests
+/// SupportRepository mock for tests.
 class MockSupportRepository extends Mock implements SupportRepository {}
 
-/// Mock del SupportLocalDataSource para tests
+/// SupportLocalDataSource mock for tests.
 class MockSupportLocalDataSource extends Mock implements SupportLocalDataSource {}
 
 /// Mock de GetFAQsUseCase para tests

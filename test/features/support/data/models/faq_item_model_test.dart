@@ -7,8 +7,8 @@ import '../../../../helpers/mocks.dart';
 void main() {
   const tFAQItemModel = FAQItemModel(
     id: 1,
-    question: '¿Cómo puedo realizar un pedido?',
-    answer: 'Para realizar un pedido, navegue a la página de productos...',
+    question: 'How can I place an order?',
+    answer: 'To place an order, go to the products page...',
     category: FAQCategory.orders,
   );
 
@@ -37,8 +37,8 @@ void main() {
 
         // Assert
         expect(result['id'], 1);
-        expect(result['question'], '¿Cómo puedo realizar un pedido?');
-        expect(result['answer'], 'Para realizar un pedido, navegue a la página de productos...');
+        expect(result['question'], 'How can I place an order?');
+        expect(result['answer'], 'To place an order, go to the products page...');
         expect(result['category'], 'orders');
       });
     });

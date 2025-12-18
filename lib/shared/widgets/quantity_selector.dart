@@ -3,9 +3,9 @@ import 'package:fake_store_design_system/fake_store_design_system.dart';
 
 import 'package:ecommerce/core/constants/app_constants.dart';
 
-/// Selector de cantidad con botones incrementar/decrementar.
+/// Quantity selector with increment/decrement buttons.
 ///
-/// Permite al usuario seleccionar una cantidad dentro de un rango definido.
+/// Allows selecting a quantity within a defined range.
 class QuantitySelector extends StatelessWidget {
   const QuantitySelector({
     super.key,
@@ -15,16 +15,16 @@ class QuantitySelector extends StatelessWidget {
     this.max = AppConstants.maxCartQuantity,
   });
 
-  /// Cantidad actual.
+  /// Current quantity.
   final int quantity;
 
-  /// Callback cuando la cantidad cambia.
+  /// Callback when the quantity changes.
   final ValueChanged<int> onChanged;
 
-  /// Cantidad mínima permitida.
+  /// Minimum allowed quantity.
   final int min;
 
-  /// Cantidad máxima permitida.
+  /// Maximum allowed quantity.
   final int max;
 
   @override

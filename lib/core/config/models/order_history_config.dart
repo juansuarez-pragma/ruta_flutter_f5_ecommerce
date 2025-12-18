@@ -4,7 +4,7 @@ import 'package:ecommerce/core/config/models/actions_config.dart';
 import 'package:ecommerce/core/config/models/empty_state_config.dart';
 import 'package:ecommerce/core/config/models/order_card_config.dart';
 
-/// Configuración de la página de historial de órdenes.
+/// Order history page configuration.
 class OrderHistoryConfig extends Equatable {
   const OrderHistoryConfig({
     required this.pageTitle,
@@ -34,4 +34,3 @@ class OrderHistoryConfig extends Equatable {
   @override
   List<Object?> get props => [pageTitle, emptyState, orderCard, actions];
 }
-

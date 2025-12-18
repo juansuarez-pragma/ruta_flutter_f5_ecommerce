@@ -1,173 +1,134 @@
 # CLAUDE.md
 
-Este archivo proporciona orientación a Claude Code (claude.ai/code) cuando trabaja con código en este repositorio.
+This file provides guidance to Claude Code (claude.ai/code) when working in this repository.
 
-## Descripción del Proyecto
+## Project Overview
 
-Aplicación Flutter de e-commerce completa que consume la Fake Store API. Implementa Clean Architecture con el patrón BLoC para manejo de estado. Incluye autenticación, perfil de usuario y sistema de soporte. Soporta Android, iOS y Web.
+Full-featured Flutter e-commerce application consuming the Fake Store API. The project follows Clean Architecture and uses the BLoC pattern for state management. It includes authentication, user profile, and a support system. Targets Android, iOS, and Web.
 
-- **Requisito SDK:** Dart ^3.9.2, Flutter ^3.29.2
-- **Linting:** flutter_lints ^5.0.0 - **✅ 0 issues** (código 100% limpio)
-- **State Management:** flutter_bloc ^8.1.6
-- **DI:** get_it ^8.3.0
-- **Tests:** 206/210 pasando (98%)
+- **SDK requirement:** Dart ^3.9.2, Flutter ^3.29.2
+- **Linting:** `flutter_lints ^5.0.0` (0 issues)
+- **State management:** `flutter_bloc ^8.1.6`
+- **DI:** `get_it ^8.3.0`
 
-## Comandos Comunes
+## Common Commands
 
 ```bash
-# Dependencias
+# Dependencies
 flutter pub get
 
-# Ejecutar aplicación
-flutter run                    # Plataforma por defecto
+# Run
+flutter run                    # Default platform
 flutter run -d chrome          # Web
-flutter run -d <device_id>     # Dispositivo específico
+flutter run -d <device_id>     # Specific device
 
-# Compilar
+# Build
 flutter build apk              # Android
 flutter build ios              # iOS
 flutter build web              # Web
 
-# Pruebas
-flutter test                   # Ejecutar todas las pruebas
-flutter test test/widget_test.dart  # Ejecutar archivo de prueba específico
-flutter test --coverage        # Con reporte de cobertura
+# Tests
+flutter test                   # Run all tests
+flutter test test/widget_test.dart  # Run a single test file
+flutter test --coverage        # With coverage report
 
-# Calidad de código
-flutter analyze                # Análisis estático
-dart fix --apply               # Corregir automáticamente problemas de lint
-dart format lib/               # Formatear código
+# Code quality
+flutter analyze                # Static analysis
+dart fix --apply               # Apply automatic fixes
+dart format lib/               # Format code
 ```
 
-## Arquitectura
+## Architecture
 
-**Clean Architecture** con tres capas por feature:
+Clean Architecture with three layers per feature (`data`, `domain`, `presentation`).
 
-### Estructura del Proyecto
+### Project Structure
 
 ```
 lib/
-├── app.dart                    # MaterialApp con AuthWrapper
-├── main.dart                   # Entry point con inicialización DI
+├── app.dart                    # MaterialApp + AuthWrapper
+├── main.dart                   # Entry point + DI bootstrap
 ├── core/
-│   ├── config/                 # Configuración JSON (AppConfig)
-│   ├── constants/              # AppConstants (nombre app, mensajes)
+│   ├── config/                 # JSON configuration (AppConfig)
+│   ├── constants/              # AppConstants (app name, keys, etc.)
 │   ├── di/                     # injection_container.dart (get_it setup)
 │   ├── router/                 # AppRouter, Routes, AuthWrapper
-│   ├── theme/                  # AppTheme (configuración de tema)
-│   └── utils/                  # Extensions (StringExtension, etc.)
+│   ├── theme/                  # AppTheme (Design System integration)
+│   └── utils/                  # Extensions and utilities
 ├── features/
-│   ├── auth/                   # 🆕 Autenticación (Login, Register, Logout)
-│   │   ├── data/
-│   │   │   ├── datasources/    # AuthLocalDataSource (SharedPreferences)
-│   │   │   ├── models/         # UserModel (JSON serialization)
-│   │   │   └── repositories/   # AuthRepositoryImpl
-│   │   ├── domain/
-│   │   │   ├── entities/       # User (isAuthenticated, fullName)
-│   │   │   ├── repositories/   # AuthRepository (abstract)
-│   │   │   └── usecases/       # Login, Register, Logout, GetCurrentUser
-│   │   └── presentation/
-│   │       ├── bloc/           # AuthBloc, AuthEvent, AuthState
-│   │       └── pages/          # LoginPage, RegisterPage
-│   ├── cart/
-│   │   ├── data/
-│   │   │   ├── datasources/    # CartLocalDataSource (SharedPreferences)
-│   │   │   ├── models/         # CartItemModel (JSON serialization)
-│   │   │   └── repositories/   # CartRepositoryImpl
-│   │   ├── domain/
-│   │   │   ├── entities/       # CartItem
-│   │   │   ├── repositories/   # CartRepository (abstract)
-│   │   │   └── usecases/       # GetCart, AddToCart, RemoveFromCart, etc.
-│   │   └── presentation/
-│   │       ├── bloc/           # CartBloc, CartEvent, CartState
-│   │       ├── pages/          # CartPage
-│   │       └── widgets/        # CartItemTile, CartSummary, EmptyCart
-│   ├── categories/             # Categorías de productos
-│   ├── checkout/               # Proceso de checkout
-│   ├── home/                   # Página principal
-│   ├── orders/                 # Historial de órdenes
-│   ├── products/               # Productos y detalle
-│   ├── profile/                # 🆕 Perfil de usuario
-│   │   └── presentation/
-│   │       └── pages/          # ProfilePage (con logout)
-│   ├── search/                 # Búsqueda de productos
-│   └── support/                # 🆕 Soporte y ayuda
-│       ├── data/
-│       │   ├── datasources/    # SupportLocalDataSource (18 FAQs mock)
-│       │   ├── models/         # FAQItemModel, ContactMessageModel
-│       │   └── repositories/   # SupportRepositoryImpl
-│       ├── domain/
-│       │   ├── entities/       # FAQItem, ContactMessage, ContactInfo
-│       │   ├── repositories/   # SupportRepository (abstract)
-│       │   └── usecases/       # GetFAQs, SendContactMessage
-│       └── presentation/
-│           ├── bloc/           # SupportBloc, SupportEvent, SupportState
-│           ├── pages/          # SupportPage, ContactPage
-│           └── widgets/        # FAQCard
-├── shared/
-│   └── widgets/                # AppScaffold, QuantitySelector, DSProductRating
-└── test/                       # Unit tests (206 tests passing)
+│   ├── auth/                   # Authentication (Login/Register/Logout)
+│   ├── cart/                   # Shopping cart
+│   ├── categories/             # Product categories
+│   ├── checkout/               # Checkout flow
+│   ├── home/                   # Home page
+│   ├── orders/                 # Order history
+│   ├── products/               # Products and product detail
+│   ├── profile/                # User profile
+│   ├── search/                 # Search
+│   └── support/                # Support (FAQs + contact)
+└── shared/
+    └── widgets/                # Shared widgets (AppScaffold, QuantitySelector, etc.)
 ```
 
-### Patrones Implementados
+### Patterns
 
-**BLoC Pattern:**
-- Un BLoC por caso de uso
-- Events como sealed classes
-- States como sealed classes con Equatable
-- Transformación de events a states
+**BLoC pattern**
+- One BLoC per feature/use case flow
+- Sealed classes for events and states
+- Equatable-based state comparison
 
-**Inyección de Dependencias:**
+**Dependency injection**
 ```dart
-// En injection_container.dart
+// In injection_container.dart
 sl.registerLazySingleton(() => FakeStoreClient());
 sl.registerLazySingleton(() => GetProductsUseCase(client: sl()));
 sl.registerFactory(() => ProductsBloc(getProductsUseCase: sl()));
 ```
 
-**Navegación:**
+**Navigation**
 ```dart
-// Rutas nombradas en Routes class
 Navigator.pushNamed(context, Routes.productDetail, arguments: {'id': 1});
 ```
 
-## Dependencias Externas
+## External Dependencies
 
-| Paquete | Uso |
-|---------|-----|
-| `fake_store_api_client` | Cliente API (Git: ruta_flutter_f3) |
-| `fake_store_design_system` | Componentes UI (Git: ruta_flutter_f4) |
+| Package | Usage |
+|---------|-------|
+| `fake_store_api_client` | API client (from Phase 3) |
+| `fake_store_design_system` | UI components & tokens (from Phase 4) |
 | `flutter_bloc` | State management |
 | `get_it` | Dependency injection |
-| `shared_preferences` | Persistencia local |
-| `cached_network_image` | Cache de imágenes |
-| `dartz` | Either pattern (viene con api_client) |
+| `shared_preferences` | Local persistence |
+| `cached_network_image` | Image caching |
+| `dartz` | Either pattern |
 | `equatable` | Value equality |
 
-## Convenciones de Código
+## Code Conventions
 
-### Nombrado
-- **Features:** snake_case (ej: `cart`, `products`)
-- **Clases:** PascalCase (ej: `CartBloc`, `GetProductsUseCase`)
-- **Archivos:** snake_case (ej: `cart_bloc.dart`, `get_products_usecase.dart`)
-- **BLoC Events:** Past tense (ej: `CartItemAdded`, `ProductsLoadRequested`)
-- **BLoC States:** Adjective/Noun (ej: `CartLoading`, `CartLoaded`, `CartError`)
+### Naming
+- **Features:** `snake_case` (e.g., `cart`, `products`)
+- **Classes:** `PascalCase` (e.g., `CartBloc`, `GetProductsUseCase`)
+- **Files:** `snake_case` (e.g., `cart_bloc.dart`, `get_products_usecase.dart`)
+- **BLoC events:** past tense (e.g., `CartItemAdded`, `ProductsLoadRequested`)
+- **BLoC states:** adjective/noun (e.g., `CartLoading`, `CartLoaded`, `CartError`)
 
 ### Barrel Files
-Cada directorio tiene un barrel file para exports limpios:
+Each feature exposes a barrel for clean exports:
 ```dart
 // features/cart/cart.dart
 export 'domain/entities/cart_item.dart';
 export 'presentation/bloc/cart_bloc.dart';
-// etc.
 ```
 
 ### Use Cases
-- Un caso de uso por operación
-- Método `call()` para invocación
-- Retorna `Future<Either<Failure, T>>` o tipo directo
+- One use case per operation
+- Use `call()` for invocation
+- Prefer `Future<Either<Failure, T>>` or direct types where appropriate
 
-## Flujo de Datos
+### Avoid “God Files”
+If a file starts accumulating multiple unrelated models/classes, split by responsibility and expose a stable barrel (example: `lib/core/config/app_config.dart`).
+
+## Data Flow
 
 ```
 UI (Page/Widget)
@@ -187,13 +148,13 @@ Model → Entity → State → UI
 
 ## Testing
 
-Los tests actuales cubren:
-- Entidades del dominio (CartItem)
-- Modelos de datos (Product)
+The test suite includes:
+- Domain entities (e.g., `CartItem`)
+- Data models
+- BLoCs (via `bloc_test`)
 
-Para agregar tests:
+Example:
 ```dart
-// test/features/cart/domain/usecases/get_cart_usecase_test.dart
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -209,271 +170,66 @@ void main() {
   });
 
   test('should get cart items from repository', () async {
-    // arrange
-    when(() => mockRepository.getCartItems())
-        .thenAnswer((_) async => []);
-    // act
+    when(() => mockRepository.getCartItems()).thenAnswer((_) async => []);
     final result = await useCase();
-    // assert
     expect(result, []);
     verify(() => mockRepository.getCartItems()).called(1);
   });
 }
 ```
 
-## Uso del Design System
+## Design System Usage
 
-El proyecto utiliza **todos** los componentes del Design System (`fake_store_design_system`) siguiendo el patrón Atomic Design.
+The project uses `fake_store_design_system` components following Atomic Design.
 
-### Tokens Utilizados
-```dart
-// Espaciado
-DSSpacing.xs, DSSpacing.sm, DSSpacing.base, DSSpacing.lg, DSSpacing.xl
-
-// Tamaños
-DSSizes.iconSm, DSSizes.iconBase, DSSizes.iconMega, DSSizes.touchTarget
-DSSizes.buttonSm, DSSizes.avatarXxl, DSSizes.borderHairline
-
-// Border Radius
-DSBorderRadius.smRadius, DSBorderRadius.baseRadius
-
-// Colores
-DSColors.white, DSColors.blackAlpha32
-```
-
-### Acceso a Tokens de Tema
+Tokens are accessed through `context.tokens`:
 ```dart
 final tokens = context.tokens;
-tokens.colorBrandPrimary        // Color primario de marca
-tokens.colorTextSecondary       // Texto secundario
-tokens.colorTextTertiary        // Texto terciario
-tokens.colorBorderPrimary       // Bordes
-tokens.colorSurfaceSecondary    // Superficies
-tokens.colorFeedbackWarning     // Estados (warning, success, etc.)
-tokens.colorFeedbackSuccess
-tokens.colorFeedbackSuccessLight
-tokens.colorIconSecondary       // Íconos secundarios
-tokens.colorBrandPrimaryLight   // Variante light del brand
+tokens.colorBrandPrimary
+tokens.colorTextSecondary
+tokens.colorBorderPrimary
 ```
 
-### Componentes por Categoría
+## JSON Configuration (Phase 7)
 
-**Atoms:**
-- `DSText` - Texto con variantes tipográficas
-- `DSButton` - Botones (primary, secondary, ghost)
-- `DSIconButton` - Botones con solo ícono
-- `DSBadge` - Badges informativos
-- `DSTextField` - Campos de texto
-- `DSCircularLoader` - Indicador de carga
+Texts and images are configurable via:
+- `assets/config/app_config.json`
 
-**Molecules:**
-- `DSCard` - Contenedor con estilo
-- `DSProductCard` - Card específico para productos
-- `DSFilterChip` - Chips para filtros
-- `DSEmptyState` - Estado vacío
-- `DSErrorState` - Estado de error
-- `DSLoadingState` - Estado de carga
+Config loading:
+- `ConfigDataSource` reads the JSON from assets and caches it.
+- `AppConfig` models are in `lib/core/config/models/` and are exported via `lib/core/config/app_config.dart`.
 
-**Organisms:**
-- `DSAppBar` - Barra de navegación superior
-- `DSBottomNav` - Navegación inferior
-- `DSProductGrid` - Grid de productos
+How to modify texts/images:
+1. Edit `assets/config/app_config.json`
+2. Update values
+3. Hot restart (capital `R` in the terminal)
 
-### Widgets Compartidos del Proyecto
-- `DSProductRating` - Rating de producto usando tokens del DS
-- `QuantitySelector` - Selector de cantidad con DSIconButton
+## Feature Notes
 
-### Ejemplo de Uso
-```dart
-// AppBar con widget personalizado
-DSAppBar(
-  title: 'Título',
-  titleWidget: DSTextField(...),  // Widget personalizado en título
-  actions: [DSIconButton(...)],
-)
+**Auth**
+- Local auth backed by SharedPreferences (no external API dependency)
+- Pages: Login, Register
 
-// Botón ghost para navegación
-DSButton(
-  text: 'Ver todos',
-  variant: DSButtonVariant.ghost,
-  size: DSButtonSize.small,
-  onPressed: () => Navigator.pushNamed(...),
-)
+**Profile**
+- Shows the authenticated user info
+- Navigation shortcuts to Orders and Support
+- Logout with confirmation
 
-// Divisor usando tokens
-Container(
-  height: DSSizes.borderHairline,
-  color: context.tokens.colorBorderPrimary,
-)
-```
+**Support**
+- FAQs + category filtering
+- Contact form with local persistence for submitted messages
 
-## Parametrización JSON (Fase 7)
+**Orders**
+- Local order history via SharedPreferences
+- UI texts driven by JSON configuration
 
-El proyecto implementa un sistema de parametrización que permite cambiar textos, imágenes y configuraciones sin modificar código.
+## Development Notes
 
-### Ubicación del Archivo
-```
-assets/config/app_config.json
-```
+- Cart persists in SharedPreferences as JSON
+- Orders persist in SharedPreferences as JSON
+- User session persists in SharedPreferences
+- Contact messages persist in SharedPreferences
+- Search uses 300ms debounce
+- Theme tokens are accessed via `context.tokens`
+- Keep `flutter analyze` clean and the test suite green
 
-### Estructura del JSON
-```json
-{
-  "orderHistory": {
-    "pageTitle": "Mis Pedidos",
-    "emptyState": { "icon": "receipt_long", "title": "...", "description": "..." },
-    "orderCard": { "orderLabel": "Pedido", "statusLabels": { "completed": "..." } }
-  },
-  "images": { "emptyOrdersPlaceholder": "https://..." },
-  "settings": { "maxOrdersToShow": 50, "currency": { "symbol": "$" } }
-}
-```
-
-### Arquitectura de Configuración
-```
-assets/config/app_config.json          # Archivo JSON fuente
-        ↓
-ConfigLocalDataSource                   # Lee JSON con rootBundle
-        ↓
-AppConfig (Modelos Equatable)           # Parsea a modelos type-safe
-        ↓
-get_it (sl<AppConfig>())               # Registra como singleton
-        ↓
-BLoC / UI                              # Consume configuración
-```
-
-### Modelos de Configuración
-```dart
-// lib/core/config/app_config.dart
-class AppConfig extends Equatable {
-  final OrderHistoryConfig orderHistory;
-  final ImagesConfig images;
-  final SettingsConfig settings;
-
-  factory AppConfig.fromJson(Map<String, dynamic> json) => ...
-}
-```
-
-### Uso en UI
-```dart
-// Desde BLoC
-final appConfig = sl<AppConfig>();
-emit(OrderHistoryLoaded(orders: orders, config: appConfig.orderHistory));
-
-// En Widget
-DSAppBar(title: config.pageTitle)  // Texto desde JSON
-DSEmptyState(
-  title: config.emptyState.title,  // Texto parametrizado
-  description: config.emptyState.description,
-)
-```
-
-### Cómo Modificar Textos
-1. Editar `assets/config/app_config.json`
-2. Cambiar los valores deseados
-3. Hot Restart la app (R mayúscula en terminal)
-
-### Feature: Orders (usa parametrización)
-```
-lib/features/orders/
-├── data/
-│   ├── datasources/    # OrderLocalDataSource (SharedPreferences)
-│   ├── models/         # OrderModel, OrderItemModel
-│   └── repositories/   # OrderRepositoryImpl
-├── domain/
-│   ├── entities/       # Order, OrderItem, OrderStatus
-│   ├── repositories/   # OrderRepository (abstract)
-│   └── usecases/       # GetOrders, SaveOrder, ClearOrders
-└── presentation/
-    ├── bloc/           # OrderHistoryBloc
-    ├── pages/          # OrderHistoryPage
-    └── widgets/        # OrderCard (textos parametrizados)
-```
-
-### Documentación Detallada
-Ver `assets/config/app_config.json` y `lib/core/config/`
-
-## Features Nuevos Implementados
-
-### Auth (Autenticación)
-**Ubicación:** `lib/features/auth/`
-**Tests:** 73/73 ✅
-
-- **Domain Layer:**
-  - `User` entity con `isAuthenticated` getter y `fullName`
-  - `AuthRepository` con login, register, logout, getCurrentUser
-  - UseCases: `LoginUseCase`, `RegisterUseCase`, `LogoutUseCase`, `GetCurrentUserUseCase`
-
-- **Data Layer:**
-  - `AuthLocalDataSource` - Persistencia con SharedPreferences
-  - `UserModel` - Serialización JSON
-  - `AuthRepositoryImpl` - Implementación con validaciones
-
-- **Presentation Layer:**
-  - `AuthBloc` con 7 states: Initial, Loading, Authenticated, Unauthenticated, Error, AuthInProgress, AuthFailure
-  - `LoginPage` - Formulario con email y contraseña
-  - `RegisterPage` - Formulario completo con confirmación de contraseña
-
-- **Flujo:**
-  - `AuthWrapper` verifica sesión al iniciar app
-  - Redirige automáticamente a login o home según estado
-  - Sesión persiste en SharedPreferences
-
-### Profile (Perfil)
-**Ubicación:** `lib/features/profile/`
-
-- **ProfilePage:**
-  - Muestra info del usuario autenticado
-  - Links de navegación a Pedidos y Soporte
-  - Botón de logout con diálogo de confirmación
-  - Vista para usuarios no autenticados
-
-- **Integración:**
-  - Usa `AuthBloc` para manejar logout
-  - Redirige automáticamente después de logout
-  - Accesible desde bottom navigation (index 3)
-
-### Support (Soporte y Ayuda)
-**Ubicación:** `lib/features/support/`
-**Tests:** 10/10 ✅
-
-- **Domain Layer:**
-  - `FAQItem` entity con id, question, answer, category
-  - `ContactMessage` entity para mensajes
-  - `ContactInfo` para datos de contacto
-  - `FAQCategory` enum: orders, payments, shipping, returns, account, general
-
-- **Data Layer:**
-  - `SupportLocalDataSource` con 18 FAQs mock
-  - Persistencia de mensajes en SharedPreferences
-  - `FAQItemModel` y `ContactMessageModel` con JSON serialization
-
-- **Presentation Layer:**
-  - `SupportBloc` para manejar FAQs y mensajes
-  - `SupportPage` - Lista de FAQs con filtro por categoría
-  - `ContactPage` - Formulario completo con validación
-  - `FAQCard` widget expandible
-
-### Navegación
-- **AuthWrapper** (`Routes.authWrapper = '/'`) - Ruta inicial que verifica autenticación
-- **Login** (`Routes.login = '/login'`) - Página de inicio de sesión
-- **Register** (`Routes.register = '/register'`) - Página de registro
-- **Profile** (`Routes.profile = '/profile'`) - Perfil de usuario
-- **Support** (`Routes.support = '/support'`) - Lista de FAQs
-- **Contact** (`Routes.contact = '/contact'`) - Formulario de contacto
-
-## Notas de Desarrollo
-
-- El carrito persiste en SharedPreferences como JSON
-- Las órdenes persisten en SharedPreferences como JSON
-- **La sesión de usuario persiste en SharedPreferences**
-- **Los mensajes de contacto persisten en SharedPreferences**
-- Las imágenes se cachean con cached_network_image
-- La búsqueda tiene debounce de 300ms
-- El Design System provee todos los componentes UI
-- Los tokens de tema se acceden via `context.tokens`
-- Evitar conflictos de nombres con `fake_store_api_client` (ej: usar prefijo DS)
-- Textos e imágenes configurables via `assets/config/app_config.json`
-- Evitar “god files”: separar por responsabilidad y exponer barrels estables (ej: `lib/core/config/app_config.dart`)
-- **Código 100% limpio** - `flutter analyze` retorna 0 issues
-- **206 tests pasando** de 210 totales (98%)

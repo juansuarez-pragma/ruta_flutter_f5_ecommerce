@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:ecommerce/core/config/app_config.dart';
 import 'package:ecommerce/core/config/config_datasource.dart';
 
-/// Implementación que lee la configuración desde un asset JSON.
+/// Implementation that reads configuration from a JSON asset.
 class ConfigLocalDataSource implements ConfigDataSource {
   static const String _configPath = 'assets/config/app_config.json';
 
@@ -24,10 +24,9 @@ class ConfigLocalDataSource implements ConfigDataSource {
     return _cachedConfig!;
   }
 
-  /// Recarga la configuración (útil para hot reload en desarrollo).
+  /// Reloads the configuration (useful for development hot reload).
   Future<AppConfig> reloadConfig() async {
     _cachedConfig = null;
     return loadConfig();
   }
 }
-

@@ -1,4 +1,4 @@
-/// Barrel file para el feature Categories.
+/// Barrel file for the Categories feature.
 library;
 
 // Domain

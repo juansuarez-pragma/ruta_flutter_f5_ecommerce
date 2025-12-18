@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 
-/// Extensiones de utilidad para BuildContext.
+/// Utility extensions for BuildContext.
 extension ContextExtensions on BuildContext {
-  /// Obtiene el MediaQuery del contexto.
+  /// Gets the MediaQuery for this context.
   MediaQueryData get mediaQuery => MediaQuery.of(this);
 
-  /// Obtiene el ancho de pantalla.
+  /// Screen width.
   double get screenWidth => mediaQuery.size.width;
 
-  /// Obtiene el alto de pantalla.
+  /// Screen height.
   double get screenHeight => mediaQuery.size.height;
 
-  /// Indica si el dispositivo es una tablet (ancho > 600).
+  /// Whether the device is a tablet (width > 600).
   bool get isTablet => screenWidth > 600;
 
-  /// Indica si el dispositivo está en orientación landscape.
+  /// Whether the device is in landscape orientation.
   bool get isLandscape => mediaQuery.orientation == Orientation.landscape;
 
-  /// Muestra un SnackBar con el mensaje proporcionado.
+  /// Shows a SnackBar with the provided message.
   void showSnackBar(String message, {bool isError = false}) {
     ScaffoldMessenger.of(this).showSnackBar(
       SnackBar(
@@ -28,23 +28,23 @@ extension ContextExtensions on BuildContext {
   }
 }
 
-/// Extensiones de utilidad para String.
+/// Utility extensions for String.
 extension StringExtensions on String {
-  /// Capitaliza la primera letra del string.
+  /// Uppercases the first character.
   String get capitalize {
     if (isEmpty) return this;
     return '${this[0].toUpperCase()}${substring(1)}';
   }
 
-  /// Capitaliza cada palabra del string.
+  /// Uppercases the first character of each word.
   String get titleCase {
     if (isEmpty) return this;
     return split(' ').map((word) => word.capitalize).join(' ');
   }
 }
 
-/// Extensiones de utilidad para double (precios).
+/// Utility extensions for double (prices).
 extension PriceExtensions on double {
-  /// Formatea el precio con símbolo de dólar.
+  /// Formats a price with a dollar sign.
   String get toCurrency => '\$${toStringAsFixed(2)}';
 }

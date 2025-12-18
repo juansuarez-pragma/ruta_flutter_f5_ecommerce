@@ -7,9 +7,9 @@ import 'package:ecommerce/core/config/app_config.dart';
 import 'package:ecommerce/features/orders/presentation/bloc/order_history_bloc.dart';
 import 'package:ecommerce/features/orders/presentation/widgets/order_card.dart';
 
-/// Página de historial de órdenes.
+/// Order history page.
 ///
-/// Todos los textos de esta página vienen parametrizados desde el JSON.
+/// All texts for this page are driven by JSON configuration.
 class OrderHistoryPage extends StatelessWidget {
   const OrderHistoryPage({super.key});
 
@@ -21,7 +21,7 @@ class OrderHistoryPage extends StatelessWidget {
       create: (_) =>
           sl<OrderHistoryBloc>()..add(const OrderHistoryLoadRequested()),
       child: Scaffold(
-        // Título parametrizado desde JSON
+        // Title from JSON configuration.
         appBar: DSAppBar(title: appConfig.orderHistory.pageTitle),
         body: const _OrderHistoryBody(),
       ),
@@ -39,7 +39,7 @@ class _OrderHistoryBody extends StatelessWidget {
         return switch (state) {
           OrderHistoryInitial() => const SizedBox.shrink(),
           OrderHistoryLoading() => const DSLoadingState(
-            message: 'Cargando pedidos...',
+            message: 'Loading orders...',
           ),
           OrderHistoryError(:final message) => DSErrorState(
             message: message,
@@ -57,14 +57,14 @@ class _OrderHistoryBody extends StatelessWidget {
   }
 }
 
-/// Estado vacío con textos parametrizados.
+/// Empty state with JSON-driven texts.
 class _EmptyOrderHistory extends StatelessWidget {
   const _EmptyOrderHistory({required this.config});
   final OrderHistoryConfig config;
 
   @override
   Widget build(BuildContext context) {
-    // Todos los textos vienen del JSON
+    // All texts come from JSON configuration.
     return DSEmptyState(
       icon: _getIconFromString(config.emptyState.icon),
       title: config.emptyState.title,
@@ -86,7 +86,7 @@ class _EmptyOrderHistory extends StatelessWidget {
   }
 }
 
-/// Lista de órdenes.
+/// Orders list.
 class _OrdersList extends StatelessWidget {
   const _OrdersList({required this.state});
   final OrderHistoryLoaded state;

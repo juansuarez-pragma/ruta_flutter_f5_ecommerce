@@ -1,4 +1,4 @@
-/// Barrel file para el feature Cart.
+/// Barrel file for the Cart feature.
 library;
 
 // Domain

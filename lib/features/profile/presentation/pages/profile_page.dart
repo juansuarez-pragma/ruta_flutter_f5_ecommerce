@@ -6,10 +6,10 @@ import 'package:ecommerce/core/router/routes.dart';
 import 'package:ecommerce/shared/widgets/app_scaffold.dart';
 import 'package:ecommerce/features/auth/auth.dart';
 
-/// Página de perfil del usuario.
+/// User profile page.
 ///
-/// Muestra información del usuario autenticado y opciones de navegación.
-/// Incluye funcionalidad de logout.
+/// Shows authenticated user information and navigation options.
+/// Includes logout functionality.
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
@@ -30,7 +30,7 @@ class _ProfilePageContent extends StatelessWidget {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthUnauthenticated) {
-          // Redirigir a login después de logout
+          // Redirect to login after logout.
           Navigator.pushNamedAndRemoveUntil(
             context,
             Routes.login,
@@ -47,14 +47,14 @@ class _ProfilePageContent extends StatelessWidget {
           return _AuthenticatedProfile(user: state.user);
         }
 
-        // Usuario no autenticado
+        // Unauthenticated user.
         return _UnauthenticatedProfile();
       },
     );
   }
 }
 
-/// Vista para usuario autenticado.
+/// View for authenticated users.
 class _AuthenticatedProfile extends StatelessWidget {
   const _AuthenticatedProfile({required this.user});
 
@@ -67,7 +67,7 @@ class _AuthenticatedProfile extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          // Header con información del usuario
+          // Header with user information.
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(DSSpacing.xl),
@@ -92,7 +92,7 @@ class _AuthenticatedProfile extends StatelessWidget {
                 ),
                 const SizedBox(height: DSSpacing.base),
 
-                // Nombre completo
+                // Full name
                 DSText(
                   user.fullName,
                   variant: DSTextVariant.headingMedium,
@@ -122,33 +122,33 @@ class _AuthenticatedProfile extends StatelessWidget {
 
           const SizedBox(height: DSSpacing.base),
 
-          // Opciones de navegación
+          // Navigation options
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: DSSpacing.base),
             child: Column(
               children: [
                 _ProfileOption(
                   icon: Icons.receipt_long_outlined,
-                  title: 'Mis Pedidos',
-                  subtitle: 'Ver historial de compras',
+                  title: 'My Orders',
+                  subtitle: 'View purchase history',
                   onTap: () => Navigator.pushNamed(context, Routes.orderHistory),
                 ),
                 const SizedBox(height: DSSpacing.xs),
                 _ProfileOption(
                   icon: Icons.support_agent_outlined,
-                  title: 'Soporte y Ayuda',
-                  subtitle: 'FAQs y contacto',
+                  title: 'Support & Help',
+                  subtitle: 'FAQs and contact',
                   onTap: () => Navigator.pushNamed(context, Routes.support),
                 ),
                 const SizedBox(height: DSSpacing.xs),
                 _ProfileOption(
                   icon: Icons.shopping_bag_outlined,
-                  title: 'Mis Compras',
-                  subtitle: 'Productos favoritos y guardados',
+                  title: 'My Purchases',
+                  subtitle: 'Saved and favorite products',
                   onTap: () {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('Función próximamente'),
+                        content: Text('Coming soon'),
                       ),
                     );
                   },
@@ -156,12 +156,12 @@ class _AuthenticatedProfile extends StatelessWidget {
                 const SizedBox(height: DSSpacing.xs),
                 _ProfileOption(
                   icon: Icons.settings_outlined,
-                  title: 'Configuración',
-                  subtitle: 'Preferencias de la cuenta',
+                  title: 'Settings',
+                  subtitle: 'Account preferences',
                   onTap: () {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('Función próximamente'),
+                        content: Text('Coming soon'),
                       ),
                     );
                   },
@@ -169,7 +169,7 @@ class _AuthenticatedProfile extends StatelessWidget {
 
                 const SizedBox(height: DSSpacing.xl),
 
-                // Información adicional
+                // Additional information
                 Card(
                   child: Padding(
                     padding: const EdgeInsets.all(DSSpacing.base),
@@ -177,19 +177,19 @@ class _AuthenticatedProfile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         DSText(
-                          'Información de la cuenta',
+                          'Account information',
                           variant: DSTextVariant.titleSmall,
                           color: tokens.colorTextPrimary,
                         ),
                         const SizedBox(height: DSSpacing.sm),
                         _InfoRow(
-                          label: 'Usuario ID',
+                          label: 'User ID',
                           value: '#${user.id}',
                         ),
                         const SizedBox(height: DSSpacing.xs),
                         _InfoRow(
-                          label: 'Estado',
-                          value: user.isAuthenticated ? 'Activa' : 'Inactiva',
+                          label: 'Status',
+                          value: user.isAuthenticated ? 'Active' : 'Inactive',
                         ),
                       ],
                     ),
@@ -198,9 +198,9 @@ class _AuthenticatedProfile extends StatelessWidget {
 
                 const SizedBox(height: DSSpacing.xl),
 
-                // Botón de logout
+                // Logout button
                 DSButton(
-                  text: 'Cerrar Sesión',
+                  text: 'Sign out',
                   onPressed: () => _showLogoutDialog(context),
                   variant: DSButtonVariant.secondary,
                   size: DSButtonSize.large,
@@ -221,22 +221,22 @@ class _AuthenticatedProfile extends StatelessWidget {
       context: context,
       builder: (dialogContext) => AlertDialog(
         title: const DSText(
-          '¿Cerrar sesión?',
+          'Sign out?',
           variant: DSTextVariant.headingSmall,
         ),
         content: const DSText(
-          '¿Estás seguro de que deseas cerrar tu sesión?',
+          'Are you sure you want to sign out?',
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
             child: DSText(
-              'Cancelar',
+              'Cancel',
               color: context.tokens.colorTextSecondary,
             ),
           ),
           DSButton(
-            text: 'Cerrar Sesión',
+            text: 'Sign out',
             onPressed: () {
               Navigator.pop(dialogContext);
               context.read<AuthBloc>().add(const AuthLogoutRequested());
@@ -248,7 +248,7 @@ class _AuthenticatedProfile extends StatelessWidget {
   }
 }
 
-/// Vista para usuario no autenticado.
+/// View for unauthenticated users.
 class _UnauthenticatedProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -267,25 +267,25 @@ class _UnauthenticatedProfile extends StatelessWidget {
             ),
             const SizedBox(height: DSSpacing.lg),
             DSText(
-              'Inicia sesión',
+              'Sign in',
               variant: DSTextVariant.headingLarge,
               color: tokens.colorTextPrimary,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: DSSpacing.sm),
             DSText(
-              'Accede a tu perfil, historial de pedidos y más',
+              'Access your profile, order history, and more',
               color: tokens.colorTextSecondary,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: DSSpacing.xl),
             DSButton(
-              text: 'Iniciar Sesión',
+              text: 'Sign in',
               onPressed: () => Navigator.pushNamed(context, Routes.login),
             ),
             const SizedBox(height: DSSpacing.base),
             DSButton(
-              text: 'Crear Cuenta',
+              text: 'Create account',
               onPressed: () => Navigator.pushNamed(context, Routes.register),
               variant: DSButtonVariant.secondary,
               size: DSButtonSize.large,
@@ -297,7 +297,7 @@ class _UnauthenticatedProfile extends StatelessWidget {
   }
 }
 
-/// Widget para una opción de navegación.
+/// Widget for a navigation option.
 class _ProfileOption extends StatelessWidget {
   const _ProfileOption({
     required this.icon,
@@ -366,7 +366,7 @@ class _ProfileOption extends StatelessWidget {
   }
 }
 
-/// Widget para mostrar una fila de información.
+/// Widget for showing an information row.
 class _InfoRow extends StatelessWidget {
   const _InfoRow({
     required this.label,

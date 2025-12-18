@@ -1,187 +1,183 @@
 # Changelog
 
-Todos los cambios notables de este proyecto se documentan en este archivo.
+All notable changes to this project are documented in this file.
 
-El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
-y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [1.2.0] - 2025-11-28
 
-### Agregado
+### Added
 
-#### Parametrización JSON (Fase 7)
-Sistema completo de configuración externa que permite modificar textos, imágenes y ajustes sin cambiar código.
+#### JSON Configuration (Phase 7)
+Complete external configuration system that allows changing texts, images, and settings without modifying code.
 
 **Core - Config:**
-- `assets/config/app_config.json` - Archivo de configuración central
-- `lib/core/config/app_config.dart` - Modelos inmutables con Equatable
-  - `AppConfig` - Configuración raíz
-  - `OrderHistoryConfig` - Textos del historial de órdenes
-  - `OrderDetailConfig` - Textos del detalle de orden
-  - `ImagesConfig` - URLs de imágenes parametrizadas
-  - `SettingsConfig` - Ajustes generales (moneda, límites)
-- `lib/core/config/config_datasource.dart` - Lectura de JSON con cache
+- `assets/config/app_config.json` - Central configuration file
+- `lib/core/config/app_config.dart` - Public config barrel (stable import)
+- `lib/core/config/models/*` - Config models split by responsibility
+- `lib/core/config/config_datasource.dart` - JSON loading with caching
 
-**Feature: Orders (Historial de Pedidos)**
-Nueva feature completa siguiendo Clean Architecture:
+**Feature: Orders (Order History)**
+New end-to-end feature following Clean Architecture:
 
 *Data Layer:*
-- `OrderLocalDataSource` - Persistencia con SharedPreferences
+- `OrderLocalDataSource` - SharedPreferences persistence
 - `OrderModel` / `OrderItemModel` - Modelos JSON
-- `OrderRepositoryImpl` - Implementación del repositorio
+- `OrderRepositoryImpl` - Repository implementation
 
 *Domain Layer:*
-- `Order` / `OrderItem` - Entidades de dominio
-- `OrderStatus` - Enum con estados (completed, pending, cancelled)
-- `OrderRepository` - Contrato abstracto
-- `GetOrdersUseCase` - Obtener historial
-- `SaveOrderUseCase` - Guardar nueva orden
-- `ClearOrdersUseCase` - Limpiar historial
+- `Order` / `OrderItem` - Domain entities
+- `OrderStatus` - Enum with statuses (completed, pending, cancelled)
+- `OrderRepository` - Abstract contract
+- `GetOrdersUseCase` - Fetch history
+- `SaveOrderUseCase` - Save a new order
+- `ClearOrdersUseCase` - Clear history
 
 *Presentation Layer:*
-- `OrderHistoryBloc` - Manejo de estado con BLoC
-- `OrderHistoryPage` - Página principal con textos parametrizados
-- `OrderCard` - Widget de orden con labels desde JSON
+- `OrderHistoryBloc` - State management with BLoC
+- `OrderHistoryPage` - Main page with JSON-driven texts
+- `OrderCard` - Order widget with labels from JSON
 
-**Integración con Checkout:**
-- El checkout ahora guarda órdenes automáticamente antes de limpiar el carrito
-- Navegación a historial desde página de confirmación
+**Checkout Integration:**
+- Checkout now saves orders automatically before clearing the cart
+- Navigation to order history from the confirmation page
 
-**Rutas:**
-- `Routes.orderHistory` - Nueva ruta `/orders`
+**Routes:**
+- `Routes.orderHistory` - New route `/orders`
 
-### Documentación
+### Documentation
 
-- Actualizado `CLAUDE.md` con sección de Parametrización JSON y feature Orders
-- Actualizado `README.md` con nuevas características y sección de parametrización
+- Updated `CLAUDE.md` with the JSON configuration section and Orders feature
+- Updated `README.md` with new features and configuration section
 
 ---
 
 ## [1.1.0] - 2025-11-28
 
-### Cambiado
+### Changed
 
-#### Integración Completa del Design System
-Se reemplazaron todos los widgets nativos de Flutter por componentes del Design System para garantizar consistencia visual y evaluar la pertinencia de cada componente.
+#### Full Design System Integration
+Replaced native Flutter widgets with Design System components to ensure visual consistency and validate the usage of each component.
 
 **Home:**
-- `Text` → `DSText` en badge del carrito (home_page.dart)
-- `TextButton` → `DSButton.ghost` en sección de categorías (categories_section.dart)
-- `TextButton` → `DSButton.ghost` en sección de productos destacados (featured_products_section.dart)
+- `Text` → `DSText` in the cart badge (home_page.dart)
+- `TextButton` → `DSButton.ghost` in the categories section (categories_section.dart)
+- `TextButton` → `DSButton.ghost` in the featured products section (featured_products_section.dart)
 
 **Products:**
-- Implementación de `DSProductRating` para rating de producto (product_detail_page.dart)
-- `IconButton` → `DSIconButton` en AppBar de detalle
-- Uso de `DSSizes.iconMega` para íconos grandes
+- Implemented `DSProductRating` for product rating (product_detail_page.dart)
+- `IconButton` → `DSIconButton` in the detail AppBar
+- Using `DSSizes.iconMega` for large icons
 
 **Cart:**
-- `Divider` → `Container` con tokens del DS (cart_summary.dart)
+- `Divider` → `Container` using Design System tokens (cart_summary.dart)
 - `BorderRadius.circular` → `DSBorderRadius.smRadius` (cart_item_tile.dart)
 
 **Categories:**
-- Uso de `DSSizes.touchTarget` para tamaños de íconos (category_tile.dart)
+- Using `DSSizes.touchTarget` for icon sizes (category_tile.dart)
 - `BorderRadius.circular` → `DSBorderRadius.baseRadius`
-- Uso de `DSSizes.iconBase` para tamaños consistentes
+- Using `DSSizes.iconBase` for consistent sizing
 
 **Search:**
-- `AppBar` → `DSAppBar` con `titleWidget` personalizado (search_page.dart)
-- Uso de `DSSizes.iconMega` para ícono de búsqueda vacía
+- `AppBar` → `DSAppBar` with a custom `titleWidget` (search_page.dart)
+- Using `DSSizes.iconMega` for the empty search icon
 
 **Checkout:**
-- `Divider` → `Container` con tokens del DS (checkout_page.dart)
+- `Divider` → `Container` using Design System tokens (checkout_page.dart)
 - Overlay color → `DSColors.blackAlpha32`
 
 **Order Confirmation:**
-- Uso de `DSSizes.avatarXxl` y `DSSizes.iconMega` (order_confirmation_page.dart)
-- Tokens de color para feedback de éxito
+- Using `DSSizes.avatarXxl` and `DSSizes.iconMega` (order_confirmation_page.dart)
+- Color tokens for success feedback
 
 **Quantity Selector:**
-- Uso de `DSSizes.buttonSm` para ancho del contenedor (quantity_selector.dart)
+- Using `DSSizes.buttonSm` for container width (quantity_selector.dart)
 
-### Agregado
+### Added
 
 **Shared Widgets:**
-- `DSProductRating` - Widget para mostrar rating de productos usando tokens del DS
-  - Muestra estrella con color de warning
-  - Rating numérico con `DSText`
-  - Conteo de reseñas opcional
+- `DSProductRating` - Rating widget using Design System tokens
+  - Star with warning color
+  - Numeric rating using `DSText`
+  - Optional review count
 
-### Documentación
-- Actualizado CLAUDE.md con sección de uso del Design System
-- Actualizado README.md con sección de integración del Design System
-- Documentados todos los tokens y componentes utilizados
+### Documentation
+- Updated `CLAUDE.md` with Design System usage
+- Updated `README.md` with Design System integration
+- Documented all tokens and used components
 
 ---
 
 ## [1.0.0] - 2024-11-26
 
-### Agregado
+### Added
 
 #### Core
-- Configuración de inyección de dependencias con `get_it`
-- Sistema de rutas nombradas con `AppRouter`
-- Configuración de tema integrada con Design System
-- Constantes de aplicación centralizadas
-- Extensiones de utilidad (`StringExtension` para `titleCase`)
+- Dependency injection setup with `get_it`
+- Named routes system with `AppRouter`
+- Theme setup integrated with the Design System
+- Centralized application constants
+- Utility extensions (`StringExtension` for `titleCase`)
 
 #### Feature: Home
-- Página principal con categorías y productos destacados
-- Sección de categorías con navegación
-- Sección de productos destacados con grid
-- Integración con `HomeBloc` para manejo de estado
+- Home page with categories and featured products
+- Category section with navigation
+- Featured products section with grid
+- Integration with `HomeBloc` for state management
 
 #### Feature: Products
-- Listado de productos en grid responsive
-- Filtrado por categoría
-- Vista detallada de producto con imagen, descripción y rating
-- Botón para agregar al carrito
-- `ProductsBloc` y `ProductDetailBloc` para estado
+- Responsive product grid
+- Category filtering
+- Product details with image, description, and rating
+- Add-to-cart button
+- `ProductsBloc` and `ProductDetailBloc` for state
 
 #### Feature: Cart
-- Carrito de compras completo
-- Agregar, eliminar y modificar cantidades
-- Persistencia local con `SharedPreferences`
-- Resumen de carrito con total
-- Estado vacío con llamada a la acción
-- Implementación completa de Clean Architecture (data, domain, presentation)
+- Full shopping cart
+- Add, remove, and update quantities
+- Local persistence with `SharedPreferences`
+- Cart summary with total
+- Empty state with CTA
+- Full Clean Architecture implementation (data, domain, presentation)
 
 #### Feature: Categories
-- Listado de todas las categorías disponibles
-- Navegación a productos filtrados por categoría
-- Íconos personalizados por tipo de categoría
+- List of all available categories
+- Navigation to products filtered by category
+- Custom icons per category type
 
 #### Feature: Search
-- Búsqueda de productos por nombre
-- Debounce de 300ms para optimizar requests
-- Resultados en tiempo real
-- Estado vacío y de carga
+- Product search by name
+- 300ms debounce to optimize requests
+- Real-time results
+- Empty and loading states
 
 #### Feature: Checkout
-- Página de checkout con resumen de orden
-- Confirmación de compra
-- Página de éxito con número de orden
-- Limpieza automática del carrito post-compra
+- Checkout page with order summary
+- Purchase confirmation
+- Success page with order number
+- Automatic cart clearing after purchase
 
 #### Shared
-- `AppScaffold` - Scaffold reutilizable con navegación
-- `QuantitySelector` - Selector de cantidad para carrito
+- `AppScaffold` - Reusable scaffold with navigation
+- `QuantitySelector` - Cart quantity selector
 
 #### Testing
-- Tests unitarios para entidad `CartItem`
-- Tests para modelo `Product`
+- Unit tests for the `CartItem` entity
+- Tests for the `Product` model
 
-### Dependencias
-- `fake_store_api_client` - Cliente HTTP para Fake Store API
-- `fake_store_design_system` - Design System con componentes UI
+### Dependencies
+- `fake_store_api_client` - HTTP client for Fake Store API
+- `fake_store_design_system` - Design System UI components
 - `flutter_bloc ^8.1.6` - State management
 - `get_it ^8.0.3` - Dependency injection
 - `shared_preferences ^2.3.5` - Persistencia local
-- `cached_network_image ^3.4.1` - Cache de imágenes
+- `cached_network_image ^3.4.1` - Image caching
 - `equatable ^2.0.7` - Value equality
 
 ## [0.0.1] - 2024-11-26
 
-### Agregado
+### Added
 - Proyecto inicial de Flutter
-- Configuración multiplataforma (Android, iOS, Web)
+- Cross-platform configuration (Android, iOS, Web)
 - Estructura base del proyecto

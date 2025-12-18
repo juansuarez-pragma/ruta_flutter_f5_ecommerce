@@ -1,103 +1,103 @@
 # Fake Store E-commerce
 
-Aplicación Flutter de e-commerce completa que consume la [Fake Store API](https://fakestoreapi.com/). Desarrollada siguiendo Clean Architecture y el patrón BLoC para manejo de estado.
+A full-featured Flutter e-commerce app consuming the [Fake Store API](https://fakestoreapi.com/). Built using Clean Architecture and the BLoC pattern for predictable state management.
 
 [![Flutter](https://img.shields.io/badge/Flutter-3.29.2-02569B?logo=flutter)](https://flutter.dev)
 [![Dart](https://img.shields.io/badge/Dart-3.9.2-0175C2?logo=dart)](https://dart.dev)
 [![Tests](https://img.shields.io/badge/Tests-206%20passing-success)](test/)
 [![Linter](https://img.shields.io/badge/Linter-0%20issues-success)](https://dart.dev/tools/linter-rules)
 
-## ✨ Características
+## Features
 
-### 🛍️ E-commerce Completo
-- **Catálogo de productos** - Navegación por categorías y listado completo
-- **Búsqueda** - Búsqueda de productos con debounce de 300ms
-- **Detalle de producto** - Vista detallada con rating y descripción
-- **Carrito de compras** - Agregar, eliminar y modificar cantidades con persistencia
-- **Checkout** - Flujo de compra completo con confirmación
-- **Historial de órdenes** - Visualización de compras realizadas
+### E-commerce
+- **Product catalog** - Category navigation and full listing
+- **Search** - Product search with 300ms debounce
+- **Product details** - Detailed view with rating and description
+- **Shopping cart** - Add/remove/update quantities with local persistence
+- **Checkout** - End-to-end purchase flow with confirmation
+- **Order history** - View past purchases
 
-### 🔐 Autenticación (Nuevo)
-- **Login** - Inicio de sesión con validación de credenciales
-- **Registro** - Crear nueva cuenta con validaciones
-- **Logout** - Cierre de sesión seguro
-- **Persistencia de sesión** - Mantiene al usuario logueado
-- **Auth Wrapper** - Redirección automática según estado de autenticación
+### Authentication
+- **Login** - Sign in with credential validation
+- **Register** - Create a new account with validations
+- **Logout** - Safe sign out
+- **Session persistence** - Keeps the user signed in
+- **Auth wrapper** - Auto-redirect based on auth state
 
-### 👤 Perfil de Usuario (Nuevo)
-- **Información del usuario** - Nombre, email, username
-- **Navegación rápida** - Acceso a pedidos y soporte
-- **Cerrar sesión** - Con diálogo de confirmación
-- **Estado no autenticado** - Botones de login/registro
+### User Profile
+- **User info** - Name, email, username
+- **Quick navigation** - Access to Orders and Support
+- **Sign out** - With confirmation dialog
+- **Unauthenticated state** - Login/register CTAs
 
-### 💬 Soporte y Ayuda (Nuevo)
-- **FAQs** - 18 preguntas frecuentes categorizadas
-- **Categorías** - Orders, Payments, Shipping, Returns, Account, General
-- **Formulario de contacto** - Envío de mensajes con validación
-- **Información de contacto** - Email y teléfono de soporte
+### Support & Help
+- **FAQs** - 18 categorized frequently asked questions
+- **Categories** - Orders, Payments, Shipping, Returns, Account, General
+- **Contact form** - Send messages with validation
+- **Contact info** - Support email and phone
 
-### 🎨 Integración con Design System
-- **Todos los componentes** - Atoms, Molecules, Organisms
-- **Tokens personalizables** - Colores, espaciado, tamaños
-- **Patrón Atomic Design** - Componentes reutilizables y escalables
+### Design System Integration
+- **Full coverage** - Atoms, Molecules, Organisms
+- **Theme tokens** - Colors, spacing, sizes
+- **Atomic Design** - Reusable and scalable components
 
-### 🔧 Características Técnicas
-- **Parametrización JSON** - Textos e imágenes configurables sin código
-- **Persistencia local** - Carrito, órdenes y sesión guardados localmente
-- **Multiplataforma** - Android, iOS, Web
-- **Clean Architecture** - Separación clara de capas
-- **BLoC Pattern** - State management predecible
-- **Dependency Injection** - Con get_it
-- **100% Linter Clean** - Sin errores ni warnings
+### Technical Highlights
+- **JSON configuration** - Configurable texts and images without code changes
+- **Local persistence** - Cart, orders, and session stored locally
+- **Cross-platform** - Android, iOS, Web
+- **Clean Architecture** - Clear layer separation
+- **BLoC pattern** - Predictable state management
+- **Dependency Injection** - Using `get_it`
+- **100% linter clean** - No errors or warnings
 
-## 🏗️ Arquitectura
+## Architecture
 
-El proyecto sigue **Clean Architecture** con separación en tres capas:
+The project follows **Clean Architecture** with a clear three-layer split:
 
 ```
 lib/
-├── app.dart                    # MaterialApp con AuthWrapper
-├── main.dart                   # Entry point con DI
-├── core/                       # Capa core compartida
-│   ├── config/                 # Configuración JSON
-│   ├── constants/              # Constantes de la aplicación
-│   ├── di/                     # Inyección de dependencias (get_it)
+├── app.dart                    # MaterialApp with AuthWrapper
+├── main.dart                   # Entry point + DI bootstrap
+├── core/                       # Shared core layer
+│   ├── config/                 # JSON configuration
+│   ├── constants/              # Application constants
+│   ├── di/                     # Dependency injection (get_it)
 │   ├── router/                 # AppRouter, Routes, AuthWrapper
-│   ├── theme/                  # Tema de la aplicación
-│   └── utils/                  # Extensiones y utilidades
-├── features/                   # Features de la aplicación
-│   ├── auth/                   # 🆕 Autenticación
+│   ├── theme/                  # App theme
+│   └── utils/                  # Extensions and utilities
+├── features/                   # App features
+│   ├── auth/                   # Authentication
 │   │   ├── data/               # AuthLocalDataSource, UserModel, Repository
 │   │   ├── domain/             # User, AuthRepository, UseCases
 │   │   └── presentation/       # AuthBloc, LoginPage, RegisterPage
-│   ├── cart/                   # Carrito de compras
-│   ├── categories/             # Listado de categorías
-│   ├── checkout/               # Proceso de checkout
-│   ├── home/                   # Página principal
-│   ├── orders/                 # Historial de órdenes
-│   ├── products/               # Productos y detalle
-│   ├── profile/                # 🆕 Perfil de usuario
-│   │   └── presentation/       # ProfilePage con logout
-│   ├── search/                 # Búsqueda de productos
-│   └── support/                # 🆕 Soporte y ayuda
+│   ├── cart/                   # Shopping cart
+│   ├── categories/             # Categories
+│   ├── checkout/               # Checkout
+│   ├── home/                   # Home
+│   ├── orders/                 # Order history
+│   ├── products/               # Products & details
+│   ├── profile/                # User profile
+│   │   └── presentation/       # ProfilePage with logout
+│   ├── search/                 # Product search
+│   └── support/                # Support & help
 │       ├── data/               # SupportLocalDataSource, Models
 │       ├── domain/             # FAQItem, ContactMessage, UseCases
 │       └── presentation/       # SupportBloc, SupportPage, ContactPage
-└── shared/                     # Widgets compartidos
+└── shared/                     # Shared widgets
     └── widgets/                # AppScaffold, DSProductRating, etc.
 ```
 
-### Patrón BLoC
+### BLoC Pattern
 
-Cada feature implementa el patrón BLoC (Business Logic Component):
+Each feature follows the BLoC (Business Logic Component) pattern:
 
-- **Events** - Acciones del usuario (sealed classes)
-- **States** - Estados de la UI (sealed classes con Equatable)
-- **BLoC** - Lógica de negocio que transforma events en states
+- **Events** - User intents (sealed classes)
+- **States** - UI states (sealed classes with Equatable)
+- **BLoC** - Business logic transforming events into states
 
-### Inyección de Dependencias
+### Dependency Injection
 
-Se utiliza `get_it` para la inyección de dependencias en todas las capas:
+`get_it` is used for dependency injection across all layers:
 
 ```dart
 // Data Sources
@@ -122,168 +122,168 @@ sl.registerFactory(() => AuthBloc(
 ));
 ```
 
-## 📦 Dependencias Externas
+## External Dependencies
 
-Este proyecto consume dos paquetes desarrollados en fases anteriores:
+This project consumes two packages built in previous phases:
 
-| Paquete | Descripción | Repositorio |
+| Package | Description | Repository |
 |---------|-------------|-------------|
-| `fake_store_api_client` | Cliente HTTP para Fake Store API | [ruta_flutter_f3](https://github.com/juansuarez-pragma/ruta_flutter_f3) |
-| `fake_store_design_system` | Design System con componentes UI | [ruta_flutter_f4](https://github.com/juansuarez-pragma/ruta_flutter_f4) |
+| `fake_store_api_client` | HTTP client for Fake Store API | [ruta_flutter_f3](https://github.com/juansuarez-pragma/ruta_flutter_f3) |
+| `fake_store_design_system` | Design System UI components | [ruta_flutter_f4](https://github.com/juansuarez-pragma/ruta_flutter_f4) |
 
-### Dependencias Principales
+### Main Dependencies
 
 ```yaml
 dependencies:
   flutter_bloc: ^8.1.6         # State management
   get_it: ^8.3.0               # Dependency injection
-  shared_preferences: ^2.5.3   # Persistencia local
-  cached_network_image: ^3.4.2 # Cache de imágenes
+  shared_preferences: ^2.5.3   # Local persistence
+  cached_network_image: ^3.4.2 # Image caching
   dartz: ^0.10.1               # Either pattern
   equatable: ^2.0.8            # Value equality
-  uuid: ^4.5.1                 # Generación de IDs
+  uuid: ^4.5.1                 # ID generation
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  bloc_test: ^9.1.7            # Testing para BLoCs
+  bloc_test: ^9.1.7            # BLoC testing
   mocktail: ^1.0.4             # Mocking
   flutter_lints: ^5.0.0        # Linting
 ```
 
-## 🎨 Integración con Design System
+## Design System Integration
 
-La aplicación utiliza **todos** los componentes del Design System siguiendo el patrón **Atomic Design**:
+The app uses **all** Design System components following the **Atomic Design** pattern:
 
-### Componentes Utilizados
+### Used Components
 
-| Categoría | Componentes |
+| Category | Components |
 |-----------|-------------|
 | **Tokens** | DSSpacing, DSSizes, DSBorderRadius, DSColors |
 | **Atoms** | DSText, DSButton, DSIconButton, DSBadge, DSCircularLoader |
 | **Molecules** | DSCard, DSProductCard, DSFilterChip, DSEmptyState, DSErrorState, DSLoadingState |
 | **Organisms** | DSAppBar, DSBottomNav, DSProductGrid |
 
-### Tokens de Tema
+### Theme Tokens
 
-Los tokens se acceden mediante la extensión `context.tokens`:
+Tokens are accessed via the `context.tokens` extension:
 
 ```dart
 final tokens = context.tokens;
-tokens.colorBrandPrimary        // Color primario
-tokens.colorTextSecondary       // Texto secundario
-tokens.colorBorderPrimary       // Bordes
-tokens.colorFeedbackSuccess     // Estados de feedback
-tokens.colorFeedbackError       // Errores
+tokens.colorBrandPrimary        // Primary color
+tokens.colorTextSecondary       // Secondary text
+tokens.colorBorderPrimary       // Borders
+tokens.colorFeedbackSuccess     // Success feedback
+tokens.colorFeedbackError       // Errors
 ```
 
-### Widgets Compartidos Propios
+### Custom Shared Widgets
 
-El proyecto incluye widgets propios que extienden el Design System:
+The project includes custom widgets that extend the Design System:
 
-- `AppScaffold` - Scaffold con bottom navigation integrado
-- `DSProductRating` - Rating con estrella y conteo de reseñas
-- `QuantitySelector` - Selector numérico usando DSIconButton
+- `AppScaffold` - Scaffold with integrated bottom navigation
+- `DSProductRating` - Rating widget with star + review count
+- `QuantitySelector` - Numeric selector using `DSIconButton`
 
-## 🔐 Flujo de Autenticación
+## Authentication Flow
 
 ```mermaid
 graph TD
     A[App Start] --> B[AuthWrapper]
-    B --> C{Usuario en cache?}
+    B --> C{User cached?}
     C -->|No| D[LoginPage]
-    C -->|Sí| E[HomePage]
+    C -->|Yes| E[HomePage]
     D --> F[Login/Register]
     F -->|Success| E
     E --> G[ProfilePage]
     G -->|Logout| D
 ```
 
-**Características:**
-- Verificación automática de sesión al iniciar
-- Redirección inteligente login/home
-- Persistencia con SharedPreferences
-- Logout con confirmación
+**Key behaviors:**
+- Auto session check on app start
+- Smart login/home redirect
+- SharedPreferences persistence
+- Logout confirmation
 
-## 💬 Sistema de Soporte
+## Support System
 
-### FAQs (18 preguntas)
-- **Orders**: Rastreo, cancelación, tiempos de entrega
-- **Payments**: Métodos de pago, seguridad, facturas
-- **Shipping**: Envíos internacionales, costos
-- **Returns**: Política de devoluciones, proceso
-- **Account**: Creación de cuenta, recuperación de contraseña
-- **General**: Tiendas físicas, productos originales
+### FAQs (18 items)
+- **Orders**: Tracking, cancellation, delivery times
+- **Payments**: Payment methods, security, invoices
+- **Shipping**: International shipping, costs
+- **Returns**: Return policy, process
+- **Account**: Account creation, password recovery
+- **General**: Physical stores, authenticity
 
-### Formulario de Contacto
-- Validaciones client-side completas
-- Persistencia de mensajes en local
-- Información de contacto adicional
+### Contact Form
+- Full client-side validations
+- Local message persistence
+- Extra contact information
 
-## 🧪 Testing
+## Testing
 
-### Cobertura de Tests
+### Test Coverage
 
 ```bash
 $ flutter test
 206 tests passed ✅
 
-# Desglose por feature:
-- Auth: 73/73 tests ✅
-- Support: 10/10 tests ✅
-- Cart: 25/25 tests ✅
-- Design System: 52/52 tests ✅
-- Orders, Products, etc: 46 tests ✅
+# Breakdown by feature:
+- Auth: 73/73 tests
+- Support: 10/10 tests
+- Cart: 25/25 tests
+- Design System: 52/52 tests
+- Orders, Products, etc: 46 tests
 ```
 
-### Ejecutar Tests
+### Running Tests
 
 ```bash
-# Todos los tests
+# All tests
 flutter test
 
-# Con cobertura
+# With coverage
 flutter test --coverage
 genhtml coverage/lcov.info -o coverage/html
 open coverage/html/index.html
 
-# Tests específicos
+# Targeted tests
 flutter test test/features/auth/
 flutter test test/features/support/
 ```
 
-### Tipos de Tests
+### Test Types
 
-- **Unit Tests** - Entities, UseCases, Models, Repositories
-- **BLoC Tests** - States y Events con bloc_test
-- **Widget Tests** - Componentes del Design System
+- **Unit tests** - Entities, use cases, models, repositories
+- **BLoC tests** - States and events using `bloc_test`
+- **Widget tests** - Design System components
 
-## 📋 Parametrización con JSON (Fase 7)
+## JSON Configuration (Phase 7)
 
-La aplicación permite configurar textos e imágenes mediante un archivo JSON:
+The app allows configuring texts and images through a JSON file:
 
-### Ubicación
+### Location
 
 ```
 assets/config/app_config.json
 ```
 
-### Estructura
+### Structure
 
 ```json
 {
   "orderHistory": {
-    "pageTitle": "Mis Pedidos",
+    "pageTitle": "My Orders",
     "emptyState": {
-      "title": "No tienes pedidos",
-      "description": "Cuando realices una compra aparecerá aquí"
+      "title": "You have no orders",
+      "description": "When you place an order, it will show up here"
     },
     "orderCard": {
-      "orderLabel": "Pedido",
+      "orderLabel": "Order",
       "statusLabels": {
-        "completed": "Completado",
-        "pending": "Pendiente",
-        "cancelled": "Cancelado"
+        "completed": "Completed",
+        "pending": "Pending",
+        "cancelled": "Cancelled"
       }
     }
   },
@@ -297,127 +297,127 @@ assets/config/app_config.json
 }
 ```
 
-### Modificar Textos
+### Editing Text
 
-1. Editar `assets/config/app_config.json`
-2. Cambiar los valores deseados
-3. Hot Restart (R mayúscula en terminal)
+1. Edit `assets/config/app_config.json`
+2. Change the desired values
+3. Hot Restart (capital `R` in the terminal)
 
-La parametrización se define en `assets/config/app_config.json`.
+Configuration is defined in `assets/config/app_config.json`.
 
-## 🚀 Instalación y Ejecución
+## Installation & Run
 
-### Requisitos
+### Requirements
 
 - Flutter SDK >= 3.29.2
 - Dart SDK >= 3.9.2
 
-### Instalación
+### Setup
 
 ```bash
-# Clonar repositorio
+# Clone the repository
 git clone https://github.com/juansuarez-pragma/ruta_flutter_f5_ecommerce.git
 cd ruta_flutter_f5_ecommerce
 
-# Instalar dependencias
+# Install dependencies
 flutter pub get
 
-# Ejecutar en modo desarrollo
+# Run in dev mode
 flutter run
 ```
 
-### Comandos Útiles
+### Useful Commands
 
 ```bash
-# Ejecutar en diferentes plataformas
+# Run on different platforms
 flutter run -d chrome          # Web
 flutter run -d ios             # iOS Simulator
 flutter run -d <android_device> # Android
 
-# Compilar para producción
+# Build for production
 flutter build web              # Web
 flutter build apk              # Android APK
 flutter build appbundle        # Android App Bundle
 flutter build ios              # iOS
 
-# Pruebas
-flutter test                   # Ejecutar tests
-flutter test --coverage        # Con cobertura
+# Tests
+flutter test                   # Run tests
+flutter test --coverage        # With coverage
 
-# Calidad de código
-flutter analyze                # Análisis estático (0 issues ✅)
-dart format lib/               # Formatear código
-dart fix --apply               # Aplicar fixes automáticos
+# Code quality
+flutter analyze                # Static analysis (0 issues)
+dart format lib/               # Format code
+dart fix --apply               # Apply automatic fixes
 ```
 
-## 📱 Features Detalladas
+## Feature Details
 
 ### Home
-- Muestra categorías disponibles con tiles navegables
-- Lista productos destacados con DSProductCard
-- Pull-to-refresh para actualizar contenido
-- Navegación al catálogo completo
+- Shows available categories with navigable tiles
+- Lists featured products using `DSProductCard`
+- Pull-to-refresh to update content
+- Navigation to the full catalog
 
 ### Products
-- Grid responsive de productos con imagen, precio y rating
-- Filtrado por categoría
-- Vista detallada del producto con descripción completa
-- Botón "Agregar al carrito" con feedback
-- Rating visual con estrellas
+- Responsive product grid with image, price, and rating
+- Category filtering
+- Product details view with full description
+- "Add to cart" button with feedback
+- Star-based visual rating
 
 ### Cart
-- Lista de productos con imagen, precio y cantidad
-- Modificar cantidades con QuantitySelector
-- Eliminar productos con confirmación
-- Resumen con subtotal, impuestos y total
-- Persistencia con SharedPreferences
-- Badge en navigation bar con conteo de items
+- Product list with image, price, and quantity
+- Update quantities with `QuantitySelector`
+- Remove items with confirmation
+- Summary with subtotal, taxes, and total
+- SharedPreferences persistence
+- Navigation bar badge with item count
 
 ### Search
-- Campo de búsqueda con ícono
-- Debounce de 300ms para optimizar requests
-- Resultados en tiempo real
-- Grid de productos con mismo estilo
+- Search field with icon
+- 300ms debounce to optimize requests
+- Real-time results
+- Product grid with consistent styling
 
 ### Checkout
-- Resumen de la orden con lista de productos
-- Formulario de envío (nombre, dirección, email)
-- Confirmación de compra
-- Página de éxito con número de orden único
-- Redirección automática al historial
+- Order summary with product list
+- Shipping form (name, address, email)
+- Purchase confirmation
+- Success page with a unique order number
+- Auto redirect to order history
 
-### Orders (Historial)
-- Lista de órdenes con fecha y estado
-- Desglose de productos por orden
-- Estados visuales (completado, pendiente, cancelado)
-- Persistencia local
-- Textos parametrizados desde JSON
-- Empty state cuando no hay órdenes
+### Orders (History)
+- Order list with date and status
+- Product breakdown per order
+- Visual statuses (completed, pending, cancelled)
+- Local persistence
+- Texts driven by JSON config
+- Empty state when there are no orders
 
-### Auth (Autenticación)
-- **LoginPage**: Email y contraseña con validación
-- **RegisterPage**: Formulario completo con confirmación de contraseña
-- **Validaciones**: Email format, contraseña segura (8+ caracteres)
-- **AuthWrapper**: Verificación de sesión al iniciar
-- **Persistencia**: Usuario guardado en SharedPreferences
-- **Tests**: 73 tests cubriendo todos los casos
+### Auth (Authentication)
+- **LoginPage**: Email + password with validation
+- **RegisterPage**: Full form with password confirmation
+- **Validations**: Email format, strong password (8+ chars)
+- **AuthWrapper**: Session check on startup
+- **Persistence**: User stored in SharedPreferences
+- **Tests**: 73 tests covering all cases
 
-### Profile (Perfil)
-- Información del usuario (avatar, nombre, email, username)
-- Opciones de navegación a Pedidos y Soporte
-- Botón de logout con diálogo de confirmación
-- Vista para usuarios no autenticados con botones de login/registro
-- Redirección automática después de logout
+### Profile
+- User info (avatar, name, email, username)
+- Navigation options to Orders and Support
+- Logout button with confirmation dialog
+- Unauthenticated view with login/register buttons
+- Auto redirect after logout
 
-### Support (Soporte)
-- **SupportPage**: Lista de FAQs con accordion expandible
-- **Filtros**: 6 categorías de FAQs
-- **ContactPage**: Formulario completo (nombre, email, asunto, mensaje)
-- **Validaciones**: Todos los campos con reglas específicas
-- **Persistencia**: Mensajes guardados localmente
-- **Mock Data**: 18 FAQs predefinidas
+### Support
+- **SupportPage**: Expandable FAQ list (accordion)
+- **Filters**: 6 FAQ categories
+- **ContactPage**: Full form (name, email, subject, message)
+- **Validations**: Field-level rules for all inputs
+- **Persistence**: Messages stored locally
+- **Mock data**: 18 predefined FAQs
 
-## 📊 Calidad del Código
+## Code Quality
 
 ### Linter
 
@@ -427,37 +427,37 @@ Analyzing ecommerce...
 No issues found! (ran in 1.4s)
 ```
 
-✅ **0 errores**
+✅ **0 errors**
 ✅ **0 warnings**
 ✅ **0 info hints**
 
-### Estándares Seguidos
+### Standards
 
-- ✅ Clean Architecture en todas las features
-- ✅ BLoC Pattern para state management
-- ✅ Dependency Injection con get_it
-- ✅ Either pattern para manejo de errores
-- ✅ Sealed classes para Events y States
-- ✅ Equatable para value equality
-- ✅ Constructor const donde es posible
-- ✅ Imports organizados y sin duplicados
-- ✅ Comentarios de documentación en clases públicas
+- ✅ Clean Architecture across all features
+- ✅ BLoC pattern for state management
+- ✅ Dependency injection with `get_it`
+- ✅ Either pattern for error handling
+- ✅ Sealed classes for events and states
+- ✅ Equatable for value equality
+- ✅ `const` constructors where possible
+- ✅ Organized imports with no duplicates
+- ✅ Public API doc comments
 
-## 🗂️ Estructura de Commits
+## Commit Structure
 
-El proyecto sigue **Conventional Commits**:
+This project follows **Conventional Commits**:
 
 ```
-feat: nueva funcionalidad
-fix: corrección de bugs
-refactor: refactorización de código
-style: cambios de formato
-docs: actualización de documentación
-test: agregar o modificar tests
-chore: cambios en configuración
+feat: new feature
+fix: bug fix
+refactor: refactor
+style: formatting-only changes
+docs: documentation changes
+test: add/update tests
+chore: tooling/config changes
 ```
 
-### Commits Recientes
+### Recent Commits
 
 ```bash
 8d2274d style: resolve all remaining linter info hints (100% clean)
@@ -467,57 +467,57 @@ a296ba2 feat: add ProfilePage with logout functionality
 6a862bb feat: implement Auth and Support features with complete flow integration
 ```
 
-## 🤝 Contribuir
+## Contributing
 
-1. Fork el repositorio
-2. Crear rama feature (`git checkout -b feature/nueva-funcionalidad`)
-3. Seguir Clean Architecture y BLoC pattern
-4. Escribir tests para nuevas features
-5. Asegurar que `flutter analyze` no tenga issues
-6. Commit cambios siguiendo Conventional Commits
-7. Push a la rama (`git push origin feature/nueva-funcionalidad`)
-8. Crear Pull Request con descripción detallada
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/new-feature`)
+3. Follow Clean Architecture and the BLoC pattern
+4. Write tests for new behavior
+5. Ensure `flutter analyze` reports 0 issues
+6. Commit changes following Conventional Commits
+7. Push the branch (`git push origin feature/new-feature`)
+8. Open a Pull Request with a clear description
 
-## 📚 Documentación Adicional
+## Additional Documentation
 
-- [CLAUDE.md](CLAUDE.md) - Guía para Claude Code (arquitectura, comandos, convenciones)
+- [CLAUDE.md](CLAUDE.md) - Contributor guide (architecture, commands, conventions)
 
-## 📈 Roadmap
+## Roadmap
 
-### Completado ✅
-- [x] Catálogo de productos y categorías
-- [x] Carrito de compras con persistencia
-- [x] Checkout y confirmación de órdenes
-- [x] Historial de órdenes
-- [x] Búsqueda de productos
-- [x] Parametrización JSON
-- [x] Autenticación (Login/Register/Logout)
-- [x] Perfil de usuario
-- [x] Sistema de soporte (FAQs y Contacto)
-- [x] Suite de tests pasando (`flutter test`)
-- [x] Linter 100% limpio
+### Done
+- [x] Product catalog and categories
+- [x] Shopping cart with persistence
+- [x] Checkout and order confirmation
+- [x] Order history
+- [x] Product search
+- [x] JSON configuration
+- [x] Authentication (Login/Register/Logout)
+- [x] User profile
+- [x] Support system (FAQs and Contact)
+- [x] Test suite passing (`flutter test`)
+- [x] 100% linter clean
 
-### Pendiente 🚧
-- [ ] Widget tests para todas las páginas
-- [ ] Integration tests (flujos completos)
-- [ ] Diseño responsive completo
-- [ ] Lista de deseos (wishlist)
-- [ ] Notificaciones push
-- [ ] Modo oscuro completo
-- [ ] Internacionalización (i18n)
+### Next
+- [ ] Widget tests for all pages
+- [ ] Integration tests (end-to-end flows)
+- [ ] Full responsive design polish
+- [ ] Wishlist
+- [ ] Push notifications
+- [ ] Full dark mode
+- [ ] Internationalization (i18n)
 
-## 📄 Licencia
+## License
 
-Este proyecto es parte de la Ruta de Aprendizaje Flutter de Pragma.
+This project is part of Pragma's Flutter learning path.
 
-## 👨‍💻 Autor
+## Author
 
 Juan Carlos Suárez Marín
 GitHub: [@juansuarez-pragma](https://github.com/juansuarez-pragma)
 
 ---
 
-**Desarrollado con** ❤️ **usando Flutter & Claude Code**
+Built with Flutter & Claude Code.
 
 [![Made with Flutter](https://img.shields.io/badge/Made%20with-Flutter-02569B.svg)](https://flutter.dev)
 [![Powered by Claude](https://img.shields.io/badge/Powered%20by-Claude-8A2BE2.svg)](https://claude.ai)

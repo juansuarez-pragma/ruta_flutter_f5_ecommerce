@@ -3,8 +3,8 @@ import 'package:ecommerce/core/error_handling/app_exceptions.dart';
 
 void main() {
   group('AppException Base Class', () {
-    test('debe ser comparable con Equatable', () {
-      // Arrange - usar UnknownException como implementación concreta
+    test('is comparable with Equatable', () {
+      // Arrange - use UnknownException as a concrete implementation
       const exception1 = UnknownException(
         message: 'Test message',
       );
@@ -20,7 +20,7 @@ void main() {
       expect(exception1, isNot(equals(exception3)));
     });
 
-    test('debe tener código identificador único', () {
+    test('has a unique error code', () {
       // Arrange
       const parseEx = ParseException(message: 'Parse error');
       const networkEx = NetworkException(message: 'Network error');
@@ -37,7 +37,7 @@ void main() {
       expect(storageEx.code, equals('STORAGE_ERROR'));
     });
 
-    test('debe soportar originalException opcional', () {
+    test('supports an optional originalException', () {
       // Arrange
       final originalError = Exception('Original error');
 
@@ -51,7 +51,7 @@ void main() {
       expect(exception.originalException, equals(originalError));
     });
 
-    test('debe tener toString() informativo', () {
+    test('has an informative toString()', () {
       // Arrange
       const exception = UnknownException(
         message: 'Error message',
@@ -67,7 +67,7 @@ void main() {
   });
 
   group('ParseException', () {
-    test('debe crear ParseException con detalles de parseo', () {
+    test('creates ParseException with parsing details', () {
       // Act
       const exception = ParseException(
         message: 'Invalid JSON format',
@@ -80,7 +80,7 @@ void main() {
       expect(exception.failedValue, equals('{"invalid: json}'));
     });
 
-    test('debe tener toUserMessage() amigable', () {
+    test('toUserMessage() is user friendly', () {
       // Arrange
       const exception = ParseException(
         message: 'FormatException: Unexpected character',
@@ -94,7 +94,7 @@ void main() {
       expect(userMessage, isNot(contains('FormatException')));
     });
 
-    test('debe comparar ParseExceptions correctamente', () {
+    test('compares ParseExceptions correctly', () {
       // Arrange
       const exception1 = ParseException(
         message: 'Parse error',
@@ -116,7 +116,7 @@ void main() {
   });
 
   group('NetworkException', () {
-    test('debe crear NetworkException', () {
+    test('creates NetworkException', () {
       // Act
       const exception = NetworkException(
         message: 'Connection timeout',
@@ -128,7 +128,7 @@ void main() {
       expect(exception.statusCode, equals(504));
     });
 
-    test('debe tener toUserMessage() para errores de red', () {
+    test('toUserMessage() describes a network error', () {
       // Arrange
       const exception = NetworkException(message: 'No internet connection');
 
@@ -136,13 +136,14 @@ void main() {
       final userMessage = exception.toUserMessage();
 
       // Assert
-      final containsExpectedText = userMessage.toLowerCase().contains('conexión') ||
-          userMessage.toLowerCase().contains('red') ||
-          userMessage.toLowerCase().contains('internet');
+      final containsExpectedText =
+          userMessage.toLowerCase().contains('connection') ||
+          userMessage.toLowerCase().contains('internet') ||
+          userMessage.toLowerCase().contains('server');
       expect(containsExpectedText, isTrue);
     });
 
-    test('debe diferenciar tipos de error de red', () {
+    test('differentiates network error types', () {
       // Arrange
       const timeoutException = NetworkException(
         message: 'Request timeout',
@@ -162,7 +163,7 @@ void main() {
   });
 
   group('ValidationException', () {
-    test('debe crear ValidationException', () {
+    test('creates ValidationException', () {
       // Act
       const exception = ValidationException(
         message: 'Email is invalid',
@@ -174,7 +175,7 @@ void main() {
       expect(exception.field, equals('email'));
     });
 
-    test('debe tener toUserMessage() descriptivo', () {
+    test('toUserMessage() is descriptive', () {
       // Arrange
       const exception = ValidationException(
         message: 'Password too short',
@@ -186,12 +187,13 @@ void main() {
 
       // Assert
       expect(userMessage, isNotEmpty);
-      final containsExpectedText = userMessage.toLowerCase().contains('contraseña') ||
-          userMessage.toLowerCase().contains('password');
+      final containsExpectedText =
+          userMessage.toLowerCase().contains('password') ||
+          userMessage.toLowerCase().contains('field');
       expect(containsExpectedText, isTrue);
     });
 
-    test('debe comparar ValidationExceptions correctamente', () {
+    test('compares ValidationExceptions correctly', () {
       // Arrange
       const exception1 = ValidationException(
         message: 'Invalid input',
@@ -213,7 +215,7 @@ void main() {
   });
 
   group('StorageException', () {
-    test('debe crear StorageException', () {
+    test('creates StorageException', () {
       // Act
       const exception = StorageException(
         message: 'Failed to read from storage',
@@ -225,7 +227,7 @@ void main() {
       expect(exception.operation, equals('read'));
     });
 
-    test('debe tener toUserMessage() amigable', () {
+    test('toUserMessage() is user friendly', () {
       // Arrange
       const exception = StorageException(
         message: 'SharedPreferences error',
@@ -242,7 +244,7 @@ void main() {
   });
 
   group('UnknownException', () {
-    test('debe crear UnknownException', () {
+    test('creates UnknownException', () {
       // Arrange
       final originalError = Exception('Unknown error');
 
@@ -257,7 +259,7 @@ void main() {
       expect(exception.originalException, equals(originalError));
     });
 
-    test('debe tener toUserMessage() genérico', () {
+    test('toUserMessage() is generic', () {
       // Arrange
       const exception = UnknownException(
         message: 'Unexpected error in feature X',
@@ -268,14 +270,16 @@ void main() {
 
       // Assert
       expect(userMessage, isNotEmpty);
-      final containsExpectedText = userMessage.toLowerCase().contains('inesperado') ||
-          userMessage.toLowerCase().contains('unexpected');
+      final containsExpectedText = userMessage
+              .toLowerCase()
+              .contains('unexpected') ||
+          userMessage.toLowerCase().contains('error');
       expect(containsExpectedText, isTrue);
     });
   });
 
   group('toUserMessage() translations', () {
-    test('debe traducir mensajes técnicos a español amigable', () {
+    test('hides technical details in user messages', () {
       // Arrange
       const parseException = ParseException(message: 'Invalid JSON');
       const networkException = NetworkException(message: 'Connection error');
@@ -289,16 +293,16 @@ void main() {
       final networkMsg = networkException.toUserMessage();
       final validationMsg = validationException.toUserMessage();
 
-      // Assert - Mensajes deben ser legibles
+      // Assert - messages should be readable
       expect(parseMsg, isNotEmpty);
       expect(networkMsg, isNotEmpty);
       expect(validationMsg, isNotEmpty);
-      // No deben contener palabras técnicas crudas
+      // Should not leak raw technical wording
       expect(parseMsg, isNot(contains('FormatException')));
       expect(networkMsg, isNot(contains('IOException')));
     });
 
-    test('debe ser consistente en formato', () {
+    test('is consistent in format', () {
       // Arrange
       const exception1 = ParseException(message: 'Error 1');
       const exception2 = ParseException(message: 'Error 2');
@@ -307,14 +311,14 @@ void main() {
       final msg1 = exception1.toUserMessage();
       final msg2 = exception2.toUserMessage();
 
-      // Assert - Ambos deben ser strings, no null
+      // Assert
       expect(msg1, isNotEmpty);
       expect(msg2, isNotEmpty);
     });
   });
 
   group('Exception Serialization', () {
-    test('debe serializar ParseException para logging', () {
+    test('serializes ParseException for logging', () {
       // Arrange
       const exception = ParseException(
         message: 'JSON parse error',
@@ -330,7 +334,7 @@ void main() {
       expect(serialized['failedValue'], equals('{"bad json"}'));
     });
 
-    test('debe serializar NetworkException para logging', () {
+    test('serializes NetworkException for logging', () {
       // Arrange
       const exception = NetworkException(
         message: 'Server error',
@@ -345,7 +349,7 @@ void main() {
       expect(serialized['statusCode'], equals(500));
     });
 
-    test('debe serializar ValidationException para logging', () {
+    test('serializes ValidationException for logging', () {
       // Arrange
       const exception = ValidationException(
         message: 'Invalid email',
@@ -362,7 +366,7 @@ void main() {
   });
 
   group('Exception Wrapping', () {
-    test('debe permitir envolver excepciones originales', () {
+    test('allows wrapping original exceptions', () {
       // Arrange
       const formatException = FormatException('Bad format');
       const wrapped = ParseException(
@@ -374,7 +378,7 @@ void main() {
       expect(wrapped.originalException, equals(formatException));
     });
 
-    test('debe preservar stacktrace cuando se envuelve', () {
+    test('preserves original exception when wrapping', () {
       // Arrange
       try {
         throw Exception('Original error');

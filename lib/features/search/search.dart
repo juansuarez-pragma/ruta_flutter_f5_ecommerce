@@ -1,4 +1,4 @@
-/// Barrel file para el feature Search.
+/// Barrel file for the Search feature.
 library;
 
 // Domain

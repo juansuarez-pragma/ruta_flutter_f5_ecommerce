@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-/// Clase base para todas las excepciones de aplicación tipadas.
-/// Proporciona estructura consistente para manejo de errores.
+/// Base class for all typed application exceptions.
+/// Provides a consistent structure for error handling.
 abstract class AppException extends Equatable implements Exception {
   const AppException({
     required this.code,
@@ -9,20 +9,19 @@ abstract class AppException extends Equatable implements Exception {
     this.originalException,
   });
 
-  /// Código único de error para identificación en logs y UI
+  /// Unique error code for logs and UI.
   final String code;
 
-  /// Mensaje técnico de error
+  /// Technical error message.
   final String message;
 
-  /// Excepción original capturada (si aplica)
+  /// Original exception (if any).
   final Exception? originalException;
 
-  /// Retorna mensaje amigable para mostrar al usuario.
-  /// Traduce mensajes técnicos a lenguaje natural.
+  /// Returns a user-friendly message.
   String toUserMessage();
 
-  /// Serializa la excepción para logging
+  /// Serializes the exception for logging.
   Map<String, dynamic> toMap() {
     return {
       'code': code,
@@ -38,7 +37,7 @@ abstract class AppException extends Equatable implements Exception {
   List<Object?> get props => [code, message, originalException];
 }
 
-/// Excepción para errores de parseo JSON o serialización
+/// Exception for JSON parsing/serialization errors.
 class ParseException extends AppException {
   const ParseException({
     required super.message,
@@ -46,13 +45,13 @@ class ParseException extends AppException {
     super.originalException,
   }) : super(code: 'PARSE_ERROR');
 
-  /// Valor que falló al parsear
+  /// Value that failed to parse.
   final String? failedValue;
 
   @override
   String toUserMessage() {
-    return 'Disculpa, hubo un problema al procesar los datos. '
-        'Por favor intenta de nuevo.';
+    return 'Sorry, there was a problem processing the data. '
+        'Please try again.';
   }
 
   @override
@@ -66,7 +65,7 @@ class ParseException extends AppException {
   List<Object?> get props => [...super.props, failedValue];
 }
 
-/// Excepción para errores de red o conectividad
+/// Exception for network/connectivity errors.
 class NetworkException extends AppException {
   const NetworkException({
     required super.message,
@@ -74,19 +73,19 @@ class NetworkException extends AppException {
     super.originalException,
   }) : super(code: 'NETWORK_ERROR');
 
-  /// Código de estado HTTP (si aplica)
+  /// HTTP status code (if applicable).
   final int? statusCode;
 
   @override
   String toUserMessage() {
     if (statusCode == 404) {
-      return 'El recurso solicitado no fue encontrado.';
+      return 'The requested resource was not found.';
     }
     if (statusCode != null && statusCode! >= 500) {
-      return 'Error en el servidor. Por favor intenta más tarde.';
+      return 'Server error. Please try again later.';
     }
-    return 'Problema de conexión a internet. Por favor verifica tu conexión '
-        'y intenta de nuevo.';
+    return 'Internet connection issue. Please check your connection '
+        'and try again.';
   }
 
   @override
@@ -100,7 +99,7 @@ class NetworkException extends AppException {
   List<Object?> get props => [...super.props, statusCode];
 }
 
-/// Excepción para errores de validación de datos
+/// Exception for data validation errors.
 class ValidationException extends AppException {
   const ValidationException({
     required super.message,
@@ -108,15 +107,15 @@ class ValidationException extends AppException {
     super.originalException,
   }) : super(code: 'VALIDATION_ERROR');
 
-  /// Campo específico que falló validación
+  /// Specific field that failed validation.
   final String? field;
 
   @override
   String toUserMessage() {
     if (field != null) {
-      return 'Por favor verifica el campo "$field" e intenta de nuevo.';
+      return 'Please check the "$field" field and try again.';
     }
-    return 'Algunos datos no son válidos. Por favor verifica e intenta de nuevo.';
+    return 'Some data is invalid. Please review and try again.';
   }
 
   @override
@@ -130,7 +129,7 @@ class ValidationException extends AppException {
   List<Object?> get props => [...super.props, field];
 }
 
-/// Excepción para errores de almacenamiento local
+/// Exception for local storage errors.
 class StorageException extends AppException {
   const StorageException({
     required super.message,
@@ -138,13 +137,13 @@ class StorageException extends AppException {
     super.originalException,
   }) : super(code: 'STORAGE_ERROR');
 
-  /// Operación que falló (read, write, delete)
+  /// Operation that failed (read, write, delete).
   final String? operation;
 
   @override
   String toUserMessage() {
-    return 'No pudimos acceder a la información almacenada. '
-        'Por favor intenta de nuevo.';
+    return 'We could not access the stored information. '
+        'Please try again.';
   }
 
   @override
@@ -158,7 +157,7 @@ class StorageException extends AppException {
   List<Object?> get props => [...super.props, operation];
 }
 
-/// Excepción para errores desconocidos o inesperados
+/// Exception for unknown/unexpected errors.
 class UnknownException extends AppException {
   const UnknownException({
     required super.message,
@@ -167,6 +166,6 @@ class UnknownException extends AppException {
 
   @override
   String toUserMessage() {
-    return 'Ocurrió un error inesperado. Por favor intenta de nuevo.';
+    return 'An unexpected error occurred. Please try again.';
   }
 }

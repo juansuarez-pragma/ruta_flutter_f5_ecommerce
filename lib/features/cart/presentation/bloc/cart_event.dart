@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:fake_store_api_client/fake_store_api_client.dart';
 
-/// Eventos del BLoC del carrito.
+/// Cart BLoC events.
 sealed class CartEvent extends Equatable {
   const CartEvent();
 
@@ -9,12 +9,12 @@ sealed class CartEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Solicita cargar los items del carrito.
+/// Requests loading cart items.
 final class CartLoadRequested extends CartEvent {
   const CartLoadRequested();
 }
 
-/// Solicita agregar un producto al carrito.
+/// Requests adding a product to the cart.
 final class CartItemAdded extends CartEvent {
   const CartItemAdded({required this.product, this.quantity = 1});
   final Product product;
@@ -24,7 +24,7 @@ final class CartItemAdded extends CartEvent {
   List<Object> get props => [product, quantity];
 }
 
-/// Solicita eliminar un item del carrito.
+/// Requests removing a cart item.
 final class CartItemRemoved extends CartEvent {
   const CartItemRemoved(this.productId);
   final int productId;
@@ -33,7 +33,7 @@ final class CartItemRemoved extends CartEvent {
   List<Object> get props => [productId];
 }
 
-/// Solicita actualizar la cantidad de un item.
+/// Requests updating a cart item quantity.
 final class CartItemQuantityUpdated extends CartEvent {
   const CartItemQuantityUpdated({
     required this.productId,
@@ -46,7 +46,7 @@ final class CartItemQuantityUpdated extends CartEvent {
   List<Object> get props => [productId, quantity];
 }
 
-/// Solicita limpiar el carrito.
+/// Requests clearing the cart.
 final class CartCleared extends CartEvent {
   const CartCleared();
 }

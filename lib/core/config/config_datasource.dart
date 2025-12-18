@@ -1,7 +1,7 @@
 import 'package:ecommerce/core/config/app_config.dart';
 
-/// DataSource para leer la configuración desde assets.
+/// DataSource for loading configuration from assets.
 abstract class ConfigDataSource {
-  /// Carga la configuración de la aplicación desde el JSON.
+  /// Loads the application configuration from JSON.
   Future<AppConfig> loadConfig();
 }

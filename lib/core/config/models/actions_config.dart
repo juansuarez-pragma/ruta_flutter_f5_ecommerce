@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Configuración de acciones.
+/// Actions configuration.
 class ActionsConfig extends Equatable {
   const ActionsConfig({required this.viewDetails, required this.reorder});
 
@@ -17,4 +17,3 @@ class ActionsConfig extends Equatable {
   @override
   List<Object?> get props => [viewDetails, reorder];
 }
-

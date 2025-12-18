@@ -1,47 +1,47 @@
 {
   "orderHistory": {
-    "pageTitle": "Mis Pedidos",
+    "pageTitle": "My Orders",
     "emptyState": {
       "icon": "receipt_long",
-      "title": "No tienes pedidos",
-      "description": "Cuando realices una compra, tus pedidos aparecerán aquí"
+      "title": "You have no orders",
+      "description": "When you place an order, it will show up here"
     },
     "orderCard": {
-      "orderLabel": "Pedido",
-      "dateLabel": "Fecha",
+      "orderLabel": "Order",
+      "dateLabel": "Date",
       "totalLabel": "Total",
-      "itemsLabel": "productos",
+      "itemsLabel": "items",
       "statusLabels": {
-        "completed": "Completado",
-        "pending": "Pendiente",
-        "cancelled": "Cancelado"
+        "completed": "Completed",
+        "pending": "Pending",
+        "cancelled": "Cancelled"
       }
     },
     "actions": {
-      "viewDetails": "Ver detalles",
-      "reorder": "Volver a pedir"
+      "viewDetails": "View details",
+      "reorder": "Reorder"
     }
   },
   "orderDetail": {
-    "pageTitle": "Detalle del Pedido",
+    "pageTitle": "Order Details",
     "sections": {
-      "summary": "Resumen",
-      "products": "Productos",
-      "shipping": "Envío"
+      "summary": "Summary",
+      "products": "Products",
+      "shipping": "Shipping"
     },
     "labels": {
-      "orderId": "Número de pedido",
-      "date": "Fecha de compra",
-      "status": "Estado",
+      "orderId": "Order number",
+      "date": "Purchase date",
+      "status": "Status",
       "subtotal": "Subtotal",
-      "shipping": "Envío",
+      "shipping": "Shipping",
       "total": "Total",
-      "quantity": "Cantidad"
+      "quantity": "Quantity"
     },
     "shippingInfo": {
-      "title": "Información de envío",
-      "freeShipping": "Envío gratis",
-      "estimatedDelivery": "Entrega estimada: 3-5 días hábiles"
+      "title": "Shipping information",
+      "freeShipping": "Free shipping",
+      "estimatedDelivery": "Estimated delivery: 3-5 business days"
     }
   },
   "images": {
@@ -54,7 +54,7 @@
     "currency": {
       "symbol": "$",
       "decimalDigits": 2,
-      "locale": "es_CO"
+      "locale": "en_US"
     }
   }
 }

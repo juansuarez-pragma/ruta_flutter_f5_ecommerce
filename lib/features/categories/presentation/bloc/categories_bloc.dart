@@ -47,7 +47,7 @@ final class CategoriesError extends CategoriesState {
   List<Object> get props => [message];
 }
 
-/// BLoC para gestionar el estado de categorías.
+/// BLoC that manages categories state.
 class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   CategoriesBloc({required GetCategoriesUseCase getCategoriesUseCase})
     : _getCategoriesUseCase = getCategoriesUseCase,

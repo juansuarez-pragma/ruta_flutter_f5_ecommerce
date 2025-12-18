@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Configuración del estado vacío.
+/// Empty state configuration.
 class EmptyStateConfig extends Equatable {
   const EmptyStateConfig({
     required this.icon,
@@ -23,4 +23,3 @@ class EmptyStateConfig extends Equatable {
   @override
   List<Object?> get props => [icon, title, description];
 }
-

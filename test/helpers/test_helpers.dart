@@ -7,9 +7,9 @@ import 'package:fake_store_api_client/fake_store_api_client.dart';
 // WIDGET TEST HELPERS
 // ============================================================================
 
-/// Envuelve un widget con el tema del Design System para tests.
+/// Wraps a widget with the Design System theme for tests.
 ///
-/// Todos los componentes del DS requieren FakeStoreTheme para funcionar.
+/// All DS components require FakeStoreTheme to work.
 ///
 /// ```dart
 /// await tester.pumpWidget(buildTestableWidget(DSButton(...)));
@@ -22,7 +22,7 @@ Widget buildTestableWidget(Widget child, {bool useScaffold = true}) {
   );
 }
 
-/// Envuelve para tests que requieren navegación completa.
+/// Wraps a test app that requires full navigation/routing.
 Widget buildTestableApp({
   required Widget home,
   Map<String, WidgetBuilder>? routes,
@@ -35,7 +35,7 @@ Widget buildTestableApp({
   );
 }
 
-/// Helper para tests con Scaffold y AppBar.
+/// Helper for tests that need a Scaffold and AppBar.
 Widget buildTestableScaffold({
   PreferredSizeWidget? appBar,
   required Widget body,
@@ -54,10 +54,10 @@ Widget buildTestableScaffold({
 }
 
 // ============================================================================
-// EITHER MATCHERS - Para el Either custom del api_client
+// EITHER MATCHERS - For the api_client Either type
 // ============================================================================
 
-/// Matcher para verificar que un Either es Right (éxito).
+/// Matcher to assert an Either is Right (success).
 ///
 /// ```dart
 /// expect(result, isRight);
@@ -65,7 +65,7 @@ Widget buildTestableScaffold({
 const Matcher isRight = _IsRight();
 
 class _IsRight extends Matcher {
-  const _IsRight();
+const _IsRight();
 
   @override
   bool matches(dynamic item, Map matchState) => item is Right;
@@ -75,7 +75,7 @@ class _IsRight extends Matcher {
       description.add('is Right (success)');
 }
 
-/// Matcher para verificar que un Either es Left (error).
+/// Matcher to assert an Either is Left (failure).
 ///
 /// ```dart
 /// expect(result, isLeft);
@@ -93,7 +93,7 @@ class _IsLeft extends Matcher {
       description.add('is Left (failure)');
 }
 
-/// Matcher tipado para Right con valor específico.
+/// Typed matcher for Right with an expected value.
 ///
 /// ```dart
 /// expect(result, isRightWith(expectedProducts));
@@ -117,7 +117,7 @@ class _IsRightWith<L, R> extends Matcher {
       description.add('is Right with value $expectedValue');
 }
 
-/// Matcher tipado para Left con failure específico.
+/// Typed matcher for Left with a specific failure type.
 ///
 /// ```dart
 /// expect(result, isLeftWithType<ConnectionFailure>());
@@ -144,9 +144,9 @@ class _IsLeftWithType<T> extends Matcher {
 // PUMP HELPERS
 // ============================================================================
 
-/// Extension para WidgetTester con helpers comunes.
+/// WidgetTester extension with common helpers.
 extension WidgetTesterX on WidgetTester {
-  /// Pump widget con tema del DS y espera a que se estabilice.
+  /// Pumps a widget with DS theme and optionally waits.
   Future<void> pumpTestableWidget(Widget widget, {Duration? duration}) async {
     await pumpWidget(buildTestableWidget(widget));
     if (duration != null) {
@@ -154,7 +154,7 @@ extension WidgetTesterX on WidgetTester {
     }
   }
 
-  /// Pump y settle para animaciones.
+  /// Pumps and settles animations.
   Future<void> pumpAndSettleTestable(Widget widget) async {
     await pumpWidget(buildTestableWidget(widget));
     await pumpAndSettle();
@@ -162,11 +162,11 @@ extension WidgetTesterX on WidgetTester {
 }
 
 // ============================================================================
-// GOLDEN TEST HELPERS (para tests visuales futuros)
+// GOLDEN TEST HELPERS (for future visual tests)
 // ============================================================================
 
-/// Configuración para golden tests del Design System.
+/// Golden test setup for the Design System.
 Future<void> loadFontsForGoldenTests() async {
-  // Cargar fuentes si es necesario para golden tests
+  // Load fonts if needed for golden tests.
   TestWidgetsFlutterBinding.ensureInitialized();
 }

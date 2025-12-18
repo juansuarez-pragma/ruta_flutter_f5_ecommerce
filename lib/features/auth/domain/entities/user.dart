@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 
-/// Entidad de usuario del dominio.
+/// Domain user entity.
 ///
-/// Representa un usuario autenticado en el sistema.
+/// Represents an authenticated user in the system.
 class User extends Equatable {
 
   const User({
@@ -13,31 +13,32 @@ class User extends Equatable {
     required this.lastName,
     this.token,
   });
-  /// Identificador único del usuario.
+
+  /// Unique user identifier.
   final int id;
 
-  /// Correo electrónico del usuario.
+  /// User email.
   final String email;
 
-  /// Nombre de usuario.
+  /// Username.
   final String username;
 
-  /// Nombre completo del usuario.
+  /// User first name.
   final String firstName;
 
-  /// Apellido del usuario.
+  /// User last name.
   final String lastName;
 
-  /// Token de autenticación (opcional, usado para sesiones activas).
+  /// Authentication token (optional, used for active sessions).
   final String? token;
 
-  /// Nombre completo formateado.
+  /// Formatted full name.
   String get fullName => '$firstName $lastName';
 
-  /// Verifica si el usuario tiene un token válido.
+  /// Whether the user has a valid token.
   bool get isAuthenticated => token != null && token!.isNotEmpty;
 
-  /// Crea una copia del usuario con cambios opcionales.
+  /// Creates a copy with optional changes.
   User copyWith({
     int? id,
     String? email,

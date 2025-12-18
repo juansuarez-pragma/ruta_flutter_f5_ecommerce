@@ -11,9 +11,9 @@ import 'package:ecommerce/features/auth/domain/usecases/get_current_user_usecase
 part 'auth_event.dart';
 part 'auth_state.dart';
 
-/// BLoC para gestión de autenticación.
+/// BLoC for authentication flows.
 ///
-/// Maneja login, registro, logout y verificación de sesión.
+/// Handles sign in, registration, sign out, and session checks.
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   AuthBloc({
@@ -32,7 +32,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LogoutUseCase logoutUseCase;
   final GetCurrentUserUseCase getCurrentUserUseCase;
 
-  /// Verifica si hay una sesión activa al iniciar la app.
+  /// Checks if there is an active session on app start.
   Future<void> _onAuthCheckRequested(
     AuthCheckRequested event,
     Emitter<AuthState> emit,
@@ -47,7 +47,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
-  /// Maneja el inicio de sesión.
+  /// Handles sign in.
   Future<void> _onAuthLoginRequested(
     AuthLoginRequested event,
     Emitter<AuthState> emit,
@@ -68,7 +68,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
-  /// Maneja el registro de nuevo usuario.
+  /// Handles user registration.
   Future<void> _onAuthRegisterRequested(
     AuthRegisterRequested event,
     Emitter<AuthState> emit,
@@ -92,7 +92,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
-  /// Maneja el cierre de sesión.
+  /// Handles sign out.
   Future<void> _onAuthLogoutRequested(
     AuthLogoutRequested event,
     Emitter<AuthState> emit,

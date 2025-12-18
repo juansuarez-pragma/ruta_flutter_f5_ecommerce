@@ -1,4 +1,4 @@
-/// Feature de historial de órdenes.
+/// Order history feature.
 library;
 
 // Domain

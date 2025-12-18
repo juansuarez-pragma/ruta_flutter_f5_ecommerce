@@ -5,10 +5,9 @@ import 'package:fake_store_design_system/fake_store_design_system.dart';
 import 'package:ecommerce/core/router/routes.dart';
 import 'package:ecommerce/features/cart/cart.dart';
 
-/// Scaffold principal con navegación inferior.
+/// Main scaffold with bottom navigation.
 ///
-/// Proporciona la estructura base para las pantallas principales
-/// de la aplicación con bottom navigation bar.
+/// Provides the base structure for the main screens of the app.
 class AppScaffold extends StatelessWidget {
   const AppScaffold({
     super.key,
@@ -21,25 +20,25 @@ class AppScaffold extends StatelessWidget {
     this.leading,
   });
 
-  /// Widget del cuerpo de la pantalla.
+  /// Screen body widget.
   final Widget body;
 
-  /// Índice actual de la navegación.
+  /// Current bottom navigation index.
   final int currentIndex;
 
-  /// Título opcional para el AppBar.
+  /// Optional AppBar title.
   final String? title;
 
-  /// Acciones opcionales para el AppBar.
+  /// Optional AppBar actions.
   final List<Widget>? actions;
 
-  /// Si se debe mostrar la navegación inferior.
+  /// Whether the bottom navigation bar should be shown.
   final bool showBottomNav;
 
-  /// Floating action button opcional.
+  /// Optional floating action button.
   final FloatingActionButton? floatingActionButton;
 
-  /// Widget leading opcional para el AppBar.
+  /// Optional leading widget for the AppBar.
   final Widget? leading;
 
   @override
@@ -63,14 +62,14 @@ class AppScaffold extends StatelessWidget {
           currentIndex: currentIndex,
           onTap: (index) => _onNavTap(context, index),
           items: [
-            const DSBottomNavItem(icon: Icons.home, label: 'Inicio'),
-            const DSBottomNavItem(icon: Icons.grid_view, label: 'Productos'),
+            const DSBottomNavItem(icon: Icons.home, label: 'Home'),
+            const DSBottomNavItem(icon: Icons.grid_view, label: 'Products'),
             DSBottomNavItem(
               icon: Icons.shopping_cart,
-              label: 'Carrito',
+              label: 'Cart',
               badgeCount: cartCount > 0 ? cartCount : null,
             ),
-            const DSBottomNavItem(icon: Icons.person, label: 'Perfil'),
+            const DSBottomNavItem(icon: Icons.person, label: 'Profile'),
           ],
         );
       },

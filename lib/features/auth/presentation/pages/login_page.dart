@@ -5,7 +5,7 @@ import 'package:fake_store_design_system/fake_store_design_system.dart';
 import 'package:ecommerce/core/router/routes.dart';
 import 'package:ecommerce/features/auth/presentation/bloc/auth_bloc.dart';
 
-/// Página de inicio de sesión.
+/// Login page.
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -79,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     const SizedBox(height: DSSpacing.xs),
                     DSText(
-                      'Inicia sesión para continuar',
+                      'Sign in to continue',
                       textAlign: TextAlign.center,
                       color: tokens.colorTextSecondary,
                     ),
@@ -91,8 +91,8 @@ class _LoginPageState extends State<LoginPage> {
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
-                        labelText: 'Correo electrónico',
-                        hintText: 'ejemplo@correo.com',
+                        labelText: 'Email',
+                        hintText: 'example@email.com',
                         prefixIcon: const Icon(Icons.email_outlined),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(DSBorderRadius.base),
@@ -100,10 +100,10 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Ingresa tu correo electrónico';
+                          return 'Please enter your email';
                         }
                         if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-                          return 'Ingresa un correo válido';
+                          return 'Please enter a valid email';
                         }
                         return null;
                       },
@@ -116,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
                       controller: _passwordController,
                       obscureText: _obscurePassword,
                       decoration: InputDecoration(
-                        labelText: 'Contraseña',
+                        labelText: 'Password',
                         hintText: '••••••••',
                         prefixIcon: const Icon(Icons.lock_outlined),
                         suffixIcon: IconButton(
@@ -137,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Ingresa tu contraseña';
+                          return 'Please enter your password';
                         }
                         return null;
                       },
@@ -147,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
 
                     // Botón de login
                     DSButton(
-                      text: state is AuthLoading ? 'Iniciando sesión...' : 'Iniciar sesión',
+                      text: state is AuthLoading ? 'Signing in...' : 'Sign in',
                       onPressed: state is AuthLoading ? null : _onLoginPressed,
                       isLoading: state is AuthLoading,
                     ),
@@ -159,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         DSText(
-                          '¿No tienes cuenta? ',
+                          "Don't have an account? ",
                           color: tokens.colorTextSecondary,
                         ),
                         GestureDetector(
@@ -167,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.pushNamed(context, Routes.register);
                           },
                           child: DSText(
-                            'Regístrate',
+                            'Sign up',
                             color: tokens.colorBrandPrimary,
                           ),
                         ),
@@ -179,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
                     // Link para continuar sin cuenta
                     Center(
                       child: DSButton(
-                        text: 'Continuar sin cuenta',
+                        text: 'Continue as guest',
                         variant: DSButtonVariant.ghost,
                         onPressed: () {
                           Navigator.pushReplacementNamed(context, Routes.home);

@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 import 'package:ecommerce/features/cart/domain/entities/cart_item.dart';
 
-/// Estados del BLoC del carrito.
+/// Cart BLoC states.
 sealed class CartState extends Equatable {
   const CartState();
 
@@ -10,36 +10,36 @@ sealed class CartState extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Estado inicial del carrito.
+/// Initial state.
 final class CartInitial extends CartState {
   const CartInitial();
 }
 
-/// Estado de carga del carrito.
+/// Loading state.
 final class CartLoading extends CartState {
   const CartLoading();
 }
 
-/// Estado con el carrito cargado.
+/// Loaded state.
 final class CartLoaded extends CartState {
   const CartLoaded({required this.items});
   final List<CartItem> items;
 
-  /// Número total de items en el carrito.
+  /// Total number of items in the cart.
   int get totalItems => items.fold(0, (sum, item) => sum + item.quantity);
 
-  /// Precio total del carrito.
+  /// Total cart price.
   double get totalPrice =>
       items.fold(0.0, (sum, item) => sum + item.totalPrice);
 
-  /// Indica si el carrito está vacío.
+  /// Whether the cart is empty.
   bool get isEmpty => items.isEmpty;
 
   @override
   List<Object> get props => [items];
 }
 
-/// Estado de error del carrito.
+/// Error state.
 final class CartError extends CartState {
   const CartError(this.message);
   final String message;

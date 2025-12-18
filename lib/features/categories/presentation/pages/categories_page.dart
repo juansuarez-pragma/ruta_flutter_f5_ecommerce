@@ -8,7 +8,7 @@ import 'package:ecommerce/shared/widgets/app_scaffold.dart';
 import 'package:ecommerce/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:ecommerce/features/categories/presentation/widgets/category_tile.dart';
 
-/// Página de categorías.
+/// Categories page.
 class CategoriesPage extends StatelessWidget {
   const CategoriesPage({super.key});
 
@@ -27,7 +27,7 @@ class _CategoriesPageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: 'Categorías',
+      title: 'Categories',
       currentIndex: 1,
       showBottomNav: false,
       body: BlocBuilder<CategoriesBloc, CategoriesState>(
@@ -35,7 +35,7 @@ class _CategoriesPageContent extends StatelessWidget {
           return switch (state) {
             CategoriesInitial() => const SizedBox.shrink(),
             CategoriesLoading() => const DSLoadingState(
-              message: 'Cargando categorías...',
+              message: 'Loading categories...',
             ),
             CategoriesError(:final message) => DSErrorState(
               message: message,

@@ -1,4 +1,4 @@
-/// Barrel file para widgets compartidos.
+/// Barrel file for shared widgets.
 library;
 
 export 'app_scaffold.dart';

@@ -1,6 +1,6 @@
-/// Barrel file de configuración de app.
+/// App configuration barrel.
 ///
-/// Mantiene estable el import público: `package:ecommerce/core/config/app_config.dart`.
+/// Keeps the public import stable: `package:ecommerce/core/config/app_config.dart`.
 library;
 
 export 'models/actions_config.dart';
@@ -13,4 +13,3 @@ export 'models/order_detail_config.dart';
 export 'models/order_history_config.dart';
 export 'models/settings_config.dart';
 export 'models/shipping_info_config.dart';
-

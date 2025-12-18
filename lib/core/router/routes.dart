@@ -1,54 +1,54 @@
-/// Definición de rutas de la aplicación.
+/// Application routes.
 ///
-/// Centraliza todas las rutas nombradas para navegación.
+/// Centralizes all named routes for navigation.
 class Routes {
   Routes._();
 
-  /// Ruta de verificación de autenticación (splash/inicial).
+  /// Authentication check route (splash/initial).
   static const String authWrapper = '/';
 
-  /// Ruta de inicio de sesión.
+  /// Login route.
   static const String login = '/login';
 
-  /// Ruta de registro.
+  /// Register route.
   static const String register = '/register';
 
-  /// Ruta de la pantalla principal (home después de autenticación).
+  /// Home route (after authentication).
   static const String home = '/home';
 
-  /// Ruta del listado de productos.
+  /// Products list route.
   static const String products = '/products';
 
-  /// Ruta del detalle de producto.
+  /// Product detail route.
   static const String productDetail = '/product';
 
-  /// Ruta de categorías.
+  /// Categories route.
   static const String categories = '/categories';
 
-  /// Ruta del carrito de compras.
+  /// Cart route.
   static const String cart = '/cart';
 
-  /// Ruta de checkout.
+  /// Checkout route.
   static const String checkout = '/checkout';
 
-  /// Ruta de confirmación de orden.
+  /// Order confirmation route.
   static const String orderConfirmation = '/order-confirmation';
 
-  /// Ruta de búsqueda.
+  /// Search route.
   static const String search = '/search';
 
-  /// Ruta del historial de órdenes.
+  /// Order history route.
   static const String orderHistory = '/orders';
 
-  /// Ruta de soporte y ayuda.
+  /// Support route.
   static const String support = '/support';
 
-  /// Ruta de contacto con soporte.
+  /// Support contact route.
   static const String contact = '/contact';
 
-  /// Ruta de perfil de usuario.
+  /// User profile route.
   static const String profile = '/profile';
 
-  /// Genera la ruta para el detalle de un producto.
+  /// Builds the route for a product detail page.
   static String productDetailPath(int id) => '/product/$id';
 }

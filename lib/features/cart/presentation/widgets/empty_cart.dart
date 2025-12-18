@@ -3,7 +3,7 @@ import 'package:fake_store_design_system/fake_store_design_system.dart';
 
 import 'package:ecommerce/core/router/routes.dart';
 
-/// Vista para carrito vacío.
+/// Empty cart view.
 class EmptyCart extends StatelessWidget {
   const EmptyCart({super.key});
 
@@ -11,9 +11,9 @@ class EmptyCart extends StatelessWidget {
   Widget build(BuildContext context) {
     return DSEmptyState(
       icon: Icons.shopping_cart_outlined,
-      title: 'Tu carrito está vacío',
-      description: 'Agrega productos para comenzar a comprar',
-      actionText: 'Ver productos',
+      title: 'Your cart is empty',
+      description: 'Add products to start shopping',
+      actionText: 'Browse products',
       onAction: () => Navigator.pushNamed(context, Routes.products),
     );
   }
