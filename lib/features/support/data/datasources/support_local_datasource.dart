@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:ecommerce/core/error_handling/app_exceptions.dart';
+import 'package:ecommerce/core/error_handling/error_logger.dart';
+import 'package:ecommerce/core/error_handling/error_handling_utils.dart';
 import 'package:ecommerce/features/support/data/models/faq_item_model.dart';
 import 'package:ecommerce/features/support/data/models/contact_message_model.dart';
 import 'package:ecommerce/features/support/domain/entities/faq_item.dart';
@@ -59,8 +62,23 @@ class SupportLocalDataSourceImpl implements SupportLocalDataSource {
       );
 
       return message;
-    } catch (e) {
-      throw Exception('Error al guardar mensaje de contacto: $e');
+    } on ParseException {
+      // Re-lanzar ParseException después de loguearla
+      rethrow;
+    } catch (e, st) {
+      // Convertir cualquier otra excepción
+      final exception = UnknownException(
+        message: 'Error al guardar mensaje de contacto',
+        originalException: e is Exception ? e : Exception(e.toString()),
+      );
+
+      ErrorLogger().logAppException(
+        exception,
+        context: {'operation': 'saveContactMessage'},
+        stackTrace: st,
+      );
+
+      throw exception;
     }
   }
 
@@ -79,6 +97,9 @@ class SupportLocalDataSourceImpl implements SupportLocalDataSource {
   }
 
   /// Obtiene los mensajes de contacto guardados.
+  ///
+  /// Lanza [ParseException] si los datos almacenados están corruptos.
+  /// Retorna lista vacía si no hay datos almacenados.
   Future<List<ContactMessageModel>> _getCachedMessages() async {
     final jsonString = sharedPreferences.getString(_contactMessagesKey);
     if (jsonString == null) {
@@ -86,12 +107,36 @@ class SupportLocalDataSourceImpl implements SupportLocalDataSource {
     }
 
     try {
-      final jsonList = json.decode(jsonString) as List<dynamic>;
+      // Usar safeJsonDecode para parseo seguro
+      final jsonList = safeJsonDecode(jsonString) as List<dynamic>;
+
       return jsonList
           .map((json) => ContactMessageModel.fromJson(json as Map<String, dynamic>))
           .toList();
-    } catch (e) {
-      return [];
+    } on ParseException {
+      // Re-lanzar ParseException después de loguearla
+      ErrorLogger().logError(
+        message: 'Error al decodificar mensajes de contacto',
+        context: {'operation': '_getCachedMessages'},
+      );
+      rethrow;
+    } catch (e, st) {
+      // Convertir cualquier otra excepción a ParseException y loguear
+      final exception = ParseException(
+        message: 'Error inesperado al cargar mensajes de contacto',
+        failedValue: jsonString.length > 200
+            ? '${jsonString.substring(0, 200)}...'
+            : jsonString,
+        originalException: e is Exception ? e : Exception(e.toString()),
+      );
+
+      ErrorLogger().logAppException(
+        exception,
+        context: {'operation': '_getCachedMessages'},
+        stackTrace: st,
+      );
+
+      throw exception;
     }
   }
 
