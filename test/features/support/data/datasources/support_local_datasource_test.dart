@@ -4,20 +4,25 @@ import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:ecommerce/core/error_handling/app_exceptions.dart';
+import 'package:ecommerce/core/error_handling/app_logger.dart';
 import 'package:ecommerce/features/support/data/datasources/support_local_datasource_impl.dart';
 import 'package:ecommerce/features/support/data/models/contact_message_model.dart';
 import 'package:ecommerce/features/support/domain/entities/faq_item.dart';
 
 class MockSharedPreferences extends Mock implements SharedPreferences {}
+class MockAppLogger extends Mock implements AppLogger {}
 
 void main() {
   late SupportLocalDataSourceImpl supportDataSource;
   late MockSharedPreferences mockSharedPreferences;
+  late MockAppLogger mockLogger;
 
   setUp(() {
     mockSharedPreferences = MockSharedPreferences();
+    mockLogger = MockAppLogger();
     supportDataSource = SupportLocalDataSourceImpl(
       sharedPreferences: mockSharedPreferences,
+      logger: mockLogger,
     );
 
     // Configure default mocks

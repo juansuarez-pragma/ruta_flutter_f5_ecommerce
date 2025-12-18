@@ -1,17 +1,14 @@
 import 'dart:developer' as developer;
-import 'app_exceptions.dart';
 
-/// Log severity level.
-enum LogLevel { info, warning, error }
+import 'app_exceptions.dart';
+import 'app_logger.dart';
+import '../utils/clock.dart';
 
 /// Centralized error logging service.
-/// Singleton that captures and logs exceptions across the whole app.
-class ErrorLogger {
-  factory ErrorLogger() => _instance;
+final class ErrorLogger implements AppLogger {
+  ErrorLogger({required Clock clock}) : _clock = clock;
 
-  ErrorLogger._internal();
-
-  static final ErrorLogger _instance = ErrorLogger._internal();
+  final Clock _clock;
 
   /// Logs an error with all available details.
   ///
@@ -21,6 +18,7 @@ class ErrorLogger {
   /// - [stackTrace]: Stack trace for debugging (optional)
   /// - [context]: Additional contextual information (optional)
   /// - [level]: Severity level (default: error)
+  @override
   void logError({
     required String message,
     Exception? exception,
@@ -29,7 +27,7 @@ class ErrorLogger {
     LogLevel level = LogLevel.error,
   }) {
     try {
-      final timestamp = DateTime.now().toIso8601String();
+      final timestamp = _clock.now().toIso8601String();
       final logMessage = _formatLogMessage(
         message: message,
         exception: exception,
@@ -56,6 +54,7 @@ class ErrorLogger {
   }
 
   /// Logs an informational message.
+  @override
   void logInfo(
     String message, {
     Map<String, dynamic>? context,
@@ -68,6 +67,7 @@ class ErrorLogger {
   }
 
   /// Logs a warning.
+  @override
   void logWarning(
     String message, {
     Exception? exception,
@@ -82,6 +82,7 @@ class ErrorLogger {
   }
 
   /// Logs an AppException with typed details.
+  @override
   void logAppException(
     AppException exception, {
     String? additionalContext,

@@ -4,18 +4,22 @@ import 'package:collection/collection.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:ecommerce/core/error_handling/app_exceptions.dart';
-import 'package:ecommerce/core/error_handling/error_logger.dart';
+import 'package:ecommerce/core/error_handling/app_logger.dart';
 import 'package:ecommerce/features/orders/data/datasources/order_local_datasource.dart';
 import 'package:ecommerce/features/orders/data/models/order_model.dart';
 
 /// [OrderLocalDataSource] implementation.
 class OrderLocalDataSourceImpl implements OrderLocalDataSource {
-  OrderLocalDataSourceImpl({required SharedPreferences sharedPreferences})
-    : _sharedPreferences = sharedPreferences;
+  OrderLocalDataSourceImpl({
+    required SharedPreferences sharedPreferences,
+    required AppLogger logger,
+  }) : _sharedPreferences = sharedPreferences,
+       _logger = logger;
 
   static const String _ordersKey = 'orders_history';
 
   final SharedPreferences _sharedPreferences;
+  final AppLogger _logger;
 
   @override
   Future<List<OrderModel>> getOrders() async {
@@ -38,7 +42,7 @@ class OrderLocalDataSourceImpl implements OrderLocalDataSource {
         originalException: e,
       );
 
-      ErrorLogger().logAppException(
+      _logger.logAppException(
         exception,
         context: {'operation': 'getOrders'},
         stackTrace: st,
@@ -54,7 +58,7 @@ class OrderLocalDataSourceImpl implements OrderLocalDataSource {
         originalException: e is Exception ? e : Exception(e.toString()),
       );
 
-      ErrorLogger().logAppException(
+      _logger.logAppException(
         exception,
         context: {'operation': 'getOrders'},
         stackTrace: st,
@@ -80,7 +84,7 @@ class OrderLocalDataSourceImpl implements OrderLocalDataSource {
       final order = orders.firstWhereOrNull((order) => order.id == id);
 
       if (order == null) {
-        ErrorLogger().logInfo(
+        _logger.logInfo(
           'Order not found: $id',
           context: {'operation': 'getOrderById'},
         );
@@ -93,7 +97,7 @@ class OrderLocalDataSourceImpl implements OrderLocalDataSource {
         originalException: e is Exception ? e : Exception(e.toString()),
       );
 
-      ErrorLogger().logAppException(
+      _logger.logAppException(
         exception,
         context: {'operation': 'getOrderById', 'orderId': id},
         stackTrace: st,

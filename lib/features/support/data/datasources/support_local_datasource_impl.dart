@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:ecommerce/core/error_handling/app_exceptions.dart';
-import 'package:ecommerce/core/error_handling/error_logger.dart';
+import 'package:ecommerce/core/error_handling/app_logger.dart';
 import 'package:ecommerce/core/error_handling/error_handling_utils.dart';
 import 'package:ecommerce/features/support/data/datasources/support_local_datasource.dart';
 import 'package:ecommerce/features/support/data/models/contact_message_model.dart';
@@ -13,9 +13,13 @@ import 'package:ecommerce/features/support/domain/entities/faq_item.dart';
 
 /// Local support datasource implementation.
 class SupportLocalDataSourceImpl implements SupportLocalDataSource {
-  SupportLocalDataSourceImpl({required this.sharedPreferences});
+  SupportLocalDataSourceImpl({
+    required this.sharedPreferences,
+    required AppLogger logger,
+  }) : _logger = logger;
 
   final SharedPreferences sharedPreferences;
+  final AppLogger _logger;
   static const String _contactMessagesKey = 'CACHED_CONTACT_MESSAGES';
 
   @override
@@ -51,7 +55,7 @@ class SupportLocalDataSourceImpl implements SupportLocalDataSource {
         originalException: e is Exception ? e : Exception(e.toString()),
       );
 
-      ErrorLogger().logAppException(
+      _logger.logAppException(
         exception,
         context: {'operation': 'saveContactMessage'},
         stackTrace: st,
@@ -92,7 +96,7 @@ class SupportLocalDataSourceImpl implements SupportLocalDataSource {
           )
           .toList();
     } on ParseException {
-      ErrorLogger().logError(
+      _logger.logError(
         message: 'Failed to decode contact messages',
         context: {'operation': '_getCachedMessages'},
       );
@@ -106,7 +110,7 @@ class SupportLocalDataSourceImpl implements SupportLocalDataSource {
         originalException: e is Exception ? e : Exception(e.toString()),
       );
 
-      ErrorLogger().logAppException(
+      _logger.logAppException(
         exception,
         context: {'operation': '_getCachedMessages'},
         stackTrace: st,

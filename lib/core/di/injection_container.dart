@@ -3,8 +3,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fake_store_api_client/fake_store_api_client.dart';
 
 import 'package:ecommerce/core/config/config.dart';
+import 'package:ecommerce/core/config/asset_string_loader.dart';
 import 'package:ecommerce/core/config/config_local_datasource.dart';
+import 'package:ecommerce/core/error_handling/app_logger.dart';
 import 'package:ecommerce/core/error_handling/error_logger.dart';
+import 'package:ecommerce/core/utils/clock.dart';
 import 'package:ecommerce/core/utils/id_generator.dart';
 import 'package:ecommerce/features/home/home.dart';
 import 'package:ecommerce/features/products/products.dart';
@@ -27,18 +30,26 @@ final sl = GetIt.instance;
 ///
 /// Must be called before runApp() in main.dart.
 Future<void> initDependencies() async {
+  // ============ Core utilities ============
+  sl.registerLazySingleton<Clock>(() => const SystemClock());
+  sl.registerLazySingleton<IdGenerator>(() => const UuidV4Generator());
+
   // ============ Error Handling (Phase 8 - Exceptions) ============
-  sl.registerLazySingleton(() => ErrorLogger());
+  sl.registerLazySingleton<AppLogger>(() => ErrorLogger(clock: sl()));
 
   // ============ External ============
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);
 
-  // ============ Core utilities ============
-  sl.registerLazySingleton<IdGenerator>(() => const UuidV4Generator());
+  // ============ Assets ============
+  sl.registerLazySingleton<AssetStringLoader>(
+    () => const RootBundleAssetStringLoader(),
+  );
 
   // ============ Config (Phase 7 - JSON configuration) ============
-  sl.registerLazySingleton<ConfigDataSource>(() => ConfigLocalDataSource());
+  sl.registerLazySingleton<ConfigDataSource>(
+    () => ConfigLocalDataSource(assetLoader: sl()),
+  );
   final configDataSource = sl<ConfigDataSource>();
   final appConfig = await configDataSource.loadConfig();
   sl.registerLazySingleton(() => appConfig);
@@ -54,13 +65,17 @@ Future<void> initDependencies() async {
     () => CartLocalDataSourceImpl(sharedPreferences: sl()),
   );
   sl.registerLazySingleton<OrderLocalDataSource>(
-    () => OrderLocalDataSourceImpl(sharedPreferences: sl()),
+    () => OrderLocalDataSourceImpl(sharedPreferences: sl(), logger: sl()),
   );
   sl.registerLazySingleton<AuthLocalDataSource>(
-    () => AuthLocalDataSourceImpl(sharedPreferences: sl()),
+    () => AuthLocalDataSourceImpl(
+      sharedPreferences: sl(),
+      logger: sl(),
+      clock: sl(),
+    ),
   );
   sl.registerLazySingleton<SupportLocalDataSource>(
-    () => SupportLocalDataSourceImpl(sharedPreferences: sl()),
+    () => SupportLocalDataSourceImpl(sharedPreferences: sl(), logger: sl()),
   );
 
   // ============ Repositories ============
@@ -74,7 +89,11 @@ Future<void> initDependencies() async {
     () => AuthRepositoryImpl(localDataSource: sl()),
   );
   sl.registerLazySingleton<SupportRepository>(
-    () => SupportRepositoryImpl(localDataSource: sl(), idGenerator: sl()),
+    () => SupportRepositoryImpl(
+      localDataSource: sl(),
+      idGenerator: sl(),
+      clock: sl(),
+    ),
   );
 
   // ============ UseCases - Products ============

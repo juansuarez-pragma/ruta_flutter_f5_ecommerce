@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 
+import 'package:ecommerce/core/utils/clock.dart';
 import 'package:ecommerce/core/utils/id_generator.dart';
 import 'package:ecommerce/features/support/data/datasources/support_local_datasource.dart';
 import 'package:ecommerce/features/support/data/models/contact_message_model.dart';
@@ -10,11 +11,16 @@ import 'package:ecommerce/features/support/domain/repositories/support_repositor
 
 /// Support repository implementation.
 class SupportRepositoryImpl implements SupportRepository {
-  SupportRepositoryImpl({required this.localDataSource, required IdGenerator idGenerator})
-    : _idGenerator = idGenerator;
+  SupportRepositoryImpl({
+    required this.localDataSource,
+    required IdGenerator idGenerator,
+    required Clock clock,
+  }) : _idGenerator = idGenerator,
+       _clock = clock;
 
   final SupportLocalDataSource localDataSource;
   final IdGenerator _idGenerator;
+  final Clock _clock;
 
   @override
   Future<Either<SupportFailure, List<FAQItem>>> getFAQs() async {
@@ -52,7 +58,7 @@ class SupportRepositoryImpl implements SupportRepository {
         email: email,
         subject: subject,
         message: message,
-        timestamp: DateTime.now(),
+        timestamp: _clock.now(),
       );
 
       final savedMessage =

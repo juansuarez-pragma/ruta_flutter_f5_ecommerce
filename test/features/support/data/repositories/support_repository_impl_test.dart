@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 import 'package:ecommerce/core/error_handling/app_exceptions.dart';
+import 'package:ecommerce/core/utils/clock.dart';
 import 'package:ecommerce/core/utils/id_generator.dart';
 import 'package:ecommerce/features/support/data/datasources/support_local_datasource.dart';
 import 'package:ecommerce/features/support/data/models/contact_message_model.dart';
@@ -14,10 +15,19 @@ class FakeContactMessageModel extends Fake implements ContactMessageModel {}
 
 class MockIdGenerator extends Mock implements IdGenerator {}
 
+class FakeClock implements Clock {
+  FakeClock(this._now);
+  final DateTime _now;
+
+  @override
+  DateTime now() => _now;
+}
+
 void main() {
   late SupportRepositoryImpl supportRepository;
   late MockSupportLocalDataSource mockLocalDataSource;
   late MockIdGenerator mockIdGenerator;
+  late FakeClock fakeClock;
 
   setUpAll(() {
     registerFallbackValue(FAQCategory.general);
@@ -27,11 +37,13 @@ void main() {
   setUp(() {
     mockLocalDataSource = MockSupportLocalDataSource();
     mockIdGenerator = MockIdGenerator();
+    fakeClock = FakeClock(DateTime(2025));
     when(() => mockIdGenerator.generate()).thenReturn('generated-id');
 
     supportRepository = SupportRepositoryImpl(
       localDataSource: mockLocalDataSource,
       idGenerator: mockIdGenerator,
+      clock: fakeClock,
     );
   });
 

@@ -3,8 +3,9 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:ecommerce/core/error_handling/app_exceptions.dart';
-import 'package:ecommerce/core/error_handling/error_logger.dart';
+import 'package:ecommerce/core/error_handling/app_logger.dart';
 import 'package:ecommerce/core/error_handling/error_handling_utils.dart';
+import 'package:ecommerce/core/utils/clock.dart';
 import 'package:ecommerce/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:ecommerce/features/auth/data/datasources/auth_storage_keys.dart';
 import 'package:ecommerce/features/auth/data/errors/auth_local_exception.dart';
@@ -12,9 +13,16 @@ import 'package:ecommerce/features/auth/data/models/user_model.dart';
 
 /// [AuthLocalDataSource] implementation using SharedPreferences.
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
-  AuthLocalDataSourceImpl({required this.sharedPreferences});
+  AuthLocalDataSourceImpl({
+    required this.sharedPreferences,
+    required AppLogger logger,
+    required Clock clock,
+  }) : _logger = logger,
+       _clock = clock;
 
   final SharedPreferences sharedPreferences;
+  final AppLogger _logger;
+  final Clock _clock;
 
   @override
   Future<void> cacheCurrentUser(UserModel user) async {
@@ -41,7 +49,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
         originalException: e is Exception ? e : Exception(e.toString()),
       );
 
-      ErrorLogger().logAppException(
+      _logger.logAppException(
         exception,
         context: {'operation': 'getCachedUser'},
         stackTrace: st,
@@ -149,7 +157,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
       return usersList.cast<Map<String, dynamic>>();
     } on ParseException {
-      ErrorLogger().logError(
+      _logger.logError(
         message: 'Failed to decode registered users list',
         context: {'operation': '_getRegisteredUsersWithPasswords'},
       );
@@ -163,7 +171,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
         originalException: e is Exception ? e : Exception(e.toString()),
       );
 
-      ErrorLogger().logAppException(
+      _logger.logAppException(
         exception,
         context: {'operation': '_getRegisteredUsersWithPasswords'},
         stackTrace: st,
@@ -179,7 +187,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   }
 
   String _generateToken(String email) {
-    final timestamp = DateTime.now().millisecondsSinceEpoch;
+    final timestamp = _clock.now().millisecondsSinceEpoch;
     return base64.encode(utf8.encode('$email:$timestamp'));
   }
 

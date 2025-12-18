@@ -1,11 +1,20 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:ecommerce/core/utils/clock.dart';
 import 'package:ecommerce/core/error_handling/error_logger.dart';
+
+class FakeClock implements Clock {
+  FakeClock(this._now);
+  final DateTime _now;
+
+  @override
+  DateTime now() => _now;
+}
 
 void main() {
   late ErrorLogger errorLogger;
 
   setUp(() {
-    errorLogger = ErrorLogger();
+    errorLogger = ErrorLogger(clock: FakeClock(DateTime(2025)));
   });
 
   group('ErrorLogger', () {

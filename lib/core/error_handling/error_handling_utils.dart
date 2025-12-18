@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'app_exceptions.dart';
-import 'error_logger.dart';
 
 /// Utilities for safe JSON decoding and type conversion helpers.
 
@@ -16,7 +15,7 @@ import 'error_logger.dart';
 T safeJsonDecode<T>(String jsonString) {
   try {
     return json.decode(jsonString) as T;
-  } on FormatException catch (e, st) {
+  } on FormatException catch (e) {
     // Capture a format-specific error.
     final exception = ParseException(
       message: 'Failed to decode JSON: ${e.message}',
@@ -26,17 +25,8 @@ T safeJsonDecode<T>(String jsonString) {
       originalException: e,
     );
 
-    ErrorLogger().logAppException(
-      exception,
-      context: {
-        'jsonLength': jsonString.length,
-        'operation': 'safeJsonDecode',
-      },
-      stackTrace: st,
-    );
-
     throw exception;
-  } catch (e, st) {
+  } catch (e) {
     // Any other exception during JSON decoding.
     final exception = ParseException(
       message: 'Unexpected error while decoding JSON',
@@ -44,15 +34,6 @@ T safeJsonDecode<T>(String jsonString) {
           ? '${jsonString.substring(0, 200)}...'
           : jsonString,
       originalException: e is Exception ? e : Exception(e.toString()),
-    );
-
-    ErrorLogger().logAppException(
-      exception,
-      context: {
-        'exceptionType': e.runtimeType.toString(),
-        'operation': 'safeJsonDecode',
-      },
-      stackTrace: st,
     );
 
     throw exception;

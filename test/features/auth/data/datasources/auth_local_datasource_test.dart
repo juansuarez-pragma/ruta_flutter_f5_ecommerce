@@ -4,15 +4,29 @@ import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:ecommerce/core/error_handling/app_exceptions.dart';
+import 'package:ecommerce/core/error_handling/app_logger.dart';
+import 'package:ecommerce/core/utils/clock.dart';
 import 'package:ecommerce/features/auth/data/datasources/auth_local_datasource_impl.dart';
 import 'package:ecommerce/features/auth/data/datasources/auth_storage_keys.dart';
 import 'package:ecommerce/features/auth/data/models/user_model.dart';
 
 class MockSharedPreferences extends Mock implements SharedPreferences {}
 
+class MockAppLogger extends Mock implements AppLogger {}
+
+class FakeClock implements Clock {
+  FakeClock(this._now);
+  final DateTime _now;
+
+  @override
+  DateTime now() => _now;
+}
+
 void main() {
   late AuthLocalDataSourceImpl authDataSource;
   late MockSharedPreferences mockSharedPreferences;
+  late MockAppLogger mockLogger;
+  late FakeClock fakeClock;
 
   const testUserModel = UserModel(
     id: 1,
@@ -25,8 +39,12 @@ void main() {
 
   setUp(() {
     mockSharedPreferences = MockSharedPreferences();
+    mockLogger = MockAppLogger();
+    fakeClock = FakeClock(DateTime(2025));
     authDataSource = AuthLocalDataSourceImpl(
       sharedPreferences: mockSharedPreferences,
+      logger: mockLogger,
+      clock: fakeClock,
     );
   });
 
