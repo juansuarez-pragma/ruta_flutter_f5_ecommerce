@@ -4,6 +4,7 @@ import 'package:uuid/uuid.dart';
 import 'package:ecommerce/features/support/data/datasources/support_local_datasource.dart';
 import 'package:ecommerce/features/support/data/models/contact_message_model.dart';
 import 'package:ecommerce/features/support/domain/entities/contact_message.dart';
+import 'package:ecommerce/features/support/domain/entities/contact_info.dart';
 import 'package:ecommerce/features/support/domain/entities/faq_item.dart';
 import 'package:ecommerce/features/support/domain/repositories/support_repository.dart';
 

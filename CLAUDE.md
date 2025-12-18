@@ -474,5 +474,6 @@ Ver `assets/config/app_config.json` y `lib/core/config/`
 - Los tokens de tema se acceden via `context.tokens`
 - Evitar conflictos de nombres con `fake_store_api_client` (ej: usar prefijo DS)
 - Textos e imágenes configurables via `assets/config/app_config.json`
+- Evitar “god files”: separar por responsabilidad y exponer barrels estables (ej: `lib/core/config/app_config.dart`)
 - **Código 100% limpio** - `flutter analyze` retorna 0 issues
 - **206 tests pasando** de 210 totales (98%)

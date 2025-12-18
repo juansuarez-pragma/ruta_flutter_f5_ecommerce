@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:ecommerce/features/support/domain/entities/faq_item.dart';
-import 'package:ecommerce/features/support/domain/repositories/support_repository.dart';
+import 'package:ecommerce/features/support/domain/entities/contact_info.dart';
 
 /// Estados del BLoC de soporte.
 sealed class SupportState extends Equatable {

@@ -1,6 +1,7 @@
 // Domain - Entities
 export 'domain/entities/faq_item.dart';
 export 'domain/entities/contact_message.dart';
+export 'domain/entities/contact_info.dart';
 
 // Domain - Repositories
 export 'domain/repositories/support_repository.dart';

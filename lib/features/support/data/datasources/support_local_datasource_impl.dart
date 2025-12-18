@@ -8,8 +8,8 @@ import 'package:ecommerce/core/error_handling/error_handling_utils.dart';
 import 'package:ecommerce/features/support/data/datasources/support_local_datasource.dart';
 import 'package:ecommerce/features/support/data/models/contact_message_model.dart';
 import 'package:ecommerce/features/support/data/models/faq_item_model.dart';
+import 'package:ecommerce/features/support/domain/entities/contact_info.dart';
 import 'package:ecommerce/features/support/domain/entities/faq_item.dart';
-import 'package:ecommerce/features/support/domain/repositories/support_repository.dart';
 
 /// Implementación del datasource local de soporte.
 class SupportLocalDataSourceImpl implements SupportLocalDataSource {
@@ -245,4 +245,3 @@ class SupportLocalDataSourceImpl implements SupportLocalDataSource {
     ),
   ];
 }
-
