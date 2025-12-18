@@ -3,16 +3,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fake_store_api_client/fake_store_api_client.dart';
 
 import 'package:ecommerce/core/config/config.dart';
+import 'package:ecommerce/core/config/config_local_datasource.dart';
 import 'package:ecommerce/core/error_handling/error_logger.dart';
 import 'package:ecommerce/features/home/home.dart';
 import 'package:ecommerce/features/products/products.dart';
 import 'package:ecommerce/features/categories/categories.dart';
 import 'package:ecommerce/features/cart/cart.dart';
+import 'package:ecommerce/features/cart/data/datasources/cart_local_datasource_impl.dart';
 import 'package:ecommerce/features/checkout/checkout.dart';
 import 'package:ecommerce/features/search/search.dart';
 import 'package:ecommerce/features/orders/orders.dart';
+import 'package:ecommerce/features/orders/data/datasources/order_local_datasource_impl.dart';
 import 'package:ecommerce/features/auth/auth.dart';
+import 'package:ecommerce/features/auth/data/datasources/auth_local_datasource_impl.dart';
 import 'package:ecommerce/features/support/support.dart';
+import 'package:ecommerce/features/support/data/datasources/support_local_datasource_impl.dart';
 
 /// Instancia global del contenedor de dependencias.
 final sl = GetIt.instance;

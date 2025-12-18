@@ -3,6 +3,7 @@ import 'package:mocktail/mocktail.dart';
 
 import 'package:ecommerce/core/error_handling/app_exceptions.dart';
 import 'package:ecommerce/features/auth/data/datasources/auth_local_datasource.dart';
+import 'package:ecommerce/features/auth/data/errors/auth_local_exception.dart';
 import 'package:ecommerce/features/auth/data/models/user_model.dart';
 import 'package:ecommerce/features/auth/data/repositories/auth_repository_impl.dart';
 

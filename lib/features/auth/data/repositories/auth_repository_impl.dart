@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:ecommerce/features/auth/domain/entities/user.dart';
 import 'package:ecommerce/features/auth/domain/repositories/auth_repository.dart';
 import 'package:ecommerce/features/auth/data/datasources/auth_local_datasource.dart';
+import 'package:ecommerce/features/auth/data/errors/auth_local_exception.dart';
 
 /// Implementación del repositorio de autenticación.
 ///
