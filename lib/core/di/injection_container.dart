@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fake_store_api_client/fake_store_api_client.dart';
 
 import 'package:ecommerce/core/config/config.dart';
+import 'package:ecommerce/core/error_handling/error_logger.dart';
 import 'package:ecommerce/features/home/home.dart';
 import 'package:ecommerce/features/products/products.dart';
 import 'package:ecommerce/features/categories/categories.dart';
@@ -20,6 +21,9 @@ final sl = GetIt.instance;
 ///
 /// Debe ser llamado antes de runApp() en main.dart.
 Future<void> initDependencies() async {
+  // ============ Error Handling (Fase 8 - Manejo de Excepciones) ============
+  sl.registerLazySingleton(() => ErrorLogger());
+
   // ============ External ============
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);
