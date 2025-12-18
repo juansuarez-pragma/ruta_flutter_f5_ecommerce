@@ -1,7 +1,10 @@
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:ecommerce/core/error_handling/app_exceptions.dart';
+import 'package:ecommerce/core/error_handling/error_logger.dart';
 import 'package:ecommerce/features/orders/data/models/order_model.dart';
 
 /// DataSource local para órdenes usando SharedPreferences.
@@ -34,10 +37,47 @@ class OrderLocalDataSourceImpl implements OrderLocalDataSource {
       return [];
     }
 
-    final List<dynamic> jsonList = json.decode(jsonString) as List<dynamic>;
-    return jsonList
-        .map((item) => OrderModel.fromJson(item as Map<String, dynamic>))
-        .toList();
+    try {
+      // Decodificar JSON de forma segura
+      final List<dynamic> jsonList = json.decode(jsonString) as List<dynamic>;
+      return jsonList
+          .map((item) => OrderModel.fromJson(item as Map<String, dynamic>))
+          .toList();
+    } on FormatException catch (e, st) {
+      // Error de formato JSON
+      final exception = ParseException(
+        message: 'Error al decodificar lista de órdenes',
+        failedValue: jsonString.length > 200
+            ? '${jsonString.substring(0, 200)}...'
+            : jsonString,
+        originalException: e,
+      );
+
+      ErrorLogger().logAppException(
+        exception,
+        context: {'operation': 'getOrders'},
+        stackTrace: st,
+      );
+
+      throw exception;
+    } catch (e, st) {
+      // Otra excepción
+      final exception = ParseException(
+        message: 'Error inesperado al cargar órdenes',
+        failedValue: jsonString.length > 200
+            ? '${jsonString.substring(0, 200)}...'
+            : jsonString,
+        originalException: e is Exception ? e : Exception(e.toString()),
+      );
+
+      ErrorLogger().logAppException(
+        exception,
+        context: {'operation': 'getOrders'},
+        stackTrace: st,
+      );
+
+      throw exception;
+    }
   }
 
   @override
@@ -51,11 +91,39 @@ class OrderLocalDataSourceImpl implements OrderLocalDataSource {
 
   @override
   Future<OrderModel?> getOrderById(String id) async {
-    final orders = await getOrders();
     try {
-      return orders.firstWhere((order) => order.id == id);
-    } catch (_) {
-      return null;
+      final orders = await getOrders();
+
+      // Usar firstWhereOrNull en lugar de firstWhere con catch
+      // Esto es más explícito: "no encontrado" retorna null sin error
+      final order = orders.firstWhereOrNull((order) => order.id == id);
+
+      if (order == null) {
+        // Logging para auditoría: registro que se buscó una orden que no existe
+        ErrorLogger().logInfo(
+          'Orden no encontrada: $id',
+          context: {'operation': 'getOrderById'},
+        );
+      }
+
+      return order;
+    } catch (e, st) {
+      // Si ocurre excepción inesperada (ej: getOrders falla), loguear y relanzar
+      final exception = UnknownException(
+        message: 'Error inesperado al obtener orden por ID',
+        originalException: e is Exception ? e : Exception(e.toString()),
+      );
+
+      ErrorLogger().logAppException(
+        exception,
+        context: {
+          'operation': 'getOrderById',
+          'orderId': id,
+        },
+        stackTrace: st,
+      );
+
+      throw exception;
     }
   }
 
