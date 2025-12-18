@@ -23,10 +23,4 @@ class ConfigLocalDataSource implements ConfigDataSource {
 
     return _cachedConfig!;
   }
-
-  /// Reloads the configuration (useful for development hot reload).
-  Future<AppConfig> reloadConfig() async {
-    _cachedConfig = null;
-    return loadConfig();
-  }
 }
