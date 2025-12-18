@@ -52,7 +52,7 @@ final class ProductDetailError extends ProductDetailState {
   List<Object> get props => [message];
 }
 
-/// BLoC para gestionar el estado del detalle de producto.
+/// BLoC that manages product detail state.
 class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
   ProductDetailBloc({required GetProductByIdUseCase getProductByIdUseCase})
     : _getProductByIdUseCase = getProductByIdUseCase,

@@ -58,7 +58,7 @@ Future<T> safeCall<T>(
 ///
 /// Throws [ParseException] if the JSON is invalid, including the failed value.
 ///
-/// Ejemplo:
+/// Example:
 /// ```dart
 /// final data = safeJsonDecode(jsonString) as Map<String, dynamic>;
 /// final items = safeJsonDecode(jsonArray) as List<dynamic>;
@@ -111,18 +111,18 @@ T safeJsonDecode<T>(String jsonString) {
 
 /// Safely executes a list operation, capturing lookup errors.
 ///
-/// Nota: no captura subclases de [Error] (ej: `StateError`). Para búsquedas
-/// típicas de "elemento no encontrado", usa [safeListFirstWhere] para evitar
-/// lanzar `StateError` y retornar `null` o un fallback.
+/// Note: this does not catch subclasses of [Error] (e.g. `StateError`). For
+/// common "not found" lookups, use [safeListFirstWhere] to avoid throwing a
+/// `StateError` and instead return `null` or a fallback.
 ///
-/// Ejemplo:
+/// Example:
 /// ```dart
-/// // Sin fallback - lanza excepción si no existe
+/// // Without fallback - throws if it does not exist
 /// final user = safeListOperation(
 ///   () => users.firstWhere((u) => u.id == id),
 /// );
 ///
-/// // Con fallback - retorna valor por defecto
+/// // With fallback - returns a default value
 /// final user = safeListOperation(
 ///   () => users.firstWhere(
 ///     (u) => u.id == id,
@@ -140,7 +140,7 @@ T safeListOperation<T>(
   } on Exception catch (e, st) {
     // Unexpected exception.
     final exception = ParseException(
-      message: 'Error inesperado en operación de lista',
+      message: 'Unexpected error during list operation',
       originalException: e,
     );
 
@@ -158,10 +158,10 @@ T safeListOperation<T>(
   }
 }
 
-/// Extensión de helper para usar safeListOperation con Iterable.
-/// Proporciona alternativa a firstWhere.
+/// Helper function for using list operations with Iterable.
+/// Provides an alternative to firstWhere.
 ///
-/// Ejemplo:
+/// Example:
 /// ```dart
 /// final user = safeListFirstWhere(
 ///   users,
@@ -182,7 +182,7 @@ T? safeListFirstWhere<T>(
     return orElse?.call();
   } on Exception catch (e, st) {
     final exception = ParseException(
-      message: 'Error inesperado en operación de lista',
+      message: 'Unexpected error during list operation',
       originalException: e,
     );
 
@@ -200,9 +200,9 @@ T? safeListFirstWhere<T>(
   }
 }
 
-/// Helpers para manejo seguro de conversiones de tipo
+/// Helpers for safely handling type conversions.
 extension SafeJsonConversion on String {
-  /// Decodifica string JSON con manejo de error seguro
+  /// Decodes a JSON string with safe error handling.
   T? tryDecodeJson<T>() {
     try {
       return safeJsonDecode(this) as T;
@@ -211,7 +211,7 @@ extension SafeJsonConversion on String {
     }
   }
 
-  /// Decodifica o retorna valor por defecto
+  /// Decodes or returns a default value.
   T decodeJsonOrDefault<T>(T defaultValue) {
     return tryDecodeJson<T>() ?? defaultValue;
   }

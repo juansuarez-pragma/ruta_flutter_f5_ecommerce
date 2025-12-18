@@ -1,4 +1,4 @@
-/// Barrel file para router.
+/// Router barrel file.
 library;
 
 export 'app_router.dart';

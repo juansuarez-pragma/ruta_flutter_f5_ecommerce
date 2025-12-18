@@ -6,7 +6,7 @@ import 'package:ecommerce/core/utils/extensions.dart';
 import 'package:ecommerce/shared/widgets/quantity_selector.dart';
 import 'package:ecommerce/features/cart/domain/entities/cart_item.dart';
 
-/// Tile para mostrar un item del carrito.
+/// Tile that displays a cart item.
 class CartItemTile extends StatelessWidget {
   const CartItemTile({
     super.key,
@@ -15,13 +15,13 @@ class CartItemTile extends StatelessWidget {
     required this.onRemove,
   });
 
-  /// Item del carrito a mostrar.
+  /// Cart item to display.
   final CartItem item;
 
-  /// Callback cuando cambia la cantidad.
+  /// Callback invoked when quantity changes.
   final ValueChanged<int> onQuantityChanged;
 
-  /// Callback cuando se elimina el item.
+  /// Callback invoked when the item is removed.
   final VoidCallback onRemove;
 
   @override
@@ -33,7 +33,7 @@ class CartItemTile extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Imagen del producto
+          // Product image
           ClipRRect(
             borderRadius: BorderRadius.circular(DSBorderRadius.sm),
             child: CachedNetworkImage(
@@ -54,7 +54,7 @@ class CartItemTile extends StatelessWidget {
             ),
           ),
           const SizedBox(width: DSSpacing.sm),
-          // Información del producto
+          // Product information
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,14 +73,14 @@ class CartItemTile extends StatelessWidget {
                 ),
                 const SizedBox(height: DSSpacing.xs),
                 DSText(
-                  '${item.product.price.toCurrency} c/u',
+                  '${item.product.price.toCurrency} each',
                   variant: DSTextVariant.bodySmall,
                   color: tokens.colorTextSecondary,
                 ),
               ],
             ),
           ),
-          // Controles de cantidad
+          // Quantity controls
           Column(
             children: [
               QuantitySelector(

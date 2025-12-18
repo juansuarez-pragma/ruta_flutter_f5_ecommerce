@@ -1,12 +1,12 @@
 import 'package:ecommerce/features/cart/domain/repositories/cart_repository.dart';
 
-/// Caso de uso para eliminar un item del carrito.
+/// Use case for removing an item from the cart.
 class RemoveFromCartUseCase {
   RemoveFromCartUseCase({required CartRepository repository})
     : _repository = repository;
   final CartRepository _repository;
 
-  /// Ejecuta el caso de uso.
+  /// Executes the use case.
   Future<void> call(int productId) async {
     return _repository.removeItem(productId);
   }

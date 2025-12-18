@@ -76,7 +76,7 @@ void main() {
         ),
       );
 
-      // La DSBottomNav debe estar renderizada con el índice actual en 1
+      // DSBottomNav should be rendered with currentIndex = 1
       expect(find.byType(DSBottomNav), findsOneWidget);
       expect(find.text('Categories'), findsOneWidget);
     });
@@ -126,7 +126,7 @@ void main() {
         ),
       );
 
-      // Verifica que los items están renderizados
+      // Ensure items are rendered
       expect(find.text('Home'), findsOneWidget);
       expect(find.text('Profile'), findsOneWidget);
     });

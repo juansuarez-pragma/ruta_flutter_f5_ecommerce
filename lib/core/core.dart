@@ -1,4 +1,4 @@
-/// Barrel file principal para core.
+/// Core barrel file.
 library;
 
 export 'config/config.dart';

@@ -31,7 +31,7 @@ void main() {
   });
 
   group('AuthLocalDataSource - getCachedUser', () {
-    test('debe retornar usuario si JSON es válido', () async {
+    test('should return a user when JSON is valid', () async {
       // Arrange
       final userJson = json.encode(testUserModel.toJson());
       when(() => mockSharedPreferences.getString(AuthStorageKeys.currentUser))
@@ -44,7 +44,7 @@ void main() {
       expect(result, equals(testUserModel));
     });
 
-    test('debe retornar null si no existe usuario almacenado', () async {
+    test('should return null when there is no cached user', () async {
       // Arrange
       when(() => mockSharedPreferences.getString(AuthStorageKeys.currentUser))
           .thenReturn(null);
@@ -56,8 +56,8 @@ void main() {
       expect(result, isNull);
     });
 
-    test('debe loguear y relanzar ParseException si JSON es inválido', () async {
-      // Arrange - JSON mal formado
+    test('should rethrow ParseException when JSON is invalid', () async {
+      // Arrange - malformed JSON
       const invalidJson = '{"invalid: json}';
       when(() => mockSharedPreferences.getString(AuthStorageKeys.currentUser))
           .thenReturn(invalidJson);
@@ -69,7 +69,7 @@ void main() {
       );
     });
 
-    test('debe incluir el valor fallido en la excepción', () async {
+    test('should include the failed value in the exception', () async {
       // Arrange
       const failedJson = 'invalid json string';
       when(() => mockSharedPreferences.getString(AuthStorageKeys.currentUser))
@@ -90,7 +90,7 @@ void main() {
   });
 
   group('AuthLocalDataSource - _getRegisteredUsersWithPasswords', () {
-    test('debe retornar lista vacía si no existen usuarios', () async {
+    test('should return an empty list when there are no users', () async {
       // Arrange
       when(
         () => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers),
@@ -103,8 +103,8 @@ void main() {
       expect(result, isFalse);
     });
 
-    test('debe loguear si JSON de usuarios es inválido', () async {
-      // Arrange - JSON mal formado en registeredUsers
+    test('should rethrow when registeredUsers JSON is invalid', () async {
+      // Arrange - malformed JSON in registeredUsers
       const invalidJson = '{"invalid: array}';
       when(
         () => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers),
@@ -117,8 +117,8 @@ void main() {
       );
     });
 
-    test('debe loguear FormatException en parseo de usuarios', () async {
-      // Arrange - JSON con estructura inválida
+    test('should throw ParseException when users list cannot be parsed', () async {
+      // Arrange - JSON with invalid structure
       final invalidUsersList = json.encode(['not_a_map', 'string']);
       when(
         () => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers),
@@ -134,7 +134,7 @@ void main() {
       );
     });
 
-    test('debe manejar JSON array vacío correctamente', () async {
+    test('should handle an empty JSON array correctly', () async {
       // Arrange
       final emptyArray = json.encode(<Map<String, dynamic>>[]);
       when(
@@ -150,7 +150,7 @@ void main() {
   });
 
   group('AuthLocalDataSource - cacheCurrentUser', () {
-    test('debe guardar usuario en SharedPreferences', () async {
+    test('should persist the user in SharedPreferences', () async {
       // Arrange
       when(() => mockSharedPreferences.setString(
             AuthStorageKeys.currentUser,
@@ -169,7 +169,7 @@ void main() {
   });
 
   group('AuthLocalDataSource - clearCurrentUser', () {
-    test('debe remover usuario del almacenamiento', () async {
+    test('should remove the user from storage', () async {
       // Arrange
       when(() => mockSharedPreferences.remove(AuthStorageKeys.currentUser))
           .thenAnswer((_) async => true);
@@ -184,7 +184,7 @@ void main() {
   });
 
   group('AuthLocalDataSource - Error Handling Integration', () {
-    test('debe manejar JSON corrupto en getCachedUser y loguear', () async {
+    test('should throw on corrupted JSON in getCachedUser', () async {
       // Arrange
       const corruptedJson = '{"field": invalid}';
       when(() => mockSharedPreferences.getString(AuthStorageKeys.currentUser))
@@ -197,7 +197,7 @@ void main() {
       );
     });
 
-    test('debe manejar JSON corrupto en registeredUsers y loguear', () async {
+    test('should throw on corrupted JSON in registeredUsers', () async {
       // Arrange
       const corruptedJson = '[{invalid}]';
       when(() => mockSharedPreferences.getString(

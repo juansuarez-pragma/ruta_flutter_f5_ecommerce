@@ -4,22 +4,22 @@ import 'package:ecommerce/features/support/domain/entities/contact_info.dart';
 import 'package:ecommerce/features/support/domain/entities/faq_item.dart';
 import 'package:ecommerce/features/support/domain/entities/contact_message.dart';
 
-/// Tipos de errores de soporte.
+/// Support failure types.
 enum SupportFailureType {
-  /// Error al cargar FAQs.
+  /// Failed to load FAQs.
   loadFaqsFailed,
 
-  /// Error al enviar mensaje.
+  /// Failed to send a message.
   sendMessageFailed,
 
-  /// Validación fallida.
+  /// Validation failed.
   validationFailed,
 
-  /// Error desconocido.
+  /// Unknown error.
   unknown,
 }
 
-/// Representa un fallo en operaciones de soporte.
+/// Represents a failure in support operations.
 class SupportFailure {
   const SupportFailure({
     required this.type,
@@ -28,12 +28,12 @@ class SupportFailure {
 
   factory SupportFailure.loadFaqsFailed() => const SupportFailure(
     type: SupportFailureType.loadFaqsFailed,
-    message: 'No se pudieron cargar las preguntas frecuentes',
+    message: 'Failed to load FAQs',
   );
 
   factory SupportFailure.sendMessageFailed() => const SupportFailure(
     type: SupportFailureType.sendMessageFailed,
-    message: 'No se pudo enviar el mensaje. Intenta de nuevo.',
+    message: 'Failed to send message. Please try again.',
   );
 
   factory SupportFailure.validationFailed(String message) => SupportFailure(
@@ -43,24 +43,24 @@ class SupportFailure {
 
   factory SupportFailure.unknown([String? message]) => SupportFailure(
     type: SupportFailureType.unknown,
-    message: message ?? 'Ha ocurrido un error inesperado',
+    message: message ?? 'An unexpected error occurred',
   );
 
   final SupportFailureType type;
   final String message;
 }
 
-/// Repositorio abstracto para operaciones de soporte.
+/// Abstract repository for support operations.
 abstract class SupportRepository {
-  /// Obtiene la lista de preguntas frecuentes.
+  /// Returns the FAQ list.
   Future<Either<SupportFailure, List<FAQItem>>> getFAQs();
 
-  /// Obtiene FAQs filtradas por categoría.
+  /// Returns FAQs filtered by category.
   Future<Either<SupportFailure, List<FAQItem>>> getFAQsByCategory(
     FAQCategory category,
   );
 
-  /// Envía un mensaje de contacto.
+  /// Sends a contact message.
   Future<Either<SupportFailure, ContactMessage>> sendContactMessage({
     required String name,
     required String email,
@@ -68,6 +68,6 @@ abstract class SupportRepository {
     required String message,
   });
 
-  /// Obtiene información de contacto de la tienda.
+  /// Returns store contact information.
   Future<Either<SupportFailure, ContactInfo>> getContactInfo();
 }

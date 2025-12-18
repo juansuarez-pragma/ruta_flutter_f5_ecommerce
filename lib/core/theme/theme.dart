@@ -1,4 +1,4 @@
-/// Barrel file para tema.
+/// Theme barrel file.
 library;
 
 export 'app_theme.dart';

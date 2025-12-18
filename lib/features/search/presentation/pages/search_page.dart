@@ -9,7 +9,7 @@ import 'package:ecommerce/core/di/injection_container.dart';
 import 'package:ecommerce/core/router/routes.dart';
 import 'package:ecommerce/features/search/presentation/bloc/search_bloc.dart';
 
-/// Página de búsqueda de productos.
+/// Product search page.
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
 
@@ -45,7 +45,7 @@ class _SearchPageState extends State<SearchPage> {
             appBar: DSAppBar(
               titleWidget: DSTextField(
                 controller: _searchController,
-                hint: 'Buscar productos...',
+                hint: 'Search products...',
                 prefixIcon: Icons.search,
                 suffixIcon: Icons.clear,
                 onSuffixIconTap: () {
@@ -60,7 +60,7 @@ class _SearchPageState extends State<SearchPage> {
                 return switch (state) {
                   SearchInitial() => const _EmptySearch(),
                   SearchLoading() => const DSLoadingState(
-                    message: 'Buscando...',
+                    message: 'Searching...',
                   ),
                   SearchError(:final message) => DSErrorState(
                     message: message,
@@ -71,12 +71,12 @@ class _SearchPageState extends State<SearchPage> {
                   SearchLoaded(:final products, :final query) =>
                     products.isEmpty
                         ? DSEmptyState(
-                            icon: Icons.search_off,
-                            title: 'Sin resultados',
-                            description:
-                                'No se encontraron productos para "$query"',
-                          )
-                        : _SearchResults(products: products),
+	                            icon: Icons.search_off,
+	                            title: 'No results',
+	                            description:
+	                                'No products found for "$query"',
+	                          )
+	                        : _SearchResults(products: products),
                 };
               },
             ),
@@ -105,13 +105,13 @@ class _EmptySearch extends StatelessWidget {
           ),
           const SizedBox(height: DSSpacing.base),
           DSText(
-            'Busca productos',
+            'Search products',
             variant: DSTextVariant.titleMedium,
             color: tokens.colorTextSecondary,
           ),
           const SizedBox(height: DSSpacing.sm),
           DSText(
-            'Escribe para encontrar lo que buscas',
+            'Type to find what you are looking for',
             color: tokens.colorTextTertiary,
           ),
         ],

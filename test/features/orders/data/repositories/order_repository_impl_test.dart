@@ -32,7 +32,7 @@ void main() {
   });
 
   group('OrderRepositoryImpl - Error Handling', () {
-    test('debe retornar error si ParseException al obtener órdenes', () async {
+    test('should throw ParseException when getOrders fails to parse', () async {
       // Arrange
       const parseException = ParseException(message: 'JSON corrupted');
       when(() => mockLocalDataSource.getOrders())
@@ -45,7 +45,7 @@ void main() {
       );
     });
 
-    test('debe retornar error si UnknownException al guardar orden', () async {
+    test('should throw UnknownException when saveOrder fails', () async {
       // Arrange
       const unknownException = UnknownException(message: 'Storage error');
       when(() => mockLocalDataSource.saveOrder(any()))
@@ -58,7 +58,7 @@ void main() {
       );
     });
 
-    test('debe retornar error si ParseException al obtener orden por ID', () async {
+    test('should throw ParseException when getOrderById fails to parse', () async {
       // Arrange
       const parseException = ParseException(message: 'Data error');
       when(() => mockLocalDataSource.getOrderById(any()))
@@ -71,7 +71,7 @@ void main() {
       );
     });
 
-    test('debe retornar error si UnknownException al eliminar orden', () async {
+    test('should throw UnknownException when deleteOrder fails', () async {
       // Arrange
       const unknownException = UnknownException(message: 'Delete error');
       when(() => mockLocalDataSource.deleteOrder(any()))
@@ -84,7 +84,7 @@ void main() {
       );
     });
 
-    test('debe retornar lista si getOrders exitoso', () async {
+    test('should return orders when getOrders succeeds', () async {
       // Arrange
       when(() => mockLocalDataSource.getOrders())
           .thenAnswer((_) async => [testOrder]);
@@ -97,7 +97,7 @@ void main() {
       expect(result.first.id, equals('1'));
     });
 
-    test('debe guardar orden si saveOrder exitoso', () async {
+    test('should save order when saveOrder succeeds', () async {
       // Arrange
       when(() => mockLocalDataSource.saveOrder(any()))
           .thenAnswer((_) async => {});
@@ -109,7 +109,7 @@ void main() {
       );
     });
 
-    test('debe obtener orden si getOrderById exitoso', () async {
+    test('should return order when getOrderById succeeds', () async {
       // Arrange
       when(() => mockLocalDataSource.getOrderById(any()))
           .thenAnswer((_) async => testOrder);
@@ -122,7 +122,7 @@ void main() {
       expect(result!.id, equals('1'));
     });
 
-    test('debe eliminar orden si deleteOrder exitoso', () async {
+    test('should delete order when deleteOrder succeeds', () async {
       // Arrange
       when(() => mockLocalDataSource.deleteOrder(any()))
           .thenAnswer((_) async => {});
@@ -134,7 +134,7 @@ void main() {
       );
     });
 
-    test('debe retornar null si orden no existe', () async {
+    test('should return null when order does not exist', () async {
       // Arrange
       when(() => mockLocalDataSource.getOrderById(any()))
           .thenAnswer((_) async => null);
@@ -148,7 +148,7 @@ void main() {
   });
 
   group('OrderRepositoryImpl - Multiple Orders', () {
-    test('debe manejar múltiples órdenes sin errores', () async {
+    test('should handle multiple orders without errors', () async {
       // Arrange
       final orders = [
         testOrder,

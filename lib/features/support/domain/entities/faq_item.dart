@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Categorías de preguntas frecuentes.
+/// FAQ categories.
 enum FAQCategory {
   orders,
   payments,
@@ -10,7 +10,7 @@ enum FAQCategory {
   general,
 }
 
-/// Entidad que representa una pregunta frecuente.
+/// Entity that represents a FAQ item.
 class FAQItem extends Equatable {
   const FAQItem({
     required this.id,
@@ -19,16 +19,16 @@ class FAQItem extends Equatable {
     required this.category,
   });
 
-  /// Identificador único de la FAQ.
+  /// FAQ unique identifier.
   final int id;
 
-  /// Pregunta.
+  /// Question.
   final String question;
 
-  /// Respuesta.
+  /// Answer.
   final String answer;
 
-  /// Categoría de la pregunta.
+  /// Question category.
   final FAQCategory category;
 
   @override

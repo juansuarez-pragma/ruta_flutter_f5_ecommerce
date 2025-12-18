@@ -4,11 +4,11 @@ import 'package:fake_store_design_system/fake_store_design_system.dart';
 
 import 'package:ecommerce/core/router/routes.dart';
 
-/// Sección de productos destacados para el home.
+/// Featured products section for the home screen.
 class FeaturedProductsSection extends StatelessWidget {
   const FeaturedProductsSection({super.key, required this.products});
 
-  /// Lista de productos destacados.
+  /// Featured products.
   final List<Product> products;
 
   @override
@@ -22,11 +22,11 @@ class FeaturedProductsSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const DSText(
-                'Productos Destacados',
+                'Featured products',
                 variant: DSTextVariant.titleLarge,
               ),
               DSButton(
-                text: 'Ver todos',
+                text: 'View all',
                 variant: DSButtonVariant.ghost,
                 size: DSButtonSize.small,
                 onPressed: () => Navigator.pushNamed(context, Routes.products),

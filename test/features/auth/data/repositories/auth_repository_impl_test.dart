@@ -34,7 +34,7 @@ void main() {
   });
 
   group('AuthRepositoryImpl - Error Handling', () {
-    test('debe retornar Left con AuthFailure si ParseException del datasource',
+    test('should return Left(AuthFailure) when datasource throws ParseException',
         () async {
       // Arrange
       const parseException = ParseException(message: 'JSON corrupted');
@@ -48,7 +48,7 @@ void main() {
       expect(result.isLeft(), isTrue);
     });
 
-    test('debe retornar Left con AuthFailure si UnknownException del datasource',
+    test('should return Left(AuthFailure) when datasource throws UnknownException',
         () async {
       // Arrange
       const unknownException = UnknownException(
@@ -64,7 +64,7 @@ void main() {
       expect(result.isLeft(), isTrue);
     });
 
-    test('debe manejar ParseException en login', () async {
+    test('should handle ParseException in login', () async {
       // Arrange
       const parseException = ParseException(message: 'Data corrupted');
       when(
@@ -84,7 +84,7 @@ void main() {
       expect(result.isLeft(), isTrue);
     });
 
-    test('debe manejar ParseException en register', () async {
+    test('should handle ParseException in register', () async {
       // Arrange
       const parseException = ParseException(message: 'Storage error');
       when(
@@ -110,7 +110,7 @@ void main() {
       expect(result.isLeft(), isTrue);
     });
 
-    test('debe manejar excepción en logout', () async {
+    test('should handle exceptions in logout', () async {
       // Arrange
       const unknownException = UnknownException(
         message: 'Could not clear cache',
@@ -125,7 +125,7 @@ void main() {
       expect(result.isLeft(), isTrue);
     });
 
-    test('debe capturar AuthLocalException correctamente', () async {
+    test('should map AuthLocalException correctly', () async {
       // Arrange
       const authException = AuthLocalException('Email already exists');
       when(
@@ -151,7 +151,7 @@ void main() {
       expect(result.isLeft(), isTrue);
     });
 
-    test('debe retornar Right si login exitoso', () async {
+    test('should return Right when login succeeds', () async {
       // Arrange
       when(
         () => mockLocalDataSource.loginUser(
@@ -176,7 +176,7 @@ void main() {
       );
     });
 
-    test('debe retornar Right si register exitoso', () async {
+    test('should return Right when register succeeds', () async {
       // Arrange
       when(
         () => mockLocalDataSource.registerUser(
@@ -203,7 +203,7 @@ void main() {
       expect(result.isRight(), isTrue);
     });
 
-    test('debe retornar Right si logout exitoso', () async {
+    test('should return Right when logout succeeds', () async {
       // Arrange
       when(() => mockLocalDataSource.clearCurrentUser())
           .thenAnswer((_) async => {});
@@ -215,7 +215,7 @@ void main() {
       expect(result.isRight(), isTrue);
     });
 
-    test('debe retornar Right si getCurrentUser exitoso', () async {
+    test('should return Right when getCurrentUser succeeds', () async {
       // Arrange
       when(() => mockLocalDataSource.getCachedUser())
           .thenAnswer((_) async => testUser);
@@ -233,7 +233,7 @@ void main() {
   });
 
   group('AuthRepositoryImpl - isAuthenticated', () {
-    test('debe retornar true si usuario autenticado existe', () async {
+    test('should return true when an authenticated user exists', () async {
       // Arrange
       when(() => mockLocalDataSource.getCachedUser())
           .thenAnswer((_) async => testUser);
@@ -245,7 +245,7 @@ void main() {
       expect(result, isTrue);
     });
 
-    test('debe retornar false si no hay usuario', () async {
+    test('should return false when there is no cached user', () async {
       // Arrange
       when(() => mockLocalDataSource.getCachedUser())
           .thenAnswer((_) async => null);
@@ -257,7 +257,7 @@ void main() {
       expect(result, isFalse);
     });
 
-    test('debe manejar excepción en isAuthenticated', () async {
+    test('should handle exceptions in isAuthenticated', () async {
       // Arrange
       const exception = UnknownException(message: 'Error');
       when(() => mockLocalDataSource.getCachedUser())
@@ -272,7 +272,7 @@ void main() {
   });
 
   group('AuthRepositoryImpl - Validation', () {
-    test('debe retornar Left con invalidEmail si email es inválido en login',
+    test('should return Left(invalidEmail) when email is invalid in login',
         () async {
       // Act
       final result = await authRepository.login(
@@ -284,7 +284,7 @@ void main() {
       expect(result.isLeft(), isTrue);
     });
 
-    test('debe retornar Left con weakPassword si password es corta en register',
+    test('should return Left(weakPassword) when password is too short in register',
         () async {
       // Act
       final result = await authRepository.register(

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Eventos del BLoC de productos.
+/// Products BLoC events.
 sealed class ProductsEvent extends Equatable {
   const ProductsEvent();
 
@@ -8,18 +8,18 @@ sealed class ProductsEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Solicita cargar productos.
+/// Requests loading products.
 final class ProductsLoadRequested extends ProductsEvent {
   const ProductsLoadRequested({this.category});
 
-  /// Categoría opcional para filtrar.
+  /// Optional category filter.
   final String? category;
 
   @override
   List<Object?> get props => [category];
 }
 
-/// Solicita refrescar productos.
+/// Requests refreshing products.
 final class ProductsRefreshRequested extends ProductsEvent {
   const ProductsRefreshRequested();
 }

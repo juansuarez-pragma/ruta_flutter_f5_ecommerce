@@ -10,7 +10,7 @@ import 'package:ecommerce/features/auth/data/datasources/auth_storage_keys.dart'
 import 'package:ecommerce/features/auth/data/errors/auth_local_exception.dart';
 import 'package:ecommerce/features/auth/data/models/user_model.dart';
 
-/// Implementación de [AuthLocalDataSource] usando SharedPreferences.
+/// [AuthLocalDataSource] implementation using SharedPreferences.
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   AuthLocalDataSourceImpl({required this.sharedPreferences});
 
@@ -34,7 +34,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
       rethrow;
     } catch (e, st) {
       final exception = ParseException(
-        message: 'Error al cargar usuario cacheado',
+        message: 'Failed to load cached user',
         failedValue: userJson.length > 200
             ? '${userJson.substring(0, 200)}...'
             : userJson,
@@ -141,7 +141,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
       for (final item in usersList) {
         if (item is! Map<String, dynamic>) {
           throw ParseException(
-            message: 'Elemento de usuario no es un Map válido',
+            message: 'User item is not a valid Map',
             failedValue: item.toString(),
           );
         }
@@ -150,13 +150,13 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
       return usersList.cast<Map<String, dynamic>>();
     } on ParseException {
       ErrorLogger().logError(
-        message: 'Error al decodificar lista de usuarios registrados',
+        message: 'Failed to decode registered users list',
         context: {'operation': '_getRegisteredUsersWithPasswords'},
       );
       rethrow;
     } catch (e, st) {
       final exception = ParseException(
-        message: 'Error inesperado al cargar usuarios registrados',
+        message: 'Unexpected error while loading registered users',
         failedValue: usersJson.length > 200
             ? '${usersJson.substring(0, 200)}...'
             : usersJson,

@@ -4,9 +4,9 @@ import 'package:fake_store_api_client/fake_store_api_client.dart';
 
 import 'package:ecommerce/features/cart/domain/entities/cart_item.dart';
 
-/// Modelo de datos para CartItem.
+/// CartItem data model.
 ///
-/// Proporciona serialización/deserialización JSON para persistencia.
+/// Provides JSON serialization/deserialization for persistence.
 class CartItemModel {
   const CartItemModel({
     required this.productId,
@@ -20,7 +20,7 @@ class CartItemModel {
     required this.quantity,
   });
 
-  /// Crea un modelo desde un CartItem de dominio.
+  /// Creates a model from a domain CartItem.
   factory CartItemModel.fromEntity(CartItem item) {
     return CartItemModel(
       productId: item.product.id,
@@ -35,7 +35,7 @@ class CartItemModel {
     );
   }
 
-  /// Crea un modelo desde JSON.
+  /// Creates a model from JSON.
   factory CartItemModel.fromJson(Map<String, dynamic> json) {
     return CartItemModel(
       productId: json['productId'] as int,
@@ -59,7 +59,7 @@ class CartItemModel {
   final int ratingCount;
   final int quantity;
 
-  /// Convierte el modelo a JSON.
+  /// Converts the model to JSON.
   Map<String, dynamic> toJson() {
     return {
       'productId': productId,
@@ -74,7 +74,7 @@ class CartItemModel {
     };
   }
 
-  /// Convierte el modelo a una entidad de dominio.
+  /// Converts the model to a domain entity.
   CartItem toEntity() {
     return CartItem(
       product: Product(
@@ -90,7 +90,7 @@ class CartItemModel {
     );
   }
 
-  /// Crea una copia con los valores proporcionados.
+  /// Creates a copy with the provided values.
   CartItemModel copyWith({int? quantity}) {
     return CartItemModel(
       productId: productId,
@@ -105,12 +105,12 @@ class CartItemModel {
     );
   }
 
-  /// Serializa una lista de modelos a JSON string.
+  /// Serializes a list of models to a JSON string.
   static String encodeList(List<CartItemModel> items) {
     return jsonEncode(items.map((item) => item.toJson()).toList());
   }
 
-  /// Deserializa una lista de modelos desde JSON string.
+  /// Deserializes a list of models from a JSON string.
   static List<CartItemModel> decodeList(String jsonString) {
     final List<dynamic> jsonList = jsonDecode(jsonString) as List<dynamic>;
     return jsonList

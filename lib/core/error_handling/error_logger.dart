@@ -1,11 +1,11 @@
 import 'dart:developer' as developer;
 import 'app_exceptions.dart';
 
-/// Nivel de severidad de log
+/// Log severity level.
 enum LogLevel { info, warning, error }
 
-/// Servicio centralizado para logging de errores.
-/// Singleton que captura y registra excepciones en toda la aplicación.
+/// Centralized error logging service.
+/// Singleton that captures and logs exceptions across the whole app.
 class ErrorLogger {
   factory ErrorLogger() => _instance;
 
@@ -13,14 +13,14 @@ class ErrorLogger {
 
   static final ErrorLogger _instance = ErrorLogger._internal();
 
-  /// Loguea un error con todos los detalles disponibles.
+  /// Logs an error with all available details.
   ///
-  /// Parámetros:
-  /// - [message]: Mensaje descriptivo del error
-  /// - [exception]: Excepción capturada (opcional)
-  /// - [stackTrace]: Stack trace para debugging (opcional)
-  /// - [context]: Información contextual adicional (opcional)
-  /// - [level]: Nivel de severidad (default: error)
+  /// Parameters:
+  /// - [message]: Descriptive error message
+  /// - [exception]: Captured exception (optional)
+  /// - [stackTrace]: Stack trace for debugging (optional)
+  /// - [context]: Additional contextual information (optional)
+  /// - [level]: Severity level (default: error)
   void logError({
     required String message,
     Exception? exception,
@@ -48,14 +48,14 @@ class ErrorLogger {
         stackTrace: stackTrace,
       );
 
-      // En producción, aquí se enviaría a Sentry/Firebase
+      // In production, report to Sentry/Firebase here.
       // _reportToMonitoringService(logMessage);
     } catch (_) {
       // Never throw during logging
     }
   }
 
-  /// Loguea un mensaje informativo.
+  /// Logs an informational message.
   void logInfo(
     String message, {
     Map<String, dynamic>? context,
@@ -67,7 +67,7 @@ class ErrorLogger {
     );
   }
 
-  /// Loguea una advertencia.
+  /// Logs a warning.
   void logWarning(
     String message, {
     Exception? exception,
@@ -81,7 +81,7 @@ class ErrorLogger {
     );
   }
 
-  /// Loguea una AppException con detalles tipados.
+  /// Logs an AppException with typed details.
   void logAppException(
     AppException exception, {
     String? additionalContext,
@@ -104,7 +104,7 @@ class ErrorLogger {
     );
   }
 
-  /// Formatea el mensaje de log de forma legible
+  /// Formats the log message for readability.
   String _formatLogMessage({
     required String message,
     Exception? exception,
@@ -138,7 +138,7 @@ class ErrorLogger {
     return buffer.toString();
   }
 
-  /// Convierte LogLevel a int para developer.log
+  /// Converts LogLevel to an int for developer.log.
   int _logLevelToInt(LogLevel level) {
     return switch (level) {
       LogLevel.info => 0,
@@ -147,7 +147,7 @@ class ErrorLogger {
     };
   }
 
-  // En futuro, implementar envío a servicio de monitoreo
+  // TODO: implement reporting to a monitoring service.
   // void _reportToMonitoringService(String logMessage) {
   //   // Sentry.captureException(exception, stackTrace: stackTrace);
   //   // FirebaseAnalytics.instance.logEvent(name: 'error_logged', parameters: {...});

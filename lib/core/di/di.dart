@@ -1,4 +1,4 @@
-/// Barrel file para inyección de dependencias.
+/// Dependency injection barrel file.
 library;
 
 export 'injection_container.dart';

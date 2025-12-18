@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:ecommerce/features/support/domain/entities/faq_item.dart';
 import 'package:ecommerce/features/support/domain/entities/contact_info.dart';
 
-/// Estados del BLoC de soporte.
+/// Support BLoC states.
 sealed class SupportState extends Equatable {
   const SupportState();
 
@@ -10,17 +10,17 @@ sealed class SupportState extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Estado inicial.
+/// Initial state.
 final class SupportInitial extends SupportState {
   const SupportInitial();
 }
 
-/// Estado de carga.
+/// Loading state.
 final class SupportLoading extends SupportState {
   const SupportLoading();
 }
 
-/// Estado cuando las FAQs se cargaron exitosamente.
+/// State when FAQs were loaded successfully.
 final class SupportFAQsLoaded extends SupportState {
   const SupportFAQsLoaded({
     required this.faqs,
@@ -34,12 +34,12 @@ final class SupportFAQsLoaded extends SupportState {
   List<Object?> get props => [faqs, selectedCategory];
 }
 
-/// Estado cuando el mensaje de contacto se envió exitosamente.
+/// State when a contact message was sent successfully.
 final class SupportMessageSent extends SupportState {
   const SupportMessageSent();
 }
 
-/// Estado cuando la información de contacto se cargó.
+/// State when contact information was loaded.
 final class SupportContactInfoLoaded extends SupportState {
   const SupportContactInfoLoaded({required this.contactInfo});
 
@@ -49,7 +49,7 @@ final class SupportContactInfoLoaded extends SupportState {
   List<Object?> get props => [contactInfo];
 }
 
-/// Estado de error.
+/// Error state.
 final class SupportError extends SupportState {
   const SupportError({required this.message});
 

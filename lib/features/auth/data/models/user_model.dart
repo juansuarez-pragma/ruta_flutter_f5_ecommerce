@@ -1,9 +1,8 @@
 import 'package:ecommerce/features/auth/domain/entities/user.dart';
 
-/// Modelo de datos para User con serialización JSON.
+/// User data model with JSON serialization.
 ///
-/// Extiende la entidad User y agrega funcionalidad para
-/// conversión desde/hacia JSON para persistencia.
+/// Extends the User entity and adds conversion to/from JSON for persistence.
 class UserModel extends User {
   const UserModel({
     required super.id,
@@ -14,7 +13,7 @@ class UserModel extends User {
     super.token,
   });
 
-  /// Crea un UserModel desde una entidad User.
+  /// Creates a UserModel from a domain User entity.
   factory UserModel.fromEntity(User user) {
     return UserModel(
       id: user.id,
@@ -26,7 +25,7 @@ class UserModel extends User {
     );
   }
 
-  /// Crea un UserModel desde un mapa JSON.
+  /// Creates a UserModel from a JSON map.
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       id: json['id'] as int,
@@ -38,7 +37,7 @@ class UserModel extends User {
     );
   }
 
-  /// Convierte el UserModel a un mapa JSON.
+  /// Converts the UserModel to a JSON map.
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -50,7 +49,7 @@ class UserModel extends User {
     };
   }
 
-  /// Convierte a entidad User del dominio.
+  /// Converts to a domain User entity.
   User toEntity() {
     return User(
       id: id,
@@ -62,7 +61,7 @@ class UserModel extends User {
     );
   }
 
-  /// Crea una copia con token actualizado.
+  /// Creates a copy with an updated token.
   UserModel copyWithToken(String? newToken) {
     return UserModel(
       id: id,

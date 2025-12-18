@@ -1,14 +1,14 @@
 import 'package:fake_store_api_client/fake_store_api_client.dart';
 
-/// Caso de uso para buscar productos.
+/// Use case for searching products.
 class SearchProductsUseCase {
   SearchProductsUseCase({required ProductRepository repository})
     : _repository = repository;
   final ProductRepository _repository;
 
-  /// Ejecuta el caso de uso.
+  /// Executes the use case.
   ///
-  /// Filtra los productos por título que contenga el query.
+  /// Filters products whose title contains the query.
   Future<Either<FakeStoreFailure, List<Product>>> call(String query) async {
     final result = await _repository.getAllProducts();
 

@@ -5,7 +5,7 @@ import 'package:ecommerce/features/products/domain/usecases/get_products_usecase
 import 'package:ecommerce/features/products/presentation/bloc/products_event.dart';
 import 'package:ecommerce/features/products/presentation/bloc/products_state.dart';
 
-/// BLoC para gestionar el estado de productos.
+/// BLoC that manages products state.
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   ProductsBloc({
     required GetProductsUseCase getProductsUseCase,

@@ -3,9 +3,9 @@ import 'package:ecommerce/features/cart/domain/repositories/cart_repository.dart
 import 'package:ecommerce/features/cart/data/datasources/cart_local_datasource.dart';
 import 'package:ecommerce/features/cart/data/models/cart_item_model.dart';
 
-/// Implementación del repositorio del carrito.
+/// Cart repository implementation.
 ///
-/// Gestiona el carrito usando el datasource local.
+/// Manages the cart using the local data source.
 class CartRepositoryImpl implements CartRepository {
   CartRepositoryImpl({required CartLocalDataSource localDataSource})
     : _localDataSource = localDataSource;
@@ -25,13 +25,13 @@ class CartRepositoryImpl implements CartRepository {
     );
 
     if (existingIndex >= 0) {
-      // Si existe, incrementa la cantidad
+      // If it exists, increase quantity
       final existing = models[existingIndex];
       models[existingIndex] = existing.copyWith(
         quantity: existing.quantity + item.quantity,
       );
     } else {
-      // Si no existe, agrega el nuevo item
+      // If it does not exist, add a new item
       models.add(CartItemModel.fromEntity(item));
     }
 

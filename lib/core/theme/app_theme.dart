@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:fake_store_design_system/fake_store_design_system.dart';
 
-/// Wrapper para el tema del Design System.
+/// Wrapper for the Design System theme.
 ///
-/// Proporciona acceso centralizado a los temas claro y oscuro
-/// del sistema de diseño de Fake Store.
+/// Provides centralized access to the light and dark themes of the Fake Store
+/// design system.
 class AppTheme {
   AppTheme._();
 
-  /// Obtiene el tema claro.
+  /// Returns the light theme.
   static ThemeData get lightTheme => FakeStoreTheme.light();
 
-  /// Obtiene el tema oscuro.
+  /// Returns the dark theme.
   static ThemeData get darkTheme => FakeStoreTheme.dark();
 
-  /// Obtiene los tokens del tema desde el contexto.
+  /// Returns theme tokens from the context.
   static DSThemeData tokens(BuildContext context) => FakeStoreTheme.of(context);
 }

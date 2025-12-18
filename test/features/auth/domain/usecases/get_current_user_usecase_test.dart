@@ -84,7 +84,7 @@ void main() {
       result.fold(
         (l) {
           expect(l.type, AuthFailureType.connectionError);
-          expect(l.message, 'Error de conexión. Verifica tu internet.');
+          expect(l.message, 'Connection error. Check your internet connection.');
         },
         (r) => fail('Should return Left'),
       );

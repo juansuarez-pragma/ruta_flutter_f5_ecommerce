@@ -8,8 +8,8 @@ void main() {
       id: '1',
       name: 'Test User',
       email: 'test@example.com',
-      subject: 'Consulta sobre producto',
-      message: 'Me gustaría saber más sobre el producto X.',
+      subject: 'Product inquiry',
+      message: 'I would like to learn more about product X.',
       timestamp: tTimestamp,
     );
 
@@ -17,7 +17,7 @@ void main() {
       expect(tContactMessage.id, '1');
       expect(tContactMessage.name, 'Test User');
       expect(tContactMessage.email, 'test@example.com');
-      expect(tContactMessage.subject, 'Consulta sobre producto');
+      expect(tContactMessage.subject, 'Product inquiry');
       expect(tContactMessage.timestamp, tTimestamp);
     });
 

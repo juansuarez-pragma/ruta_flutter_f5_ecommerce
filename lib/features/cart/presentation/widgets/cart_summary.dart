@@ -3,7 +3,7 @@ import 'package:fake_store_design_system/fake_store_design_system.dart';
 
 import 'package:ecommerce/core/utils/extensions.dart';
 
-/// Resumen del carrito con subtotal, envío y total.
+/// Cart summary with subtotal, shipping, and total.
 class CartSummary extends StatelessWidget {
   const CartSummary({
     super.key,
@@ -11,16 +11,16 @@ class CartSummary extends StatelessWidget {
     required this.onCheckout,
   });
 
-  /// Subtotal del carrito.
+  /// Cart subtotal.
   final double subtotal;
 
-  /// Callback cuando se presiona el botón de checkout.
+  /// Callback invoked when the checkout button is pressed.
   final VoidCallback onCheckout;
 
   @override
   Widget build(BuildContext context) {
     final tokens = context.tokens;
-    const shippingCost = 0.0; // Envío gratis
+    const shippingCost = 0.0; // Free shipping
     final total = subtotal + shippingCost;
 
     return DSCard(
@@ -32,8 +32,8 @@ class CartSummary extends StatelessWidget {
           const SizedBox(height: DSSpacing.sm),
           _buildRow(
             context,
-            'Envío',
-            shippingCost == 0 ? 'Gratis' : shippingCost.toCurrency,
+            'Shipping',
+            shippingCost == 0 ? 'Free' : shippingCost.toCurrency,
             valueColor: tokens.colorFeedbackSuccess,
           ),
           Padding(
@@ -46,7 +46,7 @@ class CartSummary extends StatelessWidget {
           _buildRow(context, 'Total', total.toCurrency, isBold: true),
           const SizedBox(height: DSSpacing.base),
           DSButton.primary(
-            text: 'Proceder al Checkout',
+            text: 'Proceed to checkout',
             onPressed: onCheckout,
             isFullWidth: true,
           ),

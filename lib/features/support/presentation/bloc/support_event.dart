@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:ecommerce/features/support/domain/entities/faq_item.dart';
 
-/// Eventos del BLoC de soporte.
+/// Support BLoC events.
 sealed class SupportEvent extends Equatable {
   const SupportEvent();
 
@@ -9,7 +9,7 @@ sealed class SupportEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Evento para cargar las FAQs.
+/// Requests loading FAQs.
 final class SupportFAQsLoadRequested extends SupportEvent {
   const SupportFAQsLoadRequested({this.category});
 
@@ -19,7 +19,7 @@ final class SupportFAQsLoadRequested extends SupportEvent {
   List<Object?> get props => [category];
 }
 
-/// Evento para enviar un mensaje de contacto.
+/// Requests sending a contact message.
 final class SupportContactMessageSent extends SupportEvent {
   const SupportContactMessageSent({
     required this.name,
@@ -37,7 +37,7 @@ final class SupportContactMessageSent extends SupportEvent {
   List<Object?> get props => [name, email, subject, message];
 }
 
-/// Evento para cargar la información de contacto.
+/// Requests loading contact information.
 final class SupportContactInfoLoadRequested extends SupportEvent {
   const SupportContactInfoLoadRequested();
 }

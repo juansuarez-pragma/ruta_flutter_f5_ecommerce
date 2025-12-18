@@ -1,4 +1,4 @@
-/// Excepciones específicas del DataSource de autenticación.
+/// Auth data source specific exceptions.
 class AuthLocalException implements Exception {
   const AuthLocalException(this.message);
 
@@ -7,4 +7,3 @@ class AuthLocalException implements Exception {
   @override
   String toString() => 'AuthLocalException: $message';
 }
-

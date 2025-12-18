@@ -27,7 +27,7 @@ void main() {
       sharedPreferences: mockSharedPreferences,
     );
 
-    // Configurar mocks por defecto
+    // Configure default mocks
     when(() => mockSharedPreferences.getString(any()))
         .thenReturn(null);
     when(() => mockSharedPreferences.setString(any(), any()))
@@ -35,7 +35,7 @@ void main() {
   });
 
   group('OrderLocalDataSource - getOrders', () {
-    test('debe retornar lista vacía si no hay órdenes guardadas', () async {
+    test('should return an empty list when there are no saved orders', () async {
       // Arrange
       when(() => mockSharedPreferences.getString(any()))
           .thenReturn(null);
@@ -47,7 +47,7 @@ void main() {
       expect(result, isEmpty);
     });
 
-    test('debe retornar lista de órdenes si existen', () async {
+    test('should return the saved orders when they exist', () async {
       // Arrange
       final orders = [testOrder];
       final jsonString = json.encode(orders.map((o) => o.toJson()).toList());
@@ -62,7 +62,7 @@ void main() {
       expect(result.first.id, equals('1'));
     });
 
-    test('debe manejar JSON vacío', () async {
+    test('should handle empty JSON', () async {
       // Arrange
       when(() => mockSharedPreferences.getString(any()))
           .thenReturn('');
@@ -74,7 +74,7 @@ void main() {
       expect(result, isEmpty);
     });
 
-    test('debe loguear y relanzar ParseException si JSON inválido', () async {
+    test('should rethrow ParseException when JSON is invalid', () async {
       // Arrange
       const invalidJson = '[{incomplete}]';
       when(() => mockSharedPreferences.getString(any()))
@@ -89,7 +89,7 @@ void main() {
   });
 
   group('OrderLocalDataSource - getOrderById', () {
-    test('debe retornar orden si existe', () async {
+    test('should return the order when it exists', () async {
       // Arrange
       final orders = [testOrder];
       final jsonString = json.encode(orders.map((o) => o.toJson()).toList());
@@ -104,7 +104,7 @@ void main() {
       expect(result!.id, equals('1'));
     });
 
-    test('debe retornar null si orden no existe', () async {
+    test('should return null when order does not exist', () async {
       // Arrange
       final orders = [testOrder];
       final jsonString = json.encode(orders.map((o) => o.toJson()).toList());
@@ -118,34 +118,34 @@ void main() {
       expect(result, isNull);
     });
 
-    test('debe diferenciar "no encontrado" de "error técnico"', () async {
+    test('should differentiate "not found" from a technical error', () async {
       // Arrange
       final orders = [testOrder];
       final jsonString = json.encode(orders.map((o) => o.toJson()).toList());
       when(() => mockSharedPreferences.getString(any()))
           .thenReturn(jsonString);
 
-      // Act - Buscar orden que no existe
+      // Act - Search for an order that does not exist
       final result = await orderDataSource.getOrderById('nonexistent');
 
-      // Assert - Debe retornar null, no lanzar excepción
+      // Assert - Should return null, not throw an exception
       expect(result, isNull);
     });
 
-    test('debe relanzar excepción si getOrders falla', () async {
-      // Arrange - JSON inválido causará excepción en getOrders
+    test('should throw if getOrders fails', () async {
+      // Arrange - Invalid JSON will throw in getOrders
       const invalidJson = '{"invalid: json}';
       when(() => mockSharedPreferences.getString(any()))
           .thenReturn(invalidJson);
 
-      // Act & Assert - Debe relanzar UnknownException (wrapper de ParseException)
+      // Act & Assert - Should throw UnknownException (wraps ParseException)
       expect(
         () => orderDataSource.getOrderById('1'),
         throwsA(isA<UnknownException>()),
       );
     });
 
-    test('debe manejar múltiples órdenes correctamente', () async {
+    test('should handle multiple orders correctly', () async {
       // Arrange
       final order1 = testOrder;
       final order2 = OrderModel(
@@ -171,7 +171,7 @@ void main() {
   });
 
   group('OrderLocalDataSource - saveOrder', () {
-    test('debe guardar orden correctamente', () async {
+    test('should save an order correctly', () async {
       // Arrange
       when(() => mockSharedPreferences.getString(any()))
           .thenReturn(null);
@@ -184,7 +184,7 @@ void main() {
           .called(1);
     });
 
-    test('debe agregar nueva orden correctamente', () async {
+    test('should append a new order correctly', () async {
       // Arrange
       final order1 = testOrder;
       final order2 = OrderModel(
@@ -202,14 +202,14 @@ void main() {
       // Act
       await orderDataSource.saveOrder(order2);
 
-      // Assert - Debe llamar setString para guardar las órdenes
+      // Assert - Should call setString to persist orders
       verify(() => mockSharedPreferences.setString(any(), any()))
           .called(1);
     });
   });
 
   group('OrderLocalDataSource - deleteOrder', () {
-    test('debe eliminar orden por ID', () async {
+    test('should delete an order by id', () async {
       // Arrange
       final orders = [testOrder];
       final jsonString = json.encode(orders.map((o) => o.toJson()).toList());
@@ -224,24 +224,24 @@ void main() {
           .called(1);
     });
 
-    test('debe manejar eliminación de orden que no existe', () async {
+    test('should handle deleting an order that does not exist', () async {
       // Arrange
       final orders = [testOrder];
       final jsonString = json.encode(orders.map((o) => o.toJson()).toList());
       when(() => mockSharedPreferences.getString(any()))
           .thenReturn(jsonString);
 
-      // Act - No debe lanzar excepción
+      // Act - Should not throw
       await orderDataSource.deleteOrder('999');
 
-      // Assert - Debe intentar guardar de todas formas
+      // Assert - Should still try to persist
       verify(() => mockSharedPreferences.setString(any(), any()))
           .called(1);
     });
   });
 
   group('OrderLocalDataSource - Error Handling Integration', () {
-    test('debe loguear y relanzar ParseException si JSON inválido en getOrders', () async {
+    test('should rethrow ParseException when JSON is invalid in getOrders', () async {
       // Arrange
       const invalidJson = '[{incomplete}]';
       when(() => mockSharedPreferences.getString(any()))
@@ -254,7 +254,7 @@ void main() {
       );
     });
 
-    test('debe loguear y relanzar excepción en getOrderById si JSON inválido', () async {
+    test('should rethrow when JSON is invalid in getOrderById', () async {
       // Arrange
       const invalidJson = '{"invalid: json}';
       when(() => mockSharedPreferences.getString(any()))

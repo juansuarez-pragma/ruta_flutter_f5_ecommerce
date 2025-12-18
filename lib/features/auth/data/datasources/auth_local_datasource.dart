@@ -1,20 +1,20 @@
 import 'package:ecommerce/features/auth/data/models/user_model.dart';
 
-/// DataSource local para operaciones de autenticación.
+/// Local data source for authentication operations.
 ///
-/// Implementa almacenamiento de usuarios en SharedPreferences
-/// para funcionar sin dependencia de API externa.
+/// Implements user storage using SharedPreferences to work without depending on
+/// an external API.
 abstract class AuthLocalDataSource {
-  /// Guarda el usuario actual en almacenamiento local.
+  /// Stores the current user in local storage.
   Future<void> cacheCurrentUser(UserModel user);
 
-  /// Obtiene el usuario actual del almacenamiento local.
+  /// Retrieves the current user from local storage.
   Future<UserModel?> getCachedUser();
 
-  /// Elimina el usuario actual del almacenamiento.
+  /// Removes the current user from storage.
   Future<void> clearCurrentUser();
 
-  /// Registra un nuevo usuario localmente.
+  /// Registers a new user locally.
   Future<UserModel> registerUser({
     required String email,
     required String password,
@@ -23,12 +23,12 @@ abstract class AuthLocalDataSource {
     required String lastName,
   });
 
-  /// Verifica credenciales de login contra usuarios registrados.
+  /// Checks login credentials against the registered users.
   Future<UserModel?> loginUser({
     required String email,
     required String password,
   });
 
-  /// Verifica si un email ya está registrado.
+  /// Checks whether an email is already registered.
   Future<bool> isEmailRegistered(String email);
 }

@@ -3,17 +3,17 @@ import 'package:ecommerce/features/support/data/models/contact_message_model.dar
 import 'package:ecommerce/features/support/domain/entities/contact_info.dart';
 import 'package:ecommerce/features/support/domain/entities/faq_item.dart';
 
-/// Fuente de datos local para operaciones de soporte.
+/// Local data source for support operations.
 abstract class SupportLocalDataSource {
-  /// Obtiene la lista de preguntas frecuentes.
+  /// Returns the list of FAQs.
   Future<List<FAQItemModel>> getFAQs();
 
-  /// Obtiene FAQs filtradas por categoría.
+  /// Returns FAQs filtered by category.
   Future<List<FAQItemModel>> getFAQsByCategory(FAQCategory category);
 
-  /// Guarda un mensaje de contacto localmente.
+  /// Saves a contact message locally.
   Future<ContactMessageModel> saveContactMessage(ContactMessageModel message);
 
-  /// Obtiene la información de contacto de la tienda.
+  /// Returns the store's contact information.
   ContactInfo getContactInfo();
 }

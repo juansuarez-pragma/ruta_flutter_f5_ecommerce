@@ -3,25 +3,23 @@ import 'package:dartz/dartz.dart';
 import 'package:ecommerce/features/auth/domain/entities/user.dart';
 import 'package:ecommerce/features/auth/domain/repositories/auth_repository.dart';
 
-/// Caso de uso para registrar un nuevo usuario.
+/// Use case for registering a new user.
 ///
-/// Encapsula la lógica de negocio para crear una nueva cuenta
-/// de usuario en el sistema.
+/// Encapsulates the business logic for creating a new user account.
 class RegisterUseCase {
-
   const RegisterUseCase({required this.repository});
   final AuthRepository repository;
 
-  /// Ejecuta el caso de uso de registro.
+  /// Executes the registration use case.
   ///
-  /// [email] - Email del nuevo usuario.
-  /// [password] - Contraseña del nuevo usuario.
-  /// [username] - Nombre de usuario único.
-  /// [firstName] - Nombre del usuario.
-  /// [lastName] - Apellido del usuario.
+  /// [email] - New user email.
+  /// [password] - New user password.
+  /// [username] - Unique username.
+  /// [firstName] - First name.
+  /// [lastName] - Last name.
   ///
-  /// Retorna [Right<User>] si el registro es exitoso.
-  /// Retorna [Left<AuthFailure>] si hay un error.
+  /// Returns [Right<User>] when registration succeeds.
+  /// Returns [Left<AuthFailure>] when there is an error.
   Future<Either<AuthFailure, User>> call({
     required String email,
     required String password,

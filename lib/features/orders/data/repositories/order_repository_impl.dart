@@ -3,7 +3,7 @@ import 'package:ecommerce/features/orders/data/models/order_model.dart';
 import 'package:ecommerce/features/orders/domain/entities/order.dart';
 import 'package:ecommerce/features/orders/domain/repositories/order_repository.dart';
 
-/// Implementación del repositorio de órdenes.
+/// Orders repository implementation.
 class OrderRepositoryImpl implements OrderRepository {
   OrderRepositoryImpl({required OrderLocalDataSource localDataSource})
     : _localDataSource = localDataSource;

@@ -5,11 +5,10 @@ import 'package:ecommerce/features/auth/domain/repositories/auth_repository.dart
 import 'package:ecommerce/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:ecommerce/features/auth/data/errors/auth_local_exception.dart';
 
-/// Implementación del repositorio de autenticación.
+/// Authentication repository implementation.
 ///
-/// Usa [AuthLocalDataSource] para persistencia local.
+/// Uses [AuthLocalDataSource] for local persistence.
 class AuthRepositoryImpl implements AuthRepository {
-
   AuthRepositoryImpl({required this.localDataSource});
   final AuthLocalDataSource localDataSource;
 
@@ -19,12 +18,12 @@ class AuthRepositoryImpl implements AuthRepository {
     required String password,
   }) async {
     try {
-      // Validar email
+      // Validate email
       if (!_isValidEmail(email)) {
         return Left(AuthFailure.invalidEmail());
       }
 
-      // Intentar login
+      // Attempt login
       final user = await localDataSource.loginUser(
         email: email,
         password: password,
@@ -34,7 +33,7 @@ class AuthRepositoryImpl implements AuthRepository {
         return Left(AuthFailure.invalidCredentials());
       }
 
-      // Cachear usuario actual
+      // Cache current user
       await localDataSource.cacheCurrentUser(user);
 
       return Right(user);
@@ -54,17 +53,17 @@ class AuthRepositoryImpl implements AuthRepository {
     required String lastName,
   }) async {
     try {
-      // Validar email
+      // Validate email
       if (!_isValidEmail(email)) {
         return Left(AuthFailure.invalidEmail());
       }
 
-      // Validar password
+      // Validate password
       if (!_isValidPassword(password)) {
         return Left(AuthFailure.weakPassword());
       }
 
-      // Registrar usuario
+      // Register user
       final user = await localDataSource.registerUser(
         email: email,
         password: password,
@@ -73,7 +72,7 @@ class AuthRepositoryImpl implements AuthRepository {
         lastName: lastName,
       );
 
-      // Cachear usuario actual
+      // Cache current user
       await localDataSource.cacheCurrentUser(user);
 
       return Right(user);

@@ -57,7 +57,7 @@ final class SearchError extends SearchState {
   List<Object> get props => [message];
 }
 
-/// BLoC para gestionar el estado de búsqueda.
+/// BLoC that manages search state.
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   SearchBloc({required SearchProductsUseCase searchProductsUseCase})
     : _searchProductsUseCase = searchProductsUseCase,

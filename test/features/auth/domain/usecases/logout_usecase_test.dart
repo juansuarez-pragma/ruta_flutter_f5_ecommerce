@@ -30,7 +30,7 @@ void main() {
 
     test('should return AuthFailure when logout fails', () async {
       // Arrange
-      final failure = AuthFailure.unknown('Error al cerrar sesión');
+      final failure = AuthFailure.unknown('Failed to log out');
       when(() => mockRepository.logout()).thenAnswer((_) async => Left(failure));
 
       // Act

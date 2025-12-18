@@ -4,7 +4,7 @@ import 'package:ecommerce/core/constants/app_constants.dart';
 import 'package:ecommerce/features/cart/data/datasources/cart_local_datasource.dart';
 import 'package:ecommerce/features/cart/data/models/cart_item_model.dart';
 
-/// Implementación del datasource local usando SharedPreferences.
+/// Local data source implementation using SharedPreferences.
 class CartLocalDataSourceImpl implements CartLocalDataSource {
   CartLocalDataSourceImpl({required SharedPreferences sharedPreferences})
     : _sharedPreferences = sharedPreferences;
@@ -31,4 +31,3 @@ class CartLocalDataSourceImpl implements CartLocalDataSource {
     await _sharedPreferences.remove(AppConstants.cartStorageKey);
   }
 }
-

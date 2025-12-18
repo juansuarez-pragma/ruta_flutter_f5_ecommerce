@@ -10,7 +10,7 @@ import 'package:ecommerce/features/cart/presentation/bloc/cart_event.dart';
 import 'package:ecommerce/features/cart/presentation/bloc/cart_state.dart';
 import 'package:ecommerce/features/checkout/presentation/bloc/checkout_bloc.dart';
 
-/// Página de checkout.
+/// Checkout page.
 class CheckoutPage extends StatelessWidget {
   const CheckoutPage({super.key});
 
@@ -31,7 +31,7 @@ class _CheckoutPageContent extends StatelessWidget {
     return BlocListener<CheckoutBloc, CheckoutState>(
       listener: (context, state) {
         if (state is CheckoutSuccess) {
-          // Recargar carrito y navegar a confirmación
+          // Reload cart and navigate to confirmation
           context.read<CartBloc>().add(const CartLoadRequested());
           Navigator.pushReplacementNamed(
             context,
@@ -49,8 +49,8 @@ class _CheckoutPageContent extends StatelessWidget {
             if (cartState is! CartLoaded || cartState.isEmpty) {
               return const DSEmptyState(
                 icon: Icons.shopping_cart_outlined,
-                title: 'Carrito vacío',
-                description: 'No hay productos para procesar',
+                title: 'Empty cart',
+                description: 'There are no products to checkout',
               );
             }
 
@@ -65,14 +65,14 @@ class _CheckoutPageContent extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          // Resumen de productos
+                          // Order summary
                           DSCard(
                             padding: const EdgeInsets.all(DSSpacing.base),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const DSText(
-                                  'Resumen del pedido',
+                                  'Order summary',
                                   variant: DSTextVariant.titleMedium,
                                 ),
                                 const SizedBox(height: DSSpacing.base),
@@ -121,9 +121,9 @@ class _CheckoutPageContent extends StatelessWidget {
                           ),
                           const SizedBox(height: DSSpacing.xl),
 
-                          // Botón de confirmar
+                          // Confirm button
                           DSButton.primary(
-                            text: 'Confirmar pedido',
+                            text: 'Confirm order',
                             isFullWidth: true,
                             isLoading: isProcessing,
                             onPressed: isProcessing

@@ -3,15 +3,15 @@ import 'package:dartz/dartz.dart';
 import 'package:ecommerce/features/support/domain/entities/contact_message.dart';
 import 'package:ecommerce/features/support/domain/repositories/support_repository.dart';
 
-/// Caso de uso para enviar un mensaje de contacto.
+/// Use case for sending a contact message.
 class SendContactMessageUseCase {
   const SendContactMessageUseCase({required this.repository});
 
   final SupportRepository repository;
 
-  /// Ejecuta el caso de uso.
+  /// Runs the use case.
   ///
-  /// Valida los campos antes de enviar.
+  /// Validates the fields before sending.
   Future<Either<SupportFailure, ContactMessage>> call({
     required String name,
     required String email,
@@ -23,30 +23,30 @@ class SendContactMessageUseCase {
     final trimmedSubject = subject.trim();
     final trimmedMessage = message.trim();
 
-    // Validaciones
+    // Validations
     if (trimmedName.isEmpty) {
-      return Left(SupportFailure.validationFailed('El nombre es requerido'));
+      return Left(SupportFailure.validationFailed('Name is required'));
     }
 
     if (trimmedEmail.isEmpty) {
-      return Left(SupportFailure.validationFailed('El email es requerido'));
+      return Left(SupportFailure.validationFailed('Email is required'));
     }
 
     if (!_isValidEmail(trimmedEmail)) {
-      return Left(SupportFailure.validationFailed('El email no es válido'));
+      return Left(SupportFailure.validationFailed('Email is not valid'));
     }
 
     if (trimmedSubject.isEmpty) {
-      return Left(SupportFailure.validationFailed('El asunto es requerido'));
+      return Left(SupportFailure.validationFailed('Subject is required'));
     }
 
     if (trimmedMessage.isEmpty) {
-      return Left(SupportFailure.validationFailed('El mensaje es requerido'));
+      return Left(SupportFailure.validationFailed('Message is required'));
     }
 
     if (trimmedMessage.length < 10) {
       return Left(SupportFailure.validationFailed(
-        'El mensaje debe tener al menos 10 caracteres',
+        'Message must be at least 10 characters',
       ));
     }
 

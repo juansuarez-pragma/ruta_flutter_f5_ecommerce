@@ -10,11 +10,11 @@ import 'package:ecommerce/features/products/presentation/bloc/products_event.dar
 import 'package:ecommerce/features/products/presentation/bloc/products_state.dart';
 import 'package:ecommerce/features/products/presentation/widgets/product_grid.dart';
 
-/// Página de listado de productos.
+/// Products list page.
 class ProductsPage extends StatelessWidget {
   const ProductsPage({super.key, this.category});
 
-  /// Categoría opcional para filtrar productos.
+  /// Optional category to filter products.
   final String? category;
 
   @override
@@ -33,7 +33,7 @@ class _ProductsPageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final title = category?.titleCase ?? 'Todos los Productos';
+    final title = category?.titleCase ?? 'All products';
 
     return AppScaffold(
       title: title,
@@ -43,7 +43,7 @@ class _ProductsPageContent extends StatelessWidget {
           return switch (state) {
             ProductsInitial() => const SizedBox.shrink(),
             ProductsLoading() => const DSLoadingState(
-              message: 'Cargando productos...',
+              message: 'Loading products...',
             ),
             ProductsError(:final message) => DSErrorState(
               message: message,
@@ -55,8 +55,8 @@ class _ProductsPageContent extends StatelessWidget {
               products.isEmpty
                   ? const DSEmptyState(
                       icon: Icons.inventory_2_outlined,
-                      title: 'Sin productos',
-                      description: 'No hay productos disponibles',
+                      title: 'No products',
+                      description: 'There are no available products',
                     )
                   : RefreshIndicator(
                       onRefresh: () async {

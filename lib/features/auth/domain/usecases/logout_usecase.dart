@@ -2,19 +2,17 @@ import 'package:dartz/dartz.dart';
 
 import 'package:ecommerce/features/auth/domain/repositories/auth_repository.dart';
 
-/// Caso de uso para cerrar sesión.
+/// Use case for logging out.
 ///
-/// Encapsula la lógica de negocio para terminar la sesión
-/// del usuario actual.
+/// Encapsulates the business logic for ending the current user's session.
 class LogoutUseCase {
-
   const LogoutUseCase({required this.repository});
   final AuthRepository repository;
 
-  /// Ejecuta el caso de uso de logout.
+  /// Executes the logout use case.
   ///
-  /// Retorna [Right<void>] si el logout es exitoso.
-  /// Retorna [Left<AuthFailure>] si hay un error.
+  /// Returns [Right<void>] when logout succeeds.
+  /// Returns [Left<AuthFailure>] when there is an error.
   Future<Either<AuthFailure, void>> call() {
     return repository.logout();
   }

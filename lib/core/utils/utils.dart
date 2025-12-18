@@ -1,4 +1,4 @@
-/// Barrel file para utilidades.
+/// Utils barrel file.
 library;
 
 export 'extensions.dart';

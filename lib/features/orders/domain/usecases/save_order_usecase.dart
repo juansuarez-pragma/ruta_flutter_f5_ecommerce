@@ -1,13 +1,13 @@
 import 'package:ecommerce/features/orders/domain/entities/order.dart';
 import 'package:ecommerce/features/orders/domain/repositories/order_repository.dart';
 
-/// Caso de uso para guardar una nueva orden.
+/// Use case for saving a new order.
 class SaveOrderUseCase {
   SaveOrderUseCase({required OrderRepository repository})
     : _repository = repository;
   final OrderRepository _repository;
 
-  /// Ejecuta el caso de uso.
+  /// Executes the use case.
   Future<void> call(Order order) async {
     await _repository.saveOrder(order);
   }

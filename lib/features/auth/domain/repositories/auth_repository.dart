@@ -2,33 +2,32 @@ import 'package:dartz/dartz.dart';
 
 import 'package:ecommerce/features/auth/domain/entities/user.dart';
 
-/// Tipos de errores de autenticación.
+/// Authentication failure types.
 enum AuthFailureType {
-  /// Credenciales inválidas (email/password incorrectos).
+  /// Invalid credentials (incorrect email/password).
   invalidCredentials,
 
-  /// Email ya registrado.
+  /// Email already registered.
   emailAlreadyInUse,
 
-  /// Contraseña débil.
+  /// Weak password.
   weakPassword,
 
-  /// Email inválido.
+  /// Invalid email.
   invalidEmail,
 
-  /// Usuario no encontrado.
+  /// User not found.
   userNotFound,
 
-  /// Error de conexión.
+  /// Connection error.
   connectionError,
 
-  /// Error desconocido.
+  /// Unknown error.
   unknown,
 }
 
-/// Representa un fallo de autenticación.
+/// Represents an authentication failure.
 class AuthFailure {
-
   const AuthFailure({
     required this.type,
     required this.message,
@@ -36,60 +35,60 @@ class AuthFailure {
 
   factory AuthFailure.invalidCredentials() => const AuthFailure(
     type: AuthFailureType.invalidCredentials,
-    message: 'Email o contraseña incorrectos',
+    message: 'Incorrect email or password',
   );
 
   factory AuthFailure.emailAlreadyInUse() => const AuthFailure(
     type: AuthFailureType.emailAlreadyInUse,
-    message: 'Este email ya está registrado',
+    message: 'This email is already registered',
   );
 
   factory AuthFailure.weakPassword() => const AuthFailure(
     type: AuthFailureType.weakPassword,
-    message: 'La contraseña debe tener al menos 6 caracteres',
+    message: 'Password must be at least 6 characters',
   );
 
   factory AuthFailure.invalidEmail() => const AuthFailure(
     type: AuthFailureType.invalidEmail,
-    message: 'El formato del email es inválido',
+    message: 'Email format is invalid',
   );
 
   factory AuthFailure.userNotFound() => const AuthFailure(
     type: AuthFailureType.userNotFound,
-    message: 'Usuario no encontrado',
+    message: 'User not found',
   );
 
   factory AuthFailure.connectionError() => const AuthFailure(
     type: AuthFailureType.connectionError,
-    message: 'Error de conexión. Verifica tu internet.',
+    message: 'Connection error. Check your internet connection.',
   );
 
   factory AuthFailure.unknown([String? message]) => AuthFailure(
     type: AuthFailureType.unknown,
-    message: message ?? 'Ha ocurrido un error inesperado',
+    message: message ?? 'An unexpected error occurred',
   );
   final AuthFailureType type;
   final String message;
 }
 
-/// Repositorio abstracto para operaciones de autenticación.
+/// Abstract repository for authentication operations.
 ///
-/// Define el contrato que debe implementar cualquier fuente de datos
-/// de autenticación (local, remota, etc.).
+/// Defines the contract that any authentication data source (local, remote,
+/// etc.) must implement.
 abstract class AuthRepository {
-  /// Inicia sesión con email y contraseña.
+  /// Signs in with email and password.
   ///
-  /// Retorna [Right<User>] si el login es exitoso.
-  /// Retorna [Left<AuthFailure>] si hay un error.
+  /// Returns [Right<User>] when login succeeds.
+  /// Returns [Left<AuthFailure>] when there is an error.
   Future<Either<AuthFailure, User>> login({
     required String email,
     required String password,
   });
 
-  /// Registra un nuevo usuario.
+  /// Registers a new user.
   ///
-  /// Retorna [Right<User>] si el registro es exitoso.
-  /// Retorna [Left<AuthFailure>] si hay un error.
+  /// Returns [Right<User>] when registration succeeds.
+  /// Returns [Left<AuthFailure>] when there is an error.
   Future<Either<AuthFailure, User>> register({
     required String email,
     required String password,
@@ -98,18 +97,18 @@ abstract class AuthRepository {
     required String lastName,
   });
 
-  /// Cierra la sesión del usuario actual.
+  /// Logs out the current user.
   ///
-  /// Retorna [Right<void>] si el logout es exitoso.
-  /// Retorna [Left<AuthFailure>] si hay un error.
+  /// Returns [Right<void>] when logout succeeds.
+  /// Returns [Left<AuthFailure>] when there is an error.
   Future<Either<AuthFailure, void>> logout();
 
-  /// Obtiene el usuario actualmente autenticado.
+  /// Returns the currently authenticated user.
   ///
-  /// Retorna [Right<User>] si hay un usuario autenticado.
-  /// Retorna [Left<AuthFailure>] si no hay sesión activa.
+  /// Returns [Right<User>] when a user is authenticated.
+  /// Returns [Left<AuthFailure>] when there is no active session.
   Future<Either<AuthFailure, User>> getCurrentUser();
 
-  /// Verifica si hay una sesión activa.
+  /// Checks whether there is an active session.
   Future<bool> isAuthenticated();
 }

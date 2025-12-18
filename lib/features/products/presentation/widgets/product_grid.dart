@@ -4,7 +4,7 @@ import 'package:fake_store_design_system/fake_store_design_system.dart';
 
 import 'package:ecommerce/core/router/routes.dart';
 
-/// Grid de productos usando DSProductCard.
+/// Product grid using DSProductCard.
 class ProductGrid extends StatelessWidget {
   const ProductGrid({
     super.key,
@@ -12,10 +12,10 @@ class ProductGrid extends StatelessWidget {
     this.crossAxisCount = 2,
   });
 
-  /// Lista de productos a mostrar.
+  /// Products to display.
   final List<Product> products;
 
-  /// Número de columnas del grid.
+  /// Number of grid columns.
   final int crossAxisCount;
 
   @override

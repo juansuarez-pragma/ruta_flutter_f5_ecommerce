@@ -6,7 +6,7 @@ import 'package:ecommerce/features/support/domain/repositories/support_repositor
 import 'package:ecommerce/features/support/presentation/bloc/support_event.dart';
 import 'package:ecommerce/features/support/presentation/bloc/support_state.dart';
 
-/// BLoC para manejar el estado de soporte.
+/// BLoC that manages support state.
 class SupportBloc extends Bloc<SupportEvent, SupportState> {
   SupportBloc({
     required GetFAQsUseCase getFAQsUseCase,

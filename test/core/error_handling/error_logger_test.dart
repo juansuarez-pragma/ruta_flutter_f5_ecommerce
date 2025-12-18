@@ -9,12 +9,12 @@ void main() {
   });
 
   group('ErrorLogger', () {
-    test('debe loguear excepciones con todos los detalles', () async {
+    test('should log exceptions with all details', () async {
       // Arrange
       final exception = Exception('Test error');
       final stackTrace = StackTrace.current;
 
-      // Act & Assert - No debe relanzar excepción
+      // Act & Assert - Should not rethrow
       expect(
         () => errorLogger.logError(
           message: 'Test message',
@@ -25,7 +25,7 @@ void main() {
       );
     });
 
-    test('no debe relanzar excepciones durante logging', () async {
+    test('should not throw during logging', () async {
       // Arrange
       final exception = Exception('Critical error');
       final stackTrace = StackTrace.current;
@@ -43,12 +43,12 @@ void main() {
       );
     });
 
-    test('debe capturar información del contexto', () async {
+    test('should capture context information', () async {
       // Arrange
       final exception = Exception('Context test');
       final context = {'route': '/home', 'user_id': '123'};
 
-      // Act & Assert - Debe permitir contexto
+      // Act & Assert - Should accept context
       expect(
         () => errorLogger.logError(
           message: 'Test with context',
@@ -59,8 +59,8 @@ void main() {
       );
     });
 
-    test('debe permitir diferentes niveles de log (info, warning, error)', () async {
-      // Act & Assert - Cada nivel debe funcionar sin errores
+    test('should support different log levels (info, warning, error)', () async {
+      // Act & Assert - Each level should work without errors
       expect(
         () {
           errorLogger.logInfo('Info message');
@@ -71,7 +71,7 @@ void main() {
       );
     });
 
-    test('debe responder a nivel de error sin contexto', () async {
+    test('should handle error-level logging without context', () async {
       // Act & Assert
       expect(
         () => errorLogger.logError(message: 'Simple error'),
@@ -79,7 +79,7 @@ void main() {
       );
     });
 
-    test('debe permitir logging con solo mensaje', () async {
+    test('should allow logging with only a message', () async {
       // Act & Assert
       expect(
         () => errorLogger.logInfo('Just a message'),
@@ -87,13 +87,13 @@ void main() {
       );
     });
 
-    test('debe loguear detalles completos cuando exception y stacktrace están presentes',
+    test('should log full details when exception and stacktrace are provided',
         () async {
       // Arrange
       const exception = FormatException('Invalid JSON');
       final stackTrace = StackTrace.current;
 
-      // Act & Assert - Debe capturar todo sin problemas
+      // Act & Assert - Should capture everything without issues
       expect(
         () => errorLogger.logError(
           message: 'JSON parsing failed',
@@ -104,7 +104,7 @@ void main() {
       );
     });
 
-    test('debe loguear con contexto enriquecido', () async {
+    test('should log with enriched context', () async {
       // Arrange
       final exception = Exception('DB error');
       final context = {
@@ -124,15 +124,15 @@ void main() {
       );
     });
 
-    test('debe manejar exceptions nulas gracefully', () async {
-      // Act & Assert - No debe fallar si exception es null
+    test('should gracefully handle null exceptions', () async {
+      // Act & Assert - Should not fail when exception is null
       expect(
         () => errorLogger.logError(message: 'Error without exception'),
         returnsNormally,
       );
     });
 
-    test('debe soportar logging desde diferentes features', () async {
+    test('should support logging from multiple features', () async {
       // Arrange
       const features = ['auth', 'cart', 'support', 'orders'];
 
@@ -152,7 +152,7 @@ void main() {
   });
 
   group('ErrorLogger - Edge Cases', () {
-    test('debe manejar mensajes muy largos', () async {
+    test('should handle very long messages', () async {
       // Arrange
       final longMessage = 'x' * 10000;
 
@@ -163,7 +163,7 @@ void main() {
       );
     });
 
-    test('debe manejar contextos con valores null', () async {
+    test('should handle contexts with null values', () async {
       // Arrange
       final context = {
         'field1': 'value1',
@@ -181,7 +181,7 @@ void main() {
       );
     });
 
-    test('debe manejar múltiples logs consecutivos', () async {
+    test('should handle multiple consecutive logs', () async {
       // Act & Assert
       expect(
         () {

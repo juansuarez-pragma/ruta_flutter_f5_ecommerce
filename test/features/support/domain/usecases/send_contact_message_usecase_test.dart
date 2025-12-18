@@ -63,7 +63,7 @@ void main() {
         result.fold(
           (l) {
             expect(l.type, SupportFailureType.validationFailed);
-            expect(l.message, 'El nombre es requerido');
+            expect(l.message, 'Name is required');
           },
           (r) => fail('Should return Left'),
         );
@@ -89,7 +89,7 @@ void main() {
         result.fold(
           (l) {
             expect(l.type, SupportFailureType.validationFailed);
-            expect(l.message, 'El email es requerido');
+            expect(l.message, 'Email is required');
           },
           (r) => fail('Should return Left'),
         );
@@ -109,7 +109,7 @@ void main() {
         result.fold(
           (l) {
             expect(l.type, SupportFailureType.validationFailed);
-            expect(l.message, 'El email no es válido');
+            expect(l.message, 'Email is not valid');
           },
           (r) => fail('Should return Left'),
         );
@@ -129,7 +129,7 @@ void main() {
         result.fold(
           (l) {
             expect(l.type, SupportFailureType.validationFailed);
-            expect(l.message, 'El asunto es requerido');
+            expect(l.message, 'Subject is required');
           },
           (r) => fail('Should return Left'),
         );
@@ -149,7 +149,7 @@ void main() {
         result.fold(
           (l) {
             expect(l.type, SupportFailureType.validationFailed);
-            expect(l.message, 'El mensaje es requerido');
+            expect(l.message, 'Message is required');
           },
           (r) => fail('Should return Left'),
         );
@@ -169,7 +169,7 @@ void main() {
         result.fold(
           (l) {
             expect(l.type, SupportFailureType.validationFailed);
-            expect(l.message, 'El mensaje debe tener al menos 10 caracteres');
+            expect(l.message, 'Message must be at least 10 characters');
           },
           (r) => fail('Should return Left'),
         );

@@ -1,12 +1,12 @@
 import 'package:ecommerce/features/cart/domain/repositories/cart_repository.dart';
 
-/// Caso de uso para actualizar la cantidad de un item.
+/// Use case for updating an item's quantity.
 class UpdateCartQuantityUseCase {
   UpdateCartQuantityUseCase({required CartRepository repository})
     : _repository = repository;
   final CartRepository _repository;
 
-  /// Ejecuta el caso de uso.
+  /// Executes the use case.
   Future<void> call(int productId, int quantity) async {
     return _repository.updateQuantity(productId, quantity);
   }

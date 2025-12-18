@@ -11,11 +11,11 @@ import 'package:ecommerce/features/cart/presentation/bloc/cart_bloc.dart';
 import 'package:ecommerce/features/cart/presentation/bloc/cart_event.dart';
 import 'package:ecommerce/features/products/presentation/bloc/product_detail_bloc.dart';
 
-/// Página de detalle de producto.
+/// Product detail page.
 class ProductDetailPage extends StatefulWidget {
   const ProductDetailPage({super.key, required this.productId});
 
-  /// ID del producto a mostrar.
+  /// Product id to display.
   final int productId;
 
   @override
@@ -33,7 +33,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             ..add(ProductDetailLoadRequested(widget.productId)),
       child: Scaffold(
         appBar: DSAppBar(
-          title: 'Detalle',
+          title: 'Details',
           actions: [
             DSIconButton(
               icon: Icons.shopping_cart_outlined,
@@ -46,7 +46,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             return switch (state) {
               ProductDetailInitial() => const SizedBox.shrink(),
               ProductDetailLoading() => const DSLoadingState(
-                message: 'Cargando producto...',
+                message: 'Loading product...',
               ),
               ProductDetailError(:final message) => DSErrorState(
                 message: message,
@@ -72,7 +72,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Imagen del producto
+          // Product image
           Container(
             height: 300,
             color: tokens.colorSurfaceSecondary,
@@ -94,7 +94,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Título
+                // Title
                 DSText(product.title, variant: DSTextVariant.headingSmall),
                 const SizedBox(height: DSSpacing.sm),
 
@@ -105,7 +105,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ),
                 const SizedBox(height: DSSpacing.base),
 
-                // Precio
+                // Price
                 DSText(
                   product.price.toCurrency,
                   variant: DSTextVariant.headingMedium,
@@ -113,24 +113,24 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ),
                 const SizedBox(height: DSSpacing.base),
 
-                // Categoría
+                // Category
                 DSBadge(
                   text: product.category.titleCase,
                   type: DSBadgeType.info,
                 ),
                 const SizedBox(height: DSSpacing.lg),
 
-                // Descripción
-                const DSText('Descripción', variant: DSTextVariant.titleMedium),
+                // Description
+                const DSText('Description', variant: DSTextVariant.titleMedium),
                 const SizedBox(height: DSSpacing.sm),
                 DSText(product.description, color: tokens.colorTextSecondary),
                 const SizedBox(height: DSSpacing.xl),
 
-                // Selector de cantidad
+                // Quantity selector
                 Row(
                   children: [
                     const DSText(
-                      'Cantidad:',
+                      'Quantity:',
                       variant: DSTextVariant.titleSmall,
                     ),
                     const SizedBox(width: DSSpacing.base),
@@ -142,9 +142,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ),
                 const SizedBox(height: DSSpacing.lg),
 
-                // Botón agregar al carrito
+                // Add to cart button
                 DSButton.primary(
-                  text: 'Agregar al carrito',
+                  text: 'Add to cart',
                   icon: Icons.shopping_cart,
                   isFullWidth: true,
                   onPressed: () => _addToCart(context, product),
@@ -161,7 +161,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     context.read<CartBloc>().add(
       CartItemAdded(product: product, quantity: _quantity),
     );
-    context.showSnackBar('Producto agregado al carrito');
+    context.showSnackBar('Product added to cart');
     setState(() => _quantity = 1);
   }
 }

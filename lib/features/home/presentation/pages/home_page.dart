@@ -11,7 +11,7 @@ import 'package:ecommerce/features/home/presentation/bloc/home_bloc.dart';
 import 'package:ecommerce/features/home/presentation/widgets/categories_section.dart';
 import 'package:ecommerce/features/home/presentation/widgets/featured_products_section.dart';
 
-/// Página principal del home.
+/// Home page.
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -94,7 +94,7 @@ class _HomePageContent extends StatelessWidget {
           builder: (context, state) {
             return switch (state) {
               HomeInitial() => const SizedBox.shrink(),
-              HomeLoading() => const DSLoadingState(message: 'Cargando...'),
+              HomeLoading() => const DSLoadingState(message: 'Loading...'),
               HomeError(:final message) => DSErrorState(
                 message: message,
                 onRetry: () =>

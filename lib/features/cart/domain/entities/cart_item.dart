@@ -1,22 +1,22 @@
 import 'package:equatable/equatable.dart';
 import 'package:fake_store_api_client/fake_store_api_client.dart';
 
-/// Representa un item en el carrito de compras.
+/// Represents an item in the shopping cart.
 ///
-/// Contiene el producto y la cantidad seleccionada.
+/// Contains the product and selected quantity.
 class CartItem extends Equatable {
   const CartItem({required this.product, required this.quantity});
 
-  /// Producto del item.
+  /// Item product.
   final Product product;
 
-  /// Cantidad del producto.
+  /// Quantity.
   final int quantity;
 
-  /// Precio total del item (precio * cantidad).
+  /// Total item price (price * quantity).
   double get totalPrice => product.price * quantity;
 
-  /// Crea una copia del item con los valores proporcionados.
+  /// Creates a copy with provided values.
   CartItem copyWith({Product? product, int? quantity}) {
     return CartItem(
       product: product ?? this.product,

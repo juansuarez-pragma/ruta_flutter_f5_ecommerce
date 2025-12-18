@@ -12,7 +12,7 @@ import 'package:ecommerce/features/cart/presentation/widgets/cart_item_tile.dart
 import 'package:ecommerce/features/cart/presentation/widgets/cart_summary.dart';
 import 'package:ecommerce/features/cart/presentation/widgets/empty_cart.dart';
 
-/// Página del carrito de compras.
+/// Shopping cart page.
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
 
@@ -31,14 +31,14 @@ class _CartPageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: 'Carrito',
+      title: 'Cart',
       currentIndex: 2,
       body: BlocBuilder<CartBloc, CartState>(
         builder: (context, state) {
           return switch (state) {
             CartInitial() => const SizedBox.shrink(),
             CartLoading() => const DSLoadingState(
-              message: 'Cargando carrito...',
+              message: 'Loading cart...',
             ),
             CartError(:final message) => DSErrorState(
               message: message,

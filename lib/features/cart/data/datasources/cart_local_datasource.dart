@@ -1,13 +1,13 @@
 import 'package:ecommerce/features/cart/data/models/cart_item_model.dart';
 
-/// Contrato para el datasource local del carrito.
+/// Contract for the cart local data source.
 abstract class CartLocalDataSource {
-  /// Obtiene los items del carrito desde almacenamiento local.
+  /// Returns cart items from local storage.
   Future<List<CartItemModel>> getItems();
 
-  /// Guarda los items del carrito en almacenamiento local.
+  /// Saves cart items to local storage.
   Future<void> saveItems(List<CartItemModel> items);
 
-  /// Limpia el carrito del almacenamiento local.
+  /// Clears the cart from local storage.
   Future<void> clearItems();
 }

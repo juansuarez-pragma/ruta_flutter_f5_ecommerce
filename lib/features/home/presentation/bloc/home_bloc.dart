@@ -55,7 +55,7 @@ final class HomeError extends HomeState {
   List<Object> get props => [message];
 }
 
-/// BLoC para gestionar el estado del Home.
+/// BLoC that manages Home state.
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({
     required GetProductsUseCase getProductsUseCase,
@@ -75,7 +75,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     emit(const HomeLoading());
 
-    // Cargar categorías
+    // Load categories
     final categoriesResult = await _getCategoriesUseCase();
 
     await categoriesResult.fold(
@@ -83,7 +83,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(HomeError(failure.message));
       },
       (categories) async {
-        // Cargar productos
+        // Load products
         final productsResult = await _getProductsUseCase();
 
         productsResult.fold(

@@ -6,7 +6,7 @@ import 'package:ecommerce/core/di/injection_container.dart';
 import 'package:ecommerce/core/router/routes.dart';
 import 'package:ecommerce/features/support/support.dart';
 
-/// Página principal de soporte con FAQs.
+/// Support home page with FAQs.
 class SupportPage extends StatelessWidget {
   const SupportPage({super.key});
 
@@ -26,12 +26,12 @@ class _SupportPageContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DSAppBar(
-        title: 'Soporte y Ayuda',
+        title: 'Support & Help',
         actions: [
           DSIconButton(
             icon: Icons.contact_mail_outlined,
             onPressed: () => Navigator.pushNamed(context, Routes.contact),
-            tooltip: 'Contactar soporte',
+            tooltip: 'Contact support',
           ),
         ],
       ),
@@ -60,7 +60,7 @@ class _SupportPageContent extends StatelessWidget {
                   child: Row(
                     children: [
                       _CategoryChip(
-                        label: 'Todos',
+                        label: 'All',
                         isSelected: state.selectedCategory == null,
                         onTap: () => context.read<SupportBloc>().add(
                               const SupportFAQsLoadRequested(),
@@ -77,8 +77,8 @@ class _SupportPageContent extends StatelessWidget {
                   child: state.faqs.isEmpty
                       ? const DSEmptyState(
                           icon: Icons.help_outline,
-                          title: 'No hay FAQs disponibles',
-                          description: 'Intenta con otra categoría',
+                          title: 'No FAQs available',
+                          description: 'Try another category',
                         )
                       : ListView.builder(
                           padding: const EdgeInsets.all(DSSpacing.base),
@@ -94,8 +94,8 @@ class _SupportPageContent extends StatelessWidget {
 
           return const DSEmptyState(
             icon: Icons.help_outline,
-            title: 'Bienvenido a Soporte',
-            description: 'Cargando preguntas frecuentes...',
+            title: 'Welcome to Support',
+            description: 'Loading FAQs...',
           );
         },
       ),
@@ -123,15 +123,15 @@ class _SupportPageContent extends StatelessWidget {
   String _getCategoryLabel(FAQCategory category) {
     switch (category) {
       case FAQCategory.orders:
-        return 'Pedidos';
+        return 'Orders';
       case FAQCategory.payments:
-        return 'Pagos';
+        return 'Payments';
       case FAQCategory.shipping:
-        return 'Envíos';
+        return 'Shipping';
       case FAQCategory.returns:
-        return 'Devoluciones';
+        return 'Returns';
       case FAQCategory.account:
-        return 'Cuenta';
+        return 'Account';
       case FAQCategory.general:
         return 'General';
     }

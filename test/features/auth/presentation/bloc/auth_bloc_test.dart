@@ -52,7 +52,7 @@ void main() {
 
   group('AuthBloc - Error Handling', () {
     blocTest<AuthBloc, AuthState>(
-      'debe emitir [AuthLoading, AuthError] cuando login falla',
+      'should emit [AuthLoading, AuthError] when login fails',
       build: () {
         when(() => mockLoginUseCase(
           email: any(named: 'email'),
@@ -72,7 +72,7 @@ void main() {
     );
 
     blocTest<AuthBloc, AuthState>(
-      'debe emitir [AuthLoading, AuthError] cuando register falla',
+      'should emit [AuthLoading, AuthError] when register fails',
       build: () {
         when(() => mockRegisterUseCase(
           email: any(named: 'email'),
@@ -98,7 +98,7 @@ void main() {
     );
 
     blocTest<AuthBloc, AuthState>(
-      'debe emitir [AuthLoading, AuthError] cuando logout falla',
+      'should emit [AuthLoading, AuthError] when logout fails',
       build: () {
         when(() => mockLogoutUseCase())
             .thenAnswer((_) async => Left(AuthFailure.unknown('Logout failed')));
@@ -113,7 +113,7 @@ void main() {
     );
 
     blocTest<AuthBloc, AuthState>(
-      'debe emitir [AuthUnauthenticated] cuando getCurrentUser falla',
+      'should emit [AuthUnauthenticated] when getCurrentUser fails',
       build: () {
         when(() => mockGetCurrentUserUseCase())
             .thenAnswer((_) async => Left(AuthFailure.userNotFound()));
@@ -127,7 +127,7 @@ void main() {
     );
 
     blocTest<AuthBloc, AuthState>(
-      'debe incluir failureType en AuthError',
+      'should include failureType in AuthError',
       build: () {
         when(() => mockLoginUseCase(
           email: any(named: 'email'),
@@ -149,7 +149,7 @@ void main() {
 
   group('AuthBloc - Success Cases', () {
     blocTest<AuthBloc, AuthState>(
-      'debe emitir [AuthLoading, AuthAuthenticated] cuando login exitoso',
+      'should emit [AuthLoading, AuthAuthenticated] when login succeeds',
       build: () {
         when(() => mockLoginUseCase(
           email: any(named: 'email'),
@@ -168,7 +168,7 @@ void main() {
     );
 
     blocTest<AuthBloc, AuthState>(
-      'debe emitir [AuthLoading, AuthAuthenticated] cuando register exitoso',
+      'should emit [AuthLoading, AuthAuthenticated] when register succeeds',
       build: () {
         when(() => mockRegisterUseCase(
           email: any(named: 'email'),
@@ -193,7 +193,7 @@ void main() {
     );
 
     blocTest<AuthBloc, AuthState>(
-      'debe emitir [AuthLoading, AuthUnauthenticated] cuando logout exitoso',
+      'should emit [AuthLoading, AuthUnauthenticated] when logout succeeds',
       build: () {
         when(() => mockLogoutUseCase())
             .thenAnswer((_) async => const Right(null));
@@ -207,7 +207,7 @@ void main() {
     );
 
     blocTest<AuthBloc, AuthState>(
-      'debe emitir [AuthLoading, AuthAuthenticated] cuando getCurrentUser exitoso',
+      'should emit [AuthLoading, AuthAuthenticated] when getCurrentUser succeeds',
       build: () {
         when(() => mockGetCurrentUserUseCase())
             .thenAnswer((_) async => const Right(testUser));
@@ -221,8 +221,8 @@ void main() {
     );
   });
 
-  group('AuthBloc - Estado Inicial', () {
-    test('estado inicial debe ser AuthInitial', () {
+  group('AuthBloc - Initial State', () {
+    test('initial state should be AuthInitial', () {
       expect(authBloc.state, const AuthInitial());
     });
   });

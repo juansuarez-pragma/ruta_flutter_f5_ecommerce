@@ -1,12 +1,12 @@
 import 'package:ecommerce/features/cart/domain/repositories/cart_repository.dart';
 
-/// Caso de uso para limpiar el carrito.
+/// Use case for clearing the cart.
 class ClearCartUseCase {
   ClearCartUseCase({required CartRepository repository})
     : _repository = repository;
   final CartRepository _repository;
 
-  /// Ejecuta el caso de uso.
+  /// Executes the use case.
   Future<void> call() async {
     return _repository.clearCart();
   }

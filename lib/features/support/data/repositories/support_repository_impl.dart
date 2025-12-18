@@ -8,7 +8,7 @@ import 'package:ecommerce/features/support/domain/entities/contact_info.dart';
 import 'package:ecommerce/features/support/domain/entities/faq_item.dart';
 import 'package:ecommerce/features/support/domain/repositories/support_repository.dart';
 
-/// Implementación del repositorio de soporte.
+/// Support repository implementation.
 class SupportRepositoryImpl implements SupportRepository {
   SupportRepositoryImpl({required this.localDataSource});
 

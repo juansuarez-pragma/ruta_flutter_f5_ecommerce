@@ -8,7 +8,7 @@ import 'package:ecommerce/core/error_handling/error_logger.dart';
 import 'package:ecommerce/features/orders/data/datasources/order_local_datasource.dart';
 import 'package:ecommerce/features/orders/data/models/order_model.dart';
 
-/// Implementación de [OrderLocalDataSource].
+/// [OrderLocalDataSource] implementation.
 class OrderLocalDataSourceImpl implements OrderLocalDataSource {
   OrderLocalDataSourceImpl({required SharedPreferences sharedPreferences})
     : _sharedPreferences = sharedPreferences;
@@ -31,7 +31,7 @@ class OrderLocalDataSourceImpl implements OrderLocalDataSource {
           .toList();
     } on FormatException catch (e, st) {
       final exception = ParseException(
-        message: 'Error al decodificar lista de órdenes',
+        message: 'Failed to decode orders list',
         failedValue: jsonString.length > 200
             ? '${jsonString.substring(0, 200)}...'
             : jsonString,
@@ -47,7 +47,7 @@ class OrderLocalDataSourceImpl implements OrderLocalDataSource {
       throw exception;
     } catch (e, st) {
       final exception = ParseException(
-        message: 'Error inesperado al cargar órdenes',
+        message: 'Unexpected error while loading orders',
         failedValue: jsonString.length > 200
             ? '${jsonString.substring(0, 200)}...'
             : jsonString,
@@ -81,7 +81,7 @@ class OrderLocalDataSourceImpl implements OrderLocalDataSource {
 
       if (order == null) {
         ErrorLogger().logInfo(
-          'Orden no encontrada: $id',
+          'Order not found: $id',
           context: {'operation': 'getOrderById'},
         );
       }
@@ -89,7 +89,7 @@ class OrderLocalDataSourceImpl implements OrderLocalDataSource {
       return order;
     } catch (e, st) {
       final exception = UnknownException(
-        message: 'Error inesperado al obtener orden por ID',
+        message: 'Unexpected error while getting order by id',
         originalException: e is Exception ? e : Exception(e.toString()),
       );
 
@@ -112,4 +112,3 @@ class OrderLocalDataSourceImpl implements OrderLocalDataSource {
     await _sharedPreferences.setString(_ordersKey, json.encode(jsonList));
   }
 }
-

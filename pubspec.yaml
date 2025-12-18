@@ -1,5 +1,5 @@
 name: ecommerce
-description: Aplicación E-commerce Flutter - Fase 5 Ruta de Crecimiento Pragma
+description: Flutter e-commerce app - Phase 5 (Pragma growth path)
 publish_to: 'none'
 version: 1.0.0+1
 
@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # Paquetes remotos (Fases anteriores)
+  # Remote packages (previous phases)
   fake_store_api_client:
     git:
       url: https://github.com/juansuarez-pragma/ruta_flutter_f3.git
@@ -21,26 +21,26 @@ dependencies:
       url: https://github.com/juansuarez-pragma/ruta_flutter_f4.git
       ref: main
 
-  # Gestión de estado
+  # State management
   flutter_bloc: ^8.1.6
   equatable: ^2.0.7
 
-  # Inyección de dependencias
+  # Dependency injection
   get_it: ^8.0.3
 
-  # Almacenamiento local
+  # Local storage
   shared_preferences: ^2.3.5
 
-  # Imágenes con caché
+  # Cached images
   cached_network_image: ^3.4.1
 
-  # Utilidades funcionales
+  # Functional utilities
   dartz: ^0.10.1
 
-  # Utilidades de colecciones
+  # Collection utilities
   collection: ^1.19.0
 
-  # Generación de UUIDs
+  # UUID generation
   uuid: ^4.5.1
 
 dev_dependencies:
@@ -57,7 +57,7 @@ flutter:
   assets:
     - assets/config/
 
-# Plataformas soportadas
+# Supported platforms
 platforms:
   android:
   ios:

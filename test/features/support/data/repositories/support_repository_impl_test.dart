@@ -26,7 +26,7 @@ void main() {
   });
 
   group('SupportRepositoryImpl - Error Handling', () {
-    test('debe retornar Left si ParseException al obtener FAQs', () async {
+    test('should return Left when getFAQs throws ParseException', () async {
       // Arrange
       const parseException = ParseException(message: 'JSON corrupted');
       when(() => mockLocalDataSource.getFAQs())
@@ -39,7 +39,7 @@ void main() {
       expect(result.isLeft(), isTrue);
     });
 
-    test('debe retornar Left si ParseException al obtener FAQs por categoría', () async {
+    test('should return Left when getFAQsByCategory throws ParseException', () async {
       // Arrange
       const parseException = ParseException(message: 'Data corrupted');
       when(() => mockLocalDataSource.getFAQsByCategory(any()))
@@ -52,7 +52,7 @@ void main() {
       expect(result.isLeft(), isTrue);
     });
 
-    test('debe retornar Left si UnknownException al enviar mensaje', () async {
+    test('should return Left when sendContactMessage throws UnknownException', () async {
       // Arrange
       const unknownException = UnknownException(message: 'Unexpected error');
       when(() => mockLocalDataSource.saveContactMessage(any()))
@@ -70,7 +70,7 @@ void main() {
       expect(result.isLeft(), isTrue);
     });
 
-    test('debe retornar Right si getFAQs exitoso', () async {
+    test('should return Right when getFAQs succeeds', () async {
       // Arrange
       when(() => mockLocalDataSource.getFAQs())
           .thenAnswer((_) async => []);
@@ -82,7 +82,7 @@ void main() {
       expect(result.isRight(), isTrue);
     });
 
-    test('debe retornar Right si sendContactMessage exitoso', () async {
+    test('should return Right when sendContactMessage succeeds', () async {
       // Arrange
       final message = ContactMessageModel(
         id: '1',
@@ -107,7 +107,7 @@ void main() {
       expect(result.isRight(), isTrue);
     });
 
-    test('debe retornar Right si getFAQsByCategory exitoso', () async {
+    test('should return Right when getFAQsByCategory succeeds', () async {
       // Arrange
       when(() => mockLocalDataSource.getFAQsByCategory(any()))
           .thenAnswer((_) async => []);

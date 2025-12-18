@@ -1,13 +1,13 @@
 import 'package:ecommerce/features/cart/domain/entities/cart_item.dart';
 import 'package:ecommerce/features/cart/domain/repositories/cart_repository.dart';
 
-/// Caso de uso para agregar un item al carrito.
+/// Use case for adding an item to the cart.
 class AddToCartUseCase {
   AddToCartUseCase({required CartRepository repository})
     : _repository = repository;
   final CartRepository _repository;
 
-  /// Ejecuta el caso de uso.
+  /// Executes the use case.
   Future<void> call(CartItem item) async {
     return _repository.addItem(item);
   }

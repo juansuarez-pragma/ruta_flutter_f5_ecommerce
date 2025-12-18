@@ -3,7 +3,7 @@ import 'package:fake_store_design_system/fake_store_design_system.dart';
 
 import 'package:ecommerce/features/support/domain/entities/faq_item.dart';
 
-/// Card para mostrar una pregunta frecuente.
+/// Card that displays a FAQ item.
 class FAQCard extends StatefulWidget {
   const FAQCard({
     required this.faqItem,

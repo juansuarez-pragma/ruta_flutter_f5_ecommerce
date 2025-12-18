@@ -4,7 +4,7 @@ import 'package:ecommerce/core/error_handling/app_exceptions.dart';
 
 void main() {
   group('safeCall', () {
-    test('debe retornar resultado si la función se ejecuta sin errores', () async {
+    test('should return the result when the function succeeds', () async {
       // Arrange
       Future<String> successFunction() async => 'Success';
 
@@ -15,7 +15,7 @@ void main() {
       expect(result, equals('Success'));
     });
 
-    test('debe convertir Exception genérica a UnknownException', () async {
+    test('should convert a generic Exception to UnknownException', () async {
       // Arrange
       Future<String> failingFunction() async =>
           throw Exception('Generic error');
@@ -27,7 +27,7 @@ void main() {
       );
     });
 
-    test('debe re-lanzar AppException sin modificar', () async {
+    test('should rethrow AppException without modification', () async {
       // Arrange
       const parseException = ParseException(message: 'Parse failed');
       Future<String> failingFunction() async => throw parseException;
@@ -39,7 +39,7 @@ void main() {
       );
     });
 
-    test('debe loguear antes de relanzar excepción', () async {
+    test('should log before rethrowing', () async {
       // Arrange
       Future<String> failingFunction() async =>
           throw Exception('Error to log');
@@ -49,10 +49,10 @@ void main() {
         safeCall(failingFunction),
         throwsA(isA<UnknownException>()),
       );
-      // El logging ocurre sin excepciones
+      // Logging happens without throwing
     });
 
-    test('debe permitir logging context personalizado', () async {
+    test('should allow passing a custom logging context', () async {
       // Arrange
       Future<String> failingFunction() async => throw Exception('Error');
       const context = {'operation': 'test_operation'};
@@ -67,7 +67,7 @@ void main() {
       );
     });
 
-    test('debe manejar Future<void>', () async {
+    test('should handle Future<void>', () async {
       // Arrange
       Future<void> voidFunction() async => await Future.delayed(
         const Duration(milliseconds: 10),
@@ -80,7 +80,7 @@ void main() {
       );
     });
 
-    test('debe manejar Futures que retornan null', () async {
+    test('should handle Futures that return null', () async {
       // Arrange
       Future<String?> nullFunction() async => null;
 
@@ -93,7 +93,7 @@ void main() {
   });
 
   group('safeJsonDecode', () {
-    test('debe decodificar JSON válido sin errores', () {
+    test('should decode valid JSON without errors', () {
       // Arrange
       const validJson = '{"key": "value"}';
 
@@ -104,7 +104,7 @@ void main() {
       expect(result, equals({'key': 'value'}));
     });
 
-    test('debe decodificar JSON array válido', () {
+    test('should decode a valid JSON array', () {
       // Arrange
       const validJson = '[1, 2, 3]';
 
@@ -115,7 +115,7 @@ void main() {
       expect(result, equals([1, 2, 3]));
     });
 
-    test('debe lanzar ParseException si JSON es inválido', () {
+    test('should throw ParseException when JSON is invalid', () {
       // Arrange
       const invalidJson = '{"invalid: json}';
 
@@ -126,7 +126,7 @@ void main() {
       );
     });
 
-    test('debe capturar FormatException y convertir a ParseException', () {
+    test('should convert FormatException to ParseException', () {
       // Arrange
       const invalidJson = '{invalid json}';
 
@@ -137,7 +137,7 @@ void main() {
       );
     });
 
-    test('debe incluir valor fallido en ParseException', () {
+    test('should include the failed value in ParseException', () {
       // Arrange
       const invalidJson = '{"bad": json}';
 
@@ -154,7 +154,7 @@ void main() {
       );
     });
 
-    test('debe decodificar JSON con caracteres especiales', () {
+    test('should decode JSON with special characters', () {
       // Arrange
       const jsonWithSpecialChars =
           '{"name": "José", "city": "São Paulo"}';
@@ -167,7 +167,7 @@ void main() {
       expect(result['city'], equals('São Paulo'));
     });
 
-    test('debe manejar JSON nido profundo', () {
+    test('should handle deeply nested JSON', () {
       // Arrange
       const deepJson =
           '{"a": {"b": {"c": {"d": "value"}}}}';
@@ -179,7 +179,7 @@ void main() {
       expect(result['a']['b']['c']['d'], equals('value'));
     });
 
-    test('debe loguear detalles del error de parseo', () {
+    test('should log parse error details', () {
       // Arrange
       const invalidJson = '{"incomplete": ';
 
@@ -192,7 +192,7 @@ void main() {
   });
 
   group('safeJsonDecode - Type Casting', () {
-    test('debe castear JSON a Map<String, dynamic> sin errores', () {
+    test('should cast JSON to Map<String, dynamic> without errors', () {
       // Arrange
       const validJson = '{"key": "value", "number": 42}';
 
@@ -204,7 +204,7 @@ void main() {
       expect(result['number'], equals(42));
     });
 
-    test('debe castear JSON array a List<dynamic>', () {
+    test('should cast a JSON array to List<dynamic>', () {
       // Arrange
       const validJson = '[{"id": 1}, {"id": 2}]';
 
@@ -218,7 +218,7 @@ void main() {
   });
 
   group('safeListOperation', () {
-    test('debe retornar elemento si existe en lista', () {
+    test('should return the element when it exists in the list', () {
       // Arrange
       final list = [1, 2, 3, 4, 5];
 
@@ -231,7 +231,7 @@ void main() {
       expect(result, equals(3));
     });
 
-    test('debe retornar fallback si elemento no existe', () {
+    test('should return the fallback when the element does not exist', () {
       // Arrange
       final list = [1, 2, 3, 4, 5];
 
@@ -247,7 +247,7 @@ void main() {
       expect(result, equals(-1));
     });
 
-    test('debe lanzar ParseException si la operación lanza Exception', () {
+    test('should throw ParseException when the operation throws an Exception', () {
       // Act & Assert
       expect(
         () => safeListOperation<int>(() => throw Exception('boom')),
@@ -255,7 +255,7 @@ void main() {
       );
     });
 
-    test('no debe convertir StateError (Error) a ParseException', () {
+    test('should not convert StateError (Error) to ParseException', () {
       // Arrange
       final list = <int>[];
 
@@ -266,7 +266,7 @@ void main() {
       );
     });
 
-    test('debe permitir operaciones complejas en listas', () {
+    test('should allow complex list operations', () {
       // Arrange
       final list = [
         {'id': 1, 'name': 'A'},
@@ -283,7 +283,7 @@ void main() {
       expect(result['name'], equals('B'));
     });
 
-    test('debe mantener tipo genérico de resultado', () {
+    test('should preserve the generic result type', () {
       // Arrange
       final stringList = ['a', 'b', 'c'];
 
@@ -297,7 +297,7 @@ void main() {
       expect(result, equals('b'));
     });
 
-    test('debe permitir contexto personalizado en error', () {
+    test('should allow passing custom context on error', () {
       // Arrange
       const context = {'operation': 'findUser'};
 
@@ -313,7 +313,7 @@ void main() {
   });
 
   group('safeListOperation - Edge Cases', () {
-    test('debe propagar StateError en listas vacías', () {
+    test('should propagate StateError for empty lists', () {
       // Arrange
       final emptyList = <int>[];
 
@@ -326,7 +326,7 @@ void main() {
       );
     });
 
-    test('debe manejar listas grandes sin problemas', () {
+    test('should handle large lists without issues', () {
       // Arrange
       final largeList = List.generate(10000, (i) => i);
 
@@ -339,12 +339,12 @@ void main() {
       expect(result, equals(5000));
     });
 
-    test('debe diferenciar "elemento no encontrado" de "error técnico"',
+    test('should differentiate "not found" from a technical error',
         () {
       // Arrange
       final list = [1, 2, 3];
 
-      // Act & Assert - Sin fallback = StateError
+      // Act & Assert - Without fallback = StateError
       expect(
         () => safeListOperation(
           () => list.firstWhere((x) => x == 99),
@@ -352,7 +352,7 @@ void main() {
         throwsA(isA<StateError>()),
       );
 
-      // Con fallback = null/valor por defecto
+      // With fallback = null/default value
       expect(
         () => safeListOperation(
           () => list.firstWhere(
@@ -366,19 +366,19 @@ void main() {
   });
 
   group('safeListFirstWhere', () {
-    test('debe retornar elemento si existe', () {
+    test('should return the element when it exists', () {
       final list = [1, 2, 3];
       final result = safeListFirstWhere(list, (x) => x == 2);
       expect(result, equals(2));
     });
 
-    test('debe retornar null si no existe y no hay fallback', () {
+    test('should return null when it does not exist and there is no fallback', () {
       final list = [1, 2, 3];
       final result = safeListFirstWhere(list, (x) => x == 99);
       expect(result, isNull);
     });
 
-    test('debe retornar fallback si no existe', () {
+    test('should return fallback when it does not exist', () {
       final list = [1, 2, 3];
       final result = safeListFirstWhere(list, (x) => x == 99, orElse: () => -1);
       expect(result, equals(-1));
@@ -386,7 +386,7 @@ void main() {
   });
 
   group('Error Handling Utils - Integration', () {
-    test('debe combinar safeCall y safeJsonDecode', () async {
+    test('should combine safeCall and safeJsonDecode', () async {
       // Arrange
       Future<Map<String, dynamic>> parseRemoteData() async {
         const jsonData = '{"id": 1, "name": "Test"}';
@@ -400,7 +400,7 @@ void main() {
       expect(result['id'], equals(1));
     });
 
-    test('debe manejar cadena de errores: safeCall > safeJsonDecode',
+    test('should handle an error chain: safeCall > safeJsonDecode',
         () async {
       // Arrange
       Future<void> failingChain() async {
@@ -415,7 +415,7 @@ void main() {
       );
     });
 
-    test('debe permitir recuperación de errores con fallback', () {
+    test('should allow error recovery using fallback', () {
       // Arrange
       final list = [
         {'id': 1},

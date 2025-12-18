@@ -1,6 +1,6 @@
 import 'package:ecommerce/features/support/domain/entities/faq_item.dart';
 
-/// Modelo de datos para FAQItem con serialización JSON.
+/// FAQItem data model with JSON serialization.
 class FAQItemModel extends FAQItem {
   const FAQItemModel({
     required super.id,
@@ -9,7 +9,7 @@ class FAQItemModel extends FAQItem {
     required super.category,
   });
 
-  /// Crea una instancia desde JSON.
+  /// Creates an instance from JSON.
   factory FAQItemModel.fromJson(Map<String, dynamic> json) {
     return FAQItemModel(
       id: json['id'] as int,
@@ -19,7 +19,7 @@ class FAQItemModel extends FAQItem {
     );
   }
 
-  /// Crea una instancia desde una entidad del dominio.
+  /// Creates an instance from a domain entity.
   factory FAQItemModel.fromEntity(FAQItem entity) {
     return FAQItemModel(
       id: entity.id,
@@ -29,7 +29,7 @@ class FAQItemModel extends FAQItem {
     );
   }
 
-  /// Convierte la instancia a JSON.
+  /// Converts the instance to JSON.
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -39,7 +39,7 @@ class FAQItemModel extends FAQItem {
     };
   }
 
-  /// Convierte el modelo a entidad del dominio.
+  /// Converts the model to a domain entity.
   FAQItem toEntity() {
     return FAQItem(
       id: id,
@@ -49,7 +49,7 @@ class FAQItemModel extends FAQItem {
     );
   }
 
-  /// Convierte string a FAQCategory.
+  /// Converts a string to FAQCategory.
   static FAQCategory _categoryFromString(String category) {
     return FAQCategory.values.firstWhere(
       (e) => e.name == category,
@@ -57,7 +57,7 @@ class FAQItemModel extends FAQItem {
     );
   }
 
-  /// Convierte FAQCategory a string.
+  /// Converts FAQCategory to string.
   static String _categoryToString(FAQCategory category) {
     return category.name;
   }

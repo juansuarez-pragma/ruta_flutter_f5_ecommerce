@@ -1,23 +1,23 @@
 import 'package:ecommerce/features/cart/domain/entities/cart_item.dart';
 
-/// Contrato para el repositorio del carrito.
+/// Contract for the cart repository.
 ///
-/// Define las operaciones disponibles para gestionar el carrito.
+/// Defines available operations to manage the cart.
 abstract class CartRepository {
-  /// Obtiene todos los items del carrito.
+  /// Returns all cart items.
   Future<List<CartItem>> getCartItems();
 
-  /// Agrega un item al carrito.
+  /// Adds an item to the cart.
   ///
-  /// Si el producto ya existe, incrementa la cantidad.
+  /// If the product already exists, increments the quantity.
   Future<void> addItem(CartItem item);
 
-  /// Elimina un item del carrito por ID de producto.
+  /// Removes a cart item by product id.
   Future<void> removeItem(int productId);
 
-  /// Actualiza la cantidad de un item.
+  /// Updates an item's quantity.
   Future<void> updateQuantity(int productId, int quantity);
 
-  /// Limpia todos los items del carrito.
+  /// Clears all items from the cart.
   Future<void> clearCart();
 }

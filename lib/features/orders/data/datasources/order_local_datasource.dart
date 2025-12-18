@@ -1,16 +1,16 @@
 import 'package:ecommerce/features/orders/data/models/order_model.dart';
 
-/// DataSource local para órdenes usando SharedPreferences.
+/// Local data source for orders using SharedPreferences.
 abstract class OrderLocalDataSource {
-  /// Obtiene todas las órdenes guardadas.
+  /// Returns all saved orders.
   Future<List<OrderModel>> getOrders();
 
-  /// Guarda una orden.
+  /// Saves an order.
   Future<void> saveOrder(OrderModel order);
 
-  /// Obtiene una orden por ID.
+  /// Returns an order by id.
   Future<OrderModel?> getOrderById(String id);
 
-  /// Elimina una orden por ID.
+  /// Deletes an order by id.
   Future<void> deleteOrder(String id);
 }

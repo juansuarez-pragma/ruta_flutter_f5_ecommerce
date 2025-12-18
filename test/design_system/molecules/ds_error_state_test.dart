@@ -69,7 +69,7 @@ void main() {
         buildTestableWidget(const DSErrorState(message: 'Error with icon')),
       );
 
-      // La DSErrorState debería mostrar un ícono de error
+      // DSErrorState should show an error icon
       expect(find.byType(Icon), findsWidgets);
     });
   });

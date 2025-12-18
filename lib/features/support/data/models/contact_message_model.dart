@@ -1,6 +1,6 @@
 import 'package:ecommerce/features/support/domain/entities/contact_message.dart';
 
-/// Modelo de datos para ContactMessage con serialización JSON.
+/// ContactMessage data model with JSON serialization.
 class ContactMessageModel extends ContactMessage {
   const ContactMessageModel({
     required super.id,
@@ -11,7 +11,7 @@ class ContactMessageModel extends ContactMessage {
     required super.timestamp,
   });
 
-  /// Crea una instancia desde JSON.
+  /// Creates an instance from JSON.
   factory ContactMessageModel.fromJson(Map<String, dynamic> json) {
     return ContactMessageModel(
       id: json['id'] as String,
@@ -23,7 +23,7 @@ class ContactMessageModel extends ContactMessage {
     );
   }
 
-  /// Crea una instancia desde una entidad del dominio.
+  /// Creates an instance from a domain entity.
   factory ContactMessageModel.fromEntity(ContactMessage entity) {
     return ContactMessageModel(
       id: entity.id,
@@ -35,7 +35,7 @@ class ContactMessageModel extends ContactMessage {
     );
   }
 
-  /// Convierte la instancia a JSON.
+  /// Converts the instance to JSON.
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -47,7 +47,7 @@ class ContactMessageModel extends ContactMessage {
     };
   }
 
-  /// Convierte el modelo a entidad del dominio.
+  /// Converts the model to a domain entity.
   ContactMessage toEntity() {
     return ContactMessage(
       id: id,

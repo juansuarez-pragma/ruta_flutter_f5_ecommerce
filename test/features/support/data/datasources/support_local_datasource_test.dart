@@ -20,7 +20,7 @@ void main() {
       sharedPreferences: mockSharedPreferences,
     );
 
-    // Configurar mocks por defecto
+    // Configure default mocks
     when(() => mockSharedPreferences.getString(any()))
         .thenReturn(null);
     when(() => mockSharedPreferences.setString(any(), any()))
@@ -28,7 +28,7 @@ void main() {
   });
 
   group('SupportLocalDataSource - getFAQs', () {
-    test('debe retornar lista de FAQs', () async {
+    test('should return a list of FAQs', () async {
       // Act
       final result = await supportDataSource.getFAQs();
 
@@ -37,7 +37,7 @@ void main() {
       expect(result.length, greaterThan(0));
     });
 
-    test('debe retornar FAQs con estructura válida', () async {
+    test('should return FAQs with a valid structure', () async {
       // Act
       final result = await supportDataSource.getFAQs();
 
@@ -53,7 +53,7 @@ void main() {
   });
 
   group('SupportLocalDataSource - getFAQsByCategory', () {
-    test('debe filtrar FAQs por categoría', () async {
+    test('should filter FAQs by category', () async {
       // Act
       final result = await supportDataSource
           .getFAQsByCategory(FAQCategory.orders);
@@ -65,17 +65,17 @@ void main() {
       }
     });
 
-    test('debe retornar lista vacía o con FAQs según categoría', () async {
+    test('should return a list (possibly empty) depending on category', () async {
       // Act
       final allFAQs = await supportDataSource.getFAQs();
 
-      // Assert - debe tener al menos algunas FAQs
+      // Assert - should have at least some FAQs
       expect(allFAQs.isNotEmpty, isTrue);
     });
   });
 
   group('SupportLocalDataSource - saveContactMessage', () {
-    test('debe guardar mensaje de contacto correctamente', () async {
+    test('should save a contact message correctly', () async {
       // Arrange
       final message = ContactMessageModel(
         id: '1',
@@ -95,7 +95,7 @@ void main() {
       expect(result.name, equals('John Doe'));
     });
 
-    test('debe retornar el mensaje guardado', () async {
+    test('should return the saved message', () async {
       // Arrange
       final message = ContactMessageModel(
         id: '2',
@@ -115,7 +115,7 @@ void main() {
   });
 
   group('SupportLocalDataSource - _getCachedMessages', () {
-    test('debe retornar lista vacía si no hay mensajes guardados', () async {
+    test('should not throw when there are no cached messages', () async {
       // Act
       final message = ContactMessageModel(
         id: '1',
@@ -131,7 +131,7 @@ void main() {
       expect(result, isNotNull);
     });
 
-    test('debe loguear y relanzar ParseException si JSON es inválido', 
+    test('should rethrow ParseException when JSON is invalid',
         () async {
       // Arrange
       const invalidJson = '{"invalid: json}';
@@ -154,7 +154,7 @@ void main() {
       );
     });
 
-    test('debe manejar JSON array vacío', () async {
+    test('should handle an empty JSON array', () async {
       // Arrange
       final emptyArray = json.encode(<Map<String, dynamic>>[]);
       when(() => mockSharedPreferences.getString(any()))
@@ -175,7 +175,7 @@ void main() {
       expect(result.id, equals('1'));
     });
 
-    test('debe loguear detalles del error de parseo', () async {
+    test('should include parsing details on error', () async {
       // Arrange
       const corruptedJson = '[{incomplete}]';
       when(() => mockSharedPreferences.getString(any()))
@@ -199,7 +199,7 @@ void main() {
   });
 
   group('SupportLocalDataSource - getContactInfo', () {
-    test('debe retornar información de contacto válida', () {
+    test('should return valid contact info', () {
       // Act
       final contactInfo = supportDataSource.getContactInfo();
 
@@ -210,7 +210,7 @@ void main() {
       expect(contactInfo.socialMedia, isNotEmpty);
     });
 
-    test('debe contener email válido', () {
+    test('should contain a valid email', () {
       // Act
       final contactInfo = supportDataSource.getContactInfo();
 
@@ -218,7 +218,7 @@ void main() {
       expect(contactInfo.email, contains('@'));
     });
 
-    test('debe contener redes sociales', () {
+    test('should include social media links', () {
       // Act
       final contactInfo = supportDataSource.getContactInfo();
 

@@ -19,28 +19,28 @@ import 'package:ecommerce/features/auth/data/datasources/auth_local_datasource_i
 import 'package:ecommerce/features/support/support.dart';
 import 'package:ecommerce/features/support/data/datasources/support_local_datasource_impl.dart';
 
-/// Instancia global del contenedor de dependencias.
+/// Global instance of the dependency injection container.
 final sl = GetIt.instance;
 
-/// Inicializa todas las dependencias de la aplicación.
+/// Initializes all app dependencies.
 ///
-/// Debe ser llamado antes de runApp() en main.dart.
+/// Must be called before runApp() in main.dart.
 Future<void> initDependencies() async {
-  // ============ Error Handling (Fase 8 - Manejo de Excepciones) ============
+  // ============ Error Handling (Phase 8 - Exceptions) ============
   sl.registerLazySingleton(() => ErrorLogger());
 
   // ============ External ============
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);
 
-  // ============ Config (Fase 7 - Parametrización JSON) ============
+  // ============ Config (Phase 7 - JSON configuration) ============
   sl.registerLazySingleton<ConfigDataSource>(() => ConfigLocalDataSource());
   final configDataSource = sl<ConfigDataSource>();
   final appConfig = await configDataSource.loadConfig();
   sl.registerLazySingleton(() => appConfig);
 
-  // ============ API Client (Fase 3) ============
-  // La nueva API usa FakeStoreApi.createRepository() que retorna ProductRepository
+  // ============ API Client (Phase 3) ============
+  // The API uses FakeStoreApi.createRepository(), which returns ProductRepository.
   sl.registerLazySingleton<ProductRepository>(
     () => FakeStoreApi.createRepository(),
   );
@@ -158,9 +158,9 @@ Future<void> initDependencies() async {
   );
 }
 
-/// Limpia las dependencias al cerrar la aplicación.
+/// Clears dependencies when closing the app.
 void disposeDependencies() {
-  // ProductRepository no requiere dispose() ya que el cliente HTTP es interno
-  // Si se necesita limpiar recursos, get_it lo maneja automáticamente
+  // ProductRepository does not require dispose() since the HTTP client is internal.
+  // If cleanup is needed, get_it handles resources automatically.
   sl.reset();
 }

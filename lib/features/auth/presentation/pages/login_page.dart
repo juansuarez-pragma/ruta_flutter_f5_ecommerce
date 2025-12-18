@@ -86,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
 
                     const SizedBox(height: DSSpacing.xxl),
 
-                    // Campo de email
+                    // Email field
                     TextFormField(
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
@@ -111,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
 
                     const SizedBox(height: DSSpacing.base),
 
-                    // Campo de contraseña
+                    // Password field
                     TextFormField(
                       controller: _passwordController,
                       obscureText: _obscurePassword,
@@ -145,7 +145,7 @@ class _LoginPageState extends State<LoginPage> {
 
                     const SizedBox(height: DSSpacing.xl),
 
-                    // Botón de login
+                    // Sign-in button
                     DSButton(
                       text: state is AuthLoading ? 'Signing in...' : 'Sign in',
                       onPressed: state is AuthLoading ? null : _onLoginPressed,
@@ -154,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
 
                     const SizedBox(height: DSSpacing.lg),
 
-                    // Link a registro
+                    // Sign-up link
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -176,7 +176,7 @@ class _LoginPageState extends State<LoginPage> {
 
                     const SizedBox(height: DSSpacing.xl),
 
-                    // Link para continuar sin cuenta
+                    // Continue without account link
                     Center(
                       child: DSButton(
                         text: 'Continue as guest',

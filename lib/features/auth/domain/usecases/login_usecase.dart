@@ -3,22 +3,21 @@ import 'package:dartz/dartz.dart';
 import 'package:ecommerce/features/auth/domain/entities/user.dart';
 import 'package:ecommerce/features/auth/domain/repositories/auth_repository.dart';
 
-/// Caso de uso para iniciar sesión.
+/// Use case for signing in.
 ///
-/// Encapsula la lógica de negocio para autenticar un usuario
-/// con email y contraseña.
+/// Encapsulates the business logic for authenticating a user with email and
+/// password.
 class LoginUseCase {
-
   const LoginUseCase({required this.repository});
   final AuthRepository repository;
 
-  /// Ejecuta el caso de uso de login.
+  /// Executes the sign-in use case.
   ///
-  /// [email] - Email del usuario.
-  /// [password] - Contraseña del usuario.
+  /// [email] - User email.
+  /// [password] - User password.
   ///
-  /// Retorna [Right<User>] si el login es exitoso.
-  /// Retorna [Left<AuthFailure>] si hay un error.
+  /// Returns [Right<User>] when sign-in succeeds.
+  /// Returns [Left<AuthFailure>] when there is an error.
   Future<Either<AuthFailure, User>> call({
     required String email,
     required String password,

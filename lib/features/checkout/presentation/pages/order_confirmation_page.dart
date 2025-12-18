@@ -3,7 +3,7 @@ import 'package:fake_store_design_system/fake_store_design_system.dart';
 
 import 'package:ecommerce/core/router/routes.dart';
 
-/// Página de confirmación de orden.
+/// Order confirmation page.
 class OrderConfirmationPage extends StatelessWidget {
   const OrderConfirmationPage({super.key});
 
@@ -22,7 +22,7 @@ class OrderConfirmationPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                width: 96, // Equivalente a avatarXxl no disponible en DS v1.1.0
+                width: 96, // Equivalent to avatarXxl not available in DS v1.1.0
                 height: 96,
                 decoration: BoxDecoration(
                   color: tokens.colorFeedbackSuccessLight,
@@ -36,13 +36,13 @@ class OrderConfirmationPage extends StatelessWidget {
               ),
               const SizedBox(height: DSSpacing.xl),
               const DSText(
-                '¡Pedido confirmado!',
+                'Order confirmed!',
                 variant: DSTextVariant.headingMedium,
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: DSSpacing.sm),
               DSText(
-                'Tu pedido ha sido procesado exitosamente',
+                'Your order has been processed successfully',
                 color: tokens.colorTextSecondary,
                 textAlign: TextAlign.center,
               ),
@@ -52,14 +52,14 @@ class OrderConfirmationPage extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    DSText('Orden: ', color: tokens.colorTextSecondary),
+                    DSText('Order: ', color: tokens.colorTextSecondary),
                     DSText(orderId, variant: DSTextVariant.titleSmall),
                   ],
                 ),
               ),
               const SizedBox(height: DSSpacing.xxxl),
               DSButton.primary(
-                text: 'Seguir comprando',
+                text: 'Continue shopping',
                 isFullWidth: true,
                 onPressed: () => Navigator.pushNamedAndRemoveUntil(
                   context,
@@ -69,7 +69,7 @@ class OrderConfirmationPage extends StatelessWidget {
               ),
               const SizedBox(height: DSSpacing.base),
               DSButton(
-                text: 'Ver mis pedidos',
+                text: 'View my orders',
                 variant: DSButtonVariant.secondary,
                 isFullWidth: true,
                 onPressed: () => Navigator.pushNamedAndRemoveUntil(

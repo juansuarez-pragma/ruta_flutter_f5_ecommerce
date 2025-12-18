@@ -55,7 +55,7 @@ final class CheckoutError extends CheckoutState {
   List<Object> get props => [message];
 }
 
-/// BLoC para gestionar el estado del checkout.
+/// BLoC that manages checkout state.
 class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
   CheckoutBloc({
     required ClearCartUseCase clearCartUseCase,
@@ -75,13 +75,13 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
     emit(const CheckoutProcessing());
 
     try {
-      // Simular procesamiento
+      // Simulate processing
       await Future.delayed(const Duration(seconds: 2));
 
-      // Generar ID de orden
+      // Generate order id
       final orderId = 'ORD-${DateTime.now().millisecondsSinceEpoch}';
 
-      // Crear y guardar la orden
+      // Create and save the order
       final order = Order(
         id: orderId,
         items: event.cartItems
@@ -101,12 +101,12 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
 
       await _saveOrderUseCase(order);
 
-      // Limpiar carrito
+      // Clear cart
       await _clearCartUseCase();
 
       emit(CheckoutSuccess(orderId));
     } catch (e) {
-      emit(CheckoutError('Error al procesar el pedido: $e'));
+      emit(CheckoutError('Error processing the order: $e'));
     }
   }
 }

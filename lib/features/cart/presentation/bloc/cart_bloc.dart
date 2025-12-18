@@ -9,9 +9,9 @@ import 'package:ecommerce/features/cart/domain/usecases/update_cart_quantity_use
 import 'package:ecommerce/features/cart/presentation/bloc/cart_event.dart';
 import 'package:ecommerce/features/cart/presentation/bloc/cart_state.dart';
 
-/// BLoC para gestionar el estado del carrito.
+/// BLoC that manages cart state.
 ///
-/// Maneja las operaciones CRUD del carrito con persistencia local.
+/// Handles CRUD cart operations with local persistence.
 class CartBloc extends Bloc<CartEvent, CartState> {
   CartBloc({
     required GetCartUseCase getCartUseCase,
@@ -46,7 +46,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       final items = await _getCartUseCase();
       emit(CartLoaded(items: items));
     } catch (e) {
-      emit(CartError('Error al cargar el carrito: $e'));
+      emit(CartError('Error loading the cart: $e'));
     }
   }
 
@@ -60,7 +60,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       final items = await _getCartUseCase();
       emit(CartLoaded(items: items));
     } catch (e) {
-      emit(CartError('Error al agregar al carrito: $e'));
+      emit(CartError('Error adding to cart: $e'));
     }
   }
 
@@ -73,7 +73,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       final items = await _getCartUseCase();
       emit(CartLoaded(items: items));
     } catch (e) {
-      emit(CartError('Error al eliminar del carrito: $e'));
+      emit(CartError('Error removing from cart: $e'));
     }
   }
 
@@ -86,7 +86,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       final items = await _getCartUseCase();
       emit(CartLoaded(items: items));
     } catch (e) {
-      emit(CartError('Error al actualizar cantidad: $e'));
+      emit(CartError('Error updating quantity: $e'));
     }
   }
 
@@ -95,7 +95,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       await _clearCartUseCase();
       emit(const CartLoaded(items: []));
     } catch (e) {
-      emit(CartError('Error al limpiar el carrito: $e'));
+      emit(CartError('Error clearing the cart: $e'));
     }
   }
 }

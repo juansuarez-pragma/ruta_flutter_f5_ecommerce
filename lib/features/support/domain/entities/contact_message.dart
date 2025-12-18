@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Entidad que representa un mensaje de contacto.
+/// Entity that represents a contact message.
 class ContactMessage extends Equatable {
   const ContactMessage({
     required this.id,
@@ -11,22 +11,22 @@ class ContactMessage extends Equatable {
     required this.timestamp,
   });
 
-  /// Identificador único del mensaje.
+  /// Unique identifier.
   final String id;
 
-  /// Nombre del remitente.
+  /// Sender name.
   final String name;
 
-  /// Email del remitente.
+  /// Sender email.
   final String email;
 
-  /// Asunto del mensaje.
+  /// Subject.
   final String subject;
 
-  /// Contenido del mensaje.
+  /// Message body.
   final String message;
 
-  /// Fecha y hora de envío.
+  /// Sent date and time.
   final DateTime timestamp;
 
   @override

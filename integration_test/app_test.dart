@@ -19,7 +19,7 @@ void main() {
     testWidgets('App should launch successfully', (tester) async {
       await IntegrationTestHelpers.pumpApp(tester);
 
-      // Verificar que la app se inició correctamente
+      // Verify that the app launched successfully
       expect(find.byType(MaterialApp), findsOneWidget);
       expect(find.byType(Scaffold), findsWidgets);
     });
@@ -28,7 +28,7 @@ void main() {
       await IntegrationTestHelpers.pumpApp(tester);
       await IntegrationTestHelpers.waitForAppLoad(tester);
 
-      // Verificar que existe navegación inferior
+      // Verify that bottom navigation exists
       expect(IntegrationFinders.bottomNav, findsOneWidget);
     });
   });

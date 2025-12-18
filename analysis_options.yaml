@@ -59,9 +59,9 @@ linter:
     unnecessary_string_interpolations: true
 
     # ============================================
-    # MANTENIBILIDAD - Inmutabilidad
-    # Pragma: "Modelos de datos y estados deben ser inmutables"
-    # Pragma: "Todas las propiedades deben ser final"
+    # MAINTAINABILITY - Immutability
+    # Pragma: "Data models and states should be immutable"
+    # Pragma: "All properties should be final"
     # ============================================
     prefer_final_fields: true
     prefer_final_locals: true
@@ -69,10 +69,10 @@ linter:
     unnecessary_late: true
 
     # ============================================
-    # TRAZABILIDAD - Manejo de Errores
-    # Pragma: "No usar print para depurar la aplicacion"
-    # Pragma: "Evitar ignorar la excepcion de un try/catch"
-    # Pragma: "Validar valores nulos usando operadores null-aware"
+    # TRACEABILITY - Error handling
+    # Pragma: "Do not use print for debugging"
+    # Pragma: "Avoid ignoring try/catch exceptions"
+    # Pragma: "Validate null values using null-aware operators"
     # ============================================
     avoid_print: true
     empty_catches: true
@@ -84,9 +84,9 @@ linter:
 
     # ============================================
     # PERFORMANCE - Widgets
-    # Pragma: "Usa const siempre que sea posible"
-    # Pragma: "No uses Container para espacios vacios"
-    # Pragma: "Libera recursos no utilizados siempre"
+    # Pragma: "Use const whenever possible"
+    # Pragma: "Do not use Container for empty spacing"
+    # Pragma: "Always release unused resources"
     # ============================================
     prefer_const_constructors: true
     prefer_const_constructors_in_immutables: true

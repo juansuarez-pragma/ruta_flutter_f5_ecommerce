@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Información de contacto de la tienda.
+/// Store contact information.
 class ContactInfo extends Equatable {
   const ContactInfo({
     required this.email,
@@ -17,4 +17,3 @@ class ContactInfo extends Equatable {
   @override
   List<Object?> get props => [email, phone, address, socialMedia];
 }
-
