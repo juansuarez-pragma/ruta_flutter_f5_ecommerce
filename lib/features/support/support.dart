@@ -5,6 +5,8 @@ export 'domain/entities/contact_info.dart';
 
 // Domain - Repositories
 export 'domain/repositories/support_repository.dart';
+export 'domain/failures/support_failure.dart';
+export 'domain/failures/support_failure_type.dart';
 
 // Domain - UseCases
 export 'domain/usecases/get_faqs_usecase.dart';

@@ -3,6 +3,8 @@ export 'domain/entities/user.dart';
 
 // Domain - Repositories
 export 'domain/repositories/auth_repository.dart';
+export 'domain/failures/auth_failure.dart';
+export 'domain/failures/auth_failure_type.dart';
 
 // Domain - UseCases
 export 'domain/usecases/login_usecase.dart';
