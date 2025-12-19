@@ -8,7 +8,6 @@
 | **Tipo** | Minimo (Obligatorio) |
 | **Descripcion** | Uso de linters |
 | **Atributo de calidad asociado** | Mantenibilidad |
-| **Tecnologia** | Flutter, Dart |
 | **Responsable** | Mobile |
 | **Capacidad** | Mobile |
 
@@ -70,8 +69,7 @@
 ## 5. Lista de verificacion
 
 ### Configuracion
-- [ ] `flutter_lints` agregado en dev_dependencies
-- [ ] `analysis_options.yaml` creado y configurado
+- [ ] Reglas de analisis estatico configuradas en el proyecto
 - [ ] IDE configurado para analisis en tiempo real
 - [ ] Formato al guardar habilitado
 
@@ -121,35 +119,6 @@
 
 ---
 
-## 7. Preguntas tecnicas de entrevista - Senior Flutter
-
-### Pregunta 1: Configuracion de linters
-**Entrevistador:** "Como configuras el linting en un proyecto Flutter y por que es importante?"
-
-**Respuesta esperada:**
-
-### Pregunta 2: Manejo de codigo legado
-**Entrevistador:** "Como introducirias linting en un proyecto con codigo existente que tiene muchas violaciones?"
-
-**Respuesta esperada:**
-
-### Pregunta 3: Seleccion de reglas
-**Entrevistador:** "Como decides que reglas de lint habilitar para un proyecto?"
-
-**Respuesta esperada:**
-
-### Pregunta 4: Integracion CI/CD
-**Entrevistador:** "Como aplicas linting en un pipeline CI/CD?"
-
-**Respuesta esperada:**
-
-### Pregunta 5: Reto real resuelto
-**Entrevistador:** "Cuentame sobre una vez en la que el linting ayudo a detectar un bug significativo"
-
-**Respuesta esperada:**
-
----
-
 ## 8. Anti-patrones a evitar
 
 ### 8.1 Ignorar todas las advertencias
@@ -163,18 +132,12 @@
 ## 9. Recursos adicionales
 
 ### Documentacion oficial
-- [Reglas de linter Dart](https://dart.dev/tools/linter-rules)
-- [Paquete Flutter Lints](https://pub.dev/packages/flutter_lints)
-- [Guia de estilo Effective Dart](https://dart.dev/effective-dart/style)
-- [Personalizacion de analisis estatico](https://dart.dev/tools/analysis)
 
 ### Paquetes
-- [flutter_lints](https://pub.dev/packages/flutter_lints) - Linters oficiales de Flutter
 - [very_good_analysis](https://pub.dev/packages/very_good_analysis) - Reglas mas estrictas
 - [lint](https://pub.dev/packages/lint) - Reglas alternativas estrictas
 
 ### Referencias de proyecto
-- Alexandria: Linters - Flutter
 
 ---
 
@@ -184,9 +147,7 @@ Para validar el cumplimiento de este requisito, documentar:
 
 | Evidencia | Descripcion |
 |----------|-------------|
-| analysis_options.yaml | Archivo de configuracion en el repositorio |
 | Logs CI/CD | Pipeline mostrando analisis exitoso |
-| salida de flutter analyze | Reporte de cero violaciones |
 | Hook pre-commit | Script de hook en el repositorio |
 
 ---

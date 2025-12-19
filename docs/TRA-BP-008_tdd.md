@@ -49,19 +49,11 @@
 
 ### Enfoque
 
-### TDD en Flutter
-
 #### 1. RED: Escribir prueba fallida primero
 
 #### 2. GREEN: Implementacion minima
 
 #### 3. REFACTOR: Mejorar sin cambiar comportamiento
-
-### Piramide de pruebas en Flutter
-
-#### Unit Tests (BLoC)
-
-#### Widget Tests
 
 #### Integration Tests
 
@@ -74,7 +66,6 @@
 - [ ] Pruebas escritas antes de la implementacion (ciclo TDD)
 - [ ] Unit tests para todos los casos de uso
 - [ ] Unit tests para todos los BLoCs
-- [ ] Widget tests para componentes clave
 - [ ] Integration tests para flujos criticos
 - [ ] Mocks usados para dependencias externas
 - [ ] Cobertura cumple thresholds
@@ -82,22 +73,8 @@
 
 ---
 
-## 5. Preguntas de entrevista
-
-### Pregunta: Explica TDD y sus beneficios
-**Respuesta:**
-
-### Pregunta: Cual es la diferencia entre pruebas unitarias, de widget e integracion?
-**Respuesta:**
-
-### Pregunta: Como pruebas un BLoC?
-**Respuesta:**
-
----
-
 ## 6. Recursos adicionales
 
-- [Flutter Testing](https://docs.flutter.dev/testing)
 - [Paquete bloc_test](https://pub.dev/packages/bloc_test)
 - [Paquete mocktail](https://pub.dev/packages/mocktail)
 - "Test-Driven Development" - Kent Beck

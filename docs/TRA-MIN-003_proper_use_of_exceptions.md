@@ -8,7 +8,6 @@
 | **Tipo** | Minimo (Obligatorio) |
 | **Descripcion** | Uso adecuado de excepciones |
 | **Atributo de calidad asociado** | Trazabilidad |
-| **Tecnologia** | Flutter |
 | **Responsable** | FrontEnd, BackEnd, Mobile |
 | **Capacidad** | Transversal |
 
@@ -87,13 +86,11 @@
 - [ ] Tipos de failure definidos y documentados
 - [ ] Failures mapeados a mensajes amigables
 
-### Manejo de errores en BLoC
 - [ ] Alertas (no bloqueantes) diferenciadas de modales (bloqueantes)
 - [ ] Mensajes para usuario no tecnicos
 - [ ] Funcionalidad de reintento disponible cuando aplica
 
 ### Logging
-- [ ] `print` no se usa para debugging (usar `dart:developer` log)
 - [ ] Niveles de log usados apropiadamente (Info, Warning, Error, Debug)
 - [ ] Informacion sensible nunca se registra
 
@@ -136,40 +133,6 @@
 
 ---
 
-## 7. Preguntas tecnicas de entrevista - Senior Flutter
-
-### Pregunta 1: Estrategia de manejo de excepciones
-**Entrevistador:** "Como manejas errores a traves de las diferentes capas de tu aplicacion Flutter?"
-
-**Respuesta esperada:**
-
-### Pregunta 2: Patron Either
-**Entrevistador:** "Por que usas el patron Either en lugar de lanzar excepciones?"
-
-**Respuesta esperada:**
-
-### Pregunta 3: Null Safety
-**Entrevistador:** "Como manejas valores nulos al mapear respuestas JSON a modelos?"
-
-**Respuesta esperada:**
-
-### Pregunta 4: Estrategia de logging
-**Entrevistador:** "Cual es tu enfoque de logging en apps Flutter?"
-
-**Respuesta esperada:**
-
-### Pregunta 5: Mensajes de error al usuario
-**Entrevistador:** "Como manejas mostrar mensajes de error a los usuarios?"
-
-**Respuesta esperada:**
-
-### Pregunta 6: Reto real resuelto
-**Entrevistador:** "Cuentame de una situacion compleja de manejo de errores que resolviste"
-
-**Respuesta esperada:**
-
----
-
 ## 8. Anti-patrones a evitar
 
 ### 8.1 Bloques catch vacios
@@ -185,19 +148,12 @@
 ## 9. Recursos adicionales
 
 ### Documentacion oficial
-- [Dart Error Handling](https://dart.dev/language/error-handling)
-- [Flutter Error Handling](https://docs.flutter.dev/testing/errors)
-- [Firebase Crashlytics](https://firebase.google.com/docs/crashlytics/get-started?platform=flutter)
-- [Sentry for Flutter](https://docs.sentry.io/platforms/flutter/)
 
 ### Paquetes
-- [dartz](https://pub.dev/packages/dartz) - Programacion funcional
-- [fpdart](https://pub.dev/packages/fpdart) - Alternativa a dartz
-- [firebase_crashlytics](https://pub.dev/packages/firebase_crashlytics)
-- [sentry_flutter](https://pub.dev/packages/sentry_flutter)
+- Programacion funcional (librerias de Either)
+- Monitoreo de crashes y errores en produccion
 
 ### Referencias de proyecto
-- Alexandria: RUM Flutter, Logs - Mobile
 - LearnWorlds: Exceptions - Mobile
 
 ---

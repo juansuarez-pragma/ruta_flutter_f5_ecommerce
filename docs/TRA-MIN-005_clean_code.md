@@ -8,7 +8,6 @@
 | **Tipo** | Minimo (Obligatorio) |
 | **Descripcion** | Codigo limpio |
 | **Atributo de calidad asociado** | Mantenibilidad |
-| **Tecnologia** | Java, Python, JavaScript/TypeScript, Flutter |
 | **Responsable** | FrontEnd, BackEnd, Mobile |
 | **Capacidad** | Transversal |
 
@@ -136,40 +135,6 @@
 
 ---
 
-## 7. Preguntas tecnicas de entrevista - Senior Flutter
-
-### Pregunta 1: Definicion de codigo limpio
-**Entrevistador:** "Que significa 'codigo limpio' para ti y por que es importante?"
-
-**Respuesta esperada:**
-
-### Pregunta 2: Practicas de nombrado
-**Entrevistador:** "Como abordas el nombrado en tu codigo?"
-
-**Respuesta esperada:**
-
-### Pregunta 3: Diseno de funciones
-**Entrevistador:** "Que hace que una funcion este bien disenada?"
-
-**Respuesta esperada:**
-
-### Pregunta 4: SOLID en practica
-**Entrevistador:** "Como aplicas principios SOLID en Flutter?"
-
-**Respuesta esperada:**
-
-### Pregunta 5: Estrategia de refactorizacion
-**Entrevistador:** "Como abordas la refactorizacion de codigo legado?"
-
-**Respuesta esperada:**
-
-### Pregunta 6: Reto real resuelto
-**Entrevistador:** "Cuentame de una vez en la que mejoraste significativamente la calidad del codigo"
-
-**Respuesta esperada:**
-
----
-
 ## 8. Anti-patrones a evitar
 
 ### 8.1 Clases dios
@@ -189,8 +154,6 @@
 - "Code Complete" - Steve McConnell
 
 ### Documentacion oficial
-- [Effective Dart](https://dart.dev/effective-dart)
-- [Guia de estilo Flutter](https://github.com/flutter/flutter/wiki/Style-guide-for-Flutter-repo)
 
 ### Referencias de proyecto
 - Alexandria: Clean code

@@ -8,7 +8,6 @@
 | **Tipo** | Minimo (Obligatorio) |
 | **Descripcion** | Rendimiento |
 | **Atributo de calidad asociado** | Rendimiento |
-| **Tecnologia** | Flutter |
 | **Responsable** | FrontEnd, Mobile |
 | **Capacidad** | Mobile/Frontend |
 
@@ -83,11 +82,8 @@
 - [ ] `Container` solo cuando se requieren 3+ propiedades
 - [ ] `SizedBox.shrink()` usado para espacios vacios
 - [ ] Rebuilds aislados en widgets hoja
-- [ ] StatelessWidget preferido sobre StatefulWidget cuando aplica
 
 ### Rendimiento de listas
-- [ ] `ListView.builder` usado para listas dinamicas
-- [ ] `GridView.builder` usado para grillas
 - [ ] Evitar `shrinkWrap: true` con builders
 - [ ] `itemExtent` definido cuando los items tienen altura fija
 
@@ -119,8 +115,6 @@
 
 ### Por que no puede esperar
 
-1. **La deuda de rendimiento se acumula**: cada widget no optimizado suma. Tras 100 pantallas, optimizar es complejo.
-
 2. **La arquitectura afecta el rendimiento**: decisiones tempranas de manejo de estado y estructura de widgets definen el limite de rendimiento.
 
 3. **Los habitos de usuario se forman rapido**: usuarios con mala experiencia inicial no regresan.
@@ -141,28 +135,6 @@
 
 ---
 
-## 7. Preguntas tecnicas de entrevista - Senior Flutter
-
-### Pregunta 1: Rebuilds de widgets
-**Entrevistador:** "Como minimizas rebuilds innecesarios en Flutter?"
-
-### Pregunta 2: Rendimiento de listas
-**Entrevistador:** "Cual es la diferencia entre ListView y ListView.builder y cuando usarias cada uno?"
-
-### Pregunta 3: Gestion de memoria
-**Entrevistador:** "Como previenes fugas de memoria en Flutter?"
-
-### Pregunta 4: Computo pesado
-**Entrevistador:** "Como manejas tareas intensivas en CPU en Flutter?"
-
-### Pregunta 5: Profiling de rendimiento
-**Entrevistador:** "Como identificas y corriges issues de rendimiento en Flutter?"
-
-### Pregunta 6: Reto real resuelto
-**Entrevistador:** "Cuentame sobre un problema de rendimiento que resolviste"
-
----
-
 ## 8. Anti-patrones a evitar
 
 ### 8.1 Uso innecesario de Container
@@ -179,19 +151,13 @@ Aislar widgets que cambian para evitar recomposicion global.
 ## 9. Recursos adicionales
 
 ### Documentacion oficial
-- [Flutter Performance Best Practices](https://docs.flutter.dev/perf)
-- [DevTools Performance View](https://docs.flutter.dev/tools/devtools/performance)
-- [Flutter Profiling](https://docs.flutter.dev/perf/ui-performance)
 
 ### Herramientas
-- Flutter DevTools
 - Android Profiler
 - Xcode Instruments
 - Firebase Performance Monitoring
 
 ### Referencias de proyecto
-- Alexandria: Performance & Profiling - Flutter
-- Alexandria: Performance monitor - Flutter
 
 ---
 

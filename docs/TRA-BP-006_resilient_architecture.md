@@ -73,16 +73,6 @@ Reintenta automaticamente operaciones fallidas.
 
 ---
 
-## 5. Preguntas de entrevista
-
-### Pregunta: Explica el patron Repository
-**Respuesta:**
-
-### Pregunta: Cuando usarias Circuit Breaker?
-**Respuesta:**
-
----
-
 ## 6. Recursos adicionales
 
 - [Repository Pattern](https://martinfowler.com/eaaCatalog/repository.html)

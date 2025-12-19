@@ -8,7 +8,6 @@
 | **Tipo** | Minimo (Obligatorio) |
 | **Descripcion** | Minificacion y ofuscacion |
 | **Atributo de calidad asociado** | Seguridad |
-| **Tecnologia** | Flutter, Android, iOS |
 | **Responsable** | FrontEnd, Mobile |
 | **Capacidad** | Mobile/Frontend |
 
@@ -130,28 +129,6 @@
 
 ---
 
-## 7. Preguntas tecnicas de entrevista - Senior Flutter
-
-### Pregunta 1: Proposito de la ofuscacion
-**Entrevistador:** "Por que es importante la ofuscacion en apps moviles?"
-
-### Pregunta 2: Archivos de mapeo
-**Entrevistador:** "Que son los archivos de mapping y por que son importantes?"
-
-### Pregunta 3: Almacenamiento seguro
-**Entrevistador:** "Como almacenas datos sensibles de forma segura en Flutter?"
-
-### Pregunta 4: Optimizar tamano de build
-**Entrevistador:** "Como reduces el tamano de una app Flutter?"
-
-### Pregunta 5: Configuracion de ProGuard
-**Entrevistador:** "Como configuras ProGuard para una app Flutter?"
-
-### Pregunta 6: Reto real resuelto
-**Entrevistador:** "Cuentame sobre un reto de seguridad u optimizacion que resolviste"
-
----
-
 ## 8. Anti-patrones a evitar
 
 ### 8.1 Secretos hardcodeados
@@ -168,13 +145,11 @@ No exponer informacion sensible por logs en release.
 ## 9. Recursos adicionales
 
 ### Documentacion oficial
-- [Flutter App Size](https://docs.flutter.dev/perf/app-size)
-- [Obfuscating Dart Code](https://docs.flutter.dev/deployment/obfuscate)
 - [Manual de ProGuard](https://www.guardsquare.com/manual/home)
 
 ### Recursos de seguridad
 - [OWASP Mobile Security](https://owasp.org/www-project-mobile-security/)
-- [flutter_secure_storage](https://pub.dev/packages/flutter_secure_storage)
+- Almacenamiento seguro de secretos en runtime
 
 ### Referencias de proyecto
 - Alexandria: Obfuscation and Minification - mobile

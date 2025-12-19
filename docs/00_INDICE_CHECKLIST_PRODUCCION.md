@@ -1,8 +1,4 @@
-# Lista de verificacion de produccion - Flutter
-
 ## Marco inicial del proyecto
-
-Este documento sirve como guia maestra para definir los estandares minimos y las mejores practicas que todo proyecto Flutter debe cumplir antes de ir a produccion. Cada item se documenta de forma individual para facilitar su revision, implementacion y explicacion al equipo de desarrollo.
 
 ---
 
@@ -19,12 +15,10 @@ Cada documento sigue la estructura definida en la matriz de requisitos:
 | **Por que** | Justificacion de negocio |
 | **Que** | Objetivo tecnico |
 | **Como** | Estrategia de implementacion |
-| **Forma de hacerlo** | Instrucciones especificas para Flutter |
 
 Ademas, cada documento incluye:
 - Impacto en el negocio
 - Importancia de definirlo al inicio del proyecto
-- Preguntas tecnicas de entrevista para Senior Flutter
 - Lista de verificacion
 
 ---

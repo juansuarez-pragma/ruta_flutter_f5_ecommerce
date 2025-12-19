@@ -8,7 +8,6 @@
 | **Tipo** | Minimo (Obligatorio) |
 | **Descripcion** | Validacion de arquitectura |
 | **Atributo de calidad asociado** | Mantenibilidad |
-| **Tecnologia** | Flutter |
 | **Responsable** | BackEnd, Mobile |
 | **Capacidad** | Transversal |
 
@@ -51,7 +50,6 @@
 ### Principios fundamentales
 
 1. **Separacion de responsabilidades (SoC)**: cada capa tiene una sola razon para cambiar
-2. **Independencia del framework**: la logica de negocio no depende de Flutter
 3. **Independencia de UI**: la logica de negocio funciona sin interfaz grafica
 4. **Independencia de base de datos**: el almacenamiento puede cambiar sin afectar el negocio
 5. **Testeabilidad**: cada componente es testeable de forma aislada
@@ -78,7 +76,6 @@
 
 ### Capa de dominio
 - [ ] Entidades inmutables (todas las propiedades `final`)
-- [ ] Dominio es Dart puro (sin imports de `package:flutter`)
 - [ ] Repositorios definidos como interfaces abstractas
 - [ ] Un UseCase por operacion de negocio
 - [ ] UseCases usan metodo `call()` para invocacion
@@ -91,14 +88,10 @@
 - [ ] El repositorio es la unica fuente de acceso a datos
 
 ### Capa de presentacion
-- [ ] BLoC/Cubit por caso de uso (no por pantalla)
-- [ ] BLoC depende solo de abstracciones UseCase
-- [ ] BLoC no accede repositorios directamente
 - [ ] Eventos en pasado: `ProductsLoadRequested`, `CartItemAdded`
 - [ ] States como sustantivos/adjetivos: `ProductsLoading`, `ProductsLoaded`
 
 ### Inyeccion de dependencias
-- [ ] `get_it` configurado en `injection_container.dart`
 - [ ] BLoCs registrados como `Factory`
 - [ ] UseCases registrados como `LazySingleton`
 - [ ] DataSources y Repositories como `LazySingleton`
@@ -110,7 +103,6 @@
 - [ ] Centralizacion de labels para i18n
 
 ### Versionado
-- [ ] Versiones fijas en `pubspec.yaml`
 - [ ] Rangos solo para paquetes bien mantenidos
 
 ---
@@ -134,51 +126,11 @@
 | Problema | Consecuencia |
 |----------|-------------|
 | Sin separacion de capas | Logica de negocio mezclada con UI, imposible de probar |
-| BLoC accediendo DataSource | Cambiar la fuente requiere modificar presentacion |
-| Dominio con dependencias de Flutter | No se puede reutilizar en otros proyectos Dart |
 | Sin inyeccion de dependencias | Las pruebas requieren mocks complejos o son imposibles |
 
 ---
 
-## 7. Preguntas tecnicas de entrevista - Senior Flutter
-
-### Pregunta 1: Clean Architecture
-**Entrevistador:** "Explica como implementarias Clean Architecture en un proyecto Flutter. Cuales son las capas y como se comunican?"
-
-**Respuesta esperada:**
-
-### Pregunta 2: Regla de dependencia
-**Entrevistador:** "Por que es importante que la capa Dominio no tenga dependencias de Flutter?"
-
-**Respuesta esperada:**
-
-### Pregunta 3: Inyeccion de dependencias
-**Entrevistador:** "Como manejas la inyeccion de dependencias en Flutter? Por que usas get_it?"
-
-**Respuesta esperada:**
-
-### Pregunta 4: BLoC y Use Cases
-**Entrevistador:** "Cual es la relacion entre BLoC y UseCases? Por que un BLoC no deberia acceder al repositorio directamente?"
-
-**Respuesta esperada:**
-
-### Pregunta 5: Manejo de errores en arquitectura
-**Entrevistador:** "Como manejas errores a traves de las capas?"
-
-**Respuesta esperada:**
-
-### Pregunta 6: Reto real resuelto
-**Entrevistador:** "Cuentame sobre un reto arquitectonico que resolviste en un proyecto Flutter"
-
-**Respuesta esperada:**
-
----
-
 ## 8. Anti-patrones a evitar
-
-### 8.1 BLoC accediendo DataSource
-
-### 8.2 Dominio con dependencias de Flutter
 
 ### 8.3 Entidades mutables
 
@@ -187,9 +139,6 @@
 ## 9. Recursos adicionales
 
 ### Documentacion oficial
-- [Flutter Architecture Samples](https://fluttersamples.com)
-- [Documentacion de BLoC](https://bloclibrary.dev)
-- [Paquete get_it](https://pub.dev/packages/get_it)
 
 ### Libros recomendados
 - "Clean Architecture" - Robert C. Martin

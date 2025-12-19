@@ -53,8 +53,6 @@
 
 ### Enfoque
 
-### Implementacion DDD en Flutter
-
 #### Estructura por bounded context
 
 #### Value Objects
@@ -78,19 +76,6 @@
 - [ ] Aggregates hacen cumplir invariantes
 - [ ] Domain services para logica entre entidades
 - [ ] Domain events para ocurrencias significativas
-
----
-
-## 5. Preguntas de entrevista
-
-### Pregunta: Explica Entity vs Value Object
-**Respuesta:**
-
-### Pregunta: Que es un Aggregate?
-**Respuesta:**
-
-### Pregunta: Como identificas Bounded Contexts?
-**Respuesta:**
 
 ---
 

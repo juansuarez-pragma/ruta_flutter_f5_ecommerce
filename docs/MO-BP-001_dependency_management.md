@@ -18,10 +18,6 @@
 
 ### Razonamiento de negocio
 
-> - Mejora la capacidad de cambio manteniendo bajo el desfase de dependencias (por ejemplo, versiones dentro de rangos soportados), medible por "versions behind latest", tamano de PR de actualizacion y lead time de cambios (DORA).
-> - Reduce el riesgo de integracion al disminuir fallas de resolucion de dependencias, medible por % de builds en CI que fallan por conflictos de version, tasa de fallas de cambio (DORA) e incidentes de rollback asociados a actualizaciones.
-> - Reduce la carga de mantenimiento al mantener actualizaciones incrementales, medible por horas medianas por actualizacion de dependencias, MTTR (DORA) para incidentes de actualizaciones y conteo de avisos de seguridad pendientes (CVE).
-
 ### Impacto en el negocio
 
 | Metrica | Mala gestion | Buena gestion |
@@ -56,28 +52,12 @@
 
 ---
 
-## 4. Preguntas de entrevista
-
-### Pregunta: Como gestionas las versiones de dependencias?
-**Respuesta:**
-
-### Pregunta: Como manejas las dependencias de plugins nativos?
-**Respuesta:**
-
-### Pregunta: Como auditas dependencias?
-**Respuesta:**
-
----
-
 ## 5. Recursos adicionales
 
-- [Gestion de paquetes Dart](https://dart.dev/tools/pub/dependencies)
-- [Desarrollo de plugins Flutter](https://docs.flutter.dev/packages-and-plugins/developing-packages)
 - [Trivy Scanner](https://github.com/aquasecurity/trivy)
 - [Melos (Monorepo)](https://melos.invertase.dev/)
 
 ### Referencias de seguridad
-- Pipeline Trivy: https://github.com/somospragma/devsecops-ci-pipe-yml-security
 - MCP Trivy: Tool -> scan_filesystem
 
 ---
