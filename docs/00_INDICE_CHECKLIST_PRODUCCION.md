@@ -1,109 +1,109 @@
-# Production Checklist - Flutter
+# Lista de verificacion de produccion - Flutter
 
-## Project Initial Framework
+## Marco inicial del proyecto
 
-This document serves as a master guide to define the minimum standards and best practices that every Flutter project must meet before going to production. Each item is individually documented to facilitate its review, implementation, and explanation to the development team.
+Este documento sirve como guia maestra para definir los estandares minimos y las mejores practicas que todo proyecto Flutter debe cumplir antes de ir a produccion. Cada item se documenta de forma individual para facilitar su revision, implementacion y explicacion al equipo de desarrollo.
 
 ---
 
-## Documentation Structure
+## Estructura de la documentacion
 
-Each document follows the structure defined in the requirements matrix:
+Cada documento sigue la estructura definida en la matriz de requisitos:
 
-| Field | Description |
+| Campo | Descripcion |
 |-------|-------------|
-| **Code** | Unique identifier for the requirement |
-| **Type** | Minimum (mandatory) or Best Practice (recommended) |
-| **Description** | Name of the requirement |
-| **Associated Quality Attribute** | Associated ISO 25010 quality attribute |
-| **Why** | Business justification |
-| **What** | Technical objective |
-| **How** | Implementation strategy |
-| **Way to do it** | Specific instructions for Flutter |
+| **Codigo** | Identificador unico del requisito |
+| **Tipo** | Minimo (obligatorio) o Buena practica (recomendada) |
+| **Descripcion** | Nombre del requisito |
+| **Atributo de calidad asociado** | Atributo de calidad ISO 25010 asociado |
+| **Por que** | Justificacion de negocio |
+| **Que** | Objetivo tecnico |
+| **Como** | Estrategia de implementacion |
+| **Forma de hacerlo** | Instrucciones especificas para Flutter |
 
-Additionally, each document includes:
-- Business impact
-- Importance of defining it at project start
-- Technical interview questions for Senior Flutter
-- Verification checklist
-
----
-
-## Document Index
-
-### Minimums (Mandatory)
-
-| Code | Document | Quality Attribute |
-|------|----------|-------------------|
-| TRA-MIN-002 | [Architecture Validation](./TRA-MIN-002_architecture_validation.md) | Maintainability |
-| TRA-MIN-003 | [Proper Use of Exceptions](./TRA-MIN-003_proper_use_of_exceptions.md) | Traceability |
-| TRA-MIN-004 | [Use of Linters](./TRA-MIN-004_use_of_linters.md) | Maintainability |
-| TRA-MIN-005 | [Clean Code](./TRA-MIN-005_clean_code.md) | Maintainability |
-| MOFE-MIN-001 | [Performance](./MOFE-MIN-001_performance.md) | Performance |
-| MOFE-MIN-002 | [Minification and Obfuscation](./MOFE-MIN-002_minification_obfuscation.md) | Security |
-
-### Best Practices (Recommended)
-
-| Code | Document | Quality Attribute |
-|------|----------|-------------------|
-| TRA-BP-006 | [Resilient Architecture](./TRA-BP-006_resilient_architecture.md) | Architecture |
-| TRA-BP-007 | [Domain-Driven Design (DDD)](./TRA-BP-007_domain_driven_design.md) | Scalability |
-| TRA-BP-008 | [Test-Driven Development (TDD)](./TRA-BP-008_tdd.md) | Quality |
-| MO-BP-001 | [Dependency Management](./MO-BP-001_dependency_management.md) | Scalability |
+Ademas, cada documento incluye:
+- Impacto en el negocio
+- Importancia de definirlo al inicio del proyecto
+- Preguntas tecnicas de entrevista para Senior Flutter
+- Lista de verificacion
 
 ---
 
-## How to Use This Documentation
+## Indice de documentos
 
-### For Architects and Tech Leads
-1. Review each document at project start
-2. Adapt checklists according to specific needs
-3. Establish compliance metrics
-4. Define responsible parties for each area
+### Minimos (Obligatorios)
 
-### For Developers
-1. Consult documents as implementation guide
-2. Use checklists as reference during code reviews
-3. Prepare for technical interviews with included questions
+| Codigo | Documento | Atributo de calidad |
+|--------|-----------|---------------------|
+| TRA-MIN-002 | [Validacion de arquitectura](./TRA-MIN-002_architecture_validation.md) | Mantenibilidad |
+| TRA-MIN-003 | [Uso adecuado de excepciones](./TRA-MIN-003_proper_use_of_exceptions.md) | Trazabilidad |
+| TRA-MIN-004 | [Uso de linters](./TRA-MIN-004_use_of_linters.md) | Mantenibilidad |
+| TRA-MIN-005 | [Codigo limpio](./TRA-MIN-005_clean_code.md) | Mantenibilidad |
+| MOFE-MIN-001 | [Rendimiento](./MOFE-MIN-001_performance.md) | Rendimiento |
+| MOFE-MIN-002 | [Minificacion y ofuscacion](./MOFE-MIN-002_minification_obfuscation.md) | Seguridad |
 
-### For QA
-1. Validate compliance of each item before release
-2. Document compliance evidence
-3. Report found deviations
+### Buenas practicas (Recomendadas)
 
----
-
-## ISO 25010 Quality Attributes
-
-| Attribute | Description |
-|-----------|-------------|
-| **Maintainability** | Ease of modifying, correcting, improving, or adapting software |
-| **Traceability** | Ability to track and audit system events |
-| **Performance** | Efficiency in resource usage and response times |
-| **Security** | Data protection and system integrity |
-| **Scalability** | Ability to grow without degrading performance |
-| **Quality** | Conformity with requirements and absence of defects |
+| Codigo | Documento | Atributo de calidad |
+|--------|-----------|---------------------|
+| TRA-BP-006 | [Arquitectura resiliente](./TRA-BP-006_resilient_architecture.md) | Arquitectura |
+| TRA-BP-007 | [Diseno guiado por el dominio (DDD)](./TRA-BP-007_domain_driven_design.md) | Escalabilidad |
+| TRA-BP-008 | [Desarrollo guiado por pruebas (TDD)](./TRA-BP-008_tdd.md) | Calidad |
+| MO-BP-001 | [Gestion de dependencias](./MO-BP-001_dependency_management.md) | Escalabilidad |
 
 ---
 
-## Responsible Parties
+## Como usar esta documentacion
 
-| Role | Responsibility |
-|------|----------------|
-| **Tech Lead** | Define and validate architecture |
-| **Architect** | Review pattern compliance |
-| **Senior Developer** | Implement and mentor |
-| **QA** | Validate and document evidence |
-| **DevOps** | Configure pipelines and detectors |
+### Para arquitectos y tech leads
+1. Revisar cada documento al inicio del proyecto
+2. Adaptar las listas de verificacion segun necesidades especificas
+3. Establecer metricas de cumplimiento
+4. Definir responsables por cada area
+
+### Para desarrolladores
+1. Consultar los documentos como guia de implementacion
+2. Usar las listas de verificacion como referencia durante revisiones de codigo
+3. Prepararse para entrevistas tecnicas con las preguntas incluidas
+
+### Para QA
+1. Validar el cumplimiento de cada item antes del release
+2. Documentar evidencia de cumplimiento
+3. Reportar desviaciones encontradas
 
 ---
 
-## Version History
+## Atributos de calidad ISO 25010
 
-| Version | Date | Description |
-|---------|------|-------------|
-| 1.0.0 | 2024-XX-XX | Initial version based on Pragma matrix |
+| Atributo | Descripcion |
+|----------|-------------|
+| **Mantenibilidad** | Facilidad para modificar, corregir, mejorar o adaptar el software |
+| **Trazabilidad** | Capacidad de rastrear y auditar eventos del sistema |
+| **Rendimiento** | Eficiencia en el uso de recursos y tiempos de respuesta |
+| **Seguridad** | Proteccion de datos e integridad del sistema |
+| **Escalabilidad** | Capacidad de crecer sin degradar el rendimiento |
+| **Calidad** | Conformidad con requisitos y ausencia de defectos |
 
 ---
 
-**Note:** This document should be reviewed and updated periodically as industry best practices and project requirements evolve.
+## Responsables
+
+| Rol | Responsabilidad |
+|-----|----------------|
+| **Tech Lead** | Definir y validar arquitectura |
+| **Arquitecto** | Revisar cumplimiento de patrones |
+| **Senior Developer** | Implementar y mentorear |
+| **QA** | Validar y documentar evidencia |
+| **DevOps** | Configurar pipelines y detectores |
+
+---
+
+## Historial de versiones
+
+| Version | Fecha | Descripcion |
+|---------|-------|-------------|
+| 1.0.0 | 2024-XX-XX | Version inicial basada en la matriz de Pragma |
+
+---
+
+**Nota:** Este documento debe revisarse y actualizarse periodicamente a medida que evolucionen las mejores practicas de la industria y los requisitos del proyecto.

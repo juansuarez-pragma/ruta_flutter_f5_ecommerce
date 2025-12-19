@@ -1,690 +1,219 @@
-# TRA-MIN-002: Architecture Validation
+# TRA-MIN-002: Validacion de arquitectura
 
-## Technical Sheet
+## Ficha tecnica
 
-| Field | Value |
+| Campo | Valor |
 |-------|-------|
-| **Code** | TRA-MIN-002 |
-| **Type** | Minimum (Mandatory) |
-| **Description** | Architecture Validation |
-| **Associated Quality Attribute** | Maintainability |
-| **Technology** | Flutter |
-| **Responsible** | BackEnd, Mobile |
-| **Capability** | Cross-functional |
+| **Codigo** | TRA-MIN-002 |
+| **Tipo** | Minimo (Obligatorio) |
+| **Descripcion** | Validacion de arquitectura |
+| **Atributo de calidad asociado** | Mantenibilidad |
+| **Tecnologia** | Flutter |
+| **Responsable** | BackEnd, Mobile |
+| **Capacidad** | Transversal |
 
 ---
 
-## 1. Why (Business Justification)
+## 1. Por que (Justificacion de negocio)
 
-### Business Rationale
+### Razonamiento de negocio
 
-> Reduce maintenance, updates, and adaptation costs as the business or technology evolves.
+> Reduce costos de mantenimiento, actualizaciones y adaptacion a medida que el negocio o la tecnologia evoluciona.
 
-### Business Impact
+### Impacto en el negocio
 
-#### Direct Costs
-- **40-60% reduction in long-term maintenance costs** according to industry studies
-- **Decreased onboarding time** for new developers from weeks to days
-- **Lower accumulated technical debt** which can represent up to 40% of development budget in poorly structured projects
+#### Costos directos
+- **40-60% de reduccion en costos de mantenimiento a largo plazo** segun estudios de la industria
+- **Disminucion del tiempo de onboarding** para nuevos desarrolladores de semanas a dias
+- **Menor deuda tecnica acumulada** que puede representar hasta 40% del presupuesto de desarrollo en proyectos mal estructurados
 
-#### Indirect Costs
-- **Accelerated time-to-market**: New features are implemented faster
-- **Lower staff turnover**: Developers prefer working on well-structured projects
-- **Reduced bugs in production**: Separation of concerns facilitates testing
+#### Costos indirectos
+- **Aceleracion del time-to-market**: nuevas features se implementan mas rapido
+- **Menor rotacion de personal**: los desarrolladores prefieren proyectos bien estructurados
+- **Reduccion de bugs en produccion**: la separacion de responsabilidades facilita pruebas
 
-#### Impact Metrics
-| Metric | Without Clear Architecture | With Clean Architecture |
-|--------|---------------------------|-------------------------|
-| New feature implementation time | 2-3 weeks | 3-5 days |
-| Bugs per release | 15-25 | 3-5 |
-| Test coverage | < 30% | > 70% |
-| Onboarding time | 4-6 weeks | 1-2 weeks |
-
----
-
-## 2. What (Technical Objective)
-
-### Technical Goal
-
-> Separate responsibilities, facilitate maintenance, scalability, and testing, creating a modular system easily adaptable to technological and/or functional changes.
-
-### Fundamental Principles
-
-1. **Separation of Concerns (SoC)**: Each layer has a single reason to change
-2. **Framework Independence**: Business logic doesn't depend on Flutter
-3. **UI Independence**: Business logic works without graphical interface
-4. **Database Independence**: Storage can be changed without affecting business
-5. **Testability**: Each component is testable in isolation
+#### Metricas de impacto
+| Metrica | Sin arquitectura clara | Con arquitectura limpia |
+|---------|-------------------------|-------------------------|
+| Tiempo de implementacion de nuevas features | 2-3 semanas | 3-5 dias |
+| Bugs por release | 15-25 | 3-5 |
+| Cobertura de pruebas | < 30% | > 70% |
+| Tiempo de onboarding | 4-6 semanas | 1-2 semanas |
 
 ---
 
-## 3. How (Implementation Strategy)
+## 2. Que (Objetivo tecnico)
 
-### Implementation Approach
+### Objetivo tecnico
 
-```
-- Use clean architecture patterns that allow separation of responsibilities
-- Organize code by layers independent of frameworks, databases, and external interfaces
-- Centralize business logic without generating direct dependency on other layers
-- Establish dependency rules from outer layers to inner layers
-- Inner layers must not know about outer layers
-- Maintain high cohesion and low coupling between layers
-- Depend on abstractions (interfaces or abstract classes) not concrete implementations
-- Use dependency injection strategies to favor code testing
-- Avoid unnecessary dependencies
-```
+> Separar responsabilidades, facilitar mantenimiento, escalabilidad y pruebas, creando un sistema modular facilmente adaptable a cambios tecnologicos y/o funcionales.
 
-### Layer Diagram
+### Principios fundamentales
 
-```
-+--------------------------------------------------+
-|                   PRESENTATION                    |
-|  (Pages, Widgets, BLoC/Cubit, ViewModels)        |
-+--------------------------------------------------+
-                        |
-                        | depends on
-                        v
-+--------------------------------------------------+
-|                     DOMAIN                        |
-|  (Entities, Use Cases, Repository Interfaces)    |
-|  ** PURE DART - NO FLUTTER DEPENDENCIES **       |
-+--------------------------------------------------+
-                        ^
-                        | implements
-                        |
-+--------------------------------------------------+
-|                      DATA                         |
-|  (Models, Repository Impl, DataSources)          |
-+--------------------------------------------------+
-```
-
-### Dependency Rule
-
-```
-PRESENTATION --> DOMAIN <-- DATA
-
-- Presentation KNOWS Domain (can import it)
-- Data KNOWS Domain (can import it)
-- Domain DOES NOT KNOW Presentation or Data (Pure Dart)
-```
+1. **Separacion de responsabilidades (SoC)**: cada capa tiene una sola razon para cambiar
+2. **Independencia del framework**: la logica de negocio no depende de Flutter
+3. **Independencia de UI**: la logica de negocio funciona sin interfaz grafica
+4. **Independencia de base de datos**: el almacenamiento puede cambiar sin afectar el negocio
+5. **Testeabilidad**: cada componente es testeable de forma aislada
 
 ---
 
-## 4. Way to do it (Flutter Instructions)
+## 3. Como (Estrategia de implementacion)
 
-### 4.1 Folder Structure
+### Enfoque de implementacion
 
-```
-lib/
-├── core/
-│   ├── di/                    # Dependency injection (get_it)
-│   ├── error/                 # Custom Failures and Exceptions
-│   ├── network/               # HTTP client, interceptors
-│   ├── utils/                 # Extensions, helpers
-│   └── constants/             # Global constants
-│
-├── features/
-│   └── [feature_name]/
-│       ├── data/
-│       │   ├── datasources/   # Remote and Local data sources
-│       │   ├── models/        # DTOs with fromJson/toJson
-│       │   └── repositories/  # Repository implementation
-│       │
-│       ├── domain/
-│       │   ├── entities/      # Business entities (immutable)
-│       │   ├── repositories/  # Interfaces/contracts
-│       │   └── usecases/      # Use cases
-│       │
-│       └── presentation/
-│           ├── bloc/          # BLoC/Cubit + Events + States
-│           ├── pages/         # Screens
-│           └── widgets/       # Feature-specific widgets
-│
-└── shared/
-    └── widgets/               # Reusable widgets
-```
+### Diagrama de capas
 
-### 4.2 Implementation Rules
-
-#### Domain Layer (PURE DART)
-```dart
-// CORRECT: Immutable entity without Flutter dependencies
-class Product {
-  final String id;
-  final String name;
-  final double price;
-
-  const Product({
-    required this.id,
-    required this.name,
-    required this.price,
-  });
-}
-
-// CORRECT: Repository interface
-abstract class ProductRepository {
-  Future<Either<Failure, List<Product>>> getProducts();
-  Future<Either<Failure, Product>> getProductById(String id);
-}
-
-// CORRECT: Use case with single responsibility
-class GetProductsUseCase {
-  final ProductRepository repository;
-
-  GetProductsUseCase({required this.repository});
-
-  Future<Either<Failure, List<Product>>> call() {
-    return repository.getProducts();
-  }
-}
-```
-
-#### Data Layer
-```dart
-// CORRECT: Model with serialization methods
-class ProductModel extends Product {
-  const ProductModel({
-    required super.id,
-    required super.name,
-    required super.price,
-  });
-
-  factory ProductModel.fromJson(Map<String, dynamic> json) {
-    return ProductModel(
-      id: json['id']?.toString() ?? '',
-      name: json['name'] ?? '',
-      price: (json['price'] as num?)?.toDouble() ?? 0.0,
-    );
-  }
-
-  Map<String, dynamic> toJson() => {
-    'id': id,
-    'name': name,
-    'price': price,
-  };
-
-  ProductModel copyWith({String? id, String? name, double? price}) {
-    return ProductModel(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      price: price ?? this.price,
-    );
-  }
-}
-
-// CORRECT: DataSource with abstraction
-abstract class ProductRemoteDataSource {
-  Future<List<ProductModel>> getProducts();
-}
-
-class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
-  final HttpClient client;
-
-  ProductRemoteDataSourceImpl({required this.client});
-
-  @override
-  Future<List<ProductModel>> getProducts() async {
-    final response = await client.get('/products');
-    return (response.data as List)
-        .map((json) => ProductModel.fromJson(json))
-        .toList();
-  }
-}
-```
-
-#### Presentation Layer
-```dart
-// CORRECT: BLoC depends on UseCase, not Repository
-class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
-  final GetProductsUseCase getProductsUseCase;
-
-  ProductsBloc({required this.getProductsUseCase})
-      : super(ProductsInitial()) {
-    on<ProductsLoadRequested>(_onLoadRequested);
-  }
-
-  Future<void> _onLoadRequested(
-    ProductsLoadRequested event,
-    Emitter<ProductsState> emit,
-  ) async {
-    emit(ProductsLoading());
-
-    final result = await getProductsUseCase();
-
-    result.fold(
-      (failure) => emit(ProductsError(failure.message)),
-      (products) => emit(ProductsLoaded(products)),
-    );
-  }
-}
-```
-
-### 4.3 Dependency Injection with get_it
-
-```dart
-// lib/core/di/injection_container.dart
-final sl = GetIt.instance;
-
-Future<void> init() async {
-  // BLoCs
-  sl.registerFactory(
-    () => ProductsBloc(getProductsUseCase: sl()),
-  );
-
-  // Use Cases
-  sl.registerLazySingleton(
-    () => GetProductsUseCase(repository: sl()),
-  );
-
-  // Repositories
-  sl.registerLazySingleton<ProductRepository>(
-    () => ProductRepositoryImpl(
-      remoteDataSource: sl(),
-      localDataSource: sl(),
-    ),
-  );
-
-  // Data Sources
-  sl.registerLazySingleton<ProductRemoteDataSource>(
-    () => ProductRemoteDataSourceImpl(client: sl()),
-  );
-
-  // External
-  sl.registerLazySingleton(() => HttpClient());
-}
-```
-
-### 4.4 Flavors/Schemes Configuration
-
-```yaml
-# pubspec.yaml
-flutter:
-  assets:
-    - assets/config/
-
-# Configuration files per environment
-# assets/config/dev.json
-# assets/config/qa.json
-# assets/config/prod.json
-```
-
-```dart
-// lib/core/config/environment.dart
-enum Environment { dev, qa, prod }
-
-class EnvironmentConfig {
-  static late Environment current;
-  static late String apiBaseUrl;
-
-  static Future<void> initialize(Environment env) async {
-    current = env;
-    final config = await _loadConfig(env);
-    apiBaseUrl = config['apiBaseUrl'];
-  }
-}
-```
-
-### 4.5 Package Versioning
-
-```yaml
-# pubspec.yaml - CORRECT: Fixed versions
-dependencies:
-  flutter_bloc: 8.1.6
-  get_it: 8.3.0
-  dartz: 0.10.1
-  equatable: 2.0.5
-
-# INCORRECT: Open ranges (avoid)
-dependencies:
-  flutter_bloc: ^8.0.0  # May bring breaking changes
-```
-
-### 4.6 AAA Test Pattern
-
-```dart
-void main() {
-  late GetProductsUseCase useCase;
-  late MockProductRepository mockRepository;
-
-  setUp(() {
-    mockRepository = MockProductRepository();
-    useCase = GetProductsUseCase(repository: mockRepository);
-  });
-
-  test('should return list of products from repository', () async {
-    // Arrange
-    final products = [
-      Product(id: '1', name: 'Test', price: 10.0),
-    ];
-    when(() => mockRepository.getProducts())
-        .thenAnswer((_) async => Right(products));
-
-    // Act
-    final result = await useCase();
-
-    // Assert
-    expect(result, Right(products));
-    verify(() => mockRepository.getProducts()).called(1);
-  });
-}
-```
+### Regla de dependencia
 
 ---
 
-## 5. Verification Checklist
+## 5. Lista de verificacion
 
-### Structure
-- [ ] Project organized in layers: `data`, `domain`, `presentation`
-- [ ] Each feature has its own layer structure
-- [ ] `core` folder exists for cross-cutting components
-- [ ] `shared` folder exists for reusable widgets
+### Estructura
+- [ ] Proyecto organizado en capas: `data`, `domain`, `presentation`
+- [ ] Cada feature tiene su propia estructura por capas
+- [ ] Carpeta `core` existe para componentes transversales
+- [ ] Carpeta `shared` existe para widgets reutilizables
 
-### Domain Layer
-- [ ] Entities are immutable (all properties `final`)
-- [ ] Domain is pure Dart (no imports from `package:flutter`)
-- [ ] Repositories defined as abstract interfaces
-- [ ] One UseCase per business operation
-- [ ] UseCases use `call()` method for invocation
+### Capa de dominio
+- [ ] Entidades inmutables (todas las propiedades `final`)
+- [ ] Dominio es Dart puro (sin imports de `package:flutter`)
+- [ ] Repositorios definidos como interfaces abstractas
+- [ ] Un UseCase por operacion de negocio
+- [ ] UseCases usan metodo `call()` para invocacion
 
-### Data Layer
-- [ ] Models include `fromJson`, `toJson`, `copyWith`
-- [ ] Models define default values for nullable fields
-- [ ] Repositories implement Domain interfaces
-- [ ] DataSources are abstracted with interfaces
-- [ ] Repository is the only source of data access
+### Capa de datos
+- [ ] Modelos incluyen `fromJson`, `toJson`, `copyWith`
+- [ ] Modelos definen valores por defecto para campos nulos
+- [ ] Repositorios implementan interfaces del Dominio
+- [ ] DataSources abstraidos con interfaces
+- [ ] El repositorio es la unica fuente de acceso a datos
 
-### Presentation Layer
-- [ ] BLoC/Cubit per use case (not per screen)
-- [ ] BLoC depends only on UseCase abstractions
-- [ ] BLoC does not access repositories directly
-- [ ] Events in past tense: `ProductsLoadRequested`, `CartItemAdded`
-- [ ] States as nouns/adjectives: `ProductsLoading`, `ProductsLoaded`
+### Capa de presentacion
+- [ ] BLoC/Cubit por caso de uso (no por pantalla)
+- [ ] BLoC depende solo de abstracciones UseCase
+- [ ] BLoC no accede repositorios directamente
+- [ ] Eventos en pasado: `ProductsLoadRequested`, `CartItemAdded`
+- [ ] States como sustantivos/adjetivos: `ProductsLoading`, `ProductsLoaded`
 
-### Dependency Injection
-- [ ] `get_it` configured in `injection_container.dart`
-- [ ] BLoCs registered as `Factory`
-- [ ] UseCases registered as `LazySingleton`
-- [ ] DataSources and Repositories as `LazySingleton`
+### Inyeccion de dependencias
+- [ ] `get_it` configurado en `injection_container.dart`
+- [ ] BLoCs registrados como `Factory`
+- [ ] UseCases registrados como `LazySingleton`
+- [ ] DataSources y Repositories como `LazySingleton`
 
-### Configuration
-- [ ] Flavors configured (Android) and Schemes (iOS)
-- [ ] Environment variables per environment (dev, qa, prod)
-- [ ] README documents dependency rules
-- [ ] Labels centralization for i18n
+### Configuracion
+- [ ] Flavors configurados (Android) y Schemes (iOS)
+- [ ] Variables de entorno por ambiente (dev, qa, prod)
+- [ ] README documenta reglas de dependencia
+- [ ] Centralizacion de labels para i18n
 
-### Versioning
-- [ ] Fixed versions in `pubspec.yaml`
-- [ ] Ranges only for well-maintained packages
-
----
-
-## 6. Importance of Defining at Project Start
-
-### Why It Cannot Wait
-
-1. **Exponential Refactoring Cost**: Changing architecture after 6 months of development can cost 10x more than defining it correctly from the start.
-
-2. **Cumulative Technical Debt**: Every line of code written without clear architecture is debt that will be paid with interest.
-
-3. **Team Consistency**: If each developer uses their own style, code becomes an impossible-to-maintain chaos.
-
-4. **Facilitates Code Reviews**: With clear rules, reviews are objective and fast.
-
-5. **Team Scalability**: New members can contribute from day 1 following established conventions.
-
-### Consequences of Not Doing It
-
-| Problem | Consequence |
-|---------|-------------|
-| No layer separation | Business logic mixed with UI, impossible to test |
-| BLoC accessing DataSource | Changing data source requires modifying presentation |
-| Domain with Flutter dependencies | Cannot be reused in other Dart projects |
-| No dependency injection | Tests require complex mocks or are impossible |
+### Versionado
+- [ ] Versiones fijas en `pubspec.yaml`
+- [ ] Rangos solo para paquetes bien mantenidos
 
 ---
 
-## 7. Technical Interview Questions - Senior Flutter
+## 6. Importancia de definirlo al inicio del proyecto
 
-### Question 1: Clean Architecture
-**Interviewer:** "Explain how you would implement Clean Architecture in a Flutter project. What are the layers and how do they communicate?"
+### Por que no puede esperar
 
-**Expected Answer:**
-```
-Clean Architecture in Flutter is organized in 3 main layers:
+1. **Costo de refactorizacion exponencial**: cambiar la arquitectura despues de 6 meses de desarrollo puede costar 10x mas que definirla correctamente desde el inicio.
 
-1. **Domain** (core): Contains business entities, repository interfaces,
-   and use cases. This layer is pure Dart, without Flutter dependencies.
-   Entities are immutable and represent business concepts.
+2. **Deuda tecnica acumulativa**: cada linea escrita sin arquitectura clara es deuda que se pagara con intereses.
 
-2. **Data** (infrastructure): Implements interfaces defined in Domain.
-   Contains models (DTOs) with serialization methods, repository
-   implementations, and datasources (remote and local).
+3. **Consistencia del equipo**: si cada desarrollador usa su propio estilo, el codigo se vuelve un caos imposible de mantener.
 
-3. **Presentation** (UI): Contains BLoCs/Cubits, pages, and widgets.
-   BLoCs only know about use cases, never access repositories directly.
+4. **Facilita code reviews**: con reglas claras, las revisiones son objetivas y rapidas.
 
-The dependency rule is: Presentation -> Domain <- Data. Domain doesn't
-know about outer layers, which allows testability and flexibility to
-change implementations without affecting business logic.
-```
+5. **Escalabilidad del equipo**: nuevos miembros pueden contribuir desde el dia 1 siguiendo convenciones establecidas.
 
-### Question 2: Dependency Rule
-**Interviewer:** "Why is it important that the Domain layer has no Flutter dependencies?"
+### Consecuencias de no hacerlo
 
-**Expected Answer:**
-```
-Domain independence from Flutter is crucial for several reasons:
-
-1. **Testability**: I can write unit tests that run in any Dart
-   environment, without needing a Flutter context.
-
-2. **Reusability**: Business logic can be shared between Flutter
-   projects, Dart server applications, or CLIs.
-
-3. **Longevity**: If Flutter evolves or we decide to migrate to another
-   technology, 30-40% of code (business logic) remains intact.
-
-4. **Conceptual Clarity**: Forces separation of "what the app does"
-   (Domain) from "how it displays" (Presentation) and "where it gets
-   data" (Data).
-
-In practice, I verify that no file in domain/ imports 'package:flutter'.
-```
-
-### Question 3: Dependency Injection
-**Interviewer:** "How do you handle dependency injection in Flutter? Why do you use get_it?"
-
-**Expected Answer:**
-```
-I use get_it as Service Locator for dependency injection. Configuration
-is centralized in injection_container.dart where I register:
-
-- **Factory**: For BLoCs (a new instance per use)
-- **LazySingleton**: For UseCases, Repositories, and DataSources (single instance)
-
-Benefits:
-1. **Testability**: I can easily replace implementations with mocks
-2. **Decoupling**: Components don't instantiate their dependencies
-3. **Centralized configuration**: Single place to see all dependencies
-4. **Lazy loading**: Instances are created only when needed
-
-Practical example:
-sl.registerFactory(() => ProductsBloc(getProductsUseCase: sl()));
-sl.registerLazySingleton(() => GetProductsUseCase(repository: sl()));
-sl.registerLazySingleton<ProductRepository>(() => ProductRepositoryImpl(...));
-```
-
-### Question 4: BLoC and Use Cases
-**Interviewer:** "What is the relationship between BLoC and UseCases? Why shouldn't a BLoC access the repository directly?"
-
-**Expected Answer:**
-```
-BLoC is the bridge between UI and business logic. It should only know
-UseCases, not repositories directly, because:
-
-1. **Single Responsibility**: BLoC handles UI states, UseCase
-   encapsulates a specific business operation.
-
-2. **Reusability**: A UseCase can be used by multiple BLoCs.
-   For example, GetUserUseCase can be used in LoginBloc, ProfileBloc, etc.
-
-3. **Testability**: I can test the UseCase isolated from BLoC, and mock
-   the UseCase when testing BLoC.
-
-4. **Avoids God Classes**: Without UseCases, BLoC would end up with all
-   business logic, becoming unmanageable.
-
-Ideal pattern:
-- One BLoC per UI flow (not per screen)
-- Multiple UseCases per BLoC if the flow requires it
-- BLoC orchestrates, UseCase executes
-```
-
-### Question 5: Error Handling in Architecture
-**Interviewer:** "How do you handle errors across layers?"
-
-**Expected Answer:**
-```
-I implement the Either pattern with Failure for explicit error handling:
-
-1. **Data Layer**: Catches exceptions and converts them to typed Failures
-   try {
-     return Right(await dataSource.getData());
-   } on ServerException catch (e) {
-     return Left(ServerFailure(e.message));
-   }
-
-2. **Domain Layer**: Defines Failures as sealed classes
-   sealed class Failure {
-     final String message;
-   }
-   class ServerFailure extends Failure {}
-   class CacheFailure extends Failure {}
-
-3. **Presentation Layer**: BLoC transforms Failures into error states
-   result.fold(
-     (failure) => emit(ProductsError(failure.message)),
-     (products) => emit(ProductsLoaded(products)),
-   );
-
-This ensures no unhandled error reaches the user and each layer
-processes errors appropriately.
-```
-
-### Question 6: Real Challenge Solved
-**Interviewer:** "Tell me about an architectural challenge you've solved in a Flutter project"
-
-**Expected Answer:**
-```
-In an inherited e-commerce project, I found that:
-- BLoCs accessed APIs directly
-- No layer separation existed
-- Non-existent tests (0% coverage)
-- Changing payment provider required modifying 15+ files
-
-Implemented solution:
-1. Defined clean architecture with 3 layers
-2. Created interfaces for repositories (PaymentRepository, ProductRepository)
-3. Extracted business logic to UseCases
-4. Implemented dependency injection with get_it
-5. Wrote unit tests for UseCases (80% coverage)
-
-Result:
-- Changing payment provider required modifying 1 file (DataSource)
-- New feature time-to-market reduced 60%
-- New dev onboarding went from 3 weeks to 3 days
-- Production bugs reduced 70%
-```
+| Problema | Consecuencia |
+|----------|-------------|
+| Sin separacion de capas | Logica de negocio mezclada con UI, imposible de probar |
+| BLoC accediendo DataSource | Cambiar la fuente requiere modificar presentacion |
+| Dominio con dependencias de Flutter | No se puede reutilizar en otros proyectos Dart |
+| Sin inyeccion de dependencias | Las pruebas requieren mocks complejos o son imposibles |
 
 ---
 
-## 8. Anti-Patterns to Avoid
+## 7. Preguntas tecnicas de entrevista - Senior Flutter
 
-### 8.1 BLoC Accessing DataSource
-```dart
-// INCORRECT
-class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
-  final ProductRemoteDataSource dataSource; // BAD: Skipping layers
+### Pregunta 1: Clean Architecture
+**Entrevistador:** "Explica como implementarias Clean Architecture en un proyecto Flutter. Cuales son las capas y como se comunican?"
 
-  Future<void> _onLoad(...) async {
-    final products = await dataSource.getProducts(); // BAD
-  }
-}
+**Respuesta esperada:**
 
-// CORRECT
-class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
-  final GetProductsUseCase getProductsUseCase;
+### Pregunta 2: Regla de dependencia
+**Entrevistador:** "Por que es importante que la capa Dominio no tenga dependencias de Flutter?"
 
-  Future<void> _onLoad(...) async {
-    final result = await getProductsUseCase();
-  }
-}
-```
+**Respuesta esperada:**
 
-### 8.2 Domain with Flutter Dependencies
-```dart
-// INCORRECT: domain/entities/user.dart
-import 'package:flutter/material.dart'; // BAD
+### Pregunta 3: Inyeccion de dependencias
+**Entrevistador:** "Como manejas la inyeccion de dependencias en Flutter? Por que usas get_it?"
 
-class User {
-  final Color favoriteColor; // BAD: Flutter dependency
-}
+**Respuesta esperada:**
 
-// CORRECT
-class User {
-  final int favoriteColorValue; // OK: Primitive Dart type
-}
-```
+### Pregunta 4: BLoC y Use Cases
+**Entrevistador:** "Cual es la relacion entre BLoC y UseCases? Por que un BLoC no deberia acceder al repositorio directamente?"
 
-### 8.3 Mutable Entities
-```dart
-// INCORRECT
-class Product {
-  String name; // BAD: Mutable
-  double price; // BAD: Mutable
-}
+**Respuesta esperada:**
 
-// CORRECT
-class Product {
-  final String name;
-  final double price;
+### Pregunta 5: Manejo de errores en arquitectura
+**Entrevistador:** "Como manejas errores a traves de las capas?"
 
-  const Product({required this.name, required this.price});
-}
-```
+**Respuesta esperada:**
+
+### Pregunta 6: Reto real resuelto
+**Entrevistador:** "Cuentame sobre un reto arquitectonico que resolviste en un proyecto Flutter"
+
+**Respuesta esperada:**
 
 ---
 
-## 9. Additional Resources
+## 8. Anti-patrones a evitar
 
-### Official Documentation
+### 8.1 BLoC accediendo DataSource
+
+### 8.2 Dominio con dependencias de Flutter
+
+### 8.3 Entidades mutables
+
+---
+
+## 9. Recursos adicionales
+
+### Documentacion oficial
 - [Flutter Architecture Samples](https://fluttersamples.com)
-- [BLoC Library Documentation](https://bloclibrary.dev)
-- [get_it Package](https://pub.dev/packages/get_it)
+- [Documentacion de BLoC](https://bloclibrary.dev)
+- [Paquete get_it](https://pub.dev/packages/get_it)
 
-### Recommended Books
+### Libros recomendados
 - "Clean Architecture" - Robert C. Martin
 - "Domain-Driven Design" - Eric Evans
 
-### Project References
+### Referencias de proyecto
 - Alexandria: Clean Architecture Mobile
 - LearnWorlds: Clean Architecture Mobile
 
 ---
 
-## 10. Compliance Evidence
+## 10. Evidencia de cumplimiento
 
-To validate compliance with this requirement, document:
+Para validar el cumplimiento de este requisito, documentar:
 
-| Evidence | Description |
+| Evidencia | Descripcion |
 |----------|-------------|
-| Structure screenshot | Capture of folder structure |
-| Dependency diagram | Visualization of imports between layers |
-| Coverage report | Unit tests per layer |
-| Code review checklist | Verification in PRs |
+| Captura de estructura | Evidencia de estructura de carpetas |
+| Diagrama de dependencias | Visualizacion de imports entre capas |
+| Reporte de cobertura | Pruebas unitarias por capa |
+| Checklist de code review | Verificacion en PRs |
 
 ---
 
-**Last update:** December 2024
-**Author:** Architecture Team
+**Ultima actualizacion:** diciembre 2024
+**Autor:** Equipo de Arquitectura
 **Version:** 1.0.0
