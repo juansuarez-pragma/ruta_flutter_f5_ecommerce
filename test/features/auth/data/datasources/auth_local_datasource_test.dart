@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ecommerce/core/error_handling/app_exceptions.dart';
 import 'package:ecommerce/core/error_handling/app_logger.dart';
 import 'package:ecommerce/core/utils/clock.dart';
+import 'package:ecommerce/features/auth/data/errors/auth_local_exception.dart';
 import 'package:ecommerce/features/auth/data/datasources/auth_local_datasource_impl.dart';
 import 'package:ecommerce/features/auth/data/datasources/auth_storage_keys.dart';
 import 'package:ecommerce/features/auth/data/models/user_model.dart';
@@ -230,6 +231,229 @@ void main() {
         ),
         throwsA(isA<ParseException>()),
       );
+    });
+  });
+
+  group('AuthLocalDataSource - registerUser', () {
+    test('should assign id 1 when there are no registered users', () async {
+      // Arrange
+      when(
+        () => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers),
+      ).thenReturn(null);
+
+      when(
+        () => mockSharedPreferences.setString(
+          AuthStorageKeys.registeredUsers,
+          any(),
+        ),
+      ).thenAnswer((_) async => true);
+
+      // Act
+      final user = await authDataSource.registerUser(
+        email: 'new@example.com',
+        password: 'password123',
+        username: 'newuser',
+        firstName: 'New',
+        lastName: 'User',
+      );
+
+      // Assert
+      expect(user.id, 1);
+      expect(user.email, 'new@example.com');
+      verify(
+        () => mockSharedPreferences.setString(
+          AuthStorageKeys.registeredUsers,
+          any(),
+        ),
+      ).called(1);
+    });
+
+    test('should assign next id based on max existing id', () async {
+      // Arrange: existing users with ids 3 and 10 -> next should be 11.
+      final existing = [
+        {
+          'user': const UserModel(
+            id: 3,
+            email: 'a@example.com',
+            username: 'a',
+            firstName: 'A',
+            lastName: 'A',
+            token: 't',
+          ).toJson(),
+          'password': base64.encode(utf8.encode('password123')),
+        },
+        {
+          'user': const UserModel(
+            id: 10,
+            email: 'b@example.com',
+            username: 'b',
+            firstName: 'B',
+            lastName: 'B',
+            token: 't',
+          ).toJson(),
+          'password': base64.encode(utf8.encode('password123')),
+        },
+      ];
+
+      when(
+        () => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers),
+      ).thenReturn(json.encode(existing));
+
+      when(
+        () => mockSharedPreferences.setString(
+          AuthStorageKeys.registeredUsers,
+          any(),
+        ),
+      ).thenAnswer((_) async => true);
+
+      // Act
+      final user = await authDataSource.registerUser(
+        email: 'new@example.com',
+        password: 'password123',
+        username: 'newuser',
+        firstName: 'New',
+        lastName: 'User',
+      );
+
+      // Assert
+      expect(user.id, 11);
+    });
+
+    test('should throw AuthLocalException when email is already registered',
+        () async {
+      // Arrange: existing user with same email.
+      final existing = [
+        {
+          'user': const UserModel(
+            id: 1,
+            email: 'dup@example.com',
+            username: 'dup',
+            firstName: 'Dup',
+            lastName: 'User',
+            token: 't',
+          ).toJson(),
+          'password': base64.encode(utf8.encode('password123')),
+        },
+      ];
+
+      when(
+        () => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers),
+      ).thenReturn(json.encode(existing));
+
+      // Act & Assert
+      expect(
+        () => authDataSource.registerUser(
+          email: 'dup@example.com',
+          password: 'password123',
+          username: 'newuser',
+          firstName: 'New',
+          lastName: 'User',
+        ),
+        throwsA(isA<AuthLocalException>()),
+      );
+    });
+
+    test('should persist the new user record with password and user json',
+        () async {
+      // Arrange
+      when(
+        () => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers),
+      ).thenReturn(null);
+
+      when(
+        () => mockSharedPreferences.setString(
+          AuthStorageKeys.registeredUsers,
+          any(),
+        ),
+      ).thenAnswer((_) async => true);
+
+      // Act
+      final created = await authDataSource.registerUser(
+        email: 'new@example.com',
+        password: 'password123',
+        username: 'newuser',
+        firstName: 'New',
+        lastName: 'User',
+      );
+
+      // Assert: inspect what was persisted.
+      final captured = verify(
+        () => mockSharedPreferences.setString(
+          AuthStorageKeys.registeredUsers,
+          captureAny(),
+        ),
+      ).captured.single as String;
+
+      final decoded = json.decode(captured) as List<dynamic>;
+      expect(decoded, hasLength(1));
+
+      final record = decoded.first as Map<String, dynamic>;
+      expect(record.keys, containsAll(['user', 'password']));
+
+      final userJson = record['user'] as Map<String, dynamic>;
+      expect(userJson['id'], created.id);
+      expect(userJson['email'], 'new@example.com');
+      expect(record['password'], base64.encode(utf8.encode('password123')));
+    });
+  });
+
+  group('AuthLocalDataSource - loginUser', () {
+    test('should return null when no user matches the credentials', () async {
+      // Arrange: no users in storage.
+      when(
+        () => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers),
+      ).thenReturn(null);
+
+      // Act
+      final user = await authDataSource.loginUser(
+        email: 'missing@example.com',
+        password: 'password123',
+      );
+
+      // Assert
+      expect(user, isNull);
+    });
+
+    test('should return user with a refreshed token when credentials match',
+        () async {
+      // Arrange
+      const email = 'test@example.com';
+      const password = 'password123';
+
+      const storedUser = UserModel(
+        id: 1,
+        email: email,
+        username: 'testuser',
+        firstName: 'Test',
+        lastName: 'User',
+        token: 'old_token',
+      );
+
+      final storedRecords = [
+        {
+          'user': storedUser.toJson(),
+          'password': base64.encode(utf8.encode(password)),
+        },
+      ];
+
+      when(
+        () => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers),
+      ).thenReturn(json.encode(storedRecords));
+
+      final expectedToken = base64.encode(
+        utf8.encode('$email:${fakeClock.now().millisecondsSinceEpoch}'),
+      );
+
+      // Act
+      final user = await authDataSource.loginUser(
+        email: email,
+        password: password,
+      );
+
+      // Assert
+      expect(user, isNotNull);
+      expect(user!.email, email);
+      expect(user.token, expectedToken);
     });
   });
 }

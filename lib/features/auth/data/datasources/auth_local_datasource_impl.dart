@@ -76,16 +76,12 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
       throw const AuthLocalException('Email already registered');
     }
 
-    final users = await _getRegisteredUsers();
-
-    final newId = users.isEmpty
-        ? 1
-        : users.map((u) => u.id).reduce((a, b) => a > b ? a : b) + 1;
-
+    final registeredUsers = await _getRegisteredUsers();
+    final nextUserId = _nextUserId(registeredUsers);
     final token = _generateToken(email);
 
     final newUser = UserModel(
-      id: newId,
+      id: nextUserId,
       email: email,
       username: username,
       firstName: firstName,
@@ -93,12 +89,12 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
       token: token,
     );
 
-    final usersWithPassword = await _getRegisteredUsersWithPasswords();
-    usersWithPassword.add({
+    final registeredUserRecords = await _getRegisteredUsersWithPasswords();
+    registeredUserRecords.add({
       'user': newUser.toJson(),
-      'password': _hashPassword(password),
+      'password': _encodePasswordForStorage(password),
     });
-    await _saveRegisteredUsers(usersWithPassword);
+    await _saveRegisteredUsers(registeredUserRecords);
 
     return newUser;
   }
@@ -108,15 +104,15 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     required String email,
     required String password,
   }) async {
-    final usersWithPassword = await _getRegisteredUsersWithPasswords();
+    final registeredUserRecords = await _getRegisteredUsersWithPasswords();
 
-    for (final entry in usersWithPassword) {
-      final userJson = entry['user'] as Map<String, dynamic>;
-      final storedPasswordHash = entry['password'] as String;
+    for (final record in registeredUserRecords) {
+      final userMap = record['user'] as Map<String, dynamic>;
+      final storedPassword = record['password'] as String;
 
-      if (userJson['email'] == email &&
-          storedPasswordHash == _hashPassword(password)) {
-        final user = UserModel.fromJson(userJson);
+      if (userMap['email'] == email &&
+          storedPassword == _encodePasswordForStorage(password)) {
+        final user = UserModel.fromJson(userMap);
         final token = _generateToken(email);
         return user.copyWithToken(token);
       }
@@ -132,10 +128,10 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   }
 
   Future<List<UserModel>> _getRegisteredUsers() async {
-    final usersWithPassword = await _getRegisteredUsersWithPasswords();
-    return usersWithPassword.map((entry) {
-      final userJson = entry['user'] as Map<String, dynamic>;
-      return UserModel.fromJson(userJson);
+    final registeredUserRecords = await _getRegisteredUsersWithPasswords();
+    return registeredUserRecords.map((record) {
+      final userMap = record['user'] as Map<String, dynamic>;
+      return UserModel.fromJson(userMap);
     }).toList();
   }
 
@@ -186,12 +182,22 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     await sharedPreferences.setString(AuthStorageKeys.registeredUsers, usersJson);
   }
 
+  int _nextUserId(List<UserModel> existingUsers) {
+    if (existingUsers.isEmpty) return 1;
+
+    final maxExistingUserId = existingUsers
+        .map((user) => user.id)
+        .fold<int>(0, (maxSoFar, id) => id > maxSoFar ? id : maxSoFar);
+
+    return maxExistingUserId + 1;
+  }
+
   String _generateToken(String email) {
     final timestamp = _clock.now().millisecondsSinceEpoch;
     return base64.encode(utf8.encode('$email:$timestamp'));
   }
 
-  String _hashPassword(String password) {
+  String _encodePasswordForStorage(String password) {
     return base64.encode(utf8.encode(password));
   }
 }
