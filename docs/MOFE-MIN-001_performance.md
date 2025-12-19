@@ -19,7 +19,7 @@
 
 > - Mejora la experiencia del usuario.
 > - Reduce el bounce rate y aumenta el tiempo de uso en la app.
-> - Mejora el posicionamiento SEO/ASO, logrando mejor ranking en resultados de busqueda.
+> - Mejora el posicionamiento en canales de descubrimiento y distribucion.
 
 ### Impacto en el negocio
 
@@ -51,7 +51,7 @@
 
 ### Objetivo tecnico
 
-> Reducir el tamano de la app y mejorar tiempos de carga y rendimiento general, contribuyendo positivamente a la experiencia de usuario y favoreciendo SEO/ASO.
+> Reducir el tamano de la app y mejorar tiempos de carga y rendimiento general, contribuyendo positivamente a la experiencia de usuario y al posicionamiento en canales de distribucion.
 
 ### Pilares de rendimiento
 
@@ -78,34 +78,36 @@
 ## 5. Lista de verificacion
 
 ### Optimizacion de widgets
-- [ ] Constructores `const` usados donde sea posible
-- [ ] `Container` solo cuando se requieren 3+ propiedades
-- [ ] `SizedBox.shrink()` usado para espacios vacios
-- [ ] Rebuilds aislados en widgets hoja
+- [ ] Componentes UI inmutables usados cuando el contenido no cambia
+- [ ] Contenedores solo cuando aportan estilo o layout necesario
+- [ ] Espaciado con componentes ligeros
+- [ ] Re-render aislado en componentes hoja
 
 ### Rendimiento de listas
-- [ ] Evitar `shrinkWrap: true` con builders
-- [ ] `itemExtent` definido cuando los items tienen altura fija
+- [ ] Renderizado diferido para listas largas
+- [ ] Paginacion o virtualizacion para colecciones grandes
+- [ ] Evitar renderizar todos los elementos al mismo tiempo
+- [ ] Tamaño/altura fija declarada cuando sea posible
 
 ### Gestion de recursos
-- [ ] Controladores se liberan en `dispose()`
-- [ ] Streams cerrados correctamente
+- [ ] Controladores y listeners liberados correctamente
+- [ ] Flujos de datos cerrados correctamente
 - [ ] Suscripciones canceladas
-- [ ] Isolates usados para computo pesado
+- [ ] Computo pesado ejecutado fuera del hilo principal
 
 ### Imagenes
 - [ ] Formatos modernos usados (WebP, SVG)
 - [ ] Cache de imagenes implementada
-- [ ] Dimensionado correcto con `cacheWidth`/`cacheHeight`
+- [ ] Dimensionado correcto para evitar sobrecarga de memoria
 - [ ] Placeholders y estados de error definidos
 
 ### Configuracion de build
 - [ ] Variables de entorno para tree shaking
 - [ ] Codigo de debug removido en produccion
-- [ ] Performance overlay habilitado en debug
+- [ ] Instrumentacion de rendimiento habilitada en entornos de prueba
 
 ### Monitoreo
-- [ ] Profiling con DevTools ejecutado
+- [ ] Profiling con herramientas estandar ejecutado
 - [ ] Marcadores en timeline para paths criticos
 - [ ] Metricas de rendimiento registradas
 
@@ -127,8 +129,8 @@
 
 | Problema | Consecuencia |
 |---------|-------------|
-| Sin widgets const | Rebuilds innecesarios, UI con jank |
-| shrinkWrap con builders | Todos los items se construyen, scroll lento |
+| Sin componentes inmutables | Re-render innecesario, UI con jank |
+| Renderizado completo de listas | Todos los items se construyen, scroll lento |
 | Trabajo pesado en hilo principal | Congelamiento de UI, errores ANR |
 | Sin disposicion de controladores | Fugas de memoria, crashes |
 | Imagenes grandes | Carga lenta, alto consumo de memoria |
@@ -137,11 +139,11 @@
 
 ## 8. Anti-patrones a evitar
 
-### 8.1 Uso innecesario de Container
-Evitar contenedores sin necesidad de propiedades adicionales.
+### 8.1 Contenedores pesados sin necesidad
+Evitar estructuras de layout con costo alto sin beneficio claro.
 
-### 8.2 shrinkWrap con builders
-Evitar construir todos los elementos cuando basta con lazy rendering.
+### 8.2 Renderizar toda la lista a la vez
+Evitar construir todos los elementos cuando basta con renderizado diferido.
 
 ### 8.3 Rebuild de todo el arbol
 Aislar widgets que cambian para evitar recomposicion global.
@@ -153,9 +155,8 @@ Aislar widgets que cambian para evitar recomposicion global.
 ### Documentacion oficial
 
 ### Herramientas
-- Android Profiler
-- Xcode Instruments
-- Firebase Performance Monitoring
+- Herramientas de profiling de rendimiento
+- Monitoreo de performance en produccion
 
 ### Referencias de proyecto
 
@@ -167,9 +168,9 @@ Para validar el cumplimiento de este requisito, documentar:
 
 | Evidencia | Descripcion |
 |----------|-------------|
-| Grabacion DevTools | Timeline de frames con 60 FPS |
+| Grabacion de profiling | Timeline de frames con 60 FPS |
 | Perfil de memoria | Sin fugas a lo largo del tiempo |
-| Auditoria Lighthouse/Performance | Metricas de tamano y carga |
+| Auditoria de performance | Metricas de tamano y carga |
 | Resultados de pruebas de rendimiento | Pruebas automatizadas |
 
 ---

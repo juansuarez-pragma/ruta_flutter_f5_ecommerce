@@ -30,7 +30,7 @@
 #### Impacto en optimizacion de tamano
 | Metrica | Antes de optimizar | Despues de optimizar |
 |--------|--------------------|----------------------|
-| Tamano APK | 50-80 MB | 15-25 MB |
+| Tamano del paquete | 50-80 MB | 15-25 MB |
 | Tiempo de descarga (3G) | 2-4 minutos | 30-60 segundos |
 | Exito de instalacion | 85% | 95% |
 | Quejas por almacenamiento | Alto | Bajo |
@@ -75,8 +75,8 @@
 ### Configuracion de build
 - [ ] Ofuscacion activada en builds de release
 - [ ] Archivos de mapeo/simbolos generados y almacenados de forma segura
-- [ ] Herramientas de minificacion habilitadas en Android
-- [ ] Configuraciones de strip en iOS verificadas
+- [ ] Herramientas de minificacion habilitadas en plataformas objetivo
+- [ ] Configuraciones de strip verificadas en plataformas objetivo
 
 ### Gestion de secretos
 - [ ] Sin credenciales hardcodeadas en el codigo fuente
@@ -122,7 +122,7 @@
 | Problema | Consecuencia |
 |---------|-------------|
 | Sin ofuscacion | Logica de negocio facilmente invertida |
-| Secretos hardcodeados | Credenciales extraibles del APK |
+| Secretos hardcodeados | Credenciales extraibles del paquete de distribucion |
 | Sin archivos de mapeo | Reportes de crash ilegibles |
 | App pesada | Menor tasa de instalacion, peor ranking |
 | Logs de debug en prod | Exposicion de datos sensibles |
@@ -145,7 +145,7 @@ No exponer informacion sensible por logs en release.
 ## 9. Recursos adicionales
 
 ### Documentacion oficial
-- [Manual de ProGuard](https://www.guardsquare.com/manual/home)
+- Guia de minificacion del proveedor de plataforma
 
 ### Recursos de seguridad
 - [OWASP Mobile Security](https://owasp.org/www-project-mobile-security/)

@@ -65,7 +65,7 @@
 
 - [ ] Pruebas escritas antes de la implementacion (ciclo TDD)
 - [ ] Unit tests para todos los casos de uso
-- [ ] Unit tests para todos los BLoCs
+- [ ] Unit tests para componentes de logica de presentacion
 - [ ] Integration tests para flujos criticos
 - [ ] Mocks usados para dependencias externas
 - [ ] Cobertura cumple thresholds

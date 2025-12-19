@@ -77,8 +77,8 @@
 ### Capa de dominio
 - [ ] Entidades inmutables (todas las propiedades `final`)
 - [ ] Repositorios definidos como interfaces abstractas
-- [ ] Un UseCase por operacion de negocio
-- [ ] UseCases usan metodo `call()` para invocacion
+- [ ] Un caso de uso por operacion de negocio
+- [ ] Casos de uso invocables a traves de una interfaz estable
 
 ### Capa de datos
 - [ ] Modelos incluyen `fromJson`, `toJson`, `copyWith`
@@ -92,12 +92,12 @@
 - [ ] States como sustantivos/adjetivos: `ProductsLoading`, `ProductsLoaded`
 
 ### Inyeccion de dependencias
-- [ ] BLoCs registrados como `Factory`
-- [ ] UseCases registrados como `LazySingleton`
-- [ ] DataSources y Repositories como `LazySingleton`
+- [ ] Componentes de presentacion registrados con ciclo de vida transitorio
+- [ ] Casos de uso registrados como singleton de carga diferida
+- [ ] Fuentes de datos y repositorios como singleton de carga diferida
 
 ### Configuracion
-- [ ] Flavors configurados (Android) y Schemes (iOS)
+- [ ] Entornos configurados por ambiente (dev, qa, prod)
 - [ ] Variables de entorno por ambiente (dev, qa, prod)
 - [ ] README documenta reglas de dependencia
 - [ ] Centralizacion de labels para i18n
