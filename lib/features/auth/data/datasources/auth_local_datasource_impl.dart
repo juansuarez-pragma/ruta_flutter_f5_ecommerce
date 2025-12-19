@@ -9,6 +9,7 @@ import 'package:ecommerce/core/utils/clock.dart';
 import 'package:ecommerce/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:ecommerce/features/auth/data/datasources/auth_storage_keys.dart';
 import 'package:ecommerce/features/auth/data/errors/auth_local_exception.dart';
+import 'package:ecommerce/features/auth/data/models/registered_user_record.dart';
 import 'package:ecommerce/features/auth/data/models/user_model.dart';
 
 /// [AuthLocalDataSource] implementation using SharedPreferences.
@@ -89,12 +90,14 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
       token: token,
     );
 
-    final registeredUserRecords = await _getRegisteredUsersWithPasswords();
-    registeredUserRecords.add({
-      'user': newUser.toJson(),
-      'password': _encodePasswordForStorage(password),
-    });
-    await _saveRegisteredUsers(registeredUserRecords);
+    final registeredUserRecords = await _getRegisteredUserRecords();
+    registeredUserRecords.add(
+      RegisteredUserRecord(
+        user: newUser,
+        passwordEncoded: _encodePasswordForStorage(password),
+      ),
+    );
+    await _saveRegisteredUserRecords(registeredUserRecords);
 
     return newUser;
   }
@@ -104,15 +107,12 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     required String email,
     required String password,
   }) async {
-    final registeredUserRecords = await _getRegisteredUsersWithPasswords();
+    final registeredUserRecords = await _getRegisteredUserRecords();
 
     for (final record in registeredUserRecords) {
-      final userMap = record['user'] as Map<String, dynamic>;
-      final storedPassword = record['password'] as String;
-
-      if (userMap['email'] == email &&
-          storedPassword == _encodePasswordForStorage(password)) {
-        final user = UserModel.fromJson(userMap);
+      if (record.user.email == email &&
+          record.passwordEncoded == _encodePasswordForStorage(password)) {
+        final user = record.user;
         final token = _generateToken(email);
         return user.copyWithToken(token);
       }
@@ -128,34 +128,30 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   }
 
   Future<List<UserModel>> _getRegisteredUsers() async {
-    final registeredUserRecords = await _getRegisteredUsersWithPasswords();
-    return registeredUserRecords.map((record) {
-      final userMap = record['user'] as Map<String, dynamic>;
-      return UserModel.fromJson(userMap);
-    }).toList();
+    final registeredUserRecords = await _getRegisteredUserRecords();
+    return registeredUserRecords.map((record) => record.user).toList();
   }
 
-  Future<List<Map<String, dynamic>>> _getRegisteredUsersWithPasswords() async {
+  Future<List<RegisteredUserRecord>> _getRegisteredUserRecords() async {
     final usersJson = sharedPreferences.getString(AuthStorageKeys.registeredUsers);
     if (usersJson == null) return [];
 
     try {
       final usersList = safeJsonDecode(usersJson) as List<dynamic>;
 
-      for (final item in usersList) {
+      return usersList.map((item) {
         if (item is! Map<String, dynamic>) {
           throw ParseException(
-            message: 'User item is not a valid Map',
+            message: 'Registered user record is not a valid Map',
             failedValue: item.toString(),
           );
         }
-      }
-
-      return usersList.cast<Map<String, dynamic>>();
+        return RegisteredUserRecord.fromJson(item);
+      }).toList();
     } on ParseException {
       _logger.logError(
         message: 'Failed to decode registered users list',
-        context: {'operation': '_getRegisteredUsersWithPasswords'},
+        context: {'operation': '_getRegisteredUserRecords'},
       );
       rethrow;
     } catch (e, st) {
@@ -169,7 +165,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
       _logger.logAppException(
         exception,
-        context: {'operation': '_getRegisteredUsersWithPasswords'},
+        context: {'operation': '_getRegisteredUserRecords'},
         stackTrace: st,
       );
 
@@ -177,8 +173,10 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     }
   }
 
-  Future<void> _saveRegisteredUsers(List<Map<String, dynamic>> users) async {
-    final usersJson = json.encode(users);
+  Future<void> _saveRegisteredUserRecords(
+    List<RegisteredUserRecord> records,
+  ) async {
+    final usersJson = json.encode(records.map((r) => r.toJson()).toList());
     await sharedPreferences.setString(AuthStorageKeys.registeredUsers, usersJson);
   }
 

@@ -131,7 +131,7 @@ class ProductFixtures {
   ];
 }
 
-/// Fixtures de CartItem para tests
+/// CartItem fixtures for tests.
 class CartItemFixtures {
   static CartItem get sampleCartItem =>
       CartItem(product: ProductFixtures.sampleProduct, quantity: 1);
@@ -300,9 +300,9 @@ class MockSupportRepository extends Mock implements SupportRepository {}
 /// SupportLocalDataSource mock for tests.
 class MockSupportLocalDataSource extends Mock implements SupportLocalDataSource {}
 
-/// Mock de GetFAQsUseCase para tests
+/// GetFAQsUseCase mock for tests.
 class MockGetFAQsUseCase extends Mock implements GetFAQsUseCase {}
 
-/// Mock de SendContactMessageUseCase para tests
+/// SendContactMessageUseCase mock for tests.
 class MockSendContactMessageUseCase extends Mock
     implements SendContactMessageUseCase {}
