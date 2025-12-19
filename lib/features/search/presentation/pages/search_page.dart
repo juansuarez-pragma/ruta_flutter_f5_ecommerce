@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fake_store_design_system/fake_store_design_system.dart';
 
 import 'package:ecommerce/core/constants/app_constants.dart';
-import 'package:ecommerce/core/di/injection_container.dart';
 import 'package:ecommerce/core/router/routes.dart';
 import 'package:ecommerce/features/search/presentation/bloc/search_bloc.dart';
 
@@ -37,50 +36,42 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => sl<SearchBloc>(),
-      child: Builder(
-        builder: (context) {
-          return Scaffold(
-            appBar: DSAppBar(
-              titleWidget: DSTextField(
-                controller: _searchController,
-                hint: 'Search products...',
-                prefixIcon: Icons.search,
-                suffixIcon: Icons.clear,
-                onSuffixIconTap: () {
-                  _searchController.clear();
-                  context.read<SearchBloc>().add(const SearchCleared());
-                },
-                onChanged: (value) => _onSearchChanged(context, value),
+    return Scaffold(
+      appBar: DSAppBar(
+        titleWidget: DSTextField(
+          controller: _searchController,
+          hint: 'Search products...',
+          prefixIcon: Icons.search,
+          suffixIcon: Icons.clear,
+          onSuffixIconTap: () {
+            _searchController.clear();
+            context.read<SearchBloc>().add(const SearchCleared());
+          },
+          onChanged: (value) => _onSearchChanged(context, value),
+        ),
+      ),
+      body: BlocBuilder<SearchBloc, SearchState>(
+        builder: (context, state) {
+          return switch (state) {
+            SearchInitial() => const _EmptySearch(),
+            SearchLoading() => const DSLoadingState(
+              message: 'Searching...',
+            ),
+            SearchError(:final message) => DSErrorState(
+              message: message,
+              onRetry: () => context.read<SearchBloc>().add(
+                SearchQueryChanged(_searchController.text),
               ),
             ),
-            body: BlocBuilder<SearchBloc, SearchState>(
-              builder: (context, state) {
-                return switch (state) {
-                  SearchInitial() => const _EmptySearch(),
-                  SearchLoading() => const DSLoadingState(
-                    message: 'Searching...',
-                  ),
-                  SearchError(:final message) => DSErrorState(
-                    message: message,
-                    onRetry: () => context.read<SearchBloc>().add(
-                      SearchQueryChanged(_searchController.text),
-                    ),
-                  ),
-                  SearchLoaded(:final products, :final query) =>
-                    products.isEmpty
-                        ? DSEmptyState(
-	                            icon: Icons.search_off,
-	                            title: 'No results',
-	                            description:
-	                                'No products found for "$query"',
-	                          )
-	                        : _SearchResults(products: products),
-                };
-              },
-            ),
-          );
+            SearchLoaded(:final products, :final query) =>
+              products.isEmpty
+                  ? DSEmptyState(
+                      icon: Icons.search_off,
+                      title: 'No results',
+                      description: 'No products found for "$query"',
+                    )
+                  : _SearchResults(products: products),
+          };
         },
       ),
     );

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fake_store_design_system/fake_store_design_system.dart';
 
-import 'package:ecommerce/core/di/injection_container.dart';
-import 'package:ecommerce/core/config/app_config.dart';
+import 'package:ecommerce/core/config/models/order_history_config.dart';
 import 'package:ecommerce/features/orders/presentation/bloc/order_history_bloc.dart';
 import 'package:ecommerce/features/orders/presentation/widgets/order_card.dart';
 
@@ -15,17 +14,27 @@ class OrderHistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appConfig = sl<AppConfig>();
-
-    return BlocProvider(
-      create: (_) =>
-          sl<OrderHistoryBloc>()..add(const OrderHistoryLoadRequested()),
-      child: Scaffold(
-        // Title from JSON configuration.
-        appBar: DSAppBar(title: appConfig.orderHistory.pageTitle),
-        body: const _OrderHistoryBody(),
-      ),
+    return Scaffold(
+      appBar: DSAppBar(title: _resolveTitle(context)),
+      body: const _OrderHistoryBody(),
     );
+  }
+
+  String _resolveTitle(BuildContext context) {
+    final state = context.watch<OrderHistoryBloc>().state;
+    if (state is OrderHistoryLoaded) {
+      return state.config.pageTitle;
+    }
+
+    if (state is OrderHistoryError) {
+      return 'Orders';
+    }
+
+    if (state is OrderHistoryLoading) {
+      return 'Loading...';
+    }
+
+    return 'Orders';
   }
 }
 

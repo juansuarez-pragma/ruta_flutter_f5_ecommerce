@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fake_store_design_system/fake_store_design_system.dart';
 
-import 'package:ecommerce/core/di/injection_container.dart';
 import 'package:ecommerce/features/support/support.dart';
 
 /// Contact page for sending support messages.
@@ -11,10 +10,7 @@ class ContactPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => sl<SupportBloc>(),
-      child: const _ContactPageContent(),
-    );
+    return const _ContactPageContent();
   }
 }
 

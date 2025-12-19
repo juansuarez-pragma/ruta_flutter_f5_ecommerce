@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fake_store_design_system/fake_store_design_system.dart';
 
-import 'package:ecommerce/core/di/injection_container.dart';
 import 'package:ecommerce/core/utils/extensions.dart';
 import 'package:ecommerce/shared/widgets/app_scaffold.dart';
 import 'package:ecommerce/features/products/presentation/bloc/products_bloc.dart';
@@ -19,11 +18,7 @@ class ProductsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) =>
-          sl<ProductsBloc>()..add(ProductsLoadRequested(category: category)),
-      child: _ProductsPageContent(category: category),
-    );
+    return _ProductsPageContent(category: category);
   }
 }
 

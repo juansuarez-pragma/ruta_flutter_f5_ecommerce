@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fake_store_api_client/fake_store_api_client.dart';
 import 'package:fake_store_design_system/fake_store_design_system.dart';
 
-import 'package:ecommerce/core/di/injection_container.dart';
 import 'package:ecommerce/core/utils/extensions.dart';
 import 'package:ecommerce/shared/widgets/widgets.dart';
 import 'package:ecommerce/features/cart/presentation/bloc/cart_bloc.dart';
@@ -27,40 +26,35 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) =>
-          sl<ProductDetailBloc>()
-            ..add(ProductDetailLoadRequested(widget.productId)),
-      child: Scaffold(
-        appBar: DSAppBar(
-          title: 'Details',
-          actions: [
-            DSIconButton(
-              icon: Icons.shopping_cart_outlined,
-              onPressed: () => Navigator.pushNamed(context, '/cart'),
+    return Scaffold(
+      appBar: DSAppBar(
+        title: 'Details',
+        actions: [
+          DSIconButton(
+            icon: Icons.shopping_cart_outlined,
+            onPressed: () => Navigator.pushNamed(context, '/cart'),
+          ),
+        ],
+      ),
+      body: BlocBuilder<ProductDetailBloc, ProductDetailState>(
+        builder: (context, state) {
+          return switch (state) {
+            ProductDetailInitial() => const SizedBox.shrink(),
+            ProductDetailLoading() => const DSLoadingState(
+              message: 'Loading product...',
             ),
-          ],
-        ),
-        body: BlocBuilder<ProductDetailBloc, ProductDetailState>(
-          builder: (context, state) {
-            return switch (state) {
-              ProductDetailInitial() => const SizedBox.shrink(),
-              ProductDetailLoading() => const DSLoadingState(
-                message: 'Loading product...',
+            ProductDetailError(:final message) => DSErrorState(
+              message: message,
+              onRetry: () => context.read<ProductDetailBloc>().add(
+                ProductDetailLoadRequested(widget.productId),
               ),
-              ProductDetailError(:final message) => DSErrorState(
-                message: message,
-                onRetry: () => context.read<ProductDetailBloc>().add(
-                  ProductDetailLoadRequested(widget.productId),
-                ),
-              ),
-              ProductDetailLoaded(:final product) => _buildContent(
-                context,
-                product,
-              ),
-            };
-          },
-        ),
+            ),
+            ProductDetailLoaded(:final product) => _buildContent(
+              context,
+              product,
+            ),
+          };
+        },
       ),
     );
   }

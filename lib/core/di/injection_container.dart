@@ -156,7 +156,11 @@ Future<void> initDependencies() async {
   sl.registerFactory(() => SearchBloc(searchProductsUseCase: sl()));
 
   sl.registerFactory(
-    () => CheckoutBloc(clearCartUseCase: sl(), saveOrderUseCase: sl()),
+    () => CheckoutBloc(
+      clearCartUseCase: sl(),
+      saveOrderUseCase: sl(),
+      clock: sl(),
+    ),
   );
 
   sl.registerFactory(

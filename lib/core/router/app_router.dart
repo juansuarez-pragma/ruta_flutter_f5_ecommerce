@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:ecommerce/core/di/injection_container.dart';
 import 'package:ecommerce/features/home/home.dart';
 import 'package:ecommerce/features/products/products.dart';
 import 'package:ecommerce/features/categories/categories.dart';
@@ -42,7 +44,10 @@ class AppRouter {
 
       case Routes.home:
         return MaterialPageRoute(
-          builder: (_) => const HomePage(),
+          builder: (_) => BlocProvider(
+            create: (_) => sl<HomeBloc>()..add(const HomeLoadRequested()),
+            child: const HomePage(),
+          ),
           settings: settings,
         );
 
@@ -50,13 +55,21 @@ class AppRouter {
         final args = settings.arguments as Map<String, dynamic>?;
         final category = args?['category'] as String?;
         return MaterialPageRoute(
-          builder: (_) => ProductsPage(category: category),
+          builder: (_) => BlocProvider(
+            create: (_) => sl<ProductsBloc>()
+              ..add(ProductsLoadRequested(category: category)),
+            child: ProductsPage(category: category),
+          ),
           settings: settings,
         );
 
       case Routes.categories:
         return MaterialPageRoute(
-          builder: (_) => const CategoriesPage(),
+          builder: (_) => BlocProvider(
+            create: (_) => sl<CategoriesBloc>()
+              ..add(const CategoriesLoadRequested()),
+            child: const CategoriesPage(),
+          ),
           settings: settings,
         );
 
@@ -68,7 +81,10 @@ class AppRouter {
 
       case Routes.checkout:
         return MaterialPageRoute(
-          builder: (_) => const CheckoutPage(),
+          builder: (_) => BlocProvider(
+            create: (_) => sl<CheckoutBloc>(),
+            child: const CheckoutPage(),
+          ),
           settings: settings,
         );
 
@@ -80,25 +96,39 @@ class AppRouter {
 
       case Routes.search:
         return MaterialPageRoute(
-          builder: (_) => const SearchPage(),
+          builder: (_) => BlocProvider(
+            create: (_) => sl<SearchBloc>(),
+            child: const SearchPage(),
+          ),
           settings: settings,
         );
 
       case Routes.orderHistory:
         return MaterialPageRoute(
-          builder: (_) => const OrderHistoryPage(),
+          builder: (_) => BlocProvider(
+            create: (_) => sl<OrderHistoryBloc>()
+              ..add(const OrderHistoryLoadRequested()),
+            child: const OrderHistoryPage(),
+          ),
           settings: settings,
         );
 
       case Routes.support:
         return MaterialPageRoute(
-          builder: (_) => const SupportPage(),
+          builder: (_) => BlocProvider(
+            create: (_) =>
+                sl<SupportBloc>()..add(const SupportFAQsLoadRequested()),
+            child: const SupportPage(),
+          ),
           settings: settings,
         );
 
       case Routes.contact:
         return MaterialPageRoute(
-          builder: (_) => const ContactPage(),
+          builder: (_) => BlocProvider(
+            create: (_) => sl<SupportBloc>(),
+            child: const ContactPage(),
+          ),
           settings: settings,
         );
 
@@ -115,7 +145,11 @@ class AppRouter {
           final id = int.tryParse(idString);
           if (id != null) {
             return MaterialPageRoute(
-              builder: (_) => ProductDetailPage(productId: id),
+              builder: (_) => BlocProvider(
+                create: (_) => sl<ProductDetailBloc>()
+                  ..add(ProductDetailLoadRequested(id)),
+                child: ProductDetailPage(productId: id),
+              ),
               settings: settings,
             );
           }
