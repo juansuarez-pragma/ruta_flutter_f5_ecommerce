@@ -1,51 +1,11 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:ecommerce/features/categories/domain/usecases/get_categories_usecase.dart';
+import 'categories_event.dart';
+import 'categories_state.dart';
 
-// Events
-sealed class CategoriesEvent extends Equatable {
-  const CategoriesEvent();
-
-  @override
-  List<Object> get props => [];
-}
-
-final class CategoriesLoadRequested extends CategoriesEvent {
-  const CategoriesLoadRequested();
-}
-
-// States
-sealed class CategoriesState extends Equatable {
-  const CategoriesState();
-
-  @override
-  List<Object> get props => [];
-}
-
-final class CategoriesInitial extends CategoriesState {
-  const CategoriesInitial();
-}
-
-final class CategoriesLoading extends CategoriesState {
-  const CategoriesLoading();
-}
-
-final class CategoriesLoaded extends CategoriesState {
-  const CategoriesLoaded(this.categories);
-  final List<String> categories;
-
-  @override
-  List<Object> get props => [categories];
-}
-
-final class CategoriesError extends CategoriesState {
-  const CategoriesError(this.message);
-  final String message;
-
-  @override
-  List<Object> get props => [message];
-}
+export 'categories_event.dart';
+export 'categories_state.dart';
 
 /// BLoC that manages categories state.
 class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {

@@ -1,61 +1,11 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fake_store_api_client/fake_store_api_client.dart';
 
 import 'package:ecommerce/features/search/domain/usecases/search_products_usecase.dart';
+import 'search_event.dart';
+import 'search_state.dart';
 
-// Events
-sealed class SearchEvent extends Equatable {
-  const SearchEvent();
-
-  @override
-  List<Object> get props => [];
-}
-
-final class SearchQueryChanged extends SearchEvent {
-  const SearchQueryChanged(this.query);
-  final String query;
-
-  @override
-  List<Object> get props => [query];
-}
-
-final class SearchCleared extends SearchEvent {
-  const SearchCleared();
-}
-
-// States
-sealed class SearchState extends Equatable {
-  const SearchState();
-
-  @override
-  List<Object> get props => [];
-}
-
-final class SearchInitial extends SearchState {
-  const SearchInitial();
-}
-
-final class SearchLoading extends SearchState {
-  const SearchLoading();
-}
-
-final class SearchLoaded extends SearchState {
-  const SearchLoaded({required this.products, required this.query});
-  final List<Product> products;
-  final String query;
-
-  @override
-  List<Object> get props => [products, query];
-}
-
-final class SearchError extends SearchState {
-  const SearchError(this.message);
-  final String message;
-
-  @override
-  List<Object> get props => [message];
-}
+export 'search_event.dart';
+export 'search_state.dart';
 
 /// BLoC that manages search state.
 class SearchBloc extends Bloc<SearchEvent, SearchState> {

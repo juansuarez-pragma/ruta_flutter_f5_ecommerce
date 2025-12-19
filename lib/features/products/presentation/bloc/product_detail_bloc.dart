@@ -1,56 +1,11 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fake_store_api_client/fake_store_api_client.dart';
 
 import 'package:ecommerce/features/products/domain/usecases/get_product_by_id_usecase.dart';
+import 'product_detail_event.dart';
+import 'product_detail_state.dart';
 
-// Events
-sealed class ProductDetailEvent extends Equatable {
-  const ProductDetailEvent();
-
-  @override
-  List<Object> get props => [];
-}
-
-final class ProductDetailLoadRequested extends ProductDetailEvent {
-  const ProductDetailLoadRequested(this.productId);
-  final int productId;
-
-  @override
-  List<Object> get props => [productId];
-}
-
-// States
-sealed class ProductDetailState extends Equatable {
-  const ProductDetailState();
-
-  @override
-  List<Object?> get props => [];
-}
-
-final class ProductDetailInitial extends ProductDetailState {
-  const ProductDetailInitial();
-}
-
-final class ProductDetailLoading extends ProductDetailState {
-  const ProductDetailLoading();
-}
-
-final class ProductDetailLoaded extends ProductDetailState {
-  const ProductDetailLoaded(this.product);
-  final Product product;
-
-  @override
-  List<Object> get props => [product];
-}
-
-final class ProductDetailError extends ProductDetailState {
-  const ProductDetailError(this.message);
-  final String message;
-
-  @override
-  List<Object> get props => [message];
-}
+export 'product_detail_event.dart';
+export 'product_detail_state.dart';
 
 /// BLoC that manages product detail state.
 class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {

@@ -1,59 +1,13 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fake_store_api_client/fake_store_api_client.dart';
 
 import 'package:ecommerce/core/constants/app_constants.dart';
 import 'package:ecommerce/features/categories/domain/usecases/get_categories_usecase.dart';
 import 'package:ecommerce/features/products/domain/usecases/get_products_usecase.dart';
+import 'home_event.dart';
+import 'home_state.dart';
 
-// Events
-sealed class HomeEvent extends Equatable {
-  const HomeEvent();
-
-  @override
-  List<Object> get props => [];
-}
-
-final class HomeLoadRequested extends HomeEvent {
-  const HomeLoadRequested();
-}
-
-final class HomeRefreshRequested extends HomeEvent {
-  const HomeRefreshRequested();
-}
-
-// States
-sealed class HomeState extends Equatable {
-  const HomeState();
-
-  @override
-  List<Object> get props => [];
-}
-
-final class HomeInitial extends HomeState {
-  const HomeInitial();
-}
-
-final class HomeLoading extends HomeState {
-  const HomeLoading();
-}
-
-final class HomeLoaded extends HomeState {
-  const HomeLoaded({required this.categories, required this.featuredProducts});
-  final List<String> categories;
-  final List<Product> featuredProducts;
-
-  @override
-  List<Object> get props => [categories, featuredProducts];
-}
-
-final class HomeError extends HomeState {
-  const HomeError(this.message);
-  final String message;
-
-  @override
-  List<Object> get props => [message];
-}
+export 'home_event.dart';
+export 'home_state.dart';
 
 /// BLoC that manages Home state.
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
