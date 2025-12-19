@@ -1,5 +1,6 @@
 import 'package:ecommerce/core/error_handling/app_exceptions.dart';
 
+import 'package:ecommerce/features/auth/data/security/password_hasher.dart';
 import 'package:ecommerce/features/auth/data/models/user_model.dart';
 
 /// Local persistence record for a registered user.
@@ -9,12 +10,12 @@ import 'package:ecommerce/features/auth/data/models/user_model.dart';
 class RegisteredUserRecord {
   const RegisteredUserRecord({
     required this.user,
-    required this.passwordEncoded,
+    required this.passwordHash,
   });
 
   factory RegisteredUserRecord.fromJson(Map<String, dynamic> json) {
     final userJson = json['user'];
-    final passwordEncoded = json['password'];
+    final passwordHashJson = json['passwordHash'];
 
     if (userJson is! Map<String, dynamic>) {
       throw ParseException(
@@ -23,27 +24,26 @@ class RegisteredUserRecord {
       );
     }
 
-    if (passwordEncoded is! String) {
+    if (passwordHashJson is! Map<String, dynamic>) {
       throw ParseException(
-        message: 'Registered user record "password" is not a valid String',
-        failedValue: passwordEncoded.toString(),
+        message: 'Registered user record "passwordHash" is not a valid Map',
+        failedValue: passwordHashJson.toString(),
       );
     }
 
     return RegisteredUserRecord(
       user: UserModel.fromJson(userJson),
-      passwordEncoded: passwordEncoded,
+      passwordHash: PasswordHash.fromJson(passwordHashJson),
     );
   }
 
   final UserModel user;
 
-  /// Encoded password as stored in SharedPreferences.
-  final String passwordEncoded;
+  /// Password hash data for verification.
+  final PasswordHash passwordHash;
 
   Map<String, dynamic> toJson() => {
     'user': user.toJson(),
-    'password': passwordEncoded,
+    'passwordHash': passwordHash.toJson(),
   };
 }
-

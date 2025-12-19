@@ -2,38 +2,131 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:ecommerce/core/storage/secure_key_value_store.dart';
 import 'package:ecommerce/core/error_handling/app_exceptions.dart';
 import 'package:ecommerce/core/error_handling/app_logger.dart';
 import 'package:ecommerce/core/error_handling/error_handling_utils.dart';
-import 'package:ecommerce/core/utils/clock.dart';
+import 'package:ecommerce/core/utils/id_generator.dart';
 import 'package:ecommerce/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:ecommerce/features/auth/data/datasources/auth_storage_keys.dart';
 import 'package:ecommerce/features/auth/data/errors/auth_local_exception.dart';
 import 'package:ecommerce/features/auth/data/models/registered_user_record.dart';
+import 'package:ecommerce/features/auth/data/security/password_hasher.dart';
 import 'package:ecommerce/features/auth/data/models/user_model.dart';
 
 /// [AuthLocalDataSource] implementation using SharedPreferences.
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   AuthLocalDataSourceImpl({
-    required this.sharedPreferences,
+    required SharedPreferences legacySharedPreferences,
+    required SecureKeyValueStore secureStore,
+    required PasswordHasher passwordHasher,
+    required IdGenerator tokenGenerator,
     required AppLogger logger,
-    required Clock clock,
   }) : _logger = logger,
-       _clock = clock;
+       _legacySharedPreferences = legacySharedPreferences,
+       _secureStore = secureStore,
+       _passwordHasher = passwordHasher,
+       _tokenGenerator = tokenGenerator;
 
-  final SharedPreferences sharedPreferences;
+  final SharedPreferences _legacySharedPreferences;
+  final SecureKeyValueStore _secureStore;
+  final PasswordHasher _passwordHasher;
+  final IdGenerator _tokenGenerator;
   final AppLogger _logger;
-  final Clock _clock;
+
+  bool _migrated = false;
+
+  Future<void> _ensureMigrated() async {
+    if (_migrated) return;
+
+    // Migrate current user from legacy SharedPreferences to secure storage.
+    final legacyCurrentUser = _legacySharedPreferences.getString(
+      AuthStorageKeys.currentUser,
+    );
+    if (legacyCurrentUser != null) {
+      await _secureStore.write(AuthStorageKeys.currentUser, legacyCurrentUser);
+      await _legacySharedPreferences.remove(AuthStorageKeys.currentUser);
+    }
+
+    // Migrate registered users from legacy SharedPreferences to secure storage.
+    final legacyRegisteredUsersJson = _legacySharedPreferences.getString(
+      AuthStorageKeys.registeredUsers,
+    );
+
+    if (legacyRegisteredUsersJson != null) {
+      try {
+        final usersList = safeJsonDecode(legacyRegisteredUsersJson) as List<dynamic>;
+
+        final migratedRecords = <RegisteredUserRecord>[];
+
+        for (final item in usersList) {
+          if (item is! Map<String, dynamic>) {
+            throw ParseException(
+              message: 'Registered user record is not a valid Map',
+              failedValue: item.toString(),
+            );
+          }
+
+          final userJson = item['user'];
+          final passwordValue = item['password'];
+
+          if (userJson is! Map<String, dynamic>) {
+            throw ParseException(
+              message: 'Legacy registered user record "user" is not a valid Map',
+              failedValue: userJson.toString(),
+            );
+          }
+
+          if (passwordValue is! String) {
+            throw ParseException(
+              message:
+                  'Legacy registered user record "password" is not a valid String',
+              failedValue: passwordValue.toString(),
+            );
+          }
+
+          final plainPassword = utf8.decode(base64.decode(passwordValue));
+          final passwordHash = await _passwordHasher.hash(plainPassword);
+
+          migratedRecords.add(
+            RegisteredUserRecord(
+              user: UserModel.fromJson(userJson).copyWithToken(null),
+              passwordHash: passwordHash,
+            ),
+          );
+        }
+
+        await _saveRegisteredUserRecords(migratedRecords);
+        await _legacySharedPreferences.remove(AuthStorageKeys.registeredUsers);
+      } on ParseException {
+        // Keep legacy data if it cannot be migrated, but do not crash startup.
+        _logger.logError(
+          message: 'Failed to migrate legacy registered users',
+          context: {'operation': '_ensureMigrated'},
+        );
+      } catch (e, st) {
+        _logger.logError(
+          message: 'Unexpected error during legacy auth migration: $e',
+          stackTrace: st,
+          context: {'operation': '_ensureMigrated'},
+        );
+      }
+    }
+
+    _migrated = true;
+  }
 
   @override
   Future<void> cacheCurrentUser(UserModel user) async {
+    await _ensureMigrated();
     final userJson = json.encode(user.toJson());
-    await sharedPreferences.setString(AuthStorageKeys.currentUser, userJson);
+    await _secureStore.write(AuthStorageKeys.currentUser, userJson);
   }
 
   @override
   Future<UserModel?> getCachedUser() async {
-    final userJson = sharedPreferences.getString(AuthStorageKeys.currentUser);
+    await _ensureMigrated();
+    final userJson = await _secureStore.read(AuthStorageKeys.currentUser);
     if (userJson == null) return null;
 
     try {
@@ -62,7 +155,8 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   @override
   Future<void> clearCurrentUser() async {
-    await sharedPreferences.remove(AuthStorageKeys.currentUser);
+    await _ensureMigrated();
+    await _secureStore.delete(AuthStorageKeys.currentUser);
   }
 
   @override
@@ -73,13 +167,14 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     required String firstName,
     required String lastName,
   }) async {
+    await _ensureMigrated();
     if (await isEmailRegistered(email)) {
       throw const AuthLocalException('Email already registered');
     }
 
     final registeredUsers = await _getRegisteredUsers();
     final nextUserId = _nextUserId(registeredUsers);
-    final token = _generateToken(email);
+    final token = _generateSessionToken();
 
     final newUser = UserModel(
       id: nextUserId,
@@ -91,10 +186,11 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     );
 
     final registeredUserRecords = await _getRegisteredUserRecords();
+    final passwordHash = await _passwordHasher.hash(password);
     registeredUserRecords.add(
       RegisteredUserRecord(
-        user: newUser,
-        passwordEncoded: _encodePasswordForStorage(password),
+        user: newUser.copyWithToken(null),
+        passwordHash: passwordHash,
       ),
     );
     await _saveRegisteredUserRecords(registeredUserRecords);
@@ -107,13 +203,18 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     required String email,
     required String password,
   }) async {
+    await _ensureMigrated();
     final registeredUserRecords = await _getRegisteredUserRecords();
 
     for (final record in registeredUserRecords) {
-      if (record.user.email == email &&
-          record.passwordEncoded == _encodePasswordForStorage(password)) {
+      final passwordMatches = await _passwordHasher.verify(
+        password,
+        record.passwordHash,
+      );
+
+      if (record.user.email == email && passwordMatches) {
         final user = record.user;
-        final token = _generateToken(email);
+        final token = _generateSessionToken();
         return user.copyWithToken(token);
       }
     }
@@ -123,6 +224,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
 
   @override
   Future<bool> isEmailRegistered(String email) async {
+    await _ensureMigrated();
     final users = await _getRegisteredUsers();
     return users.any((user) => user.email == email);
   }
@@ -133,7 +235,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   }
 
   Future<List<RegisteredUserRecord>> _getRegisteredUserRecords() async {
-    final usersJson = sharedPreferences.getString(AuthStorageKeys.registeredUsers);
+    final usersJson = await _secureStore.read(AuthStorageKeys.registeredUsers);
     if (usersJson == null) return [];
 
     try {
@@ -177,7 +279,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     List<RegisteredUserRecord> records,
   ) async {
     final usersJson = json.encode(records.map((r) => r.toJson()).toList());
-    await sharedPreferences.setString(AuthStorageKeys.registeredUsers, usersJson);
+    await _secureStore.write(AuthStorageKeys.registeredUsers, usersJson);
   }
 
   int _nextUserId(List<UserModel> existingUsers) {
@@ -190,12 +292,8 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     return maxExistingUserId + 1;
   }
 
-  String _generateToken(String email) {
-    final timestamp = _clock.now().millisecondsSinceEpoch;
-    return base64.encode(utf8.encode('$email:$timestamp'));
-  }
-
-  String _encodePasswordForStorage(String password) {
-    return base64.encode(utf8.encode(password));
+  String _generateSessionToken() {
+    // Opaque, unguessable token (UUID v4 by default).
+    return _tokenGenerator.generate();
   }
 }

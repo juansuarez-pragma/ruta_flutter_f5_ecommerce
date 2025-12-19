@@ -5,29 +5,42 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:ecommerce/core/error_handling/app_exceptions.dart';
 import 'package:ecommerce/core/error_handling/app_logger.dart';
-import 'package:ecommerce/core/utils/clock.dart';
+import 'package:ecommerce/core/storage/secure_key_value_store.dart';
+import 'package:ecommerce/core/utils/id_generator.dart';
 import 'package:ecommerce/features/auth/data/errors/auth_local_exception.dart';
 import 'package:ecommerce/features/auth/data/datasources/auth_local_datasource_impl.dart';
 import 'package:ecommerce/features/auth/data/datasources/auth_storage_keys.dart';
+import 'package:ecommerce/features/auth/data/security/password_hasher.dart';
 import 'package:ecommerce/features/auth/data/models/user_model.dart';
 
 class MockSharedPreferences extends Mock implements SharedPreferences {}
 
 class MockAppLogger extends Mock implements AppLogger {}
 
-class FakeClock implements Clock {
-  FakeClock(this._now);
-  final DateTime _now;
+class MockSecureKeyValueStore extends Mock implements SecureKeyValueStore {}
 
-  @override
-  DateTime now() => _now;
-}
+class MockPasswordHasher extends Mock implements PasswordHasher {}
+
+class MockIdGenerator extends Mock implements IdGenerator {}
 
 void main() {
   late AuthLocalDataSourceImpl authDataSource;
-  late MockSharedPreferences mockSharedPreferences;
+  late MockSharedPreferences mockLegacySharedPreferences;
+  late MockSecureKeyValueStore mockSecureStore;
   late MockAppLogger mockLogger;
-  late FakeClock fakeClock;
+  late MockPasswordHasher mockPasswordHasher;
+  late MockIdGenerator mockTokenGenerator;
+
+  setUpAll(() {
+    registerFallbackValue(
+      const PasswordHash(
+        algorithm: 'TEST',
+        iterations: 1,
+        saltBase64: 'c2FsdA==',
+        hashBase64: 'aGFzaA==',
+      ),
+    );
+  });
 
   const testUserModel = UserModel(
     id: 1,
@@ -39,13 +52,21 @@ void main() {
   );
 
   setUp(() {
-    mockSharedPreferences = MockSharedPreferences();
+    mockLegacySharedPreferences = MockSharedPreferences();
+    mockSecureStore = MockSecureKeyValueStore();
     mockLogger = MockAppLogger();
-    fakeClock = FakeClock(DateTime(2025));
+    mockPasswordHasher = MockPasswordHasher();
+    mockTokenGenerator = MockIdGenerator();
+
+    // Default: no legacy values to migrate.
+    when(() => mockLegacySharedPreferences.getString(any())).thenReturn(null);
+
     authDataSource = AuthLocalDataSourceImpl(
-      sharedPreferences: mockSharedPreferences,
+      legacySharedPreferences: mockLegacySharedPreferences,
+      secureStore: mockSecureStore,
+      passwordHasher: mockPasswordHasher,
+      tokenGenerator: mockTokenGenerator,
       logger: mockLogger,
-      clock: fakeClock,
     );
   });
 
@@ -53,8 +74,8 @@ void main() {
     test('should return a user when JSON is valid', () async {
       // Arrange
       final userJson = json.encode(testUserModel.toJson());
-      when(() => mockSharedPreferences.getString(AuthStorageKeys.currentUser))
-          .thenReturn(userJson);
+      when(() => mockSecureStore.read(AuthStorageKeys.currentUser))
+          .thenAnswer((_) async => userJson);
 
       // Act
       final result = await authDataSource.getCachedUser();
@@ -65,8 +86,8 @@ void main() {
 
     test('should return null when there is no cached user', () async {
       // Arrange
-      when(() => mockSharedPreferences.getString(AuthStorageKeys.currentUser))
-          .thenReturn(null);
+      when(() => mockSecureStore.read(AuthStorageKeys.currentUser))
+          .thenAnswer((_) async => null);
 
       // Act
       final result = await authDataSource.getCachedUser();
@@ -78,8 +99,8 @@ void main() {
     test('should rethrow ParseException when JSON is invalid', () async {
       // Arrange - malformed JSON
       const invalidJson = '{"invalid: json}';
-      when(() => mockSharedPreferences.getString(AuthStorageKeys.currentUser))
-          .thenReturn(invalidJson);
+      when(() => mockSecureStore.read(AuthStorageKeys.currentUser))
+          .thenAnswer((_) async => invalidJson);
 
       // Act & Assert
       expect(
@@ -91,8 +112,8 @@ void main() {
     test('should include the failed value in the exception', () async {
       // Arrange
       const failedJson = 'invalid json string';
-      when(() => mockSharedPreferences.getString(AuthStorageKeys.currentUser))
-          .thenReturn(failedJson);
+      when(() => mockSecureStore.read(AuthStorageKeys.currentUser))
+          .thenAnswer((_) async => failedJson);
 
       // Act & Assert
       expect(
@@ -112,8 +133,8 @@ void main() {
     test('should return an empty list when there are no users', () async {
       // Arrange
       when(
-        () => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers),
-      ).thenReturn(null);
+        () => mockSecureStore.read(AuthStorageKeys.registeredUsers),
+      ).thenAnswer((_) async => null);
 
       // Act
       final result = await authDataSource.isEmailRegistered('test@test.com');
@@ -126,8 +147,8 @@ void main() {
       // Arrange - malformed JSON in registeredUsers
       const invalidJson = '{"invalid: array}';
       when(
-        () => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers),
-      ).thenReturn(invalidJson);
+        () => mockSecureStore.read(AuthStorageKeys.registeredUsers),
+      ).thenAnswer((_) async => invalidJson);
 
       // Act & Assert
       expect(
@@ -140,8 +161,8 @@ void main() {
       // Arrange - JSON with invalid structure
       final invalidUsersList = json.encode(['not_a_map', 'string']);
       when(
-        () => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers),
-      ).thenReturn(invalidUsersList);
+        () => mockSecureStore.read(AuthStorageKeys.registeredUsers),
+      ).thenAnswer((_) async => invalidUsersList);
 
       // Act & Assert
       expect(
@@ -157,8 +178,8 @@ void main() {
       // Arrange
       final emptyArray = json.encode(<Map<String, dynamic>>[]);
       when(
-        () => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers),
-      ).thenReturn(emptyArray);
+        () => mockSecureStore.read(AuthStorageKeys.registeredUsers),
+      ).thenAnswer((_) async => emptyArray);
 
       // Act
       final result = await authDataSource.isEmailRegistered('test@test.com');
@@ -171,34 +192,29 @@ void main() {
   group('AuthLocalDataSource - cacheCurrentUser', () {
     test('should persist the user in SharedPreferences', () async {
       // Arrange
-      when(() => mockSharedPreferences.setString(
-            AuthStorageKeys.currentUser,
-            any(),
-          )).thenAnswer((_) async => true);
+      when(() => mockSecureStore.write(AuthStorageKeys.currentUser, any()))
+          .thenAnswer((_) async {});
 
       // Act
       await authDataSource.cacheCurrentUser(testUserModel);
 
       // Assert
-      verify(() => mockSharedPreferences.setString(
-            AuthStorageKeys.currentUser,
-            any(),
-          )).called(1);
+      verify(() => mockSecureStore.write(AuthStorageKeys.currentUser, any()))
+          .called(1);
     });
   });
 
   group('AuthLocalDataSource - clearCurrentUser', () {
     test('should remove the user from storage', () async {
       // Arrange
-      when(() => mockSharedPreferences.remove(AuthStorageKeys.currentUser))
-          .thenAnswer((_) async => true);
+      when(() => mockSecureStore.delete(AuthStorageKeys.currentUser))
+          .thenAnswer((_) async {});
 
       // Act
       await authDataSource.clearCurrentUser();
 
       // Assert
-      verify(() => mockSharedPreferences.remove(AuthStorageKeys.currentUser))
-          .called(1);
+      verify(() => mockSecureStore.delete(AuthStorageKeys.currentUser)).called(1);
     });
   });
 
@@ -206,8 +222,8 @@ void main() {
     test('should throw on corrupted JSON in getCachedUser', () async {
       // Arrange
       const corruptedJson = '{"field": invalid}';
-      when(() => mockSharedPreferences.getString(AuthStorageKeys.currentUser))
-          .thenReturn(corruptedJson);
+      when(() => mockSecureStore.read(AuthStorageKeys.currentUser))
+          .thenAnswer((_) async => corruptedJson);
 
       // Act & Assert
       expect(
@@ -219,9 +235,8 @@ void main() {
     test('should throw on corrupted JSON in registeredUsers', () async {
       // Arrange
       const corruptedJson = '[{invalid}]';
-      when(() => mockSharedPreferences.getString(
-            AuthStorageKeys.registeredUsers,
-          )).thenReturn(corruptedJson);
+      when(() => mockSecureStore.read(AuthStorageKeys.registeredUsers))
+          .thenAnswer((_) async => corruptedJson);
 
       // Act & Assert
       expect(
@@ -238,15 +253,22 @@ void main() {
     test('should assign id 1 when there are no registered users', () async {
       // Arrange
       when(
-        () => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers),
-      ).thenReturn(null);
+        () => mockSecureStore.read(AuthStorageKeys.registeredUsers),
+      ).thenAnswer((_) async => null);
 
       when(
-        () => mockSharedPreferences.setString(
-          AuthStorageKeys.registeredUsers,
-          any(),
+        () => mockSecureStore.write(AuthStorageKeys.registeredUsers, any()),
+      ).thenAnswer((_) async {});
+
+      when(() => mockTokenGenerator.generate()).thenReturn('token-1');
+      when(() => mockPasswordHasher.hash(any())).thenAnswer(
+        (_) async => const PasswordHash(
+          algorithm: 'TEST',
+          iterations: 1,
+          saltBase64: 'c2FsdA==',
+          hashBase64: 'aGFzaA==',
         ),
-      ).thenAnswer((_) async => true);
+      );
 
       // Act
       final user = await authDataSource.registerUser(
@@ -261,10 +283,7 @@ void main() {
       expect(user.id, 1);
       expect(user.email, 'new@example.com');
       verify(
-        () => mockSharedPreferences.setString(
-          AuthStorageKeys.registeredUsers,
-          any(),
-        ),
+        () => mockSecureStore.write(AuthStorageKeys.registeredUsers, any()),
       ).called(1);
     });
 
@@ -278,9 +297,13 @@ void main() {
             username: 'a',
             firstName: 'A',
             lastName: 'A',
-            token: 't',
           ).toJson(),
-          'password': base64.encode(utf8.encode('password123')),
+          'passwordHash': const PasswordHash(
+            algorithm: 'TEST',
+            iterations: 1,
+            saltBase64: 'c2FsdA==',
+            hashBase64: 'aGFzaA==',
+          ).toJson(),
         },
         {
           'user': const UserModel(
@@ -289,22 +312,33 @@ void main() {
             username: 'b',
             firstName: 'B',
             lastName: 'B',
-            token: 't',
           ).toJson(),
-          'password': base64.encode(utf8.encode('password123')),
+          'passwordHash': const PasswordHash(
+            algorithm: 'TEST',
+            iterations: 1,
+            saltBase64: 'c2FsdA==',
+            hashBase64: 'aGFzaA==',
+          ).toJson(),
         },
       ];
 
       when(
-        () => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers),
-      ).thenReturn(json.encode(existing));
+        () => mockSecureStore.read(AuthStorageKeys.registeredUsers),
+      ).thenAnswer((_) async => json.encode(existing));
 
       when(
-        () => mockSharedPreferences.setString(
-          AuthStorageKeys.registeredUsers,
-          any(),
+        () => mockSecureStore.write(AuthStorageKeys.registeredUsers, any()),
+      ).thenAnswer((_) async {});
+
+      when(() => mockTokenGenerator.generate()).thenReturn('token-2');
+      when(() => mockPasswordHasher.hash(any())).thenAnswer(
+        (_) async => const PasswordHash(
+          algorithm: 'TEST',
+          iterations: 1,
+          saltBase64: 'c2FsdA==',
+          hashBase64: 'aGFzaA==',
         ),
-      ).thenAnswer((_) async => true);
+      );
 
       // Act
       final user = await authDataSource.registerUser(
@@ -330,15 +364,19 @@ void main() {
             username: 'dup',
             firstName: 'Dup',
             lastName: 'User',
-            token: 't',
           ).toJson(),
-          'password': base64.encode(utf8.encode('password123')),
+          'passwordHash': const PasswordHash(
+            algorithm: 'TEST',
+            iterations: 1,
+            saltBase64: 'c2FsdA==',
+            hashBase64: 'aGFzaA==',
+          ).toJson(),
         },
       ];
 
       when(
-        () => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers),
-      ).thenReturn(json.encode(existing));
+        () => mockSecureStore.read(AuthStorageKeys.registeredUsers),
+      ).thenAnswer((_) async => json.encode(existing));
 
       // Act & Assert
       expect(
@@ -357,15 +395,22 @@ void main() {
         () async {
       // Arrange
       when(
-        () => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers),
-      ).thenReturn(null);
+        () => mockSecureStore.read(AuthStorageKeys.registeredUsers),
+      ).thenAnswer((_) async => null);
 
       when(
-        () => mockSharedPreferences.setString(
-          AuthStorageKeys.registeredUsers,
-          any(),
+        () => mockSecureStore.write(AuthStorageKeys.registeredUsers, any()),
+      ).thenAnswer((_) async {});
+
+      when(() => mockTokenGenerator.generate()).thenReturn('token-3');
+      when(() => mockPasswordHasher.hash(any())).thenAnswer(
+        (_) async => const PasswordHash(
+          algorithm: 'TEST',
+          iterations: 1,
+          saltBase64: 'c2FsdA==',
+          hashBase64: 'aGFzaA==',
         ),
-      ).thenAnswer((_) async => true);
+      );
 
       // Act
       final created = await authDataSource.registerUser(
@@ -378,22 +423,19 @@ void main() {
 
       // Assert: inspect what was persisted.
       final captured = verify(
-        () => mockSharedPreferences.setString(
-          AuthStorageKeys.registeredUsers,
-          captureAny(),
-        ),
+        () => mockSecureStore.write(AuthStorageKeys.registeredUsers, captureAny()),
       ).captured.single as String;
 
       final decoded = json.decode(captured) as List<dynamic>;
       expect(decoded, hasLength(1));
 
       final record = decoded.first as Map<String, dynamic>;
-      expect(record.keys, containsAll(['user', 'password']));
+      expect(record.keys, containsAll(['user', 'passwordHash']));
 
       final userJson = record['user'] as Map<String, dynamic>;
       expect(userJson['id'], created.id);
       expect(userJson['email'], 'new@example.com');
-      expect(record['password'], base64.encode(utf8.encode('password123')));
+      expect(record['passwordHash'], isA<Map<String, dynamic>>());
     });
   });
 
@@ -401,8 +443,8 @@ void main() {
     test('should return null when no user matches the credentials', () async {
       // Arrange: no users in storage.
       when(
-        () => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers),
-      ).thenReturn(null);
+        () => mockSecureStore.read(AuthStorageKeys.registeredUsers),
+      ).thenAnswer((_) async => null);
 
       // Act
       final user = await authDataSource.loginUser(
@@ -426,23 +468,27 @@ void main() {
         username: 'testuser',
         firstName: 'Test',
         lastName: 'User',
-        token: 'old_token',
       );
 
       final storedRecords = [
         {
           'user': storedUser.toJson(),
-          'password': base64.encode(utf8.encode(password)),
+          'passwordHash': const PasswordHash(
+            algorithm: 'TEST',
+            iterations: 1,
+            saltBase64: 'c2FsdA==',
+            hashBase64: 'aGFzaA==',
+          ).toJson(),
         },
       ];
 
       when(
-        () => mockSharedPreferences.getString(AuthStorageKeys.registeredUsers),
-      ).thenReturn(json.encode(storedRecords));
+        () => mockSecureStore.read(AuthStorageKeys.registeredUsers),
+      ).thenAnswer((_) async => json.encode(storedRecords));
 
-      final expectedToken = base64.encode(
-        utf8.encode('$email:${fakeClock.now().millisecondsSinceEpoch}'),
-      );
+      when(() => mockPasswordHasher.verify(password, any()))
+          .thenAnswer((_) async => true);
+      when(() => mockTokenGenerator.generate()).thenReturn('token-4');
 
       // Act
       final user = await authDataSource.loginUser(
@@ -453,7 +499,7 @@ void main() {
       // Assert
       expect(user, isNotNull);
       expect(user!.email, email);
-      expect(user.token, expectedToken);
+      expect(user.token, 'token-4');
     });
   });
 }

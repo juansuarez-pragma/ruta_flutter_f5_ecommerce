@@ -1,12 +1,15 @@
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fake_store_api_client/fake_store_api_client.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:ecommerce/core/config/config.dart';
 import 'package:ecommerce/core/config/asset_string_loader.dart';
 import 'package:ecommerce/core/config/config_local_datasource.dart';
 import 'package:ecommerce/core/error_handling/app_logger.dart';
 import 'package:ecommerce/core/error_handling/error_logger.dart';
+import 'package:ecommerce/core/storage/flutter_secure_storage_store.dart';
+import 'package:ecommerce/core/storage/secure_key_value_store.dart';
 import 'package:ecommerce/core/utils/clock.dart';
 import 'package:ecommerce/core/utils/id_generator.dart';
 import 'package:ecommerce/features/home/home.dart';
@@ -20,6 +23,7 @@ import 'package:ecommerce/features/orders/orders.dart';
 import 'package:ecommerce/features/orders/data/datasources/order_local_datasource_impl.dart';
 import 'package:ecommerce/features/auth/auth.dart';
 import 'package:ecommerce/features/auth/data/datasources/auth_local_datasource_impl.dart';
+import 'package:ecommerce/features/auth/data/security/password_hasher.dart';
 import 'package:ecommerce/features/support/support.dart';
 import 'package:ecommerce/features/support/data/datasources/support_local_datasource_impl.dart';
 
@@ -40,6 +44,10 @@ Future<void> initDependencies() async {
   // ============ External ============
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);
+  sl.registerLazySingleton(() => const FlutterSecureStorage());
+  sl.registerLazySingleton<SecureKeyValueStore>(
+    () => FlutterSecureStorageStore(storage: sl()),
+  );
 
   // ============ Assets ============
   sl.registerLazySingleton<AssetStringLoader>(
@@ -69,14 +77,19 @@ Future<void> initDependencies() async {
   );
   sl.registerLazySingleton<AuthLocalDataSource>(
     () => AuthLocalDataSourceImpl(
-      sharedPreferences: sl(),
+      legacySharedPreferences: sl(),
+      secureStore: sl(),
+      passwordHasher: sl(),
+      tokenGenerator: sl(),
       logger: sl(),
-      clock: sl(),
     ),
   );
   sl.registerLazySingleton<SupportLocalDataSource>(
     () => SupportLocalDataSourceImpl(sharedPreferences: sl(), logger: sl()),
   );
+
+  // ============ Security ============
+  sl.registerLazySingleton<PasswordHasher>(() => Pbkdf2PasswordHasher());
 
   // ============ Repositories ============
   sl.registerLazySingleton<CartRepository>(

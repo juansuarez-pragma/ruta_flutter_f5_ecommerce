@@ -43,6 +43,12 @@ dependencies:
   # UUID generation
   uuid: ^4.5.1
 
+  # Secure storage (production-grade auth)
+  flutter_secure_storage: ^9.2.4
+
+  # Cryptography (password hashing)
+  cryptography: ^2.7.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
