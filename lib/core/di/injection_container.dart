@@ -199,8 +199,3 @@ Future<void> initDependencies() async {
 }
 
 /// Clears dependencies when closing the app.
-void disposeDependencies() {
-  // ProductRepository does not require dispose() since the HTTP client is internal.
-  // If cleanup is needed, get_it handles resources automatically.
-  sl.reset();
-}
