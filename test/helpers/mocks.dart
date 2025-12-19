@@ -12,6 +12,10 @@ import 'package:ecommerce/features/orders/domain/repositories/order_repository.d
 import 'package:ecommerce/features/orders/domain/usecases/get_orders_usecase.dart';
 import 'package:ecommerce/features/orders/domain/usecases/save_order_usecase.dart';
 import 'package:ecommerce/features/orders/domain/usecases/get_order_by_id_usecase.dart';
+import 'package:ecommerce/features/categories/domain/usecases/get_categories_usecase.dart';
+import 'package:ecommerce/features/products/domain/usecases/get_product_by_id_usecase.dart';
+import 'package:ecommerce/features/products/domain/usecases/get_products_usecase.dart';
+import 'package:ecommerce/features/search/domain/usecases/search_products_usecase.dart';
 import 'package:ecommerce/features/auth/auth.dart';
 import 'package:ecommerce/features/support/support.dart';
 
@@ -19,45 +23,45 @@ import 'package:ecommerce/features/support/support.dart';
 // EXTERNAL MOCKS
 // ============================================================================
 
-/// Mock de SharedPreferences para tests
+/// SharedPreferences mock for tests.
 class MockSharedPreferences extends Mock implements SharedPreferences {}
 
 // ============================================================================
 // REPOSITORY MOCKS
 // ============================================================================
 
-/// Mock del ProductRepository para tests
+/// ProductRepository mock for tests.
 class MockProductRepository extends Mock implements ProductRepository {}
 
-/// Mock del CartRepository para tests
+/// CartRepository mock for tests.
 class MockCartRepository extends Mock implements CartRepository {}
 
-/// Mock del OrderRepository para tests
+/// OrderRepository mock for tests.
 class MockOrderRepository extends Mock implements OrderRepository {}
 
-/// Mock del AuthRepository para tests
+/// AuthRepository mock for tests.
 class MockAuthRepository extends Mock implements AuthRepository {}
 
-/// Mock del AuthLocalDataSource para tests
+/// AuthLocalDataSource mock for tests.
 class MockAuthLocalDataSource extends Mock implements AuthLocalDataSource {}
 
 // ============================================================================
 // AUTH USE CASE MOCKS
 // ============================================================================
 
-/// Mock de LoginUseCase para tests
+/// LoginUseCase mock for tests.
 class MockLoginUseCase extends Mock implements LoginUseCase {}
 
-/// Mock de RegisterUseCase para tests
+/// RegisterUseCase mock for tests.
 class MockRegisterUseCase extends Mock implements RegisterUseCase {}
 
-/// Mock de LogoutUseCase para tests
+/// LogoutUseCase mock for tests.
 class MockLogoutUseCase extends Mock implements LogoutUseCase {}
 
-/// Mock de GetCurrentUserUseCase para tests
+/// GetCurrentUserUseCase mock for tests.
 class MockGetCurrentUserUseCase extends Mock implements GetCurrentUserUseCase {}
 
-/// Mocks de UseCases del Cart
+/// Cart use cases mocks.
 class MockGetCartUseCase extends Mock implements GetCartUseCase {}
 
 class MockAddToCartUseCase extends Mock implements AddToCartUseCase {}
@@ -69,7 +73,23 @@ class MockUpdateCartQuantityUseCase extends Mock
 
 class MockClearCartUseCase extends Mock implements ClearCartUseCase {}
 
-/// Fixtures de productos para tests
+// ============================================================================
+// PRODUCTS & CATEGORIES USE CASE MOCKS
+// ============================================================================
+
+/// GetCategoriesUseCase mock for tests.
+class MockGetCategoriesUseCase extends Mock implements GetCategoriesUseCase {}
+
+/// GetProductsUseCase mock for tests.
+class MockGetProductsUseCase extends Mock implements GetProductsUseCase {}
+
+/// SearchProductsUseCase mock for tests.
+class MockSearchProductsUseCase extends Mock implements SearchProductsUseCase {}
+
+/// GetProductByIdUseCase mock for tests.
+class MockGetProductByIdUseCase extends Mock implements GetProductByIdUseCase {}
+
+/// Product fixtures for tests.
 class ProductFixtures {
   static Product get sampleProduct => const Product(
     id: 1,
