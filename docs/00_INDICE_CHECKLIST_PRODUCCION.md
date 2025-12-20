@@ -28,23 +28,23 @@ Ademas, cada documento incluye:
 
 ### Minimos (Obligatorios)
 
-| Codigo | Documento | Atributo de calidad |
-|--------|-----------|---------------------|
-| TRA-MIN-002 | [Validacion de arquitectura](./TRA-MIN-002_architecture_validation.md) | Mantenibilidad |
-| TRA-MIN-003 | [Uso adecuado de excepciones](./TRA-MIN-003_proper_use_of_exceptions.md) | Trazabilidad |
-| TRA-MIN-004 | [Uso de linters](./TRA-MIN-004_use_of_linters.md) | Mantenibilidad |
-| TRA-MIN-005 | [Codigo limpio](./TRA-MIN-005_clean_code.md) | Mantenibilidad |
-| MOFE-MIN-001 | [Rendimiento](./MOFE-MIN-001_performance.md) | Rendimiento |
-| MOFE-MIN-002 | [Minificacion y ofuscacion](./MOFE-MIN-002_minification_obfuscation.md) | Seguridad |
+| Codigo | Documento | Atributo de calidad | Anexo |
+|--------|-----------|---------------------|-------|
+| TRA-MIN-002 | [Validacion de arquitectura](./TRA-MIN-002_architecture_validation.md) | Mantenibilidad | [Anexo](./anexos/TRA-MIN-002_architecture_validation_tools.md) |
+| TRA-MIN-003 | [Uso adecuado de excepciones](./TRA-MIN-003_proper_use_of_exceptions.md) | Trazabilidad | [Anexo](./anexos/TRA-MIN-003_proper_use_of_exceptions_tools.md) |
+| TRA-MIN-004 | [Uso de linters](./TRA-MIN-004_use_of_linters.md) | Mantenibilidad | [Anexo](./anexos/TRA-MIN-004_use_of_linters_tools.md) |
+| TRA-MIN-005 | [Codigo limpio](./TRA-MIN-005_clean_code.md) | Mantenibilidad | [Anexo](./anexos/TRA-MIN-005_clean_code_tools.md) |
+| MOFE-MIN-001 | [Rendimiento](./MOFE-MIN-001_performance.md) | Rendimiento | [Anexo](./anexos/MOFE-MIN-001_performance_tools.md) |
+| MOFE-MIN-002 | [Minificacion y ofuscacion](./MOFE-MIN-002_minification_obfuscation.md) | Seguridad | [Anexo](./anexos/MOFE-MIN-002_minification_obfuscation_tools.md) |
 
 ### Buenas practicas (Recomendadas)
 
-| Codigo | Documento | Atributo de calidad |
-|--------|-----------|---------------------|
-| TRA-BP-006 | [Arquitectura resiliente](./TRA-BP-006_resilient_architecture.md) | Arquitectura |
-| TRA-BP-007 | [Diseno guiado por el dominio (DDD)](./TRA-BP-007_domain_driven_design.md) | Escalabilidad |
-| TRA-BP-008 | [Desarrollo guiado por pruebas (TDD)](./TRA-BP-008_tdd.md) | Calidad |
-| MO-BP-001 | [Gestion de dependencias](./MO-BP-001_dependency_management.md) | Escalabilidad |
+| Codigo | Documento | Atributo de calidad | Anexo |
+|--------|-----------|---------------------|-------|
+| TRA-BP-006 | [Arquitectura resiliente](./TRA-BP-006_resilient_architecture.md) | Arquitectura | [Anexo](./anexos/TRA-BP-006_resilient_architecture_tools.md) |
+| TRA-BP-007 | [Diseno guiado por el dominio (DDD)](./TRA-BP-007_domain_driven_design.md) | Escalabilidad | [Anexo](./anexos/TRA-BP-007_domain_driven_design_tools.md) |
+| TRA-BP-008 | [Desarrollo guiado por pruebas (TDD)](./TRA-BP-008_tdd.md) | Calidad | [Anexo](./anexos/TRA-BP-008_tdd_tools.md) |
+| MO-BP-001 | [Gestion de dependencias](./MO-BP-001_dependency_management.md) | Escalabilidad | [Anexo](./anexos/MO-BP-001_dependency_management_tools.md) |
 
 ---
 
