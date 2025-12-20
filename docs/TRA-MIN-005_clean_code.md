@@ -50,13 +50,13 @@
 
 > Mejorar el entendimiento y la colaboracion entre desarrolladores, facilitar la deteccion y correccion de errores, y permitir mayor escalabilidad y extensibilidad del codigo.
 
-### Principios de codigo limpio
+### Principios medibles de codigo limpio
 
-1. **Legibilidad**: el codigo debe leerse como prosa bien escrita
-2. **Simplicidad**: hacer una sola cosa y hacerla bien
-3. **Auto-documentado**: el codigo se explica mediante nombres
-4. **DRY (Don't Repeat Yourself)**: eliminar duplicacion
-5. **SOLID**: seguir los cinco principios fundamentales de POO
+1. **Legibilidad**: el formateador automatico no introduce cambios y el set de reglas de estilo no reporta violaciones.
+2. **Simplicidad**: complejidad ciclomática por funcion <= 10 y longitud por funcion <= 40 lineas.
+3. **Auto-documentado**: identificadores con longitud >= 3, salvo lista de excepciones aprobadas.
+4. **DRY**: duplicacion de codigo <= 3% segun herramienta de deteccion.
+5. **SOLID**: reglas de arquitectura sin violaciones (dependencias permitidas y acoplamiento controlado).
 
 ---
 
@@ -67,45 +67,52 @@
 ---
 
 ## 5. Lista de verificacion
+Ver anexo de herramientas: `docs/anexos/TRA-MIN-005_clean_code_tools.md`
 
 ### Nombres
-- [ ] Variables usan camelCase
-- [ ] Clases usan PascalCase
-- [ ] Archivos usan snake_case
-- [ ] Variables booleanas tienen prefijo is/has/can/should
-- [ ] Nombres son descriptivos y auto-documentados
-- [ ] Sin abreviaturas o nombres cripticos
+- [ ] Convenciones de nombres validadas por reglas automaticas (camelCase, PascalCase, snake_case) (verifica que los identificadores siguen patrones de nomenclatura definidos)
+- [ ] Variables booleanas con prefijos permitidos (is/has/can/should) (asegura semantica consistente para valores booleanos)
+- [ ] Identificadores con longitud >= 3, salvo lista de excepciones aprobadas (evita nombres opacos y mantiene trazabilidad)
+- [ ] Abreviaturas solo si estan en el glosario aprobado (limita abreviaturas a un vocabulario controlado)
 
 ### Formato
-- [ ] Indentacion es de 2 espacios
-- [ ] Condicionales y ciclos usan llaves
-- [ ] Longitud de linea <= 80 caracteres
-- [ ] Formato consistente en todo el codigo
+- [ ] `dart format --output=none --set-exit-if-changed .` sin cambios pendientes (formato uniforme definido por el SDK)
+- [ ] Longitud maxima de linea configurada en `analysis_options.yaml` y sin violaciones (legibilidad consistente)
+- [ ] `flutter analyze` sin violaciones usando reglas de `flutter_lints` en `analysis_options.yaml` (estilo estandar y buenas practicas)
 
 ### Documentacion
-- [ ] APIs publicas documentadas con `///`
-- [ ] Logica compleja tiene comentarios explicativos
-- [ ] Sin comentarios obvios
-- [ ] Ejemplos incluidos cuando aportan valor
+- [ ] Cobertura de documentacion en APIs publicas = 100% (validado con `flutter analyze` y la regla `public_member_api_docs`)
+- [ ] Comentarios de reglas de negocio incluyen referencia a requisito/ticket (validado con `custom_lint` y regex de ticket)
+- [ ] Comentarios sin referencia documentada = 0 (validado con `custom_lint` y regex de ticket)
 
 ### Calidad de codigo
-- [ ] Sin valores magicos (constantes centralizadas)
-- [ ] Funciones con responsabilidad unica
-- [ ] Sin duplicacion de codigo (DRY)
-- [ ] Sin codigo muerto o comentado
-- [ ] Sin TODOs o FIXMEs obsoletos
+- [ ] Literales repetidos detectados por herramienta = 0 por encima del umbral definido (medible con `dart_code_metrics` o regla equivalente de “magic numbers”)
+- [ ] Complejidad ciclomática por funcion <= 10 (medible con `dart_code_metrics`)
+- [ ] Longitud por funcion <= 40 lineas (medible con `dart_code_metrics`)
+- [ ] Numero de parametros por funcion <= 4 (medible con `dart_code_metrics`)
+- [ ] Duplicacion de codigo <= 3% segun herramienta (medible con `jscpd` sobre Dart)
+- [ ] Simbolos no usados reportados por analisis estatico = 0 (validado con `flutter analyze`)
+- [ ] Codigo comentado detectado por reglas automaticas = 0 (validado con `custom_lint` y regex)
+- [ ] TODO/FIXME sin ID de ticket = 0 (validado con `custom_lint` y regex de ticket)
 
 ### Cumplimiento SOLID
-- [ ] Clases con responsabilidad unica
-- [ ] Abierto a extension, cerrado a modificacion
-- [ ] Subtipos sustituibles
-- [ ] Interfaces segregadas
-- [ ] Dependencias invertidas
+- [ ] Violaciones = 0 contra el conjunto de reglas de dependencias documentado y validado por analisis estatico (validado con `import_lint` o `custom_lint`)
+- [ ] Interfaces con <= 10 miembros, salvo excepciones documentadas (evita contratos excesivamente amplios)
+- [ ] Dependencias directas a implementaciones concretas en capas prohibidas = 0 (validado con `import_lint` o `custom_lint`)
+
+### Verificacion automatizada de arquitectura
+- **Herramienta**: motor de reglas de arquitectura (ejemplos: ArchUnit, Deptrac, Sonargraph, Structure101) integrado en CI/CD.
+- **Reglas medibles**:
+  - Violaciones de dependencia por capa = 0 (importaciones/llamadas prohibidas).
+  - Ciclos entre capas o paquetes = 0.
+  - Acoplamiento entre capas (fan-in/fan-out) dentro de umbrales definidos.
+  - Excepciones registradas en lista de allowlist con vencimiento y responsable.
+- **Evidencia**: reporte automatizado por build con conteo de violaciones y tendencia histórica.
 
 ### Higiene de Git
-- [ ] Commits siguen especificacion Conventional Commits
-- [ ] Sin codigo comentado en commits
-- [ ] Mensajes de commit significativos
+- [ ] Mensajes de commit cumplen el patron definido por el equipo (asegura consistencia y automatizacion de validaciones)
+- [ ] Longitud de mensaje de commit dentro del rango definido (mantiene legibilidad en historial)
+- [ ] Codigo comentado en cambios = 0 (evita introducir codigo inactivo)
 
 ---
 
@@ -138,10 +145,13 @@
 ## 8. Anti-patrones a evitar
 
 ### 8.1 Clases dios
+- Clases con > 10 metodos publicos o > 300 lineas (identifica unidades con baja cohesion y alto acoplamiento)
 
 ### 8.2 Nombres cripticos
+- Identificadores con longitud < 3 fuera de la lista de excepciones (marca nombres no descriptivos)
 
-### 8.3 Comentarios en lugar de claridad
+### 8.3 Comentarios sin referencia
+- Comentarios sin referencia a requisito/ticket (indica falta de trazabilidad documental)
 
 ---
 
