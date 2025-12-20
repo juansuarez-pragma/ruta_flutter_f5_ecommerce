@@ -70,35 +70,35 @@
 Ver anexo de herramientas y glosario: `docs/anexos/TRA-MIN-005_clean_code_tools.md`
 
 ### Nombres
-- [ ] Convenciones de nombres validadas por reglas automaticas (camelCase, PascalCase, snake_case) (verifica que los identificadores siguen patrones de nomenclatura definidos)
-- [ ] Variables booleanas con prefijos permitidos (is/has/can/should) (asegura semantica consistente para valores booleanos)
-- [ ] Identificadores con longitud >= 3, salvo lista de excepciones aprobadas (evita nombres opacos y mantiene trazabilidad)
-- [ ] Abreviaturas solo si estan en el glosario aprobado (limita abreviaturas a un vocabulario controlado)
+- [ ] Convenciones de nombres validadas por reglas automaticas (camelCase, PascalCase, snake_case) (significa que los nombres se ajustan a patrones formales y cualquier incumplimiento se reporta como violacion)
+- [ ] Variables booleanas con prefijos permitidos (is/has/can/should) (significa que todo booleano debe iniciar con prefijo semantico; si no, se considera ambiguo)
+- [ ] Identificadores con longitud >= 3, salvo lista de excepciones aprobadas (significa que nombres cortos solo se permiten si estan en la allowlist; si no, se reportan)
+- [ ] Abreviaturas solo si estan en el glosario aprobado (significa que cualquier abreviatura fuera del glosario es invalida y se marca como violacion)
 
 ### Formato
-- [ ] `dart format --output=none --set-exit-if-changed .` sin cambios pendientes (formato uniforme definido por el SDK)
-- [ ] Longitud maxima de linea configurada en `analysis_options.yaml` y sin violaciones (legibilidad consistente)
-- [ ] `flutter analyze` sin violaciones usando reglas de `flutter_lints` en `analysis_options.yaml` (estilo estandar y buenas practicas)
+- [ ] `dart format --output=none --set-exit-if-changed .` sin cambios pendientes (significa que el formateador no encuentra diferencias; si las hay, la verificacion falla)
+- [ ] Longitud maxima de linea configurada en `analysis_options.yaml` y sin violaciones (significa que ninguna linea supera el limite definido; si hay una, se considera incumplimiento)
+- [ ] `flutter analyze` sin violaciones usando reglas de `flutter_lints` en `analysis_options.yaml` (significa que el analisis estatico no reporta issues; cualquier warning/error es fallo)
 
 ### Documentacion
-- [ ] Cobertura de documentacion en APIs publicas = 100% (validado con `flutter analyze` y la regla `public_member_api_docs`)
-- [ ] Comentarios de reglas de negocio incluyen referencia a requisito/ticket (validado con `custom_lint` y regex de ticket)
-- [ ] Comentarios sin referencia documentada = 0 (validado con `custom_lint` y regex de ticket)
+- [ ] Cobertura de documentacion en APIs publicas = 100% (significa que todos los elementos publicos estan documentados; faltantes se consideran incumplimiento)
+- [ ] Comentarios de reglas de negocio incluyen referencia a requisito/ticket (significa que todo comentario de regla debe incluir un ID rastreable; si no, es invalido)
+- [ ] Comentarios sin referencia documentada = 0 (significa que ningun comentario no documental puede existir sin referencia; cualquier caso falla)
 
 ### Calidad de codigo
-- [ ] Literales repetidos detectados por herramienta = 0 por encima del umbral definido (medible con `dart_code_metrics` o regla equivalente de “magic numbers”)
-- [ ] Complejidad ciclomática por funcion <= 10 (medible con `dart_code_metrics`)
-- [ ] Longitud por funcion <= 40 lineas (medible con `dart_code_metrics`)
-- [ ] Numero de parametros por funcion <= 4 (medible con `dart_code_metrics`)
-- [ ] Duplicacion de codigo <= 3% segun herramienta (medible con `jscpd` sobre Dart)
-- [ ] Simbolos no usados reportados por analisis estatico = 0 (validado con `flutter analyze`)
-- [ ] Codigo comentado detectado por reglas automaticas = 0 (validado con `custom_lint` y regex)
-- [ ] TODO/FIXME sin ID de ticket = 0 (validado con `custom_lint` y regex de ticket)
+- [ ] Literales repetidos detectados por herramienta = 0 por encima del umbral definido (significa que valores repetidos no justificados deben ser cero; si se detectan, falla)
+- [ ] Complejidad ciclomática por funcion <= 10 (significa que ninguna funcion excede el umbral; si lo hace, falla)
+- [ ] Longitud por funcion <= 40 lineas (significa que ninguna funcion supera el limite; si lo hace, falla)
+- [ ] Numero de parametros por funcion <= 4 (significa que ninguna firma excede el maximo permitido; si lo hace, falla)
+- [ ] Duplicacion de codigo <= 3% segun herramienta (significa que el porcentaje de duplicacion no puede superar el umbral; si supera, falla)
+- [ ] Simbolos no usados reportados por analisis estatico = 0 (significa que el analizador no debe reportar elementos sin uso; si hay, falla)
+- [ ] Codigo comentado detectado por reglas automaticas = 0 (significa que no debe existir codigo desactivado en comentarios; si se detecta, falla)
+- [ ] TODO/FIXME sin ID de ticket = 0 (significa que todo TODO/FIXME debe tener ticket; si no, se considera incumplimiento)
 
 ### Cumplimiento SOLID
-- [ ] Violaciones = 0 contra el conjunto de reglas de dependencias documentado y validado por analisis estatico (validado con `import_lint` o `custom_lint`)
-- [ ] Interfaces con <= 10 miembros, salvo excepciones documentadas (evita contratos excesivamente amplios)
-- [ ] Dependencias directas a implementaciones concretas en capas prohibidas = 0 (validado con `import_lint` o `custom_lint`)
+- [ ] Violaciones = 0 contra el conjunto de reglas de dependencias documentado y validado por analisis estatico (significa que no hay dependencias prohibidas ni ciclos; cualquier infraccion falla)
+- [ ] Interfaces con <= 10 miembros, salvo excepciones documentadas (significa que interfaces grandes son invalidas salvo aprobacion)
+- [ ] Dependencias directas a implementaciones concretas en capas prohibidas = 0 (significa que no se permiten dependencias a clases concretas en capas prohibidas)
 
 ### Verificacion automatizada de arquitectura
 - **Herramienta**: motor de reglas de arquitectura (ejemplos: ArchUnit, Deptrac, Sonargraph, Structure101) integrado en CI/CD.
@@ -110,9 +110,9 @@ Ver anexo de herramientas y glosario: `docs/anexos/TRA-MIN-005_clean_code_tools.
 - **Evidencia**: reporte automatizado por build con conteo de violaciones y tendencia histórica.
 
 ### Higiene de Git
-- [ ] Mensajes de commit cumplen el patron definido por el equipo (asegura consistencia y automatizacion de validaciones)
-- [ ] Longitud de mensaje de commit dentro del rango definido (mantiene legibilidad en historial)
-- [ ] Codigo comentado en cambios = 0 (evita introducir codigo inactivo)
+- [ ] Mensajes de commit cumplen el patron definido por el equipo (significa que todos los commits validan contra regex; si uno no cumple, falla)
+- [ ] Longitud de mensaje de commit dentro del rango definido (significa que ningun mensaje excede los limites; si lo hace, falla)
+- [ ] Codigo comentado en cambios = 0 (significa que en el diff no debe introducirse codigo comentado; si aparece, falla)
 
 ---
 
