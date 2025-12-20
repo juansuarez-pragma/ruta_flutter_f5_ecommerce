@@ -69,13 +69,15 @@
 
 ## 4. Lista de verificacion
 
-- [ ] Lenguaje ubicuo definido y documentado
-- [ ] Bounded contexts identificados y separados
-- [ ] Entities con identidad clara
-- [ ] Value objects inmutables
-- [ ] Aggregates hacen cumplir invariantes
-- [ ] Domain services para logica entre entidades
-- [ ] Domain events para ocurrencias significativas
+Ver anexo de herramientas: `docs/anexos/TRA-BP-007_domain_driven_design_tools.md`.
+
+- [ ] Lenguaje ubicuo definido y documentado (significa que existe un glosario de dominio versionado y aprobado)
+- [ ] Bounded contexts identificados y separados (significa que cada contexto tiene limites documentados y no comparte modelos)
+- [ ] Entities con identidad clara (significa que cada entidad tiene identificador unico y ciclo de vida definido)
+- [ ] Value objects inmutables (significa que los value objects no cambian estado y se reemplazan por nuevas instancias)
+- [ ] Aggregates hacen cumplir invariantes (significa que las reglas de consistencia se validan dentro del aggregate)
+- [ ] Domain services para logica entre entidades (significa que la logica transversal vive en servicios de dominio)
+- [ ] Domain events para ocurrencias significativas (significa que eventos de dominio se emiten y se registran con esquema)
 
 ---
 

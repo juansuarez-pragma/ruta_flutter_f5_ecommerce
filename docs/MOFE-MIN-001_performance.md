@@ -77,39 +77,41 @@
 
 ## 5. Lista de verificacion
 
+Ver anexo de herramientas: `docs/anexos/MOFE-MIN-001_performance_tools.md`.
+
 ### Optimizacion de widgets
-- [ ] Componentes UI inmutables usados cuando el contenido no cambia
-- [ ] Contenedores solo cuando aportan estilo o layout necesario
-- [ ] Espaciado con componentes ligeros
-- [ ] Re-render aislado en componentes hoja
+- [ ] Componentes UI inmutables usados cuando el contenido no cambia (significa que los componentes sin cambios de estado se declaran inmutables y no dependen de datos mutables)
+- [ ] Contenedores solo cuando aportan estilo o layout necesario (significa que no se crean contenedores sin propiedades usadas o sin efecto en el layout)
+- [ ] Espaciado con componentes ligeros (significa que el espaciado usa elementos de bajo costo de renderizado definidos por estandar)
+- [ ] Re-render aislado en componentes hoja (significa que los cambios de estado impactan solo nodos hoja y no el arbol completo)
 
 ### Rendimiento de listas
-- [ ] Renderizado diferido para listas largas
-- [ ] Paginacion o virtualizacion para colecciones grandes
-- [ ] Evitar renderizar todos los elementos al mismo tiempo
-- [ ] Tamaño/altura fija declarada cuando sea posible
+- [ ] Renderizado diferido para listas largas (significa que los elementos se construyen bajo demanda y no en una sola pasada)
+- [ ] Paginacion o virtualizacion para colecciones grandes (significa que existe un limite de elementos activos por pagina o ventana)
+- [ ] Evitar renderizar todos los elementos al mismo tiempo (significa que el numero de elementos renderizados simultaneamente es acotado y documentado)
+- [ ] Tamaño/altura fija declarada cuando sea posible (significa que los elementos tienen dimensiones conocidas para evitar relayout excesivo)
 
 ### Gestion de recursos
-- [ ] Controladores y listeners liberados correctamente
-- [ ] Flujos de datos cerrados correctamente
-- [ ] Suscripciones canceladas
-- [ ] Computo pesado ejecutado fuera del hilo principal
+- [ ] Controladores y listeners liberados correctamente (significa que cada recurso creado tiene un cierre/desuscripcion en su ciclo de vida)
+- [ ] Flujos de datos cerrados correctamente (significa que los flujos se cierran al finalizar su uso y no quedan abiertos)
+- [ ] Suscripciones canceladas (significa que no existen suscripciones activas al destruir el componente o finalizar la tarea)
+- [ ] Computo pesado ejecutado fuera del hilo principal (significa que tareas que superan el umbral de tiempo definido se ejecutan en background)
 
 ### Imagenes
-- [ ] Formatos modernos usados (WebP, SVG)
-- [ ] Cache de imagenes implementada
-- [ ] Dimensionado correcto para evitar sobrecarga de memoria
-- [ ] Placeholders y estados de error definidos
+- [ ] Formatos modernos usados (WebP, SVG) (significa que las nuevas imagenes usan formatos con compresion eficiente segun politica)
+- [ ] Cache de imagenes implementada (significa que existe cache con politica de expiracion y tamaño maximo)
+- [ ] Dimensionado correcto para evitar sobrecarga de memoria (significa que la resolucion servida es cercana al tamaño de render)
+- [ ] Placeholders y estados de error definidos (significa que hay recursos alternos definidos para carga y error)
 
 ### Configuracion de compilacion
-- [ ] Variables de entorno para tree shaking
-- [ ] Codigo de debug removido en produccion
-- [ ] Instrumentacion de rendimiento habilitada en entornos de prueba
+- [ ] Variables de entorno para tree shaking (significa que la compilacion usa flags/variables para eliminar codigo no usado)
+- [ ] Codigo de debug removido en produccion (significa que los builds de release no incluyen logs o banderas de debug)
+- [ ] Instrumentacion de rendimiento habilitada en entornos de prueba (significa que QA/test recolecta metricas de rendimiento con trazas)
 
 ### Monitoreo
-- [ ] Profiling con herramientas estandar ejecutado
-- [ ] Marcadores en timeline para paths criticos
-- [ ] Metricas de rendimiento registradas
+- [ ] Profiling con herramientas estandar ejecutado (significa que se ejecuta profiling con herramienta definida y se guarda reporte)
+- [ ] Marcadores en timeline para paths criticos (significa que se instrumentan trazas en rutas criticas definidas)
+- [ ] Metricas de rendimiento registradas (significa que se registran metricas con umbrales y retencion definida)
 
 ---
 

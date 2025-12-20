@@ -71,39 +71,41 @@
 
 ## 5. Lista de verificacion
 
+Ver anexo de herramientas: `docs/anexos/TRA-MIN-003_proper_use_of_exceptions_tools.md`.
+
 ### Null Safety
-- [ ] Todos los valores anulables manejados con `?`, `??`, `!`
-- [ ] Valores por defecto definidos para mapeo de datos externos
-- [ ] No hay force unwrap (`!`) sin checks de null
+- [ ] Todos los valores anulables manejados con `?`, `??`, `!` (significa que los tipos nullable se manejan con null checks o defaults)
+- [ ] Valores por defecto definidos para mapeo de datos externos (significa que los campos nulos tienen valores por defecto definidos)
+- [ ] No hay force unwrap (`!`) sin checks de null (significa que el uso de `!` tiene validacion previa documentada)
 
 ### Excepciones personalizadas
-- [ ] Clases de excepcion personalizadas creadas (no usar `Exception` generica)
-- [ ] Nombres de excepciones descriptivos y semanticos
-- [ ] Excepciones incluyen contexto relevante (message, code, stackTrace)
+- [ ] Clases de excepcion personalizadas creadas (no usar `Exception` generica) (significa que cada categoria de error tiene su clase)
+- [ ] Nombres de excepciones descriptivos y semanticos (significa que el nombre refleja causa y contexto del error)
+- [ ] Excepciones incluyen contexto relevante (message, code, stackTrace) (significa que contienen identificador y datos de diagnostico)
 
 ### Patron Failure
-- [ ] Sealed classes usadas para implementacion Either/Optional
-- [ ] Tipos de failure definidos y documentados
-- [ ] Failures mapeados a mensajes amigables
+- [ ] Sealed classes usadas para implementacion Either/Optional (significa que los resultados se modelan con tipos sellados de exito/error)
+- [ ] Tipos de failure definidos y documentados (significa que existe catalogo de failures con descripcion)
+- [ ] Failures mapeados a mensajes amigables (significa que cada failure tiene mensaje para usuario final)
 
-- [ ] Alertas (no bloqueantes) diferenciadas de modales (bloqueantes)
-- [ ] Mensajes para usuario no tecnicos
-- [ ] Funcionalidad de reintento disponible cuando aplica
+- [ ] Alertas (no bloqueantes) diferenciadas de modales (bloqueantes) (significa que la UX define tipos de alerta con comportamiento claro)
+- [ ] Mensajes para usuario no tecnicos (significa que los textos no incluyen detalles tecnicos ni stack traces)
+- [ ] Funcionalidad de reintento disponible cuando aplica (significa que se ofrece reintento en fallas recuperables)
 
 ### Logging
-- [ ] Niveles de log usados apropiadamente (Info, Warning, Error, Debug)
-- [ ] Informacion sensible nunca se registra
+- [ ] Niveles de log usados apropiadamente (Info, Warning, Error, Debug) (significa que el nivel coincide con la severidad definida)
+- [ ] Informacion sensible nunca se registra (significa que logs no contienen PII ni secretos)
 
 ### Monitoreo remoto
-- [ ] Crashlytics o Sentry integrado
-- [ ] Todas las excepciones no capturadas reportadas
-- [ ] Identificadores de usuario configurados para trazabilidad
-- [ ] Logs personalizados enviados para contexto de debugging
+- [ ] Crashlytics o Sentry integrado (significa que existe un proveedor de crash reporting activo)
+- [ ] Todas las excepciones no capturadas reportadas (significa que los unhandled errors se envian al proveedor)
+- [ ] Identificadores de usuario configurados para trazabilidad (significa que los eventos incluyen un identificador anonimo)
+- [ ] Logs personalizados enviados para contexto de debugging (significa que se adjuntan breadcrumbs y metadata)
 
 ### Seguridad
-- [ ] No hay datos sensibles en mensajes de error
-- [ ] Stack traces no expuestos a usuarios
-- [ ] API keys/tokens nunca en logs
+- [ ] No hay datos sensibles en mensajes de error (significa que los mensajes no incluyen PII ni secretos)
+- [ ] Stack traces no expuestos a usuarios (significa que los traces solo se registran internamente)
+- [ ] API keys/tokens nunca en logs (significa que tokens se enmascaran o no se registran)
 
 ---
 

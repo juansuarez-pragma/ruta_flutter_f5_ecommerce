@@ -68,42 +68,44 @@
 
 ## 5. Lista de verificacion
 
+Ver anexo de herramientas: `docs/anexos/TRA-MIN-002_architecture_validation_tools.md`.
+
 ### Estructura
-- [ ] Proyecto organizado en capas: `data`, `domain`, `presentation`
-- [ ] Cada funcionalidad tiene su propia estructura por capas
-- [ ] Carpeta `core` existe para componentes transversales
-- [ ] Carpeta `shared` existe para widgets reutilizables
+- [ ] Proyecto organizado en capas: `data`, `domain`, `presentation` (significa que las carpetas separan datos, dominio y presentacion con limites de dependencia)
+- [ ] Cada funcionalidad tiene su propia estructura por capas (significa que cada feature tiene subcarpetas por capa y no comparte clases fuera de su alcance)
+- [ ] Carpeta `core` existe para componentes transversales (significa que utilidades comunes estan centralizadas y no duplicadas)
+- [ ] Carpeta `shared` existe para widgets reutilizables (significa que los componentes compartidos se ubican en `shared` y no se duplican)
 
 ### Capa de dominio
-- [ ] Entidades inmutables (todas las propiedades `final`)
-- [ ] Repositorios definidos como interfaces abstractas
-- [ ] Un caso de uso por operacion de negocio
-- [ ] Casos de uso invocables a traves de una interfaz estable
+- [ ] Entidades inmutables (todas las propiedades `final`) (significa que las entidades no cambian estado y se reemplazan por nuevas instancias)
+- [ ] Repositorios definidos como interfaces abstractas (significa que el dominio depende de abstracciones y no de implementaciones)
+- [ ] Un caso de uso por operacion de negocio (significa que cada operacion de negocio tiene un use case dedicado)
+- [ ] Casos de uso invocables a traves de una interfaz estable (significa que exponen contratos publicos estables)
 
 ### Capa de datos
-- [ ] Modelos incluyen `fromJson`, `toJson`, `copyWith`
-- [ ] Modelos definen valores por defecto para campos nulos
-- [ ] Repositorios implementan interfaces del Dominio
-- [ ] fuentes de datos abstraidos con interfaces
-- [ ] El repositorio es la unica fuente de acceso a datos
+- [ ] Modelos incluyen `fromJson`, `toJson`, `copyWith` (significa que soportan serializacion y copia de datos)
+- [ ] Modelos definen valores por defecto para campos nulos (significa que los campos nulos tienen fallback definido)
+- [ ] Repositorios implementan interfaces del Dominio (significa que la capa de datos cumple contratos del dominio)
+- [ ] fuentes de datos abstraidos con interfaces (significa que los data sources tienen interfaces intercambiables)
+- [ ] El repositorio es la unica fuente de acceso a datos (significa que no hay acceso directo a fuentes fuera del repositorio)
 
 ### Capa de presentacion
-- [ ] Eventos en pasado: `ProductsLoadRequested`, `CartItemAdded`
-- [ ] States como sustantivos/adjetivos: `ProductsLoading`, `ProductsLoaded`
+- [ ] Eventos en pasado: `ProductsLoadRequested`, `CartItemAdded` (significa que los eventos siguen una convencion en pasado)
+- [ ] States como sustantivos/adjetivos: `ProductsLoading`, `ProductsLoaded` (significa que los estados usan nomenclatura consistente)
 
 ### Inyeccion de dependencias
-- [ ] Componentes de presentacion registrados con ciclo de vida transitorio
-- [ ] Casos de uso registrados como singleton de carga diferida
-- [ ] Fuentes de datos y repositorios como singleton de carga diferida
+- [ ] Componentes de presentacion registrados con ciclo de vida transitorio (significa que se crean nuevas instancias por pantalla o uso)
+- [ ] Casos de uso registrados como singleton de carga diferida (significa que se instancian una vez al primer uso)
+- [ ] Fuentes de datos y repositorios como singleton de carga diferida (significa que se instancian una vez al primer uso)
 
 ### Configuracion
-- [ ] Entornos configurados por ambiente (dev, qa, prod)
-- [ ] Variables de entorno por ambiente (dev, qa, prod)
-- [ ] README documenta reglas de dependencia
-- [ ] Centralizacion de labels para i18n
+- [ ] Entornos configurados por ambiente (dev, qa, prod) (significa que existen configuraciones separadas por ambiente)
+- [ ] Variables de entorno por ambiente (dev, qa, prod) (significa que las variables se cargan por ambiente sin hardcode)
+- [ ] README documenta reglas de dependencia (significa que el README incluye reglas y limites de capa)
+- [ ] Centralizacion de labels para i18n (significa que los textos se centralizan en recursos de traduccion)
 
 ### Versionado
-- [ ] Rangos solo para paquetes bien mantenidos
+- [ ] Rangos solo para paquetes bien mantenidos (significa que los rangos se usan solo si el paquete tiene releases frecuentes y soporte activo)
 
 ---
 

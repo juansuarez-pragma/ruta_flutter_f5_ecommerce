@@ -20,6 +20,7 @@ Ademas, cada documento incluye:
 - Impacto en el negocio
 - Importancia de definirlo al inicio del proyecto
 - Lista de verificacion
+- Enlace a anexo de herramientas y glosario (cuando aplica)
 
 ---
 
@@ -44,6 +45,23 @@ Ademas, cada documento incluye:
 | TRA-BP-007 | [Diseno guiado por el dominio (DDD)](./TRA-BP-007_domain_driven_design.md) | Escalabilidad |
 | TRA-BP-008 | [Desarrollo guiado por pruebas (TDD)](./TRA-BP-008_tdd.md) | Calidad |
 | MO-BP-001 | [Gestion de dependencias](./MO-BP-001_dependency_management.md) | Escalabilidad |
+
+---
+
+## Indice de anexos
+
+| Codigo | Anexo |
+|--------|-------|
+| MO-BP-001 | [Anexo de herramientas](./anexos/MO-BP-001_dependency_management_tools.md) |
+| MOFE-MIN-001 | [Anexo de herramientas](./anexos/MOFE-MIN-001_performance_tools.md) |
+| MOFE-MIN-002 | [Anexo de herramientas](./anexos/MOFE-MIN-002_minification_obfuscation_tools.md) |
+| TRA-BP-006 | [Anexo de herramientas](./anexos/TRA-BP-006_resilient_architecture_tools.md) |
+| TRA-BP-007 | [Anexo de herramientas](./anexos/TRA-BP-007_domain_driven_design_tools.md) |
+| TRA-BP-008 | [Anexo de herramientas](./anexos/TRA-BP-008_tdd_tools.md) |
+| TRA-MIN-002 | [Anexo de herramientas](./anexos/TRA-MIN-002_architecture_validation_tools.md) |
+| TRA-MIN-003 | [Anexo de herramientas](./anexos/TRA-MIN-003_proper_use_of_exceptions_tools.md) |
+| TRA-MIN-004 | [Anexo de herramientas](./anexos/TRA-MIN-004_use_of_linters_tools.md) |
+| TRA-MIN-005 | [Anexo de herramientas](./anexos/TRA-MIN-005_clean_code_tools.md) |
 
 ---
 

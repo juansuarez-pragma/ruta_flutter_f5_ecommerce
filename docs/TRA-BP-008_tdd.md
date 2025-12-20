@@ -63,13 +63,15 @@
 
 ## 4. Lista de verificacion
 
-- [ ] Pruebas escritas antes de la implementacion (ciclo TDD)
-- [ ] Unit tests para todos los casos de uso
-- [ ] Unit tests para componentes de logica de presentacion
-- [ ] Integration tests para flujos criticos
-- [ ] Mocks usados para dependencias externas
-- [ ] Cobertura cumple thresholds
-- [ ] Pruebas corren en pipeline CI/CD
+Ver anexo de herramientas: `docs/anexos/TRA-BP-008_tdd_tools.md`.
+
+- [ ] Pruebas escritas antes de la implementacion (ciclo TDD) (significa que los commits muestran primero el test fallando y luego el codigo)
+- [ ] Unit tests para todos los casos de uso (significa que cada caso de uso tiene al menos una prueba unitaria asociada)
+- [ ] Unit tests para componentes de logica de presentacion (significa que los componentes de estado/controladores tienen cobertura unitaria)
+- [ ] Integration tests para flujos criticos (significa que los flujos de negocio definidos tienen pruebas end-to-end automatizadas)
+- [ ] Mocks usados para dependencias externas (significa que servicios externos se sustituyen por doubles en unit tests)
+- [ ] Cobertura cumple thresholds (significa que la cobertura supera el umbral definido por modulo)
+- [ ] Pruebas corren en pipeline CI/CD (significa que la ejecucion de pruebas es obligatoria en CI y bloquea el merge)
 
 ---
 

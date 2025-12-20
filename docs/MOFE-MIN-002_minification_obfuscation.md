@@ -72,34 +72,36 @@
 
 ## 5. Lista de verificacion
 
+Ver anexo de herramientas: `docs/anexos/MOFE-MIN-002_minification_obfuscation_tools.md`.
+
 ### Configuracion de compilacion
-- [ ] Ofuscacion activada en compilaciones de release
-- [ ] Archivos de mapeo/simbolos generados y almacenados de forma segura
-- [ ] Herramientas de minificacion habilitadas en plataformas objetivo
-- [ ] Configuraciones de strip verificadas en plataformas objetivo
+- [ ] Ofuscacion activada en compilaciones de release (significa que los builds de release se generan con ofuscacion habilitada)
+- [ ] Archivos de mapeo/simbolos generados y almacenados de forma segura (significa que cada release genera symbol files y se guardan con control de acceso)
+- [ ] Herramientas de minificacion habilitadas en plataformas objetivo (significa que la minificacion esta activa y verificada por plataforma)
+- [ ] Configuraciones de strip verificadas en plataformas objetivo (significa que el stripping de simbolos se valida con reportes por plataforma)
 
 ### Gestion de secretos
-- [ ] Sin credenciales hardcodeadas en el codigo fuente
-- [ ] Variables de entorno usadas para secretos de compilacion
-- [ ] Secretos almacenados en el gestor de secretos de CI/CD
-- [ ] Almacenamiento seguro usado para secretos en runtime
-- [ ] Archivos sensibles excluidos del control de versiones
+- [ ] Sin credenciales hardcodeadas en el codigo fuente (significa que no existen claves, tokens o passwords literales en el repositorio)
+- [ ] Variables de entorno usadas para secretos de compilacion (significa que los secretos de build se inyectan via CI/CD)
+- [ ] Secretos almacenados en el gestor de secretos de CI/CD (significa que se usa un vault con control de acceso y rotacion)
+- [ ] Almacenamiento seguro usado para secretos en runtime (significa que los secretos se guardan en almacenamiento cifrado del dispositivo)
+- [ ] Archivos sensibles excluidos del control de versiones (significa que archivos con secretos estan ignorados y sin historial)
 
 ### Gestion de permisos
-- [ ] Solo permisos necesarios solicitados
-- [ ] Solicitudes de permisos incluyen justificacion
-- [ ] Permisos justificados en listings de app store
+- [ ] Solo permisos necesarios solicitados (significa que la lista de permisos se alinea con funcionalidades documentadas)
+- [ ] Solicitudes de permisos incluyen justificacion (significa que cada permiso muestra rationale al usuario)
+- [ ] Permisos justificados en listings de app store (significa que la justificacion aparece en metadatos de tienda)
 
 ### Logging
-- [ ] Logs de debug deshabilitados en produccion
-- [ ] Datos sensibles nunca se registran
-- [ ] Reportes de crash sanitizados antes de enviar
+- [ ] Logs de debug deshabilitados en produccion (significa que los builds de release no emiten logs de debug)
+- [ ] Datos sensibles nunca se registran (significa que los logs no contienen PII ni secretos detectables por patrones)
+- [ ] Reportes de crash sanitizados antes de enviar (significa que se remueven datos sensibles antes del envio)
 
 ### Verificacion
-- [ ] Tamano de compilacion comparado antes/despues de optimizacion
-- [ ] Prueba de decompilacion realizada
-- [ ] Archivos de mapeo cargados en monitoreo de crashes
-- [ ] Lista de exclusiones documentada
+- [ ] Tamano de compilacion comparado antes/despues de optimizacion (significa que se registran metricas de tamano y se comparan con baseline)
+- [ ] Prueba de decompilacion realizada (significa que se ejecuta un intento de decompilar y se documenta resultado)
+- [ ] Archivos de mapeo cargados en monitoreo de crashes (significa que los symbol files se cargan en la herramienta de crashes)
+- [ ] Lista de exclusiones documentada (significa que se documentan paquetes o simbolos excluidos)
 
 ---
 

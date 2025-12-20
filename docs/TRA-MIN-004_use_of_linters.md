@@ -68,28 +68,30 @@
 
 ## 5. Lista de verificacion
 
+Ver anexo de herramientas: `docs/anexos/TRA-MIN-004_use_of_linters_tools.md`.
+
 ### Configuracion
-- [ ] Reglas de analisis estatico configuradas en el proyecto
-- [ ] IDE configurado para analisis en tiempo real
-- [ ] Formato al guardar habilitado
+- [ ] Reglas de analisis estatico configuradas en el proyecto (significa que existe un archivo de reglas versionado)
+- [ ] IDE configurado para analisis en tiempo real (significa que el IDE ejecuta el analyzer en vivo)
+- [ ] Formato al guardar habilitado (significa que el autoformato se ejecuta al guardar)
 
 ### Configuracion de reglas
-- [ ] Inferencia estricta de tipos habilitada
-- [ ] Archivos generados excluidos del analisis
-- [ ] Reglas especificas del equipo documentadas
-- [ ] Reglas criticas configuradas como errores (no warnings)
+- [ ] Inferencia estricta de tipos habilitada (significa que el analyzer usa opciones de tipo estrictas)
+- [ ] Archivos generados excluidos del analisis (significa que el codegen esta fuera del alcance del lint)
+- [ ] Reglas especificas del equipo documentadas (significa que la lista de reglas custom esta documentada)
+- [ ] Reglas criticas configuradas como errores (no warnings) (significa que las reglas criticas fallan el build)
 
 ### Automatizacion
-- [ ] Hook pre-commit instalado
-- [ ] Pipeline CI/CD incluye analisis
-- [ ] El pipeline falla ante violaciones de lint
-- [ ] Validacion de formato en el pipeline
+- [ ] Hook pre-commit instalado (significa que el repositorio incluye hook y guia de instalacion)
+- [ ] Pipeline CI/CD incluye analisis (significa que el CI ejecuta lint en cada PR)
+- [ ] El pipeline falla ante violaciones de lint (significa que no se permite merge con violaciones)
+- [ ] Validacion de formato en el pipeline (significa que el formatter se ejecuta y falla si hay cambios)
 
 ### Mantenimiento
-- [ ] Cero violaciones de lint en el base de codigo
-- [ ] Nuevas violaciones corregidas antes de merge
-- [ ] Reglas revisadas periodicamente
-- [ ] Equipo entrenado en reglas de lint
+- [ ] Cero violaciones de lint en el base de codigo (significa que el reporte de lint retorna 0 issues)
+- [ ] Nuevas violaciones corregidas antes de merge (significa que los PRs no se aprueban con violaciones)
+- [ ] Reglas revisadas periodicamente (significa que se revisan en una cadencia definida y registrada)
+- [ ] Equipo entrenado en reglas de lint (significa que existe onboarding y material de referencia)
 
 ---
 

@@ -64,12 +64,14 @@ Reintenta automaticamente operaciones fallidas.
 
 ## 4. Lista de verificacion
 
-- [ ] Patron repositorio implementado para todo acceso a datos
-- [ ] Patron Strategy usado para comportamientos intercambiables
-- [ ] Logica de reintentos implementada para operaciones de red
-- [ ] Circuit breaker para llamadas a servicios externos
-- [ ] Degradacion controlada cuando servicios no estan disponibles
-- [ ] Cache local como mecanismo de fallback
+Ver anexo de herramientas: `docs/anexos/TRA-BP-006_resilient_architecture_tools.md`.
+
+- [ ] Patron repositorio implementado para todo acceso a datos (significa que todo acceso a datos pasa por repositorios y no hay accesos directos fuera de la capa definida)
+- [ ] Patron Strategy usado para comportamientos intercambiables (significa que las variantes se seleccionan por configuracion/entrada sin condicionales monoliticos)
+- [ ] Logica de reintentos implementada para operaciones de red (significa que existe una politica de reintentos con maximo de intentos y backoff)
+- [ ] Circuit breaker para llamadas a servicios externos (significa que hay umbrales de fallos y ventanas de recuperacion definidos)
+- [ ] Degradacion controlada cuando servicios no estan disponibles (significa que existen respuestas de fallback documentadas y medibles)
+- [ ] Cache local como mecanismo de fallback (significa que hay cache con TTL/invalidez definida para escenarios de indisponibilidad)
 
 ---
 

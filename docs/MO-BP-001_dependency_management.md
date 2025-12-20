@@ -38,17 +38,18 @@
 ---
 
 ## 3. Lista de verificacion
+Ver anexo de herramientas: `docs/anexos/MO-BP-001_dependency_management_tools.md`
 
-- [ ] Todas las dependencias de produccion estan ancladas a versiones exactas (sin rangos abiertos)
-- [ ] El archivo lock se versiona para aplicaciones (compilaciones reproducibles)
-- [ ] Cada dependencia declarada esta referenciada en codigo de produccion/pruebas o herramientas de compilacion (sin entradas sin uso)
-- [ ] La CI ejecuta escaneo automatico de vulnerabilidades de dependencias en cada PR/merge y almacena resultados
-- [ ] Los paquetes internos se referencian mediante artefactos versionados explicitos o rutas y tienen sus propios manifiestos
-- [ ] Las dependencias desde VCS estan ancladas a refs inmutables (tag o hash de commit)
-- [ ] Las dependencias de plataforma/nativas se invocan solo a traves de un limite de adaptador/modulo definido (sin llamadas directas fuera de el)
-- [ ] Si se usa WebView, se verifican los controles de seguridad (lista de URLs permitidas, puente JS restringido, mixed-content deshabilitado)
-- [ ] La politica de actualizacion de dependencias esta documentada con cadencia y criterios de aprobacion
-- [ ] La cadencia de auditoria de dependencias esta definida (<= 90 dias) y se registra la proxima fecha de auditoria
+- [ ] Todas las dependencias de produccion estan ancladas a versiones exactas (sin rangos abiertos) (significa que no existen rangos abiertos; toda version es deterministica)
+- [ ] El archivo lock se versiona para aplicaciones (compilaciones reproducibles) (significa que builds sucesivos generan el mismo grafo de dependencias)
+- [ ] Cada dependencia declarada esta referenciada en codigo de produccion/pruebas o herramientas de compilacion (sin entradas sin uso) (significa que no hay dependencias declaradas sin uso real)
+- [ ] La CI ejecuta escaneo automatico de vulnerabilidades de dependencias en cada PR/merge y almacena resultados (significa que todo cambio pasa por escaneo y queda evidencia)
+- [ ] Los paquetes internos se referencian mediante artefactos versionados explicitos o rutas y tienen sus propios manifiestos (significa que cada paquete interno es trazable y versionado)
+- [ ] Las dependencias desde VCS estan ancladas a refs inmutables (tag o hash de commit) (significa que la fuente es inmutable y reproducible)
+- [ ] Las dependencias de plataforma/nativas se invocan solo a traves de un limite de adaptador/modulo definido (sin llamadas directas fuera de el) (significa que el acoplamiento se controla por interfaz)
+- [ ] Si se usa WebView, se verifican los controles de seguridad (lista de URLs permitidas, puente JS restringido, mixed-content deshabilitado) (significa que el acceso web cumple reglas de seguridad definidas)
+- [ ] La politica de actualizacion de dependencias esta documentada con cadencia y criterios de aprobacion (significa que existe un proceso formal verificable)
+- [ ] La cadencia de auditoria de dependencias esta definida (<= 90 dias) y se registra la proxima fecha de auditoria (significa que el siguiente control esta calendarizado)
 
 ---
 
