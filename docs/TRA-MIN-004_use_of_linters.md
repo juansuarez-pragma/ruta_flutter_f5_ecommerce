@@ -22,7 +22,7 @@
 ### Impacto en el negocio
 
 #### Ahorro directo de costos
-- **Reduccion del 25-35% en tiempo de code review**: las validaciones automaticas liberan a los revisores para enfocarse en la logica
+- **Reduccion del 25-35% en tiempo de revision de codigo**: las validaciones automaticas liberan a los revisores para enfocarse en la logica
 - **40% menos bugs en produccion**: los linters detectan errores comunes antes del release
 - **Onboarding mas rapido**: los nuevos desarrolladores siguen patrones consistentes automaticamente
 - **Reduccion de deuda tecnica**: el codigo consistente es mas facil de mantener y refactorizar
@@ -37,7 +37,7 @@
 
 #### Estadisticas de la industria
 - Equipos con linting estricto reportan **30% menos bugs** (estudio interno de Google)
-- **50% de los comentarios en code review** son sobre estilo y pueden ser detectados por linters
+- **50% de los comentarios en revision de codigo** son sobre estilo y pueden ser detectados por linters
 - Proyectos con linters tienen **2x mayor tasa de contribucion** de nuevos desarrolladores
 
 ---
@@ -86,7 +86,7 @@
 - [ ] Validacion de formato en el pipeline
 
 ### Mantenimiento
-- [ ] Cero violaciones de lint en el codebase
+- [ ] Cero violaciones de lint en el base de codigo
 - [ ] Nuevas violaciones corregidas antes de merge
 - [ ] Reglas revisadas periodicamente
 - [ ] Equipo entrenado en reglas de lint
@@ -101,7 +101,7 @@
 
 2. **Patrones inconsistentes**: sin linters, cada desarrollador introduce su propio estilo, generando caos.
 
-3. **Carga de code review**: los revisores pierden tiempo en estilo en lugar de logica.
+3. **Carga de revision de codigo**: los revisores pierden tiempo en estilo en lugar de logica.
 
 4. **Conflictos de merge**: estilos de formato diferentes causan conflictos innecesarios.
 
@@ -115,7 +115,7 @@
 | Introduccion tardia | Refactorizacion mayor necesaria, alto riesgo |
 | Formato inconsistente | Conflictos de merge, diffs ilegibles |
 | Warnings ignorados | Warnings se convierten en bugs en produccion |
-| Sin enforcement en CI | Violaciones pasan code review |
+| Sin enforcement en CI | Violaciones pasan revision de codigo |
 
 ---
 

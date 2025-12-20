@@ -26,7 +26,7 @@
 - **40% de reduccion en costos de mantenimiento**: el codigo limpio es mas facil de entender y modificar
 - **60% mas rapido en correccion de bugs**: el codigo claro revela problemas rapidamente
 - **50% de reduccion en tiempo de onboarding**: el codigo auto-documentado requiere menos explicacion
-- **3x mas rapido el desarrollo de features**: agregar sobre codigo limpio es directo
+- **3x mas rapido el desarrollo de funcionalidades**: agregar sobre codigo limpio es directo
 
 #### Impacto a largo plazo
 | Metrica | Codigo sucio | Codigo limpio |
@@ -117,7 +117,7 @@
 
 2. **El costo de refactorizacion se acumula**: cada dia de codigo desordenado agrega deuda. Tras 6 meses, la limpieza puede costar mas que el desarrollo original.
 
-3. **Velocidad del equipo**: el codigo limpio permite desarrollo rapido de features. El codigo sucio ralentiza todo.
+3. **Velocidad del equipo**: el codigo limpio permite desarrollo rapido de funcionalidades. El codigo sucio ralentiza todo.
 
 4. **Transferencia de conocimiento**: el codigo limpio es documentacion. Nuevos miembros se incorporan mas rapido.
 
@@ -129,7 +129,7 @@
 |----------|-------------|
 | Nombres inconsistentes | Desarrolladores no encuentran lo que necesitan |
 | Sin documentacion | Conocimiento encerrado en la cabeza del desarrollador original |
-| Valores magicos | Los cambios requieren buscar por todo el codebase |
+| Valores magicos | Los cambios requieren buscar por todo el base de codigo |
 | Funciones grandes | Imposible de probar, debugear o entender |
 | Violaciones SOLID | Los cambios se propagan de forma impredecible |
 
@@ -167,7 +167,7 @@ Para validar el cumplimiento de este requisito, documentar:
 
 | Evidencia | Descripcion |
 |----------|-------------|
-| Checklist de code review | Verificacion de codigo limpio en PRs |
+| lista de verificacion de revision de codigo | Verificacion de codigo limpio en PRs |
 | Documento de convenciones de nombres | Acuerdo de equipo sobre nombres |
 | Registro de refactorizacion | Historial de mejoras de codigo |
 | Revision de cumplimiento SOLID | Notas de revision de arquitectura |

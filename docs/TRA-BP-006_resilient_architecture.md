@@ -28,7 +28,7 @@
 |---------|----------------|-----------------------------|
 | Uptime del sistema | 95-98% | 99.9%+ |
 | Tiempo de recuperacion | Horas | Minutos |
-| Implementacion de features | Riesgosa, lenta | Segura, rapida |
+| Implementacion de funcionalidades | Riesgosa, lenta | Segura, rapida |
 | Confianza del usuario | Fragil | Fuerte |
 
 ---
@@ -48,7 +48,7 @@
 
 ### Patrones de diseno para resiliencia
 
-#### Patron Repository
+#### Patron repositorio
 Provee una abstraccion entre la logica de negocio y la capa de acceso a datos.
 
 #### Patron Strategy
@@ -64,7 +64,7 @@ Reintenta automaticamente operaciones fallidas.
 
 ## 4. Lista de verificacion
 
-- [ ] Patron Repository implementado para todo acceso a datos
+- [ ] Patron repositorio implementado para todo acceso a datos
 - [ ] Patron Strategy usado para comportamientos intercambiables
 - [ ] Logica de reintentos implementada para operaciones de red
 - [ ] Circuit breaker para llamadas a servicios externos
@@ -75,8 +75,8 @@ Reintenta automaticamente operaciones fallidas.
 
 ## 6. Recursos adicionales
 
-- [Repository Pattern](https://martinfowler.com/eaaCatalog/repository.html)
-- [Strategy Pattern](https://refactoring.guru/design-patterns/strategy)
+- [repositorio patron](https://martinfowler.com/eaaCatalog/repositorio.html)
+- [Strategy patron](https://refactoring.guru/design-patrones/strategy)
 - [Circuit Breaker](https://martinfowler.com/bliki/CircuitBreaker.html)
 - Referencias de proyecto: Alexandria, LearnWorlds
 

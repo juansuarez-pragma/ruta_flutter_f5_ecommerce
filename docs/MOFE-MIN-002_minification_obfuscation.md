@@ -53,7 +53,7 @@
 
 1. **Defensa en profundidad**: multiples capas de proteccion
 2. **Menor privilegio**: solicitar solo permisos necesarios
-3. **Seguro por defecto**: builds de produccion siempre protegidos
+3. **Seguro por defecto**: compilaciones de produccion siempre protegidos
 4. **Validacion de entrada**: nunca confiar en datos externos
 5. **Almacenamiento seguro**: datos sensibles cifrados correctamente
 
@@ -63,7 +63,7 @@
 
 ### Enfoque de implementacion
 
-- Habilitar ofuscacion y minificacion en builds de release
+- Habilitar ofuscacion y minificacion en compilaciones de release
 - Mantener y proteger archivos de mapeo para simbolicacion de crashes
 - Centralizar gestion de secretos en el pipeline
 - Verificar permisos y configuraciones de seguridad antes del release
@@ -72,15 +72,15 @@
 
 ## 5. Lista de verificacion
 
-### Configuracion de build
-- [ ] Ofuscacion activada en builds de release
+### Configuracion de compilacion
+- [ ] Ofuscacion activada en compilaciones de release
 - [ ] Archivos de mapeo/simbolos generados y almacenados de forma segura
 - [ ] Herramientas de minificacion habilitadas en plataformas objetivo
 - [ ] Configuraciones de strip verificadas en plataformas objetivo
 
 ### Gestion de secretos
 - [ ] Sin credenciales hardcodeadas en el codigo fuente
-- [ ] Variables de entorno usadas para secretos de build
+- [ ] Variables de entorno usadas para secretos de compilacion
 - [ ] Secretos almacenados en el gestor de secretos de CI/CD
 - [ ] Almacenamiento seguro usado para secretos en runtime
 - [ ] Archivos sensibles excluidos del control de versiones
@@ -96,7 +96,7 @@
 - [ ] Reportes de crash sanitizados antes de enviar
 
 ### Verificacion
-- [ ] Tamano de build comparado antes/despues de optimizacion
+- [ ] Tamano de compilacion comparado antes/despues de optimizacion
 - [ ] Prueba de decompilacion realizada
 - [ ] Archivos de mapeo cargados en monitoreo de crashes
 - [ ] Lista de exclusiones documentada
@@ -109,7 +109,7 @@
 
 1. **Mentalidad de seguridad**: practicas seguras deben ser habitos desde el dia uno, no afterthoughts.
 
-2. **Pipeline de build**: configurar firmado, ofuscacion y secretos es mas facil antes de crecer en complejidad.
+2. **Pipeline de compilacion**: configurar firmado, ofuscacion y secretos es mas facil antes de crecer en complejidad.
 
 3. **Seleccion de dependencias**: algunas librerias no funcionan con ofuscacion; mejor conocerlo temprano.
 
@@ -164,7 +164,7 @@ Para validar el cumplimiento de este requisito, documentar:
 
 | Evidencia | Descripcion |
 |----------|-------------|
-| Logs de build | Evidencia de ofuscacion aplicada |
+| Logs de compilacion | Evidencia de ofuscacion aplicada |
 | Archivos de mapeo | Almacenados en ubicacion segura |
 | Comparacion de tamano | Antes/despues de optimizacion |
 | Escaneo de seguridad | Sin secretos en codigo decompilado |

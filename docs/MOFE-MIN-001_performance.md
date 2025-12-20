@@ -101,7 +101,7 @@
 - [ ] Dimensionado correcto para evitar sobrecarga de memoria
 - [ ] Placeholders y estados de error definidos
 
-### Configuracion de build
+### Configuracion de compilacion
 - [ ] Variables de entorno para tree shaking
 - [ ] Codigo de debug removido en produccion
 - [ ] Instrumentacion de rendimiento habilitada en entornos de prueba
@@ -145,8 +145,8 @@ Evitar estructuras de layout con costo alto sin beneficio claro.
 ### 8.2 Renderizar toda la lista a la vez
 Evitar construir todos los elementos cuando basta con renderizado diferido.
 
-### 8.3 Rebuild de todo el arbol
-Aislar widgets que cambian para evitar recomposicion global.
+### 8.3 Re-render de todo el arbol
+Aislar componentes que cambian para evitar recomposicion global.
 
 ---
 

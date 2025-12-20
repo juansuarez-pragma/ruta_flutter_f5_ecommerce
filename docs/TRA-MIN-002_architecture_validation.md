@@ -27,14 +27,14 @@
 - **Menor deuda tecnica acumulada** que puede representar hasta 40% del presupuesto de desarrollo en proyectos mal estructurados
 
 #### Costos indirectos
-- **Aceleracion del time-to-market**: nuevas features se implementan mas rapido
+- **Aceleracion del time-to-market**: nuevas funcionalidades se implementan mas rapido
 - **Menor rotacion de personal**: los desarrolladores prefieren proyectos bien estructurados
 - **Reduccion de bugs en produccion**: la separacion de responsabilidades facilita pruebas
 
 #### Metricas de impacto
 | Metrica | Sin arquitectura clara | Con arquitectura limpia |
 |---------|-------------------------|-------------------------|
-| Tiempo de implementacion de nuevas features | 2-3 semanas | 3-5 dias |
+| Tiempo de implementacion de nuevas funcionalidades | 2-3 semanas | 3-5 dias |
 | Bugs por release | 15-25 | 3-5 |
 | Cobertura de pruebas | < 30% | > 70% |
 | Tiempo de onboarding | 4-6 semanas | 1-2 semanas |
@@ -70,7 +70,7 @@
 
 ### Estructura
 - [ ] Proyecto organizado en capas: `data`, `domain`, `presentation`
-- [ ] Cada feature tiene su propia estructura por capas
+- [ ] Cada funcionalidad tiene su propia estructura por capas
 - [ ] Carpeta `core` existe para componentes transversales
 - [ ] Carpeta `shared` existe para widgets reutilizables
 
@@ -84,7 +84,7 @@
 - [ ] Modelos incluyen `fromJson`, `toJson`, `copyWith`
 - [ ] Modelos definen valores por defecto para campos nulos
 - [ ] Repositorios implementan interfaces del Dominio
-- [ ] DataSources abstraidos con interfaces
+- [ ] fuentes de datos abstraidos con interfaces
 - [ ] El repositorio es la unica fuente de acceso a datos
 
 ### Capa de presentacion
@@ -117,7 +117,7 @@
 
 3. **Consistencia del equipo**: si cada desarrollador usa su propio estilo, el codigo se vuelve un caos imposible de mantener.
 
-4. **Facilita code reviews**: con reglas claras, las revisiones son objetivas y rapidas.
+4. **Facilita revisiones de codigo**: con reglas claras, las revisiones son objetivas y rapidas.
 
 5. **Escalabilidad del equipo**: nuevos miembros pueden contribuir desde el dia 1 siguiendo convenciones establecidas.
 
@@ -159,7 +159,7 @@ Para validar el cumplimiento de este requisito, documentar:
 | Captura de estructura | Evidencia de estructura de carpetas |
 | Diagrama de dependencias | Visualizacion de imports entre capas |
 | Reporte de cobertura | Pruebas unitarias por capa |
-| Checklist de code review | Verificacion en PRs |
+| lista de verificacion de revision de codigo | Verificacion en PRs |
 
 ---
 

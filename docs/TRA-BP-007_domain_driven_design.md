@@ -27,7 +27,7 @@
 | Malentendidos de requisitos | Alto | Minimo |
 | Alineacion negocio-tecnologia | Pobre | Fuerte |
 | Modelado de dominio complejo | Caotico | Estructurado |
-| Evolucion de features | Dificil | Natural |
+| Evolucion de funcionalidades | Dificil | Natural |
 
 ---
 

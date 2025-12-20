@@ -111,13 +111,13 @@
 
 ### Por que no puede esperar
 
-1. **Los patrones de error se propagan**: una vez que los devs empiezan a capturar excepciones incorrectamente, el patron se esparce por el codebase.
+1. **Los patrones de error se propagan**: una vez que los devs empiezan a capturar excepciones incorrectamente, el patron se esparce por el base de codigo.
 
 2. **El monitoreo requiere configuracion temprana**: integrar Crashlytics/Sentry es mas facil antes de que la app sea compleja.
 
 3. **Base de UX**: el manejo de errores impacta directamente la calidad percibida desde el dia uno.
 
-4. **Eficiencia de debugging**: logging correcto desde el inicio facilita debugging a medida que se agregan features.
+4. **Eficiencia de debugging**: logging correcto desde el inicio facilita debugging a medida que se agregan funcionalidades.
 
 5. **Cumplimiento de seguridad**: muchas regulaciones exigen manejo correcto de errores; adaptar despues es costoso.
 
@@ -167,7 +167,7 @@ Para validar el cumplimiento de este requisito, documentar:
 | Diagrama de clases de excepcion | Visualizacion de jerarquia de excepciones |
 | Dashboard crash-free rate | Metricas Crashlytics/Sentry |
 | Mapeo de mensajes de error | Documento de mapeo failure -> mensaje usuario |
-| Checklist de code review | Verificacion de manejo de excepciones en PRs |
+| lista de verificacion de revision de codigo | Verificacion de manejo de excepciones en PRs |
 
 ---
 
