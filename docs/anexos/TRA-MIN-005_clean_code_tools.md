@@ -149,4 +149,16 @@ Este anexo describe, por cada item automatizable del checklist, las opciones de 
 |---|---|---|
 | Hook/CI basado en diff | Escanea diffs y detecta codigo comentado nuevo. Usar para evitar nueva deuda. | Puede requerir excepciones para docs. Evitar si el equipo usa comentarios extensivos como guia. |
 
----\n+\n+## Enlaces a documentacion\n+\n+- `dart format`: https://dart.dev/tools/dart-format\n+- `flutter analyze`: https://docs.flutter.dev/testing/errors\n+- `flutter_lints`: https://pub.dev/packages/flutter_lints\n+- `custom_lint`: https://pub.dev/packages/custom_lint\n+- `import_lint`: https://pub.dev/packages/import_lint\n+- `dart_code_metrics`: https://pub.dev/packages/dart_code_metrics\n+- `jscpd`: https://github.com/kucherenko/jscpd\n*** End Patch")));
+---
+
+## Glosario
+
+| Termino | Definicion |
+|---|---|
+| Allowlist | Lista explicita de excepciones permitidas para una regla automatica. |
+| API publica | Elementos accesibles fuera del modulo/paquete y que requieren contrato estable. |
+| Complejidad ciclomática | Medida del numero de caminos de ejecucion posibles en una funcion. |
+| Duplicacion de codigo | Porcentaje de fragmentos repetidos detectados por un analizador. |
+| Magic numbers | Literales numericos repetidos que deberian extraerse a constantes. |
+| Reglas de arquitectura | Conjunto de restricciones de dependencias entre capas o paquetes. |
+| Ticket asociado | Identificador rastreable de trabajo (ej. ABC-123) incluido en un comentario. |

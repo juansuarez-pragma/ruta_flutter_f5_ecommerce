@@ -67,7 +67,7 @@
 ---
 
 ## 5. Lista de verificacion
-Ver anexo de herramientas: `docs/anexos/TRA-MIN-005_clean_code_tools.md`
+Ver anexo de herramientas y glosario: `docs/anexos/TRA-MIN-005_clean_code_tools.md`
 
 ### Nombres
 - [ ] Convenciones de nombres validadas por reglas automaticas (camelCase, PascalCase, snake_case) (verifica que los identificadores siguen patrones de nomenclatura definidos)
